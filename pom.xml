@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>aqcu-ui</artifactId>
+	<parent>
+		<artifactId>aqcu-reports</artifactId>
+		<groupId>gov.usgs.aqcu</groupId>
+		<version>0.4-SNAPSHOT</version>
+	</parent>
+	<packaging>war</packaging>
+	<name>Javascript Front end</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<type>jar</type>
+			<scope>provided</scope>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<artifactId>slf4j-api</artifactId>
+			<groupId>org.slf4j</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>logback-classic</artifactId>
+			<groupId>ch.qos.logback</groupId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-moxy</artifactId>
+			<version>2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>font-awesome</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery-cookie</artifactId>
+			<version>1.4.1-1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin> <!-- This creates a version file in root with the pom version -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-version-file</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<propertyfile file="${basedir}/target/version" comment="Version information">
+									<entry key="version" value="${project.version}" />
+								</propertyfile>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions> 
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>${basedir}/target</directory>
+							<includes>
+								<include>version</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.klieber</groupId>
+				<artifactId>phantomjs-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<version>1.9.2</version>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.searls</groupId>
+				<artifactId>jasmine-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
+					<webDriverCapabilities>
+						<phantomjs.binary.path>${phantomjs.binary}</phantomjs.binary.path>
+					</webDriverCapabilities>
+					<jsSrcDir>${project.basedir}</jsSrcDir>
+					<jsTestSrcDir>${project.basedir}/src/test/javascript/specs</jsTestSrcDir>
+					<packageDir>${project.basedir}</packageDir>
+					<sourceIncludes> <!-- this should include same imports as index.jsp, mostly in the same order, 
+							with the exception of test dependencies -->
+						<include>**/src/test/javascript/sinon-1.6.0.js</include> <!-- Sinon testing lib -->
+						<include>**/src/test/javascript/AqcuTestSupport.js</include> <!-- Base testing helper functions -->
+						<include>**/src/test/javascript/jasmine-fixture.js</include> <!-- HTML test fixtures lib -->
+
+						<!-- Javascript libs -->
+						<include>**/src/main/**/js/lib/jquery/js/jquery-1.9.1.js</include>
+						<include>**/src/main/**/js/lib/bootstrap-3.0.0/dist/js/bootstrap.min.js</include>
+						<include>**/src/main/**/js/lib/jquery/js/jquery-1.9.1.js</include>
+						<include>**/src/main/**/js/lib/jquery/js/jquery-ui-1.10.3.custom.js</include>
+						<include>**/src/main/**/js/lib/underscore.js</include>
+						<include>**/src/main/**/js/lib/backbone.js</include>
+						<include>**/src/main/**/js/lib/backbone.stickit.js</include>
+						<include>**/src/main/**/js/lib/handlebars-1.0.0.js</include>
+						<include>**/src/main/**/js/lib/bootstrap-transfer/js/bootstrap-transfer.js</include>
+
+						<!-- Application assets -->
+						<include>**/src/main/**/js/config.js</include>
+						<include>**/src/main/**/js/util/template.js</include>
+						<include>**/src/main/**/js/util/query.js</include>
+						<include>**/src/main/**/js/util/ui.js</include>
+						
+						<!-- TEST ONLY import -->
+						<include>**/src/test/javascript/constants_test.js</include> 
+
+						<!-- plugins -->
+
+						<!-- models -->
+
+						<!-- views -->
+						<include>**/src/main/**/js/view/BaseView.js</include>
+						<include>**/src/main/**/js/view/TimeSeriesSelectCriteriaView.js</include>
+
+						<!-- View templates -->
+
+						<!-- widgets -->
+						<include>**/src/main/**/js/view/widgets/PopupView.js</include>
+						<include>**/src/main/**/js/view/widgets/BoxSearch.js</include>
+						<include>**/src/main/**/js/view/widgets/NwisDateRange.js</include>
+						<include>**/src/main/**/js/view/widgets/NwisRange.js</include>
+						<include>**/src/main/**/js/view/widgets/MultiSelectShuttle.js</include>
+						<include>**/src/main/**/js/view/widgets/SelectField.js</include>
+						<include>**/src/main/**/js/view/widgets/TextField.js</include>
+						<include>**/src/main/**/js/view/widgets/CounterHeader.js</include>
+
+						<!-- controllers -->
+						<include>**/src/main/**/js/controller/AqcuRouter.js</include>
+
+					</sourceIncludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
