@@ -367,7 +367,7 @@ AQCU.view.TimeSeriesSelectCriteriaView = AQCU.view.BaseView.extend({
 
 		selectField.addClass("nwis-loading-indicator");
 		return $.ajax({
-			url: AQCU.constants.nwisRaServices + "/report/SiteInformation/json?",
+			url: "service/nwisra/report/SiteInformation/json?",
 			timeout: 120000,
 			dataType: "json",
 			data: param,

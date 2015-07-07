@@ -18,6 +18,27 @@
 		</user-data-constraint>
 	</security-constraint>
 	
+	<servlet>
+		<servlet-name>NwisRaProxy</servlet-name>
+		<servlet-class>gov.usgs.cida.proxy.AlternateProxyServlet</servlet-class>
+		<init-param>
+			<param-name>forward-url-param</param-name>
+			<param-value>nwis-ra.service.url</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ignore-client-authorization</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ignore-server-authorization</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NwisRaProxy</servlet-name>
+		<url-pattern>/service/nwisra/*</url-pattern>
+	</servlet-mapping>
+	
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

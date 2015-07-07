@@ -21,7 +21,6 @@
 
 	AQCU.constants = {
 		nwisRaHome: '<%=getJNDIValue("nwis-ra.home")%>',
-		nwisRaServices: '<%=getJNDIValue("nwis-ra.service.url")%>',
 		serviceEndpoint: '<%=getJNDIValue("aqcu.reports.front.end")%>'
 	};
 </script>
