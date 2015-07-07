@@ -77,9 +77,9 @@ $.ajaxSetup({
         401: function(){
         	var currentToken = AQCU.util.auth.getAuthToken();
         	if(!currentToken) {
-    			window.location = AQCU.constants.nwisRaHome + "login.jsp";
+    			window.location = AQCU.constants.nwisRaHome + "/login.jsp";
     		} else {
-    			window.location = AQCU.constants.nwisRaHome + "login.jsp?timedOut=true";
+    			window.location = AQCU.constants.nwisRaHome + "/login.jsp?timedOut=true";
     		}
         }
     },
