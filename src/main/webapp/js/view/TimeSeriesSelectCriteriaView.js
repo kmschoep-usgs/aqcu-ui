@@ -416,7 +416,8 @@ AQCU.view.TimeSeriesSelectCriteriaView = AQCU.view.BaseView.extend({
 		if(stationId && (timeRange.waterYear || (timeRange.endDate && timeRange.startDate))) {
 			stationId = stationId.trim();
 			this.abortAjax(this.ajaxCalls.primary);
-			this.ajaxCalls.primary = this.loadTimeSeriesIdentifiers({ stationId: stationId, fieldName: 'primaryTimeseriesIdentifier', primary: 'true', publish: 'true',
+			this.ajaxCalls.primary = this.loadTimeSeriesIdentifiers({ stationId: stationId, fieldName: 'primaryTimeseriesIdentifier', 
+				publish: 'true',
 				computationIdentifier: 'Unknown',
 				computationPeriodIdentifier: 'Unknown'}
 				);
@@ -503,8 +504,8 @@ AQCU.view.TimeSeriesSelectCriteriaView = AQCU.view.BaseView.extend({
 				dischargeField.removeClass("nwis-loading-indicator"); 
 				dischargeField.prop("disabled", false);
 				
-				if(data[0]) {
-					var primaryDischargeId = data[0];
+				if(_.size(data) > 0) {
+					var primaryDischargeId = Object.keys(data)[0];
 					this.model.set("primaryTimeseriesIdentifier", primaryDischargeId);
 					_this.primaryTimeseriesIdentifier.updateSelectedOption();
 				}
@@ -685,8 +686,8 @@ AQCU.view.TimeSeriesSelectCriteriaView = AQCU.view.BaseView.extend({
 		var _this = this;
 		var _callback = function(data) {
 			selectField.append('<option value="">Not selected</option>');
-			for (var i = 0; i < data.length; i++) {
-				selectField.append('<option value="' + data[i] + '">' + data[i] + '</option>');
+			for (var opt in data) {
+				selectField.append('<option value="' + opt + '">' + data[opt] + '</option>');
 			}
 			_this.$(".vision_select_field_" + param.fieldName).removeClass("nwis-loading-indicator");
 			if(callback) {
@@ -918,7 +919,7 @@ AQCU.view.TimeSeriesSelectCriteriaView = AQCU.view.BaseView.extend({
 		criteria.derivedMinTimeseriesIdentifier =  this._getTimeSeriesId("derivedMinTimeseriesIdentifier");
 		criteria.ratingModelIdentifier =  this._getTimeSeriesId("ratingModelIdentifier");
 
-		criteria.comparisonTimeseriesIdentifier = this.model.get("comparisonTimeseriesIdentifier") ? this.model.get("comparisonTimeseriesIdentifier").replace(/@/g, '').replace(this.model.get("select_comp_site_no").trim(), '') : null;;
+		criteria.comparisonTimeseriesIdentifier = this.model.get("comparisonTimeseriesIdentifier") ? this.model.get("comparisonTimeseriesIdentifier") : null;;
 		criteria.comparisonStation =  this.model.get("select_comp_site_no") ? this.model.get("select_comp_site_no").trim() : null;
 		
 		$.extend(criteria, this.getTimeParams());
@@ -927,7 +928,6 @@ AQCU.view.TimeSeriesSelectCriteriaView = AQCU.view.BaseView.extend({
 	},
 	
 	_getTimeSeriesId: function(tsId) {
-		var site = this.model.get("select_site_no").trim();
-		return this.model.get(tsId) ? this.model.get(tsId).replace(/@/g, '').replace(site, '') : null;
+		return this.model.get(tsId) ? this.model.get(tsId) : null;
 	}
 });
