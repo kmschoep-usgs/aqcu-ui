@@ -686,8 +686,23 @@ AQCU.view.TimeSeriesSelectCriteriaView = AQCU.view.BaseView.extend({
 		var _this = this;
 		var _callback = function(data) {
 			selectField.append('<option value="">Not selected</option>');
-			for (var opt in data) {
-				selectField.append('<option value="' + opt + '">' + data[opt] + '</option>');
+			
+			var sortedArray=[];
+			for(var opt in data){
+				sortedArray.push([opt,data[opt]])
+			}
+			sortedArray.sort(function(a,b){
+				if(a[1] > b[1]) {
+					return 1;
+				} else if(a[1] < b[1]) {
+					return -1;
+				} else {
+					return 0;
+				}
+			});
+			
+			for (var i = 0; i < sortedArray.length; i++) {
+				selectField.append('<option value="' + sortedArray[i][0] + '">' + sortedArray[i][1] + '</option>');
 			}
 			_this.$(".vision_select_field_" + param.fieldName).removeClass("nwis-loading-indicator");
 			if(callback) {
