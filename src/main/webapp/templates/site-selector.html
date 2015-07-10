@@ -1,0 +1,10 @@
+<div class="site-selector-search">
+	<input type="text" value="TEMPORARY PLACEHOLDER" style="width:100%"/>
+</div>
+<ul class=site-selector-site-list>
+	{{#each sites}}
+	<li>
+	<span class="site-selector-list-item" siteNumber="{{siteNumber}}" siteName="{{siteName}}">
+	{{siteNumber}} - {{siteName}}</span><span class="site-selector-remove-site" siteNumber="{{siteNumber}}">X</span></li>
+	{{/each}}
+</ul>

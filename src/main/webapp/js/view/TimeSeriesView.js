@@ -15,15 +15,31 @@ AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 		'click #time-series-prototype-btn': "goToPrototype"
 	},
 	initialize: function() {
-		//TODO initialize model
-		
-		//TODO initialize/attach subviews for site selector, timeseries selector, report selector
-		
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
+		
+		this.model = this.options.model || new Backbone.Model({
+				selectedSite: null
+			});
+
+		this.model.bind("change:selectedSite", this.siteSelected, this);	
 	},
 	
 	afterRender: function() {
-		this.ajaxCalls = {}; //used to cancel in progress ajax calls if needed
+		this.siteSelectorPanel = new AQCU.view.SiteSelectorView({
+			parentModel: this.model,
+			el: this.$el.find(".site-selection-panel")
+		});
+		
+		this.reportConfigPanel = new AQCU.view.ReportConfigView({
+			parentModel: this.model,
+			el: this.$el.find(".report-config-panel")
+		});
+		
 		this.stickit();
+	},
+	
+	siteSelected: function() {
+		alert("Selected site " + this.model.get("selectedSite").siteNumber);
+		//TODO UPDATE or reinitialize report-config view with new site selection
 	}
 });

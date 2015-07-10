@@ -1,4 +1,10 @@
 /** TODO clean up any unused nwis* or vision* rules **/
+#aqcu-ui-content a {
+	cursor: pointer;
+}
+
+
+/** HOME: START **/
 .time-series-home {
 	padding: 0px;
 	margin: 0px;
@@ -12,19 +18,49 @@
 #aqcu-ui-content {
 	padding-top: 40px;
 }
+/** HOME: END **/
+
+
+
+/** SITE SELECTOR: START **/
+.site-selector-search {
+	padding: 1em;	
+}
 
 .site-selection-panel {
 	background-color: #E6E6E6;
 	min-height: 600px;
+	padding: 0px;
 }
 
-.nwis-disclaimer {
-	text-align: center;
+.site-selector-site-list {
+	list-style-type: none;
+	padding: 0px;
 }
 
-.nwis-disclaimer p {
-	text-align: left;
+.site-selection-panel li {
+	padding: 1em;
+	cursor: pointer;
+	width: 100%;
 }
+
+.site-selector-remove-site {
+	font-weight: bold;
+	float: right;
+}
+
+.site-selector-selected-site {
+	background-color: white;
+}
+/** SITE SELECTOR: END **/
+
+
+/** REPORT CONFIG: START **/
+.report-config-panel {
+	padding: 1em;
+}
+/** REPORT CONFIG: END **/
+
 
 #ccsa-area {
 	top: -10px;
@@ -32,10 +68,6 @@
 
 .nwis-menu-table {
 	text-align: center;
-}
-
-#aqcu-ui-content a {
-	cursor: pointer;
 }
 
 .container {

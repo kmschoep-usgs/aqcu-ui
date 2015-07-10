@@ -22,6 +22,7 @@ AQCU.view.BaseView = Backbone.View.extend({
 		AQCU.util.template.getTemplate({ template: this.templateName, context : this}).done( function(template) {
 			this.template = template;
 			Backbone.View.prototype.initialize.apply(this, arguments);
+			this.preRender();
 			this.baseRender();
 			this.afterRender();
 			this.stylizeAllButtons();
@@ -34,6 +35,13 @@ AQCU.view.BaseView = Backbone.View.extend({
 	baseRender: function() {
 		this.$el.html(this.template(this.context || {}));
 		return this;
+	},
+	/**
+	 * Overridable, post-init, pre-render actions
+	 * @returns this
+	 */
+	preRender: function() {
+		//OVERRIDE ME
 	},
 	/**
 	 * Overridable, post-init, post-render actions
