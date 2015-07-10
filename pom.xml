@@ -154,7 +154,7 @@
 
 						<!-- views -->
 						<include>**/src/main/**/js/view/BaseView.js</include>
-						<include>**/src/main/**/js/view/TimeSeriesSelectCriteriaView.js</include>
+						<include>**/src/main/**/js/view/TimeSeriesView.js</include>
 
 						<!-- View templates -->
 

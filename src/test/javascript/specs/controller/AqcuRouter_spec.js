@@ -1,11 +1,11 @@
 describe("AqcuRouter.js", function() {
 	it("has these dependencies", function() {
 		expect(Backbone.Router).toBeDefined();
-		expect(AQCU.view.TimeSeriesSelectCriteriaView).toBeDefined();
+		expect(AQCU.view.TimeSeriesView).toBeDefined();
 	});
 
 	it("defines these API functions and fields", function() {
-		expect(AQCU.controller.AqcuRouter.prototype.showTimeSeriesCriteria).toBeDefined();
+		expect(AQCU.controller.AqcuRouter.prototype.showTimeSeriesView).toBeDefined();
 	});
 });
 
@@ -24,11 +24,10 @@ describe("AQCU.controller.AqcuRouter", function() {
 		var testRouter = new AQCU.controller.AqcuRouter();
 
 		//goes to homepage
-		expect(testRouter.routes['']).toBe('showTimeSeriesCriteria');
-		expect(testRouter.routes['home']).toBe('showTimeSeriesCriteria');
-		testRouter.showTimeSeriesCriteria();
+		expect(testRouter.routes['']).toBe('showTimeSeriesView');
+		testRouter.showTimeSeriesView();
 		expect(testRouter.currentView).toBeDefined();
-		expect(testRouter.currentView instanceof AQCU.view.TimeSeriesSelectCriteriaView).toBeTruthy();
+		expect(testRouter.currentView instanceof AQCU.view.TimeSeriesView).toBeTruthy();
 		testRouter.removeCurrentView();
 	});
 
