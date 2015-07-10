@@ -42,12 +42,16 @@ AQCU.view.BaseView = Backbone.View.extend({
 	afterRender: function() {
 		//OVERRIDE ME
 	},
+	
 	/** COMMON navigation functions that might be used for many views */
-	goHome: function() {
+	goRaHome: function() {
 		window.location = AQCU.constants.nwisRaHome;
 	},
-	goToTimeSeriesCriteria: function() {
-		this.router.navigate('timeseries/criteria', {trigger: true});
+	goHome: function() {
+		this.router.navigate('', {trigger: true});
+	},
+	goToPrototype: function() { //TODO remove me when new UI done
+		this.router.navigate('prototype', {trigger: true});
 	},
 	stylizeAllButtons: function() {
 		$("input[type=button], button")

@@ -22,19 +22,27 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 	 * Backbone router routes
 	 */
 	routes: {
-		"": "showTimeSeriesCriteria",
-		"home": "showTimeSeriesCriteria"
+		"": "showTimeSeriesView",
+		"prototype": "showTimeSeriesPrototypeView"
 	},
 	/**
 	 * The active output options model that can be reset to the latest values
 	 */
 	activeOutputOptionsModel: null,
+
+	/**
+	 * Go to time series home
+	 */
+	showTimeSeriesView: function() {
+		this.showView(AQCU.view.TimeSeriesView);
+	},
 	
 	/**
+	 * TODO remove this class and code when new UI is complete enough
 	 * Go to time series report criteria view.
 	 */
-	showTimeSeriesCriteria: function() {
-		this.showView(AQCU.view.TimeSeriesSelectCriteriaView);
+	showTimeSeriesPrototypeView: function() {
+		this.showView(AQCU.view.TimeSeriesPrototypeView);
 	},
 	
 	showView: function(view, opts) {

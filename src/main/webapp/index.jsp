@@ -64,7 +64,8 @@
 
         <%-- views --%>
         <script type="text/javascript" src="js/view/BaseView.js"></script>
-        <script type="text/javascript" src="js/view/TimeSeriesSelectCriteriaView.js"></script>
+        <script type="text/javascript" src="js/view/TimeSeriesView.js"></script>
+        <script type="text/javascript" src="js/view/TimeSeriesPrototypeView.js"></script>
         
         <%-- widgets --%>
         <script type="text/javascript" src="js/view/widgets/PopupView.js"></script>
@@ -101,9 +102,6 @@
 			<div class="upper-right-corner">
 				<a onclick="AQCU.util.auth.logout()">Logout</a>
 			</div>
-		</div>
-		<div class="lower-right-corner">
-			<div id="aqcu_version_tag">version: 1.0?</div>
 		</div>
         <jsp:include page="jsp/footer.jsp"></jsp:include>
         <%-- USGS VisID compliant footer --%>

@@ -1,3 +1,23 @@
+/** TODO clean up any unused nwis* or vision* rules **/
+.time-series-home {
+	padding: 0px;
+	margin: 0px;
+}
+
+.time-series-main-view {
+	margin: 0px;
+	padding: 0px;
+}
+
+#aqcu-ui-content {
+	padding-top: 40px;
+}
+
+.site-selection-panel {
+	background-color: #E6E6E6;
+	min-height: 600px;
+}
+
 .nwis-disclaimer {
 	text-align: center;
 }
@@ -14,14 +34,8 @@
 	text-align: center;
 }
 
-.nwis-vision-gui-content .breadcrumb {
-	margin-bottom: 5px;
-}
-
-#nwis-vision-gui-content a {
+#aqcu-ui-content a {
 	cursor: pointer;
-	background-color: transparent;
-	color: #0E7F45;
 }
 
 .container {
@@ -40,34 +54,9 @@
 	font-size: 0.5em;
 }
 
-#nwis-vision-gui-content {
-	padding: 10px;
-	padding-top: 50px;
-	min-height: 600px;
-}
-
-#nwis-vision-gui-content h1 {
-	color: #124F73;
-	font-size: 1.6em;
-	font-family: 'Ubuntu', sans-serif;
-}
-
 h2 {
 	color: #23648B;
 	font-size: 1.5em;
-	font-family: 'Ubuntu', sans-serif;
-}
-
-#nwis-vision-gui-content h3 {
-	margin-top: 8px;
-	color: #666;
-	font-size: 1.3em;
-	font-family: 'Ubuntu', sans-serif;
-}
-
-#nwis-vision-gui-content h4 {
-	color: #1D247D;
-	font-size: 1.3em;
 	font-family: 'Ubuntu', sans-serif;
 }
 
@@ -162,12 +151,15 @@ h2 {
 	font-weight: bold;
 }
 
-.lower-right-corner {
+#aqcu_version_tag {
 	font-weight: bold;
 	font-size: x-small;
-	width: 100%;
-	text-align: right;
-	padding-right: 6px;
+	position: relative;
+	text-align: center;
+}
+
+#footer {
+	margin-top: 0px;
 }
 
 .sub-banner {
@@ -495,7 +487,7 @@ h2 {
 }
 
 .breadcrumb {
-	margin-bottom: 12px;
+	margin-bottom: 0px;
 }
 
 .section {

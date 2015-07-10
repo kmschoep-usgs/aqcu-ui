@@ -1,8 +1,8 @@
 /**
  * Extends BaseView.js, see for full documentation of class functions.
  */
-AQCU.view.TimeSeriesSelectCriteriaView = AQCU.view.BaseView.extend({
-	templateName: 'time-series-set-criteria',
+AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
+	templateName: 'time-series-prototype',
 	MIN_SITE_NUMBER_LENGTH: 5,
        
 	/**
@@ -12,7 +12,7 @@ AQCU.view.TimeSeriesSelectCriteriaView = AQCU.view.BaseView.extend({
 	bindings: {},
 
 	events: {
-		'click #nav-home': "goHome",
+		'click #nav-home': "goRaHome",
 		'click #time-series-back': "goHome",
 		'click .time-series-report-download-button': "startDownloadPdf",
 		'click .time-series-report-preview-button': "startDownloadHtml"
