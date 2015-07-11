@@ -54,19 +54,19 @@ AQCU.util.auth = function() {
     	},
     	verifyLoggedIn : function() {
     		var currentToken = AQCU.util.auth.getAuthToken();
-    		$.ajax({
-    			url: AQCU.constants.serviceEndpoint + "/service/lookup/report/types",
-    			async: false,
-    			dataType: "json",
-    			type: "GET",
-    			success: function(data) {
-    				//do nothing, login state is good
-    			},
-    			error: function() {
-    				//global 401 handler should get this
-    			},
-    			context: this
-    		});
+//    		$.ajax({
+//    			url: AQCU.constants.serviceEndpoint + "/service/lookup/report/types",
+//    			async: false,
+//    			dataType: "json",
+//    			type: "GET",
+//    			success: function(data) {
+//    				//do nothing, login state is good
+//    			},
+//    			error: function() {
+//    				//global 401 handler should get this
+//    			},
+//    			context: this
+//    		});
     	}
 	};
 }();

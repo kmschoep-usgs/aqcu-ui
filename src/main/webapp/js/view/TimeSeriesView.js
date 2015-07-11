@@ -39,7 +39,6 @@ AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 	},
 	
 	siteSelected: function() {
-		alert("Selected site " + this.model.get("selectedSite").siteNumber);
-		//TODO UPDATE or reinitialize report-config view with new site selection
+		this.reportConfigPanel.setSite(this.model.get("selectedSite"));
 	}
 });

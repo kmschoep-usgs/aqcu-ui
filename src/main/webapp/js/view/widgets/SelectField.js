@@ -6,14 +6,16 @@ AQCU.view.SelectField = Backbone.View.extend({
 	 * Handlebars template
 	 */
 	template: Handlebars.compile("<div class='row nwis-field-container'> \
+		{{#if displayName}}\
 		<div class='col-sm-5 col-lg-5'>\
 			<label for='{{fieldName}}'>{{displayName}}&nbsp;&nbsp;\
 			{{#if description}}\
 				<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
 			{{/if}}\
-		</label><br/></div> \
+		</label><br/></div> {{/if}}\
         <input type='hidden' name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}'/> \
-		<div class='col-sm-7 col-lg-7'><select type='checkbox' class='vision_field vision_select_field_{{fieldName}}'>\
+		<div class='{{#if displayName}}col-sm-7 col-lg-7{{else}}col-sm-12 col-lg-12{{/if}}'>\
+		<select type='checkbox' class='vision_field vision_select_field_{{fieldName}}'>\
 		</select>\
 		</div> \
 		</div>"),
@@ -27,7 +29,6 @@ AQCU.view.SelectField = Backbone.View.extend({
 	 */
 	initialize: function() {
 		this.router = this.options.router; //NWIS Vision Router
-		this.searchModel = this.options.searchModel; //NWIS search model
 		this.fieldConfig = this.options.fieldConfig;
 		this.renderTo = this.options.renderTo;
 

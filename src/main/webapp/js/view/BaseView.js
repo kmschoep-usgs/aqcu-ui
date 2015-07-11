@@ -22,12 +22,18 @@ AQCU.view.BaseView = Backbone.View.extend({
 		AQCU.util.template.getTemplate({ template: this.templateName, context : this}).done( function(template) {
 			this.template = template;
 			Backbone.View.prototype.initialize.apply(this, arguments);
-			this.preRender();
-			this.baseRender();
-			this.afterRender();
+			this.render();
 			this.stylizeAllButtons();
 		});
 	},
+	
+	/**override**/
+	render: function() {
+		this.preRender();
+		this.baseRender();
+		this.afterRender();
+	},
+	
 	/**
 	 * Default render function. Calls a template function obtained in the initialize.
 	 * @returns this
