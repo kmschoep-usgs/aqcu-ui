@@ -21,11 +21,12 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		
 		this.model = this.options.model || new Backbone.Model({
 				selectedSite: null,
-				siteList: []
+				siteList: AQCU.util.localStorage.getData("aqcuSiteList") || [] 
 			});
 
 		this.model.bind("change:selectedSite", this.updateParentModelSelectedSite, this);
 		this.model.bind("change:siteList", this.refreshView, this);		
+		this.model.bind("change:siteList", function() { AQCU.util.localStorage.setData("aqcuSiteList", this.model.get("siteList")) }, this);
 		
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		

@@ -55,6 +55,7 @@
         <script type="text/javascript" src="js/util/template.js"></script>
         <%-- util functions for handling templates --%>
         <script type="text/javascript" src="js/util/query.js"></script>
+        <script type="text/javascript" src="js/util/local_storage.js"></script>
         <%-- util functions generating query parameters --%>
         <script type="text/javascript" src="js/util/ui.js"></script>
         <script type="text/javascript" src="js/util/auth.js"></script>
