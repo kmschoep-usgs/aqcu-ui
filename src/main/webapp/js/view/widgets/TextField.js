@@ -6,12 +6,13 @@ AQCU.view.TextField = Backbone.View.extend({
 	 * Handlebars template
 	 */
 	template: Handlebars.compile("<div class='row nwis-field-container'> \
+		{{#if displayName}}\
 		<div class='col-sm-5 col-lg-5'><label for='{{fieldName}}'>{{displayName}}&nbsp;&nbsp; \
 			{{#if description}}\
 				<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
 			{{/if}}\
-		</label><br/></div> \
-		<div class='col-sm-7 col-lg-7'><input name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}' placeholder='{{placeHolderText}}' {{readOnly}}/></div> \
+		</label><br/></div> {{/if}}\
+		<div class='{{#if displayName}}col-sm-7 col-lg-7{{else}}col-sm-12 col-lg-12{{/if}}'><input name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}' placeholder='{{placeHolderText}}' {{readOnly}}/></div> \
 		</div>"),
 	/**
 	 * Backbone events object. See backbone documentation

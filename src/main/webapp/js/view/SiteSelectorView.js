@@ -16,7 +16,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	initialize: function() {
-		
+		this.router = this.options.router;
 		this.parentModel = this.options.parentModel;
 		
 		this.model = this.options.model || new Backbone.Model({
@@ -63,7 +63,18 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	createSiteSelectorWidget: function() {
-		//TODO REPLACE THIS WITH WIDGET
+		//TODO replace both of these widgets with single site select widget
+		this.searchField = new AQCU.view.TextField({
+			searchModel: this.model,
+			fieldConfig: {
+				fieldName : "search_site_no",
+				displayName : "",
+				placeHolderText: "Search by site number"
+			},
+			renderTo: this.$('.site-search')
+		});
+		$.extend(this.bindings, this.searchField.getBindingConfig());
+		
 		this.siteSelect = new AQCU.view.SelectField({
 			router: this.router,
 			fieldConfig: {
@@ -74,32 +85,44 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			renderTo: this.$el.find('.site-select-widget'),
 			startHidden: false
 		});
-		
-		//TODO replace these dummy options with ajax loaded sites (avoid direct DOM)
-		var selectField = this.$(".vision_select_field_select_site_no");
-		selectField.append('<option value="">Choose site...</option>');
-		selectField.append('<option value="111111">TEST SITE 1</option>');
-		selectField.append('<option value="222222">TEST SITE 2</option>');
-		selectField.append('<option value="333333">TEST SITE 3</option>');
-		
 		$.extend(this.bindings, this.siteSelect.getBindingConfig());
 		
-
+		var siteSelect = this.siteSelect;
+		
 		this.model.bind("change:select_site_no", function() {
 			var siteNumber = this.model.get("select_site_no");
-			//TODO direct DOM access = bad, when we replace this widget, use model/view instead
-			var siteName = this.$el.find(".site-select-widget").find("option[value='"+siteNumber+"']").html(); 
-			this.addSiteToList(siteNumber, siteName);
-		}, this);		
+			if(siteNumber) {
+				var siteName = siteSelect.getDisplayValue(siteNumber).replace(siteNumber + " - ", ""); 
+				this.addSiteToList(siteNumber, siteName);
+				this.model.set("search_site_no", "");
+			}
+		}, this);	
+		
+		this.model.bind("change:search_site_no", function() {
+			var siteSearchTerm = this.model.get("search_site_no");
+			if(this.model.get("search_site_no") && this.model.get("search_site_no").length >= 5) {
+				siteSelect.showLoader();
+				$.ajax({
+					url: "service/nwisra/report/SiteInformation/json?",
+					timeout: 120000,
+					dataType: "json",
+					data: {"sitefile.site_no.like.varchar.trim": '%'+siteSearchTerm+'%'}, //using this expression might be slow
+					context: this,
+					success: function(data) {
+						siteSelect.hideLoader();
+						var siteList = [];
+						for(var i = 0; i < data.records.length; i++) {
+							siteList.push({ KeyValue: data.records[i].SITE_NO, DisplayValue: data.records[i].SITE_NO + " - " + data.records[i].STATION_NM});
+						}
+						siteSelect.setSelectOptions(siteList);
+						siteSelect.updateSelectedOption();
+					},
+					error: $.proxy(this.router.unknownErrorHandler, this.router)
+				});
+			}
+		}, this);
 	},
 
-	/**
-	* Triggers an ajax call to load the select
-	* @param params
-	*/
-	loadOptionsSiteSelect: function(param, targetField) {
-				
-	},
 	addSiteToList: function(siteNumber, siteName) {
 		var siteList = this.model.get("siteList");
 		

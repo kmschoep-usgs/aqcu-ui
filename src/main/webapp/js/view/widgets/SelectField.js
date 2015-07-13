@@ -96,6 +96,19 @@ AQCU.view.SelectField = Backbone.View.extend({
 		}
 		this.updateSelectedOption();
 	},
+	
+	getDisplayValue: function(value) {
+		return this.$(".vision_select_field_" + this.fieldConfig.fieldName).find("option[value='"+value+"']").html()
+	},
+	
+	showLoader: function() {
+		this.$(".vision_select_field_" + this.fieldConfig.fieldName).addClass("nwis-loading-indicator")
+	},
+	
+	hideLoader: function() {
+		this.$(".vision_select_field_" + this.fieldConfig.fieldName).removeClass("nwis-loading-indicator")
+	},
+	
 	/**
 	 * Helper function to sync up the hidden value with the two date fields
 	 */

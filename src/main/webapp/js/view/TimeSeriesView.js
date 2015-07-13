@@ -17,6 +17,8 @@ AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
+		this.router = this.options.router;
+		
 		this.model = this.options.model || new Backbone.Model({
 				selectedSite: null
 			});
@@ -27,11 +29,13 @@ AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 	afterRender: function() {
 		this.siteSelectorPanel = new AQCU.view.SiteSelectorView({
 			parentModel: this.model,
+			router: this.router,
 			el: this.$el.find(".site-selection-panel")
 		});
 		
 		this.reportConfigPanel = new AQCU.view.ReportConfigView({
 			parentModel: this.model,
+			router: this.router,
 			el: this.$el.find(".report-config-panel")
 		});
 		
