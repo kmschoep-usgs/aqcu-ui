@@ -173,7 +173,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		//Cheating by embedding values in HTML attributes, may want to 
 		//use subviews/models to avoid this kind of hackery
 		var siteNumber = $(clickedDom).attr("siteNumber"); 
-		var siteName   = $(clickedDom).attr("siteName"); 
+		var siteName = $(clickedDom).attr("siteName"); 
 		this.model.set("selectedSite", { siteNumber: siteNumber, siteName: siteName });
 		this.refreshView();
 		//mark selected
