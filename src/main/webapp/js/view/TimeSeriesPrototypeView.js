@@ -274,7 +274,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 	},
 	
 	generateReportTypeSelect : function() {
-		var	select = new AQCU.view.Select2Field({
+		var	select = new AQCU.view.SelectField({
 			router: this.router,
 			searchModel: this.model,
 			fieldConfig: {
