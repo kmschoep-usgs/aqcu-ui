@@ -61,6 +61,9 @@
         <script type="text/javascript" src="js/util/auth.js"></script>
         <%-- util functions for the user interface --%>
 
+        <link rel="stylesheet" type="text/css" href="webjars/select2/4.0.0/css/select2.css" />
+		<script type="text/javascript" src="webjars/select2/4.0.0/js/select2.js"></script>
+
         <%-- models --%>
 
         <%-- views --%>
@@ -79,6 +82,8 @@
         <script type="text/javascript" src="js/view/widgets/MultiSelectShuttle.js"></script>
         <script type="text/javascript" src="js/view/widgets/SelectField.js"></script>
         <script type="text/javascript" src="js/view/widgets/TextField.js"></script>
+
+        <script type="text/javascript" src="js/view/widgets/Select2Field.js"></script>
 
         <%-- controllers --%>
         <script type="text/javascript" src="js/controller/AqcuRouter.js"></script>

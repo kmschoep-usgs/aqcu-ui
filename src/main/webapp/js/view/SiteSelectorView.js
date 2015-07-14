@@ -84,7 +84,8 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 				description : ""
 			},
 			renderTo: this.$el.find('.site-select-widget'),
-			startHidden: false
+			startHidden: false,
+			data : [{id:111111,text:"Test Site 1"},{id:222222,text:"Test Site 2"},{id:333333,text:"Test Site 3"},]
 		});
 		$.extend(this.bindings, this.siteSelect.getBindingConfig());
 		
