@@ -64,41 +64,51 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	createSiteSelectorWidget: function() {
-		//TODO replace both of these widgets with single site select widget
-		this.searchField = new AQCU.view.TextField({
-			searchModel: this.model,
-			fieldConfig: {
-				fieldName : "search_site_no",
-				displayName : "",
-				placeHolderText: "Search by site number"
-			},
-			renderTo: this.$('.site-search')
-		});
-		$.extend(this.bindings, this.searchField.getBindingConfig());
 		
-		this.siteSelect = new AQCU.view.SelectField({
+		this.siteSelect = new AQCU.view.Select2Field({
 			router: this.router,
 			fieldConfig: {
-				fieldName : "select_site_no",
-				displayName : "",
-				description : ""
+				fieldName   : "select_site_no",
+				description : "Search by site number"
+			},
+			select2: {
+				placeholder : "Search by site number",
+				ajax: {
+					url: "service/nwisra/report/SiteInformation/json?",
+				    dataType: 'json',
+				    delay: 500,
+				    data: function (params) {
+					    return {"sitefile.site_no.like.varchar.trim": '%'+params.term+'%'};
+				    },
+				    processResults: function (data, page) {
+				    	var siteList = [];
+						for (var i = 0; i < data.records.length; i++) {
+							siteList.push({ 
+								id  : data.records[i].SITE_NO,
+								text: data.records[i].SITE_NO +" - "+ data.records[i].STATION_NM}
+							);
+						}
+				        return {results: siteList};
+				    },
+				    cache: true
+				},
 			},
 			renderTo: this.$el.find('.site-select-widget'),
 			startHidden: false,
-			data : [{id:111111,text:"Test Site 1"},{id:222222,text:"Test Site 2"},{id:333333,text:"Test Site 3"},]
 		});
 		$.extend(this.bindings, this.siteSelect.getBindingConfig());
 		
-		var siteSelect = this.siteSelect;
-		
 		this.model.bind("change:select_site_no", function() {
 			var siteNumber = this.model.get("select_site_no");
-			if(siteNumber) {
-				var siteName = siteSelect.getDisplayValue(siteNumber).replace(siteNumber + " - ", ""); 
+			if (siteNumber) {
+				var siteName = this.siteSelect.getDisplayValue(siteNumber).replace(siteNumber + " - ", ""); 
 				this.addSiteToList(siteNumber, siteName);
 				this.model.set("search_site_no", "");
 			}
 		}, this);	
+		
+	/*
+		var siteSelect = this.siteSelect;
 		
 		this.model.bind("change:search_site_no", function() {
 			var siteSearchTerm = this.model.get("search_site_no");
@@ -123,6 +133,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 				});
 			}
 		}, this);
+	*/
 	},
 
 	addSiteToList: function(siteNumber, siteName) {
@@ -162,7 +173,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		//Cheating by embedding values in HTML attributes, may want to 
 		//use subviews/models to avoid this kind of hackery
 		var siteNumber = $(clickedDom).attr("siteNumber"); 
-		var siteName = $(clickedDom).attr("siteName"); 
+		var siteName   = $(clickedDom).attr("siteName"); 
 		this.model.set("selectedSite", { siteNumber: siteNumber, siteName: siteName });
 		this.refreshView();
 		//mark selected

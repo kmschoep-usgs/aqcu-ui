@@ -17,8 +17,10 @@ AQCU.view.Select2Field = Backbone.View.extend({
 				</div>\
 				{{/if}}\
 				<input type='hidden' name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}'/> \
-				<div class='col-sm-7 col-lg-7'>\
-					<select id='select2_{{fieldName}}' class='vision_field vision_select_field_{{fieldName}}'>\
+				<div class='{{#if displayName}}col-sm-7 col-lg-7{{else}}col-sm-12 col-lg-12{{/if}}'>\
+					<select class='vision_field vision_select_field_{{fieldName}}'>\
+						<option></option>\
+					</select>\
 				</div>\
 			</div>"),
 	/**
@@ -30,16 +32,18 @@ AQCU.view.Select2Field = Backbone.View.extend({
 	 * Will create and render a text field using a fieldConfig options defined in NWIS Search Models.
 	 */
 	initialize: function() {
-		this.router = this.options.router; //NWIS Vision Router
+		this.router      = this.options.router; //NWIS Vision Router
 		this.searchModel = this.options.searchModel; //NWIS search model
 		this.fieldConfig = this.options.fieldConfig;
-		this.renderTo = this.options.renderTo;
+		this.renderTo    = this.options.renderTo;
+		this.select2     = this.options.select2;
+		this.field       = ".vision_field_" + this.fieldConfig.fieldName;
+		this.selector    = ".vision_select_field_" + this.fieldConfig.fieldName;
 
 		this.filterRequired = this.options.filterRequired;
-		this.data = this.options.data;
-
-		this.events["change .vision_field_" + this.fieldConfig.fieldName] = this.updateSelectedOption;
-		this.events["change .vision_select_field_" + this.fieldConfig.fieldName] = this.setHiddenValue;
+		
+		this.events["change " + this.field] = this.updateSelectedOption;
+		this.events["change " + this.selector] = this.setHiddenValue;
 
 		Backbone.View.prototype.initialize.apply(this, arguments);
 		this.render();
@@ -49,7 +53,7 @@ AQCU.view.Select2Field = Backbone.View.extend({
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
 		this.$el.append(newDom);
 		this.renderTo.append(this.el);
-		$('#select2_'+this.fieldConfig.fieldName).select2({data:this.data});
+		this.$(this.selector).select2(this.select2);
 	},
 	/**
 	 * The HTML that is generated here can be bound using Backbone stickit with the following
@@ -58,67 +62,27 @@ AQCU.view.Select2Field = Backbone.View.extend({
 	 */
 	getBindingConfig: function() {
 		var binding = {};
-		binding[".vision_field_" + this.fieldConfig.fieldName] = {
+		binding[this.field] = {
 			observe: this.fieldConfig.fieldName
 		};
 		return binding;
 	},
 	/**
-	 * Triggers an ajax call to load the select
-	 * @param params
-	 */
-	loadOptions: function(params) {
-		if (this.filterRequired && this.fieldConfig.lookupType && !params) {
-			this.fieldContainer.clearInputs();
-			this.fieldContainer.set_values([]); //make sure to blank out values
-			return;
-		}
-
-		this.removeSelectOptions();
-
-		$.ajax({
-			url: AQCU.constants.serviceEndpoint + "/reference/list/" + this.fieldConfig.lookupType + "/json",
-			timeout: 120000,
-			dataType: "json",
-			data: params,
-			context: this,
-			success: this.setSelectOptions,
-			error: $.proxy(this.router.unknownErrorHandler, this.router)
-		});
-	},
-	
-	removeSelectOptions: function() {
-		this.$el.find('option').each(function() {
-			$(this).remove();
-		});
-	},
-	
-	setSelectOptions: function(data) {
-		var select2Data = [];
-		for (var i = 0; i < data.length; i++) {
-			select2Data.push({
-				id:   data[i]["KeyValue"],
-				text: data[i]["DisplayValue"]
-			});
-		}
-		$('#'+this.fieldConfig.fieldName).select2({data:select2Data});
-	},
-	/**
 	 * Helper function to sync up the hidden value with the two date fields
 	 */
 	updateSelectedOption: function() {
-		var value = this.$(".vision_field_" + this.fieldConfig.fieldName).val();
-		this.$(".vision_select_field_" + this.fieldConfig.fieldName).val(value);
+		var value = this.$(this.field).val();
+		this.$(this.selector).val(value);
 	},
 	/**
 	 * Helper function, when when either display values are updated, the hidden value is updated
 	 */
 	setHiddenValue: function() {
-		var oldVal = this.$(".vision_field_" + this.fieldConfig.fieldName).val();
-		var newVal = this.$(".vision_select_field_" + this.fieldConfig.fieldName).val();
-		this.$(".vision_field_" + this.fieldConfig.fieldName).val(newVal);
+		var oldVal = this.$(this.field).val();
+		var newVal = this.$(this.selector).val();
+		this.$(this.field).val(newVal);
 		if (oldVal !== newVal) {
-			this.$(".vision_field_" + this.fieldConfig.fieldName).change();
+			this.$(this.field).change();
 		}
-	}
+	},
 });
