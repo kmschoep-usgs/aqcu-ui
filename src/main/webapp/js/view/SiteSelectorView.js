@@ -104,9 +104,12 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		this.model.bind("change:select_site_no", function() {
 			var siteNumber = this.model.get("select_site_no");
 			if (siteNumber) {
-				var siteName = this.siteSelect.getDisplayValue(siteNumber).replace(siteNumber + " - ", ""); 
-				this.addSiteToList(siteNumber, siteName);
-				this.model.set("search_site_no", "");
+				var displayValue = this.siteSelect.getDisplayValue(siteNumber);
+				if(displayValue) {
+					var siteName = displayValue.replace(siteNumber + " - ", ""); 
+					this.addSiteToList(siteNumber, siteName);
+					this.model.set("search_site_no", "");
+				}
 			}
 		}, this);	
 	},
