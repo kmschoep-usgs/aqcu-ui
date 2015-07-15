@@ -62,7 +62,7 @@
         <%-- util functions for the user interface --%>
 
         <link rel="stylesheet" type="text/css" href="webjars/select2/4.0.0/css/select2.css" />
-		<script type="text/javascript" src="webjars/select2/4.0.0/js/select2.js"></script>
+		<script type="text/javascript" src="webjars/select2/4.0.0/js/select2.full.js"></script>
 
         <%-- models --%>
 
