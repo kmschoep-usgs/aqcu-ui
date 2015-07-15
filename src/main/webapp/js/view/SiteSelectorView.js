@@ -108,7 +108,6 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 				if(displayValue) {
 					var siteName = displayValue.replace(siteNumber + " - ", ""); 
 					this.addSiteToList(siteNumber, siteName);
-					this.model.set("search_site_no", "");
 				}
 			}
 		}, this);	
