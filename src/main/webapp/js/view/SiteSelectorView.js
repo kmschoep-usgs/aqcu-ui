@@ -69,7 +69,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			router: this.router,
 			fieldConfig: {
 				fieldName   : "select_site_no",
-				description : "Search by site number"
+				description : "Search by site name or number"
 			},
 			select2: {
 				placeholder : "Search by site number",
