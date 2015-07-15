@@ -104,16 +104,19 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			if(this.model.get("search_site_no") && this.model.get("search_site_no").length >= 5) {
 				siteSelect.showLoader();
 				$.ajax({
-					url: "service/nwisra/report/SiteInformation/json?",
+					url: AQCU.constants.serviceEndpoint + "/service/lookup/sites",
 					timeout: 120000,
 					dataType: "json",
-					data: {"sitefile.site_no.like.varchar.trim": '%'+siteSearchTerm+'%'}, //using this expression might be slow
+					data: {
+						pageSize: 10,
+						siteNumber: siteSearchTerm
+					}, 
 					context: this,
 					success: function(data) {
 						siteSelect.hideLoader();
 						var siteList = [];
-						for(var i = 0; i < data.records.length; i++) {
-							siteList.push({ KeyValue: data.records[i].SITE_NO, DisplayValue: data.records[i].SITE_NO + " - " + data.records[i].STATION_NM});
+						for(var i = 0; i < data.length; i++) {
+							siteList.push({ KeyValue: data[i].siteNumber, DisplayValue: data[i].siteNumber + " - " + data[i].siteName});
 						}
 						siteSelect.setSelectOptions(siteList);
 						siteSelect.updateSelectedOption();
