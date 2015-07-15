@@ -79,7 +79,7 @@ AQCU.view.Select2Field = Backbone.View.extend({
 		return binding;
 	},
 	getDisplayValue: function(value) {
-		return this.$(the.selector).find("option[value='"+value+"']").html()
+		return this.$(this.selector).find("option[value='"+value+"']").html()
 	},
 	/**
 	 * Helper function to sync up the hidden value with the two date fields
