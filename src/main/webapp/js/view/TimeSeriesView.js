@@ -11,7 +11,6 @@ AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 	bindings: {},
 
 	events: {
-		'click #nav-home': "goRaHome",
 		'click #time-series-prototype-btn': "goToPrototype"
 	},
 	initialize: function() {
