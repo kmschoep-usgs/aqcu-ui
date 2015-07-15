@@ -40,6 +40,17 @@ AQCU.view.Select2Field = Backbone.View.extend({
 		this.field       = ".vision_field_" + this.fieldConfig.fieldName;
 		this.selector    = ".vision_select_field_" + this.fieldConfig.fieldName;
 
+		// set default value - override available
+		if ( ! this.select2.minimumInputLength) {
+			this.select2.minimumInputLength = 3;
+		}
+		if (this.select2.ajax && ! this.select2.ajax.quietMillis) {
+			this.select2.ajax.quietMillis=500;
+		}
+		if (this.select2.ajax && ! this.select2.ajax.delay) {
+			this.select2.ajax.delay=1000;
+		}
+		
 		this.filterRequired = this.options.filterRequired;
 		
 		this.events["change " + this.field] = this.updateSelectedOption;
@@ -66,6 +77,9 @@ AQCU.view.Select2Field = Backbone.View.extend({
 			observe: this.fieldConfig.fieldName
 		};
 		return binding;
+	},
+	getDisplayValue: function(value) {
+		return this.$(the.selector).find("option[value='"+value+"']").html()
 	},
 	/**
 	 * Helper function to sync up the hidden value with the two date fields

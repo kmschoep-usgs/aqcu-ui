@@ -73,10 +73,10 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			},
 			select2: {
 				placeholder : "Search by site number",
-				ajax: {
+				dropdownCssClass: "site-selector-search-list-width",
+				ajax : {
 					url: "service/nwisra/report/SiteInformation/json?",
 				    dataType: 'json',
-				    delay: 500,
 				    data: function (params) {
 					    return {"sitefile.site_no.like.varchar.trim": '%'+params.term+'%'};
 				    },
@@ -106,34 +106,6 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 				this.model.set("search_site_no", "");
 			}
 		}, this);	
-		
-	/*
-		var siteSelect = this.siteSelect;
-		
-		this.model.bind("change:search_site_no", function() {
-			var siteSearchTerm = this.model.get("search_site_no");
-			if(this.model.get("search_site_no") && this.model.get("search_site_no").length >= 5) {
-				siteSelect.showLoader();
-				$.ajax({
-					url: "service/nwisra/report/SiteInformation/json?",
-					timeout: 120000,
-					dataType: "json",
-					data: {"sitefile.site_no.like.varchar.trim": '%'+siteSearchTerm+'%'}, //using this expression might be slow
-					context: this,
-					success: function(data) {
-						siteSelect.hideLoader();
-						var siteList = [];
-						for(var i = 0; i < data.records.length; i++) {
-							siteList.push({ KeyValue: data.records[i].SITE_NO, DisplayValue: data.records[i].SITE_NO + " - " + data.records[i].STATION_NM});
-						}
-						siteSelect.setSelectOptions(siteList);
-						siteSelect.updateSelectedOption();
-					},
-					error: $.proxy(this.router.unknownErrorHandler, this.router)
-				});
-			}
-		}, this);
-	*/
 	},
 
 	addSiteToList: function(siteNumber, siteName) {
