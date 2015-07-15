@@ -22,6 +22,11 @@
 
 
 /** SITE SELECTOR: START **/
+.site-selector-search-list-width {
+	width:350px !important;
+	border-top: 1px solid #aaa !important;
+}
+
 .site-selector-search {
 	padding: 1em;	
 }
