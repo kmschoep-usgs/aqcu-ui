@@ -28,27 +28,6 @@
 		<servlet-name>NwisRaProxy</servlet-name>
 		<url-pattern>/service/nwisra/*</url-pattern>
 	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>AquariusRaProxy</servlet-name>
-		<servlet-class>gov.usgs.cida.proxy.AlternateProxyServlet</servlet-class>
-		<init-param>
-			<param-name>forward-url-param</param-name>
-			<param-value>aquarius.service.endpoint</param-value>
-		</init-param>
-		<init-param>
-			<param-name>ignore-client-authorization</param-name>
-			<param-value>false</param-value>
-		</init-param>
-		<init-param>
-			<param-name>ignore-server-authorization</param-name>
-			<param-value>false</param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AquariusRaProxy</servlet-name>
-		<url-pattern>/service/aquarius/*</url-pattern>
-	</servlet-mapping>
     
     <security-constraint>
 		<web-resource-collection>
