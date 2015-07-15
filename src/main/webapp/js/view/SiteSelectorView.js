@@ -64,67 +64,51 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	createSiteSelectorWidget: function() {
-		//TODO replace both of these widgets with single site select widget
-		this.searchField = new AQCU.view.TextField({
-			searchModel: this.model,
-			fieldConfig: {
-				fieldName : "search_site_no",
-				displayName : "",
-				placeHolderText: "Search by site number"
-			},
-			renderTo: this.$('.site-search')
-		});
-		$.extend(this.bindings, this.searchField.getBindingConfig());
 		
-		this.siteSelect = new AQCU.view.SelectField({
+		this.siteSelect = new AQCU.view.Select2Field({
 			router: this.router,
 			fieldConfig: {
-				fieldName : "select_site_no",
-				displayName : "",
-				description : ""
+				fieldName   : "select_site_no",
+				description : "Search by site number"
+			},
+			select2: {
+				placeholder : "Search by site number",
+				dropdownCssClass: "site-selector-search-list-width",
+				ajax : {
+					url: AQCU.constants.serviceEndpoint + "/service/lookup/sites",
+				    dataType: 'json',
+				    data: function (params) {
+					    return {
+							pageSize: 10,
+							siteNumber: params.term
+						}
+				    },
+				    processResults: function (data, page) {
+				    	var siteList = [];
+						for (var i = 0; i < data.length; i++) {
+							siteList.push({ 
+								id  : data[i].siteNumber,
+								text: data[i].siteNumber +" - "+ data[i].siteName}
+							);
+						}
+				        return {results: siteList};
+				    },
+				    cache: true
+				},
 			},
 			renderTo: this.$el.find('.site-select-widget'),
-			startHidden: false
+			startHidden: false,
 		});
 		$.extend(this.bindings, this.siteSelect.getBindingConfig());
 		
-		var siteSelect = this.siteSelect;
-		
 		this.model.bind("change:select_site_no", function() {
 			var siteNumber = this.model.get("select_site_no");
-			if(siteNumber) {
-				var siteName = siteSelect.getDisplayValue(siteNumber).replace(siteNumber + " - ", ""); 
+			if (siteNumber) {
+				var siteName = this.siteSelect.getDisplayValue(siteNumber).replace(siteNumber + " - ", ""); 
 				this.addSiteToList(siteNumber, siteName);
 				this.model.set("search_site_no", "");
 			}
 		}, this);	
-		
-		this.model.bind("change:search_site_no", function() {
-			var siteSearchTerm = this.model.get("search_site_no");
-			if(this.model.get("search_site_no") && this.model.get("search_site_no").length >= 5) {
-				siteSelect.showLoader();
-				$.ajax({
-					url: AQCU.constants.serviceEndpoint + "/service/lookup/sites",
-					timeout: 120000,
-					dataType: "json",
-					data: {
-						pageSize: 10,
-						siteNumber: siteSearchTerm
-					}, 
-					context: this,
-					success: function(data) {
-						siteSelect.hideLoader();
-						var siteList = [];
-						for(var i = 0; i < data.length; i++) {
-							siteList.push({ KeyValue: data[i].siteNumber, DisplayValue: data[i].siteNumber + " - " + data[i].siteName});
-						}
-						siteSelect.setSelectOptions(siteList);
-						siteSelect.updateSelectedOption();
-					},
-					error: $.proxy(this.router.unknownErrorHandler, this.router)
-				});
-			}
-		}, this);
 	},
 
 	addSiteToList: function(siteNumber, siteName) {
