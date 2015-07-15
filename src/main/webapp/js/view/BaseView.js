@@ -57,10 +57,6 @@ AQCU.view.BaseView = Backbone.View.extend({
 		//OVERRIDE ME
 	},
 	
-	/** COMMON navigation functions that might be used for many views */
-	goRaHome: function() {
-		window.location = AQCU.constants.nwisRaHome;
-	},
 	goHome: function() {
 		this.router.navigate('', {trigger: true});
 	},

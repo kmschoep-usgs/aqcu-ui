@@ -103,7 +103,7 @@
 		<div class="sub-banner">
 			<div class="sub-banner-title">NWIS Reporting Application for Time Series</div>
 			<div class="upper-right-corner">
-				<a onclick="AQCU.util.auth.logout()">Logout</a>
+				<a onclick="AQCU.util.auth.logout()">NWIS-RA Home</a>
 			</div>
 		</div>
         <jsp:include page="jsp/footer.jsp"></jsp:include>

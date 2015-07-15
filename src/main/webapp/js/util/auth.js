@@ -43,11 +43,11 @@ AQCU.util.auth = function() {
     			type: "POST",
     			success: function(data) {
     				AQCU.util.auth.setAuthToken();
-        			window.location = AQCU.constants.nwisRaHome + "/login.jsp";
+        			window.location = AQCU.constants.nwisRaHome;
     			},
     			error: function() {
     				AQCU.util.auth.setAuthToken(null);
-        			window.location = AQCU.constants.nwisRaHome + "/login.jsp";
+        			window.location = AQCU.constants.nwisRaHome;
     			},
     			context: this
     		});
