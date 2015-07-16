@@ -29,8 +29,6 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		this.model.bind("change:siteList", function() { AQCU.util.localStorage.setData("aqcuSiteList", this.model.get("siteList")) }, this);
 		
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
-		
-		//TODO hook up site selector widget
 	},
 	
 	refreshView: function() {

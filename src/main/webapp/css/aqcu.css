@@ -44,8 +44,11 @@
 
 .site-selection-panel li {
 	padding: 1em;
-	cursor: pointer;
 	width: 100%;
+}
+
+.site-selection-panel span {
+	cursor: pointer;
 }
 
 .site-selector-remove-site {
@@ -62,6 +65,25 @@
 /** REPORT CONFIG: START **/
 .report-config-panel {
 	padding: 1em;
+}
+
+.report-config .header {
+	font-weight: bold;
+	padding: .5em;
+}
+
+.report-config .primary-ts-selector {
+	background-color: #327CC3;
+	color: white;
+	padding: .5em;
+	border-radius: 5px;
+	width: auto;
+}
+
+.report-config .primary-ts-selector .close-btn {
+	font-weight: bold;
+	padding-right: 1em;
+	cursor: pointer;
 }
 /** REPORT CONFIG: END **/
 

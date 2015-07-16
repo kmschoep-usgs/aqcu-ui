@@ -1,8 +1,12 @@
-<div class="report-config">
-	<h4>
-	{{#if site}}
-	{{site.siteNumber}} - {{site.siteName}}
-	{{else}}
-	<<< SELECT A SITE
-	{{/if}}</h4>
+<div class="report-config container">
+	<div class="row">
+		<div class="header col-sm-10 col-lg-8">
+			{{#if site}}
+			{{site.siteNumber}} - {{site.siteName}}
+			{{else}}
+			<<< SELECT A SITE
+			{{/if}}
+		</div>
+		<div class="primary-ts-selector col-sm-2 col-lg-4"><span class="close-btn">X</span><span>Select a primary record...</span></div>
+	</div>
 </div>

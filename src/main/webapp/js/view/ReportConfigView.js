@@ -16,20 +16,27 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
+		//restores previously selected parameters for defaults if they exist 
 		var site = this.options.site || null;
-		
+		var primaryTimeseriesIdentifier = this.options.primaryTimeseriesIdentifier ||
+			site ? AQCU.util.localStorage.getData("primaryForSite" + site) : null;
+		var startDate = this.options.startDate ||
+			site && primaryTimeseriesIdentifier ? AQCU.util.localStorage.getData("startDate-" + site+primaryTimeseriesIdentifier) : null;	
+		var endDate = this.options.endDate ||
+			site && primaryTimeseriesIdentifier ? AQCU.util.localStorage.getData("endDate-" + site+primaryTimeseriesIdentifier) : null;	
+			
 		this.parentModel = this.options.parentModel;
 		
 		this.model = this.options.model || new Backbone.Model({
-				site: site
+				site: site,
+				primaryTimeseriesIdentifier: primaryTimeseriesIdentifier,
+				startDate: startDate,
+				endDate: endDate,
+				requestParams: null //this gets set by select
 			});
 		
 		this.model.bind("change:site", this.siteUpdated, this);
-		
-		//TODO 
-		//timeseries selection
-		//date range selection
-		//report selection/configuration views
+		this.model.bind("change:requestParams", this.launchReport, this);
 	},
 
 	/*override*/
@@ -41,6 +48,12 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	
 	afterRender: function() {
 		this.ajaxCalls = {}; //used to cancel in progress ajax calls if needed
+		
+		//TODO 
+		//timeseries selection
+		//date range selection
+		//report selection/configuration views
+		
 		this.stickit();
 	},
 	
