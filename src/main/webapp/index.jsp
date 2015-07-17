@@ -63,6 +63,8 @@
 
         <link rel="stylesheet" type="text/css" href="webjars/select2/4.0.0/css/select2.css" />
 		<script type="text/javascript" src="webjars/select2/4.0.0/js/select2.full.js"></script>
+        <link rel="stylesheet" type="text/css" href="webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.css" />
+		<script type="text/javascript" src="webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.js"></script>
 
         <%-- models --%>
 
@@ -90,6 +92,7 @@
         <script type="text/javascript" src="js/view/widgets/TextField.js"></script>
 
         <script type="text/javascript" src="js/view/widgets/Select2Field.js"></script>
+        <script type="text/javascript" src="js/view/widgets/DateField.js"></script>
 
         <%-- controllers --%>
         <script type="text/javascript" src="js/controller/AqcuRouter.js"></script>
