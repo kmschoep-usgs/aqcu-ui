@@ -684,6 +684,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		mySelectField.addClass("nwis-loading-indicator");
 		var _this = this;
 		var _callback = function(data) {
+			debugger
 			selectField.append('<option value="">Not selected</option>');
 			
 			var sortedArray=[];
@@ -691,9 +692,9 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 				sortedArray.push([opt,data[opt]])
 			}
 			sortedArray.sort(function(a,b){
-				if(a[1] > b[1]) {
+				if(a[1].identifier > b[1].identifier) {
 					return 1;
-				} else if(a[1] < b[1]) {
+				} else if(a[1].identifier < b[1].identifier) {
 					return -1;
 				} else {
 					return 0;
@@ -701,7 +702,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 			});
 			
 			for (var i = 0; i < sortedArray.length; i++) {
-				selectField.append('<option value="' + sortedArray[i][0] + '">' + sortedArray[i][1] + '</option>');
+				selectField.append('<option value="' + sortedArray[i][0] + '">' + sortedArray[i][1].identifier + '</option>');
 			}
 			_this.$(".vision_select_field_" + param.fieldName).removeClass("nwis-loading-indicator");
 			if(callback) {
