@@ -87,6 +87,19 @@
 }
 /** REPORT CONFIG: END **/
 
+/** REPORT CARDS: START **/
+.report-card {
+	margin-top: 1em;
+	min-height: 6em;
+	width: 100%;
+	border: solid black 1px;
+	border-radius: 10px;
+}
+
+.report-card h5 {
+	font-weight: bold;
+}
+/** REPORT CARDS: END **/
 
 #ccsa-area {
 	top: -10px;

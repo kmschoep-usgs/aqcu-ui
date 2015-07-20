@@ -684,7 +684,6 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		mySelectField.addClass("nwis-loading-indicator");
 		var _this = this;
 		var _callback = function(data) {
-			debugger
 			selectField.append('<option value="">Not selected</option>');
 			
 			var sortedArray=[];

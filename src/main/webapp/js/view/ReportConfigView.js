@@ -3,6 +3,13 @@
  */
 AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	templateName: 'report-config',
+	
+	//Someday this may change dynamically depending on selected TS
+	availableReports: [
+       AQCU.view.ExtremesReportView,
+       AQCU.view.VDiagramReportView,
+       AQCU.view.UvHydrographReportView
+       ],
        
 	/**
 	* Used by Backbone Stickit to bind HTML input elements to Backbone models.
@@ -18,31 +25,76 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		
 		//restores previously selected parameters for defaults if they exist 
 		var site = this.options.site || null;
-		var primaryTimeseriesIdentifier = this.options.primaryTimeseriesIdentifier ||
-			site ? AQCU.util.localStorage.getData("primaryForSite" + site) : null;
+		var selectedTimeSeries = this.options.selectedTimeSeries ||
+			site ? AQCU.util.localStorage.getData("selectedTimeSeries" + site) : null;
 		var startDate = this.options.startDate ||
-			site && primaryTimeseriesIdentifier ? AQCU.util.localStorage.getData("startDate-" + site+primaryTimeseriesIdentifier) : null;	
+			site ? AQCU.util.localStorage.getData("startDate-" + site) : null;	
 		var endDate = this.options.endDate ||
-			site && primaryTimeseriesIdentifier ? AQCU.util.localStorage.getData("endDate-" + site+primaryTimeseriesIdentifier) : null;	
+			site ? AQCU.util.localStorage.getData("endDate-" + site) : null;	
 			
 		this.parentModel = this.options.parentModel;
 		
 		this.model = this.options.model || new Backbone.Model({
 				site: site,
-				primaryTimeseriesIdentifier: primaryTimeseriesIdentifier,
 				startDate: startDate,
 				endDate: endDate,
+				selectedTimeSeries: selectedTimeSeries, 
 				requestParams: null //this gets set by select
 			});
 		
 		this.model.bind("change:site", this.siteUpdated, this);
+		this.model.bind("change:selectedTimeSeries", this.updateReportViews, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
+		
+		this.REMOVE_ME_TEST_DATA_INIT();
+	},
+	
+	REMOVE_ME_TEST_DATA_INIT: function() {
+		this.model.set('startDate', new Date().toISOString());
+		this.model.set('endDate', new Date().toISOString());
+		this.model.set('primaryTimeseriesIdentifier', 'a12d7fc43900440ab09e1ea48713f29d');
+		this.model.set('selectedTimeSeries', [ //java script has to convert kvp to array of TS 
+           {
+        	   "parameter": "Discharge",
+        	   "description": "DD003,00060,ft^3/s",
+        	   "computation": "Unknown",
+        	   "period": "Unknown",
+        	   "identifier": "Discharge.ft^3/s@06893390",
+        	   "units": "ft^3/s",
+        	   "uid" : "a12d7fc43900440ab09e1ea48713f29d"
+           },
+           {
+        	   "parameter": "Gage height",
+        	   "description": "DD002,00065,ft,DCP",
+        	   "computation": "Unknown",
+        	   "period": "Unknown",
+        	   "identifier": "Gage height.ft.Work@06893390",
+        	   "units": "ft",
+        	   "uid" : "f68ca269c90f44fcbda27b5f6d0a9858"
+           },
+           {
+        	   "parameter": "Discharge",
+        	   "description": "DD003,00060,ft^3/s,00003",
+        	   "computation": "Mean",
+        	   "period": "Daily",
+        	   "identifier": "Discharge.ft^3/s.Mean@06893390",
+        	   "units": "ft^3/s",
+        	   "uid": "02f1fcfe54e24d648961c36edc3ffe37"
+           }
+           ]);
+		
+		/*
+		  Rating request: https://localhost:8443/aqcu-front-end/service/lookup/derivationChain/ratingModel?timeSeriesIdentifier=a12d7fc43900440ab09e1ea48713f29d&startDate=2014-10-01T05%3A00%3A00.000Z&endDate=2014-10-31T05%3A00%3A00.000Z
+		  [
+			  "Gage height-Discharge.STGQ@06893390"
+			]
+		 */
 	},
 
 	/*override*/
 	preRender: function() {
 		this.context = {
-			site : this.model.get("site")
+			site : this.model.get("availableReports")
 		}
 	},
 	
@@ -52,7 +104,14 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		//TODO 
 		//timeseries selection
 		//date range selection
-		//report selection/configuration views
+		
+		for(var i = 0; i < this.availableReports.length; i++) {
+			var view = new this.availableReports[i]({
+					parentModel: this.model,
+					router: this.router
+			});
+			this.$('.available-reports').append(view.el);
+		}
 		
 		this.stickit();
 	},
@@ -63,5 +122,14 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	
 	setSite: function(site) {
 		this.model.set("site", site);
+	},
+	
+	//update report views with new user selections
+	updateReportViews: function() {
+		//update all report view cards
+	},
+	
+	launchReport: function() {
+		//get parameters from all sources, combine into one request config and launch report
 	}
 });
