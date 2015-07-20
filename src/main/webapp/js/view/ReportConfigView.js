@@ -6,10 +6,10 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	
 	//Someday this may change dynamically depending on selected TS
 	availableReports: [
-       AQCU.view.ExtremesReportView,
-       AQCU.view.VDiagramReportView,
-       AQCU.view.UvHydrographReportView
-       ],
+		AQCU.view.ExtremesReportView,
+		AQCU.view.VDiagramReportView,
+		AQCU.view.UvHydrographReportView
+		],
        
 	/**
 	* Used by Backbone Stickit to bind HTML input elements to Backbone models.
@@ -46,55 +46,13 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.model.bind("change:selectedTimeSeries", this.updateReportViews, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
 		
-		this.REMOVE_ME_TEST_DATA_INIT();
-	},
-	
-	REMOVE_ME_TEST_DATA_INIT: function() {
-		this.model.set('startDate', new Date().toISOString());
-		this.model.set('endDate', new Date().toISOString());
-		this.model.set('primaryTimeseriesIdentifier', 'a12d7fc43900440ab09e1ea48713f29d');
-		this.model.set('selectedTimeSeries', [ //java script has to convert kvp to array of TS 
-           {
-        	   "parameter": "Discharge",
-        	   "description": "DD003,00060,ft^3/s",
-        	   "computation": "Unknown",
-        	   "period": "Unknown",
-        	   "identifier": "Discharge.ft^3/s@06893390",
-        	   "units": "ft^3/s",
-        	   "uid" : "a12d7fc43900440ab09e1ea48713f29d"
-           },
-           {
-        	   "parameter": "Gage height",
-        	   "description": "DD002,00065,ft,DCP",
-        	   "computation": "Unknown",
-        	   "period": "Unknown",
-        	   "identifier": "Gage height.ft.Work@06893390",
-        	   "units": "ft",
-        	   "uid" : "f68ca269c90f44fcbda27b5f6d0a9858"
-           },
-           {
-        	   "parameter": "Discharge",
-        	   "description": "DD003,00060,ft^3/s,00003",
-        	   "computation": "Mean",
-        	   "period": "Daily",
-        	   "identifier": "Discharge.ft^3/s.Mean@06893390",
-        	   "units": "ft^3/s",
-        	   "uid": "02f1fcfe54e24d648961c36edc3ffe37"
-           }
-           ]);
-		
-		/*
-		  Rating request: https://localhost:8443/aqcu-front-end/service/lookup/derivationChain/ratingModel?timeSeriesIdentifier=a12d7fc43900440ab09e1ea48713f29d&startDate=2014-10-01T05%3A00%3A00.000Z&endDate=2014-10-31T05%3A00%3A00.000Z
-		  [
-			  "Gage height-Discharge.STGQ@06893390"
-			]
-		 */
+		this.availableReportViews = [];
 	},
 
 	/*override*/
 	preRender: function() {
 		this.context = {
-			site : this.model.get("availableReports")
+			site : this.model.get("site")
 		}
 	},
 	
@@ -111,9 +69,34 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 					router: this.router
 			});
 			this.$('.available-reports').append(view.el);
+			this.availableReportViews.push(view);
 		}
 		
 		this.stickit();
+		
+		this.REMOVE_ME_TEST_DATA_INIT();
+	},
+	
+	REMOVE_ME_TEST_DATA_INIT: function() {
+		this.model.set('startDate', new Date(2014, 9, 1, 0, 0, 0, 0).toISOString());
+		this.model.set('endDate', new Date(2014, 9, 31, 0, 0, 0, 0).toISOString());
+		this.model.set('selectedTimeSeries',  
+           {
+        	   "parameter": "Discharge",
+        	   "description": "DD003,00060,ft^3/s",
+        	   "computation": "Unknown",
+        	   "period": "Unknown",
+        	   "identifier": "Discharge.ft^3/s@06893390",
+        	   "units": "ft^3/s",
+        	   "uid" : "a12d7fc43900440ab09e1ea48713f29d"
+           });
+           
+		/*
+		  Rating request: https://localhost:8443/aqcu-front-end/service/lookup/derivationChain/ratingModel?timeSeriesIdentifier=a12d7fc43900440ab09e1ea48713f29d&startDate=2014-10-01T05%3A00%3A00.000Z&endDate=2014-10-31T05%3A00%3A00.000Z
+		  [
+			  "Gage height-Discharge.STGQ@06893390"
+			]
+		 */
 	},
 	
 	siteUpdated: function() {
@@ -127,9 +110,26 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	//update report views with new user selections
 	updateReportViews: function() {
 		//update all report view cards
+		var selectedTimeSeries = this.model.get("selectedTimeSeries");
+		var startDate = this.model.get("startDate");
+		var endDate = this.model.get("endDate");
+		for(var i = 0; i < this.availableReportViews.length; i++) {
+			var report = this.availableReportViews[i]
+			report.setSelectedTimeSeries(selectedTimeSeries);
+			report.setStartDate(startDate);
+			report.setEndDate(endDate);
+		};
 	},
 	
 	launchReport: function() {
+		var criteria = {
+			station : this.model.get("site").siteNumber.trim(),
+			startDate : this.model.get("startDate"),
+			endDate : this.model.get("endDate")
+		};
+
+		$.extend(criteria, this.model.get("requestParams"));
 		//get parameters from all sources, combine into one request config and launch report
+		this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + criteria.reportType + (!criteria.isHtml ? "/download" : ""), criteria, "");
 	}
 });
