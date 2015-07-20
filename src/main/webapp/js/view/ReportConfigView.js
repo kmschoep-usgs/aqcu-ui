@@ -105,6 +105,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	
 	setSite: function(site) {
 		this.model.set("site", site);
+		this.model.set("requestParams", null);
 	},
 	
 	//update report views with new user selections
@@ -122,14 +123,17 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	},
 	
 	launchReport: function() {
-		var criteria = {
-			station : this.model.get("site").siteNumber.trim(),
-			startDate : this.model.get("startDate"),
-			endDate : this.model.get("endDate")
-		};
-
-		$.extend(criteria, this.model.get("requestParams"));
-		//get parameters from all sources, combine into one request config and launch report
-		this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + criteria.reportType + (!criteria.isHtml ? "/download" : ""), criteria, "");
+		var requestParams = this.model.get("requestParams");
+		if(requestParams) {
+			var criteria = {
+				station : this.model.get("site").siteNumber.trim(),
+				startDate : this.model.get("startDate"),
+				endDate : this.model.get("endDate")
+			};
+		
+			$.extend(criteria, requestParams);
+			//get parameters from all sources, combine into one request config and launch report
+			this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + criteria.reportType + (!criteria.isHtml ? "/download" : ""), criteria, "");
+		}
 	}
 });
