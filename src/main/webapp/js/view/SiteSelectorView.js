@@ -62,6 +62,22 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	createSiteSelectorWidget: function() {
+	  setTimeout(function(){
+			
+		this.dateRange = new AQCU.view.DateField({
+			router: this.router,
+			renderTo: $('.date-test-widget'),
+			fieldConfig: {
+				isDateRange      : true,
+				includeLastMonths: true,
+				includeWaterYear : true,
+				displayName      : "Date Range",
+				fieldName        : "test_date_range",
+				description      : "Select last months range, enter a water year, or enter a start and end date."
+			},
+		});
+	  }, 500);
+		
 		
 		this.siteSelect = new AQCU.view.Select2Field({
 			router: this.router,
