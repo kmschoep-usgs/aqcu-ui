@@ -71,6 +71,7 @@
         <script type="text/javascript" src="js/view/SiteSelectorView.js"></script>
         <script type="text/javascript" src="js/view/TimeSeriesView.js"></script>
         <script type="text/javascript" src="js/view/TimeSeriesPrototypeView.js"></script>
+		<script type="text/javascript" src="js/view/TimeSeriesSelectionGridView.js"></script>
         
         <script type="text/javascript" src="js/view/reports/BaseReportView.js"></script>
         <script type="text/javascript" src="js/view/reports/ExtremesReportView.js"></script>
