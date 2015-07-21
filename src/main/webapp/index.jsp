@@ -65,7 +65,7 @@
         <script type="text/javascript" src="webjars/select2/4.0.0/js/select2.full.js"></script>
         <link rel="stylesheet" type="text/css" href="webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.css" />
         <script type="text/javascript" src="webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.js"></script>
-        <script type="text/javascript" src="webjars/jquery-dateFormat/1.0.2/dist/jquery-dateFormat.js"></script>
+        <script type="text/javascript" src="webjars/jquery-dateFormat/1.0.2/jquery-dateFormat.js"></script>
 
         <%-- models --%>
 
