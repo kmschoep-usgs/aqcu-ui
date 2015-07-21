@@ -17,8 +17,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	*/
 	bindings: {},
 
-	events: {
-	},
+	events: {},
 	
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
@@ -43,7 +42,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			});
 		
 		this.model.bind("change:site", this.siteUpdated, this);
-		this.model.bind("change:selectedTimeSeries", this.updateReportViews, this);
+		this.model.bind("change:selectedTimeSeries", this.updateView, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
 		
 		this.availableReportViews = [];
@@ -52,21 +51,26 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	/*override*/
 	preRender: function() {
 		this.context = {
-			site : this.model.get("site")
-		}
+			site : this.model.get("site"),
+			selectedTimeSeries : this.model.get("selectedTimeSeries")
+		};
 	},
 	
-	afterRender: function() {
+	afterRender: function () {
 		this.ajaxCalls = {}; //used to cancel in progress ajax calls if needed
-		
+
 		//TODO 
-		//timeseries selection
+
 		//date range selection
-		
-		for(var i = 0; i < this.availableReports.length; i++) {
+
+		this.fetchTimeSeries();
+
+		//TODO: This block has to be moved so that it is called when a time series
+		// is chosen.
+		for (var i = 0; i < this.availableReports.length; i++) {
 			var view = new this.availableReports[i]({
-					parentModel: this.model,
-					router: this.router
+				parentModel: this.model,
+				router: this.router
 			});
 			this.$('.available-reports').append(view.el);
 			this.availableReportViews.push(view);
@@ -80,32 +84,82 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	REMOVE_ME_TEST_DATA_INIT: function() {
 		this.model.set('startDate', new Date(2014, 9, 1, 0, 0, 0, 0).toISOString());
 		this.model.set('endDate', new Date(2014, 9, 31, 0, 0, 0, 0).toISOString());
-		this.model.set('selectedTimeSeries',  
-           {
-        	   "parameter": "Discharge",
-        	   "description": "DD003,00060,ft^3/s",
-        	   "computation": "Unknown",
-        	   "period": "Unknown",
-        	   "identifier": "Discharge.ft^3/s@06893390",
-        	   "units": "ft^3/s",
-        	   "uid" : "a12d7fc43900440ab09e1ea48713f29d"
-           });
-           
-		/*
-		  Rating request: https://localhost:8443/aqcu-front-end/service/lookup/derivationChain/ratingModel?timeSeriesIdentifier=a12d7fc43900440ab09e1ea48713f29d&startDate=2014-10-01T05%3A00%3A00.000Z&endDate=2014-10-31T05%3A00%3A00.000Z
-		  [
-			  "Gage height-Discharge.STGQ@06893390"
-			]
-		 */
+	},
+	
+	fetchTimeSeries: function () {
+		var site = this.model.get("site");
+		
+		if (site) {
+			$.ajax({
+				url: AQCU.constants.serviceEndpoint +
+						"/service/lookup/timeseries/identifiers",
+				timeout: 120000,
+				dataType: "json",
+				data: {
+					stationId: site.siteNumber,
+					computationIdentifier: "Unknown", //Unknown seems to be applied to non-mean/DV series
+					computationPeriodIdentifier: "Unknown" //Unknown seems to be applied to non-mean/DV series
+				},
+				context: this,
+				success: function (data) {
+					var sortedArray = [];
+					for (var opt in data) {
+						sortedArray.push([opt, data[opt]])
+					}
+					sortedArray.sort(function (a, b) {
+						if (a[1].identifier > b[1].identifier) {
+							return 1;
+						} else if (a[1].identifier < b[1].identifier) {
+							return -1;
+						} else {
+							return 0;
+						}
+					});
+					var sortedFormattedArray = [];
+					for (var i = 0; i < sortedArray.length; i++) {
+						var timeSeriesEntry = sortedArray[i][1];
+						timeSeriesEntry.uid = sortedArray[i][0];
+						sortedFormattedArray.push(timeSeriesEntry);
+					}
+					this.selectionGrid = new AQCU.view.TimeSeriesSelectionGridView({
+						parentModel: this.model,
+						router: this.router,
+						el: this.$(".time-series-selection-grid-container"),
+						timeSeriesList: sortedFormattedArray
+					});					
+				},
+				error: function () {
+
+				}
+			});
+		}
 	},
 	
 	siteUpdated: function() {
+		this.model.set("requestParams", null);
+		this.model.set("selectedTimeSeries", null);
 		this.render();
 	},
 	
 	setSite: function(site) {
 		this.model.set("site", site);
-		this.model.set("requestParams", null);
+	},
+	
+	updateView: function() {
+		var selectedTimeSeries = this.model.get("selectedTimeSeries");
+		var primaryTimeSeriesSelector = this.$(".primary-ts-selector");
+		var reportViewsContainer = this.$(".report-views-container");
+		var timeSeriesSelectionGrid = this.$(".time-series-selection-grid-container");
+		if(selectedTimeSeries){
+			primaryTimeSeriesSelector.removeClass("hidden");
+			reportViewsContainer.removeClass("hidden");
+			timeSeriesSelectionGrid.addClass("hidden");
+		}
+		else{
+			primaryTimeSeriesSelector.addClass("hidden");
+			reportViewsContainer.addClass("hidden");
+			timeSeriesSelectionGrid.removeClass("hidden");
+		}
 	},
 	
 	//update report views with new user selections
