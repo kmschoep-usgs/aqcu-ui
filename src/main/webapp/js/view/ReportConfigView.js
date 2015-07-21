@@ -17,8 +17,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	*/
 	bindings: {},
 
-	events: {
-	},
+	events: {},
 	
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
@@ -107,13 +106,11 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 
 		this.fetchTimeSeries();
 
-		for (var i = 0; i < this.availableReports.length; i++) {
-			var view = new this.availableReports[i]({
-				parentModel: this.model,
-				router: this.router
-			});
-			this.$('.available-reports').append(view.el);
-		}
+		//TODO: This block has to be moved so that it is called when a time series
+		// is chosen. i.e. on "click .time-series-selection-grid-row": "timeSeriesClicked"
+		// Moved the available reports block so that, on a time series selection,
+		// it renders the available reports.
+		//BLUEBERRY
 
 		this.stickit();
 	},
@@ -178,6 +175,14 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	//update report views with new user selections
 	updateReportViews: function() {
 		//update all report view cards
+		//BLUEBERRY
+		for (var i = 0; i < this.availableReports.length; i++) {
+			var view = new this.availableReports[i]({
+				parentModel: this.model,
+				router: this.router
+			});
+			this.$('.available-reports').append(view.el);
+		}
 	},
 	
 	launchReport: function() {
