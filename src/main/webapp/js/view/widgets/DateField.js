@@ -35,9 +35,9 @@ AQCU.view.DateField = Backbone.View.extend({
 			</div>\
 			{{/if}}\
 			{{#if includeWaterYear}}\
-			<div class='col-sm-2 col-lg-3'>\
+			<div class='col-sm-2 col-lg-3 vision_waterYear_{{fieldName}}'>\
 				<div style='float:left;margin-top:6px;'>\
-					<label>Water Year:</label>\
+					<label class='control-label'>Water Year:</label>\
 				</div>\
 				<div style='float:left;width:50%'>\
 			    	<input type='text' class='input-sm form-control vision_field vision_field_waterYear_{{fieldName}}'/>\
@@ -80,8 +80,9 @@ AQCU.view.DateField = Backbone.View.extend({
 			this.fieldConfig.isDateRange = true;
 		}
 		if (this.fieldConfig.includeWaterYear) {
-			this.waterYear  = ".vision_field_waterYear_" + this.fieldConfig.fieldName;
-			this.events["change " + this.waterYear] = this.updateWaterYear;
+			this.waterYearField = ".vision_field_waterYear_" + this.fieldConfig.fieldName;
+			this.waterYearGroup = ".vision_waterYear_" + this.fieldConfig.fieldName;
+			this.events["change " + this.waterYearField] = this.updateWaterYear;
 			this.fieldConfig.isDateRange = true;
 		}
 
@@ -105,22 +106,32 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.$(this.endField).val(end);
 	},
 	updateWaterYear: function() {
-		var year   = parseInt( this.$(this.waterYear).val() );
-		var date   = new Date();
+		this.$(this.waterYearGroup).removeClass("has-error");
 		
-		date.setDate(1);
-		date.setMonth(9); // Oct 
-		date.setYear(year-1);
-		var start  = this.formatDate(date);
-		
-		date.setDate(30);
-		date.setMonth(8);
-		date.setYear(year);
-		var end  = this.formatDate(date);
-		
-		this.$(this.startField).val(start);
-		this.$(this.endField).val(end);
-		
+		var year;
+		try {
+			year     = parseInt( this.$(this.waterYearField).val() );
+			var date = new Date();
+			
+			if ( ! $.isNumeric(year) || year > date.getYear()+1900 || year < 1900) {
+				throw new Error();
+			}
+			
+			date.setDate(1);
+			date.setMonth(9); // Oct 
+			date.setYear(year-1);
+			var start= this.formatDate(date);
+			
+			date.setDate(30);
+			date.setMonth(8);
+			date.setYear(year);
+			var end  = this.formatDate(date);
+			
+			this.$(this.startField).val(start);
+			this.$(this.endField).val(end);
+		} catch (e) {
+			this.$(this.waterYearGroup).addClass("has-error");
+		}
 	},
 	render: function() {
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
