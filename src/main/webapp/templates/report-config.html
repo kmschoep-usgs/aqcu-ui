@@ -9,7 +9,7 @@
 		</div>
 		<!-- TODO: Display only if selected time series has been set-->
 		<!-- TODO: Hook up the x button so that it clears selected time series-->
-		<div class="primary-ts-selector col-sm-2 col-lg-4"><span class="close-btn">X</span><span>Select a primary record</span></div>
+		<div class="primary-ts-selector col-sm-2 col-lg-4 {{#unless selectedTimeSeries}} hidden {{/unless}}"><span class="close-btn">X</span><span>Select a primary record</span></div>
 	</div>
 	
 	<!-- TODO: Only display if Selected time series has not been set-->
@@ -19,7 +19,7 @@
 	</div>
 	
 	<!-- TODO: Only display if Selected time series has been set -->
-	<div class="row">
+	<div class="report-views-container row {{#unless selectedTimeSeries}} hidden {{/unless}}">
 		<div class="available-reports col-sm-12 col-lg-12">
 		</div>
 	</div>

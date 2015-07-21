@@ -42,7 +42,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			});
 		
 		this.model.bind("change:site", this.siteUpdated, this);
-		this.model.bind("change:selectedTimeSeries", this.updateReportViews, this);
+		this.model.bind("change:selectedTimeSeries", this.updateView, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
 		
 		this.REMOVE_ME_TEST_DATA_INIT();
@@ -92,9 +92,11 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 
 	/*override*/
 	preRender: function() {
+		var selected = this.model.get("selectedTimeSeries");
 		this.context = {
-			site : this.model.get("site")
-		}
+			site : this.model.get("site"),
+			selectedTimeSeries : selected ? selected.identifier : null
+		};
 	},
 	
 	afterRender: function () {
@@ -107,14 +109,18 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.fetchTimeSeries();
 
 		//TODO: This block has to be moved so that it is called when a time series
-		// is chosen. i.e. on "click .time-series-selection-grid-row": "timeSeriesClicked"
-		// Moved the available reports block so that, on a time series selection,
-		// it renders the available reports.
-		//BLUEBERRY
-
+		// is chosen.
+		for (var i = 0; i < this.availableReports.length; i++) {
+			var view = new this.availableReports[i]({
+				parentModel: this.model,
+				router: this.router
+			});
+			this.$('.available-reports').append(view.el);
+		}
+		
 		this.stickit();
 	},
-
+	
 	fetchTimeSeries: function () {
 		var site = this.model.get("site");
 		
@@ -165,6 +171,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	},
 	
 	siteUpdated: function() {
+		this.model.set("selectedTimeSeries",null);
 		this.render();
 	},
 	
@@ -172,17 +179,26 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.model.set("site", site);
 	},
 	
+	updateView: function() {
+		var selectedTimeSeries = this.model.get("selectedTimeSeries");
+		var primaryTimeSeriesSelector = this.$(".primary-ts-selector");
+		var reportViewsContainer = this.$(".report-views-container");
+		var timeSeriesSelectionGrid = this.$(".time-series-selection-grid-container");
+		if(selectedTimeSeries){
+			primaryTimeSeriesSelector.removeClass("hidden");
+			reportViewsContainer.removeClass("hidden");
+			timeSeriesSelectionGrid.addClass("hidden");
+		}
+		else{
+			primaryTimeSeriesSelector.addClass("hidden");
+			reportViewsContainer.addClass("hidden");
+			timeSeriesSelectionGrid.removeClass("hidden");
+		}
+	},
+	
 	//update report views with new user selections
 	updateReportViews: function() {
 		//update all report view cards
-		//BLUEBERRY
-		for (var i = 0; i < this.availableReports.length; i++) {
-			var view = new this.availableReports[i]({
-				parentModel: this.model,
-				router: this.router
-			});
-			this.$('.available-reports').append(view.el);
-		}
 	},
 	
 	launchReport: function() {
