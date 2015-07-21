@@ -68,6 +68,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.fieldConfig = this.options.fieldConfig;
 		this.renderTo    = this.options.renderTo;
 		this.select2     = this.options.select2;
+		this.dateGroup   = ".input_date_" + this.fieldConfig.fieldName;
 		this.startField  = ".input_date_start_" + this.fieldConfig.fieldName;
 		this.endField    = ".input_date_end_" + this.fieldConfig.fieldName;
 		
@@ -90,20 +91,22 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.render();
 //		this.updateSelectedOption();
 	},
+	setDates: function(start, end) {
+		this.$(this.startField).datepicker('setDate', start);
+		this.$(this.endField  ).datepicker('setDate',   end);
+	},
 	formatDate: function(date) {
 		return $.format.date(date, "MM/dd/yyyy");
 	},
 	updateLastMonths: function() {
 		var months = 12 - this.$(this.lastMonths).prop('selectedIndex');
-		
-		var date   = new Date();
-		var end    = this.formatDate(date);
 
-		date.setMonth( date.getMonth() - months );
-		var start  = this.formatDate(date);
+		var end    = new Date();
+		var end    = new Date(end.getYear()+1900, end.getMonth(), end.getDate());
+		var start  = new Date(end.getYear()+1900, end.getMonth(), end.getDate());
+		start.setMonth( start.getMonth() - months );
 		
-		this.$(this.startField).val(start);
-		this.$(this.endField).val(end);
+		this.setDates(start, end);
 	},
 	updateWaterYear: function() {
 		this.$(this.waterYearGroup).removeClass("has-error");
@@ -117,18 +120,10 @@ AQCU.view.DateField = Backbone.View.extend({
 				throw new Error();
 			}
 			
-			date.setDate(1);
-			date.setMonth(9); // Oct 
-			date.setYear(year-1);
-			var start= this.formatDate(date);
+			var start = new Date(year-1, 9,  1);
+			var end   = new Date(year,   8, 30);
 			
-			date.setDate(30);
-			date.setMonth(8);
-			date.setYear(year);
-			var end  = this.formatDate(date);
-			
-			this.$(this.startField).val(start);
-			this.$(this.endField).val(end);
+			this.setDates(start,end);
 		} catch (e) {
 			this.$(this.waterYearGroup).addClass("has-error");
 		}
@@ -138,7 +133,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.$el.append(newDom);
 		this.renderTo.append(this.el);
 		
-		this.$('.input_date_'+this.fieldConfig.fieldName).datepicker({
+		this.$(this.dateGroup).datepicker({
 		    todayBtn: true,
 		    autoclose: true,
 		    todayHighlight: true
