@@ -186,24 +186,6 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.model.set("site", site);
 	},
 	
-	//TODO: Get rid of this function?
-	updateView: function() {
-		var selectedTimeSeries = this.model.get("selectedTimeSeries");
-		var primaryTimeSeriesSelector = this.$(".primary-ts-selector");
-		var reportViewsContainer = this.$(".report-views-container");
-		var timeSeriesSelectionGrid = this.$(".time-series-selection-grid-container");
-		if(selectedTimeSeries){
-			primaryTimeSeriesSelector.removeClass("hidden");
-			reportViewsContainer.removeClass("hidden");
-			timeSeriesSelectionGrid.addClass("hidden");
-		}
-		else{
-			primaryTimeSeriesSelector.addClass("hidden");
-			reportViewsContainer.addClass("hidden");
-			timeSeriesSelectionGrid.removeClass("hidden");
-		}
-	},
-	
 	//update report views with new user selections
 	updateReportViews: function() {
 		//update all report view cards
