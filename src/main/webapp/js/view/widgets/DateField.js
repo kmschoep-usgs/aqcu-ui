@@ -16,6 +16,16 @@ AQCU.view.DateField = Backbone.View.extend({
 				</label><br/>\
 			</div>\
 			{{/if}}\
+			{{#if includeWaterYear}}\
+			<div class='col-sm-2 col-lg-3 vision_waterYear_{{fieldName}}'>\
+				<div style='float:left;margin-top:6px;'>\
+					<label class='control-label'>Water Year:</label>\
+				</div>\
+				<div style='float:left;width:50%'>\
+			    	<input type='text' class='input-sm form-control vision_field vision_field_waterYear_{{fieldName}}'/>\
+				</div>\
+			</div>\
+			{{/if}}\
 			{{#if includeLastMonths}}\
 			<div class='col-sm-3 col-lg-3'>\
 				<select class='form-control vision_field_lastMonths_{{fieldName}}'>\
@@ -32,16 +42,6 @@ AQCU.view.DateField = Backbone.View.extend({
 					<option>Last  2 months</option>\
 					<option>Last month</option>\
 				</select>\
-			</div>\
-			{{/if}}\
-			{{#if includeWaterYear}}\
-			<div class='col-sm-2 col-lg-3 vision_waterYear_{{fieldName}}'>\
-				<div style='float:left;margin-top:6px;'>\
-					<label class='control-label'>Water Year:</label>\
-				</div>\
-				<div style='float:left;width:50%'>\
-			    	<input type='text' class='input-sm form-control vision_field vision_field_waterYear_{{fieldName}}'/>\
-				</div>\
 			</div>\
 			{{/if}}\
 			<div class='col-sm-4 col-lg-4'>\
