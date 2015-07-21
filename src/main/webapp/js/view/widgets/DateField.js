@@ -22,7 +22,7 @@ AQCU.view.DateField = Backbone.View.extend({
 					<label class='control-label'>Water Year:</label>\
 				</div>\
 				<div style='float:left;width:50%'>\
-			    	<input type='text' class='input-sm form-control vision_field vision_field_waterYear_{{fieldName}}'/>\
+			    	<input type='text' class='input-sm form-control vision_field vision_field_waterYear_{{fieldName}}' maxlength='4'/>\
 				</div>\
 			</div>\
 			{{/if}}\
@@ -76,9 +76,11 @@ AQCU.view.DateField = Backbone.View.extend({
 		
 		this.filterRequired = this.options.filterRequired;
 		
-		// TODO this could be a method
+		// TODO the next two conditional blocks could be a method
+		
 		if (this.fieldConfig.includeLastMonths) {
 			this.lastMonths  = ".vision_field_lastMonths_" + this.fieldConfig.fieldName;
+			// TODO decide if change is enough or if we should process on keyup
 			this.events["change " + this.lastMonths] = this.updateLastMonths;
 			this.fieldConfig.isDateRange = true;
 		}
@@ -91,6 +93,12 @@ AQCU.view.DateField = Backbone.View.extend({
 
 		Backbone.View.prototype.initialize.apply(this, arguments);
 		this.render();
+		
+		if (this.fieldConfig.includeLastMonths) {
+			// TODO in order for this to work the change events above must be processed - for now call direct work around
+			//this.$(this.lastMonths).change();
+			this.updateLastMonths();
+		}
 	},
 	setDates: function(start, end) {
 		this.$(this.startField).datepicker('setDate', start);
