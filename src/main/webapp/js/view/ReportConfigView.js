@@ -43,6 +43,9 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		
 		this.model.bind("change:site", this.siteUpdated, this);
 		this.model.bind("change:selectedTimeSeries", this.updateView, this);
+		this.model.bind("change:selectedTimeSeries", this.updateReportViews, this);
+		this.model.bind("change:startDate", this.updateReportViews, this);
+		this.model.bind("change:endDate", this.updateReportViews, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
 		
 		this.availableReportViews = [];
