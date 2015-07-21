@@ -17,7 +17,9 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	*/
 	bindings: {},
 
-	events: {},
+	events: {
+		"click .close-btn": "removeTimeSeries"
+	},
 	
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
@@ -42,10 +44,10 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			});
 		
 		this.model.bind("change:site", this.siteUpdated, this);
-		this.model.bind("change:selectedTimeSeries", this.updateView, this);
+		this.model.bind("change:selectedTimeSeries", this.updateSelectedTimeSeries, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
 		
-		this.REMOVE_ME_TEST_DATA_INIT();
+		//this.REMOVE_ME_TEST_DATA_INIT();
 	},
 	
 	REMOVE_ME_TEST_DATA_INIT: function() {
@@ -94,7 +96,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	preRender: function() {
 		this.context = {
 			site : this.model.get("site"),
-			//selectedTimeSeries : this.model.get("selectedTimeSeries")
+			selectedTimeSeries : this.model.get("selectedTimeSeries")
 		};
 	},
 	
@@ -107,8 +109,6 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 
 		this.fetchTimeSeries();
 
-		//TODO: This block has to be moved so that it is called when a time series
-		// is chosen.
 		for (var i = 0; i < this.availableReports.length; i++) {
 			var view = new this.availableReports[i]({
 				parentModel: this.model,
@@ -169,7 +169,16 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		}
 	},
 	
+	updateSelectedTimeSeries: function() {
+		this.render();
+	},
+	
+	removeTimeSeries: function() {
+		this.model.set("selectedTimeSeries", null);
+	},
+	
 	siteUpdated: function() {
+		this.model.set("selectedTimeSeries", null);
 		this.render();
 	},
 	
@@ -177,6 +186,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.model.set("site", site);
 	},
 	
+	//TODO: Get rid of this function?
 	updateView: function() {
 		var selectedTimeSeries = this.model.get("selectedTimeSeries");
 		var primaryTimeSeriesSelector = this.$(".primary-ts-selector");
