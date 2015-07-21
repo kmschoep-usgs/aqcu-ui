@@ -92,10 +92,9 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 
 	/*override*/
 	preRender: function() {
-		var selected = this.model.get("selectedTimeSeries");
 		this.context = {
 			site : this.model.get("site"),
-			selectedTimeSeries : selected ? selected.identifier : null
+			//selectedTimeSeries : this.model.get("selectedTimeSeries")
 		};
 	},
 	
@@ -171,7 +170,6 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	},
 	
 	siteUpdated: function() {
-		this.model.set("selectedTimeSeries",null);
 		this.render();
 	},
 	
