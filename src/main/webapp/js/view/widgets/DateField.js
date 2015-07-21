@@ -51,6 +51,7 @@ AQCU.view.DateField = Backbone.View.extend({
 				    <span class='input-group-addon'>to</span>\
 				    <input type='text' class='input-sm form-control vision_field input_date_end_{{fieldName}}' name='end' />\
 				    {{/if}}\
+					<input type='hidden' name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}'/>\
 				</div>\
 			</div>\
 		</div>"),
@@ -71,6 +72,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.dateGroup   = ".input_date_" + this.fieldConfig.fieldName;
 		this.startField  = ".input_date_start_" + this.fieldConfig.fieldName;
 		this.endField    = ".input_date_end_" + this.fieldConfig.fieldName;
+		this.hiddenField = ".vision_field_" + this.fieldConfig.fieldName;
 		
 		this.filterRequired = this.options.filterRequired;
 		
@@ -89,11 +91,18 @@ AQCU.view.DateField = Backbone.View.extend({
 
 		Backbone.View.prototype.initialize.apply(this, arguments);
 		this.render();
-//		this.updateSelectedOption();
 	},
 	setDates: function(start, end) {
 		this.$(this.startField).datepicker('setDate', start);
 		this.$(this.endField  ).datepicker('setDate',   end);
+		this.setHiddenValue();
+	},
+	getDates: function() {
+		var dates = this.$(this.startField).val();
+		if (dates.length == 10 && this.fieldConfig.isDateRange) {
+			dates += ","+ this.$(this.endField).val();
+		}
+		return dates;
 	},
 	formatDate: function(date) {
 		return $.format.date(date, "MM/dd/yyyy");
@@ -153,24 +162,19 @@ AQCU.view.DateField = Backbone.View.extend({
 		return binding;
 	},
 	getDisplayValue: function(value) {
-		return this.$(this.startField).val()
+		return this.getDates();
 	},
-//	/**
-//	 * Helper function to sync up the hidden value with the two date fields
-//	 */
-//	updateSelectedOption: function() {
-//		var value = this.$(this.field).val();
-//		this.$(this.selector).val(value);
-//	},
-//	/**
-//	 * Helper function, when when either display values are updated, the hidden value is updated
-//	 */
-//	setHiddenValue: function() {
-//		var oldVal = this.$(this.field).val();
-//		var newVal = this.$(this.selector).val();
-//		this.$(this.field).val(newVal);
-//		if (oldVal !== newVal) {
-//			this.$(this.field).change();
-//		}
-//	},
+
+	/**
+	 * Helper function, when when either display values are updated, the hidden value is updated
+	 */
+	setHiddenValue: function() {
+		var oldVal = this.$(this.hiddenField).val();
+		var newVal = this.getDates();
+
+		if (oldVal != newVal) {
+			this.$(this.hiddenField).val(newVal);
+			this.$(this.hiddenField).change();
+		}
+	}
 });
