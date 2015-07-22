@@ -69,14 +69,18 @@
 .time-series-selection-grid-header{
 	border: solid #A0A0A0 1px;
 	border-radius: 2px;
-	padding: .5em;
 	font-weight: bold;
 	background-color: #E6E6E6;
 }
 
-.time-series-vertical-line{
+.time-series-selection-grid-header > .time-series-vertical-line{
 	border-left: thin solid #A0A0A0;
-	
+}
+
+.time-series-selection-grid-header > div{
+	padding-top: .5em;
+	padding-bottom: .5em;
+	vertical-align: middle;
 }
 
 .time-series-selection-grid-row{
