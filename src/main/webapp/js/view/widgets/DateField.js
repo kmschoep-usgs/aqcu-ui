@@ -46,12 +46,11 @@ AQCU.view.DateField = Backbone.View.extend({
 			{{/if}}\
 			<div class='col-sm-4 col-lg-4'>\
 				<div class='input-daterange input-group input_date_{{fieldName}}' >\
-				    <input type='text' class='input-sm form-control vision_field input_date_start_{{fieldName}}' name='start' />\
+				    <input type='text' class='input-sm form-control vision_field input_date_start_{{fieldName}}' name='start_{{fieldName}}' />\
 				    {{#if isDateRange}}\
 				    <span class='input-group-addon'>to</span>\
-				    <input type='text' class='input-sm form-control vision_field input_date_end_{{fieldName}}' name='end' />\
+				    <input type='text' class='input-sm form-control vision_field input_date_end_{{fieldName}}' name='end_{{fieldName}}' />\
 				    {{/if}}\
-					<input type='hidden' name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}'/>\
 				</div>\
 			</div>\
 		</div>"),
@@ -64,51 +63,58 @@ AQCU.view.DateField = Backbone.View.extend({
 	 * Will create and render a text field using a fieldConfig options defined in NWIS Search Models.
 	 */
 	initialize: function() {
-		this.router      = this.options.router; //NWIS Vision Router
-		this.searchModel = this.options.searchModel; //NWIS search model
+		this.model       = this.options.model || this.options.searchModel; // stickit requires model not searchModel
 		this.fieldConfig = this.options.fieldConfig;
 		this.renderTo    = this.options.renderTo;
-		this.select2     = this.options.select2;
+		this.waterYearMin= this.options.waterYearMin       ?this.options.waterYearMin       :1900;
+		this.startDate   = this.options.startDateFieldName ?this.options.startDateFieldName :"startDate";
+		this.endDate     = this.options.endDateFieldName   ?this.options.endDateFieldName   :"endDate";
 		this.dateGroup   = ".input_date_" + this.fieldConfig.fieldName;
 		this.startField  = ".input_date_start_" + this.fieldConfig.fieldName;
 		this.endField    = ".input_date_end_" + this.fieldConfig.fieldName;
 		this.hiddenField = ".vision_field_" + this.fieldConfig.fieldName;
 		
-		this.filterRequired = this.options.filterRequired;
+		this.bindings = {}; // TODO can binding be dynamic like this?
+		this.bindings[this.startField] = this.startDate;
+		this.bindings[this.endField]   = this.endDate;
 		
-		// TODO the next two conditional blocks could be a method
-		
-		if (this.fieldConfig.includeLastMonths) {
-			this.lastMonths  = ".vision_field_lastMonths_" + this.fieldConfig.fieldName;
-			// TODO decide if change is enough or if we should process on keyup
-			this.events["change " + this.lastMonths] = this.updateLastMonths;
-			this.fieldConfig.isDateRange = true;
+		// helper function to capitalize the first letter of a string
+		var firstCap = function(string) {
+		    return string.charAt(0).toUpperCase() + string.slice(1);
 		}
-		if (this.fieldConfig.includeWaterYear) {
-			this.waterYearField = ".vision_field_waterYear_" + this.fieldConfig.fieldName;
-			this.waterYearGroup = ".vision_waterYear_" + this.fieldConfig.fieldName;
-			this.events["change " + this.waterYearField] = this.updateWaterYear;
-			this.fieldConfig.isDateRange = true;
+		// helper function that creates field reference names and change listeners for date helper fields
+		var listener = function(view, field, method) {
+			// first check if the user wants this date fast edit field
+			if (view.fieldConfig["include"+firstCap(field)]) {
+				// create field reference values or the fast date field
+				view[field+"Field"] = ".vision_field_"+ field +"_"+ view.fieldConfig.fieldName;
+				view[field+"Group"] = ".vision_"+ field +"_"+ view.fieldConfig.fieldName;
+				// listen for changes on that field
+				view.events["change " + view[field+"Field"]] = method;
+				view.fieldConfig.isDateRange = true;
+			}
 		}
+		listener(this, "lastMonths", this.updateLastMonths);
+		listener(this, "waterYear", this.updateWaterYear); // TODO decide if change is enough or if we should process on keyup
 
 		Backbone.View.prototype.initialize.apply(this, arguments);
 		this.render();
+		this.stickit();
 		
 		if (this.fieldConfig.includeLastMonths) {
 			// TODO in order for this to work the change events above must be processed - for now call direct work around
-			//this.$(this.lastMonths).change();
+			//this.$(this.lastMonthsField).change();
 			this.updateLastMonths();
 		}
 	},
 	setDates: function(start, end) {
 		this.$(this.startField).datepicker('setDate', start);
 		this.$(this.endField  ).datepicker('setDate',   end);
-		this.setHiddenValue();
 	},
 	getDates: function() {
-		var dates = this.$(this.startField).val();
+		var dates = [this.$(this.startField).val()];
 		if (dates.length == 10 && this.fieldConfig.isDateRange) {
-			dates += ","+ this.$(this.endField).val();
+			dates.push(this.$(this.endField).val());
 		}
 		return dates;
 	},
@@ -116,7 +122,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		return $.format.date(date, "MM/dd/yyyy");
 	},
 	updateLastMonths: function() {
-		var months = 12 - this.$(this.lastMonths).prop('selectedIndex');
+		var months = 12 - this.$(this.lastMonthsField).prop('selectedIndex');
 
 		var end    = new Date();
 		var end    = new Date(end.getYear()+1900, end.getMonth(), end.getDate());
@@ -133,7 +139,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			year     = parseInt( this.$(this.waterYearField).val() );
 			var date = new Date();
 			
-			if ( ! $.isNumeric(year) || year > date.getYear()+1900 || year < 1900) {
+			if ( ! $.isNumeric(year) || year > date.getYear()+1900 || year < this.waterYearMin) {
 				throw new Error();
 			}
 			
@@ -155,34 +161,5 @@ AQCU.view.DateField = Backbone.View.extend({
 		    autoclose: true,
 		    todayHighlight: true
 		});
-
-	},
-	/**
-	 * The HTML that is generated here can be bound using Backbone stickit with the following
-	 * config attributes.
-	 * @returns JSON object containing a single config for this element
-	 */
-	getBindingConfig: function() {
-		var binding = {};
-		binding[this.field] = {
-			observe: this.fieldConfig.fieldName
-		};
-		return binding;
-	},
-	getDisplayValue: function(value) {
-		return this.getDates();
-	},
-
-	/**
-	 * Helper function, when when either display values are updated, the hidden value is updated
-	 */
-	setHiddenValue: function() {
-		var oldVal = this.$(this.hiddenField).val();
-		var newVal = this.getDates();
-
-		if (oldVal != newVal) {
-			this.$(this.hiddenField).val(newVal);
-			this.$(this.hiddenField).change();
-		}
 	}
 });

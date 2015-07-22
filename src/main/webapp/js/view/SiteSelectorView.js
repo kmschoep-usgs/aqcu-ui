@@ -66,6 +66,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			
 		this.dateRange = new AQCU.view.DateField({
 			router: this.router,
+			model:new Backbone.Model({}), // TODO this will be a real model
 			renderTo: $('.date-test-widget'),
 			fieldConfig: {
 				isDateRange      : true,
