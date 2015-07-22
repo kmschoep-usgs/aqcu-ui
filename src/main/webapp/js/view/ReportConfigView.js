@@ -148,11 +148,13 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			primaryTimeSeriesSelector.removeClass("hidden");
 			reportViewsContainer.removeClass("hidden");
 			timeSeriesSelectionGrid.addClass("hidden");
+			this.$(".selected-identifier").html(selectedTimeSeries.identifier);
 		}
 		else{
 			primaryTimeSeriesSelector.addClass("hidden");
 			reportViewsContainer.addClass("hidden");
 			timeSeriesSelectionGrid.removeClass("hidden");
+			this.$(".selected-identifier").html("");
 		}
 	},
 	

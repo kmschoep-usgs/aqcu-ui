@@ -9,9 +9,7 @@
 		</div>
 		
 		<div class="primary-ts-selector col-sm-4 col-lg-6 {{#unless selectedTimeSeries}} hidden {{/unless}}"><span class="close-btn">X</span>
-			{{#if selectedTimeSeries}}<span>{{selectedTimeSeries.identifier}}</span>
-			{{else}}<span>Select a primary record</span>
-			{{/if}}
+			<span class="selected-identifier"></span>
 		</div>
 	</div>
 	
