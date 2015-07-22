@@ -1,6 +1,6 @@
 <div class="report-config container">
 	<div class="row">
-		<div class="header col-sm-10 col-lg-8">
+		<div class="header col-sm-8 col-lg-6">
 			{{#if site}}
 			{{site.siteNumber}} - {{site.siteName}}
 			{{else}}
@@ -8,7 +8,7 @@
 			{{/if}}
 		</div>
 		
-		<div class="primary-ts-selector col-sm-2 col-lg-4 {{#unless selectedTimeSeries}} hidden {{/unless}}"><span class="close-btn">X</span>
+		<div class="primary-ts-selector col-sm-4 col-lg-6 {{#unless selectedTimeSeries}} hidden {{/unless}}"><span class="close-btn">X</span>
 			{{#if selectedTimeSeries}}<span>{{selectedTimeSeries.identifier}}</span>
 			{{else}}<span>Select a primary record</span>
 			{{/if}}
