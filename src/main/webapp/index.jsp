@@ -19,7 +19,7 @@
 
         <link rel="stylesheet" href="js/lib/bootstrap-transfer/css/bootstrap-transfer.css" type="text/css" />
         <%-- multi-select shuttle box styling --%>
-        <link rel="stylesheet" type="text/css" href="webjars/font-awesome/4.0.3/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="webjars/font-awesome/4.3.0/css/font-awesome.min.css" />
         <%-- http://fortawesome.github.io/Font-Awesome/ via http://www.webjars.org/ --%>
 
 		<jsp:include page="/WEB-INF/jsp/constants.jsp"></jsp:include>

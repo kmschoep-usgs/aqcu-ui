@@ -90,6 +90,7 @@ AQCU.view.SelectField = Backbone.View.extend({
 	
 	setSelectOptions: function(data) {
 		var selectField = this.$(".vision_select_field_" + this.fieldConfig.fieldName);
+		selectField.html("");
 		selectField.append('<option value="">Not selected</option>');
 		for (var i = 0; i < data.length; i++) {
 			selectField.append('<option value="' + data[i]["KeyValue"] + '">' + data[i]["DisplayValue"] + '</option>');

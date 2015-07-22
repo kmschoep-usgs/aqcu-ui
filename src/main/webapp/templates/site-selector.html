@@ -6,7 +6,8 @@
 <ul class=site-selector-site-list>
 	{{#each sites}}
 	<li {{#if selected}}class="site-selector-selected-site"{{/if}}>
+	<div class="site-selector-remove-site" siteNumber="{{siteNumber}}">&times;</div>
 	<span class="site-selector-list-item" siteNumber="{{siteNumber}}" siteName="{{siteName}}">
-	{{siteNumber}} - {{siteName}}</span><span class="site-selector-remove-site" siteNumber="{{siteNumber}}">X</span></li>
+	{{siteNumber}} - {{siteName}}</span></li>
 	{{/each}}
 </ul>
