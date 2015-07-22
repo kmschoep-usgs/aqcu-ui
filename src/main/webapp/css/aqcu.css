@@ -109,7 +109,7 @@
 	min-width: 25%;
 }
 
-/** TODO: uid no longer displayed. 
+/** uid no longer displayed. 
 .time-series-uid{
 	text-overflow: ellipsis;
 	width: 6.5em; 
