@@ -1,21 +1,21 @@
 <div class="container time-series-selection-grid">
 	<div class="row time-series-selection-grid-header">
-		<div class="col-sm-1 col-lg-1">Computation</div>
-		<div class="col-sm-3 col-lg-3">Description</div>
-		<div class="col-sm-3 col-lg-3">Identifier</div>
 		<div class="col-sm-2 col-lg-2">Parameter</div>
-		<div class="col-sm-1 col-lg-1">Period</div>
-		<div class="col-sm-1 col-lg-1">UID</div>
-		<div class="col-sm-1 col-lg-1">Units</div>
+		<div class="time-series-vertical-line col-sm-3 col-lg-3">Identifier</div>
+		<div class="time-series-vertical-line col-sm-3 col-lg-3">Description</div>
+		<div class="time-series-vertical-line col-sm-2 col-lg-2">Computation</div>
+		<div class="time-series-vertical-line col-sm-1 col-lg-1">Period</div>
+<!--		<div class="time-series-vertical-line col-sm-1 col-lg-1">UID</div> -->
+		<div class="time-series-vertical-line col-sm-1 col-lg-1">Units</div>
 	</div>
 	{{#each timeSeriesList}}
 	<div class="row time-series-selection-grid-row" id="timeseries-{{@index}}">
-		<div class="col-sm-1 col-lg-1">{{computation}}</div>
-		<div class="col-sm-3 col-lg-3">{{description}}</div>
-		<div class="col-sm-3 col-lg-3">{{identifier}}</div>
 		<div class="col-sm-2 col-lg-2">{{parameter}}</div>
+		<div class="time-series-identifier col-sm-3 col-lg-3">{{identifier}}</div>
+		<div class="time-series-description col-sm-3 col-lg-3">{{description}}</div>
+		<div class="col-sm-2 col-lg-2">{{computation}}</div>
 		<div class="col-sm-1 col-lg-1">{{period}}</div>
-		<div class="col-sm-1 col-lg-1">{{uid}}</div>
+<!--	<div class="time-series-uid col-sm-1 col-lg-1">{{uid}}</div> -->
 		<div class="col-sm-1 col-lg-1">{{units}}</div>
 	</div>
 	{{/each}}
