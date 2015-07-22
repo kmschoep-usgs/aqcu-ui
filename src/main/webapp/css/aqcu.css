@@ -63,6 +63,72 @@
 }
 /** SITE SELECTOR: END **/
 
+/** TIME SERIES SELECTION: START **/
+.time-series-selection-grid{
+	width:150%;
+}
+
+.time-series-selection-grid-header{
+	border: solid #A0A0A0 1px;
+	border-radius: 2px;
+	font-weight: bold;
+	background-color: #E6E6E6;
+}
+
+.time-series-selection-grid-header > .time-series-vertical-line{
+	border-left: thin solid #A0A0A0;
+}
+
+.time-series-selection-grid-header > div{
+	padding-top: .5em;
+	padding-bottom: .5em;
+	vertical-align: middle;
+}
+
+.time-series-selection-grid-row{
+	cursor: pointer;
+	padding: 6px 1px;
+	border-bottom: 1px solid #A0A0A0 ;
+}
+
+.time-series-selection-grid-row:hover{
+	background-color: #E4E4E4;
+}
+
+.time-series-identifier{
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.time-series-identifier:hover{
+	width: auto;
+	min-width: 25%;
+}
+
+.time-series-description{
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.time-series-description:hover{
+	width: auto;
+	min-width: 25%;
+}
+
+/** uid no longer displayed. 
+.time-series-uid{
+	text-overflow: ellipsis;
+	width: 6.5em; 
+	overflow: hidden;
+}
+
+.time-series-uid:hover{
+	width: auto;
+	
+}
+**/
+
+/** TIME SERIES SELECTION: END **/
 
 /** REPORT CONFIG: START **/
 .report-config-panel {
@@ -79,7 +145,9 @@
 	color: white;
 	padding: .5em;
 	border-radius: 5px;
-	width: auto;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .report-config .primary-ts-selector .close-btn {

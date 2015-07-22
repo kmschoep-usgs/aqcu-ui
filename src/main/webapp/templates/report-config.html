@@ -1,24 +1,26 @@
 <div class="report-config container">
 	<div class="row">
-		<div class="header col-sm-10 col-lg-8">
+		<div class="header col-sm-8 col-lg-6">
 			{{#if site}}
 			{{site.siteNumber}} - {{site.siteName}}
 			{{else}}
 			<<< SELECT A SITE
 			{{/if}}
 		</div>
-		<!-- TODO: Display only if selected time series has been set-->
-		<!-- TODO: Hook up the x button so that it clears selected time series-->
-		<div class="primary-ts-selector col-sm-2 col-lg-4 {{#unless selectedTimeSeries}} hidden {{/unless}}"><span class="close-btn">X</span><span>Select a primary record</span></div>
-	</div>
-	
-	<!-- TODO: Only display if Selected time series has not been set-->
-	<div class="row">
-		<div class="time-series-selection-grid-container col-sm-12 col-lg-12">
+		
+		<div class="primary-ts-selector col-sm-4 col-lg-6 {{#unless selectedTimeSeries}} hidden {{/unless}}"><span class="close-btn">X</span>
+			{{#if selectedTimeSeries}}<span>{{selectedTimeSeries.identifier}}</span>
+			{{else}}<span>Select a primary record</span>
+			{{/if}}
 		</div>
 	</div>
 	
-	<!-- TODO: Only display if Selected time series has been set -->
+
+	<div class="row">
+		<div class="time-series-selection-grid-container col-sm-12 col-lg-12 {{#if selectedTimeSeries}} hidden {{/if}}">
+		</div>
+	</div>
+	
 	<div class="report-views-container row {{#unless selectedTimeSeries}} hidden {{/unless}}">
 		<div class="available-reports col-sm-12 col-lg-12">
 		</div>

@@ -17,7 +17,9 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	*/
 	bindings: {},
 
-	events: {},
+	events: {
+		"click .close-btn": "removeTimeSeries"
+	},
 	
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
@@ -42,15 +44,16 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			});
 		
 		this.model.bind("change:site", this.siteUpdated, this);
-		this.model.bind("change:selectedTimeSeries", this.updateView, this);
+		this.model.bind("change:selectedTimeSeries", this.updateSelectedTimeSeries, this);
 		this.model.bind("change:selectedTimeSeries", this.updateReportViews, this);
 		this.model.bind("change:startDate", this.updateReportViews, this);
 		this.model.bind("change:endDate", this.updateReportViews, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
 		
 		this.availableReportViews = [];
+		//this.REMOVE_ME_TEST_DATA_INIT();
 	},
-
+	
 	/*override*/
 	preRender: function() {
 		this.context = {
@@ -68,8 +71,6 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 
 		this.fetchTimeSeries();
 
-		//TODO: This block has to be moved so that it is called when a time series
-		// is chosen.
 		for (var i = 0; i < this.availableReports.length; i++) {
 			var view = new this.availableReports[i]({
 				parentModel: this.model,
@@ -138,6 +139,14 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		}
 	},
 	
+	updateSelectedTimeSeries: function() {
+		this.render();
+	},
+	
+	removeTimeSeries: function() {
+		this.model.set("selectedTimeSeries", null);
+	},
+	
 	siteUpdated: function() {
 		this.model.set("requestParams", null);
 		this.model.set("selectedTimeSeries", null);
@@ -146,23 +155,6 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	
 	setSite: function(site) {
 		this.model.set("site", site);
-	},
-	
-	updateView: function() {
-		var selectedTimeSeries = this.model.get("selectedTimeSeries");
-		var primaryTimeSeriesSelector = this.$(".primary-ts-selector");
-		var reportViewsContainer = this.$(".report-views-container");
-		var timeSeriesSelectionGrid = this.$(".time-series-selection-grid-container");
-		if(selectedTimeSeries){
-			primaryTimeSeriesSelector.removeClass("hidden");
-			reportViewsContainer.removeClass("hidden");
-			timeSeriesSelectionGrid.addClass("hidden");
-		}
-		else{
-			primaryTimeSeriesSelector.addClass("hidden");
-			reportViewsContainer.addClass("hidden");
-			timeSeriesSelectionGrid.removeClass("hidden");
-		}
 	},
 	
 	//update report views with new user selections
