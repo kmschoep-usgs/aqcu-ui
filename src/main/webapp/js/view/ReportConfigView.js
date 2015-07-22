@@ -44,7 +44,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			});
 		
 		this.model.bind("change:site", this.siteUpdated, this);
-		this.model.bind("change:selectedTimeSeries", this.updateSelectedTimeSeries, this);
+		this.model.bind("change:selectedTimeSeries", this.updateView, this);
 		this.model.bind("change:selectedTimeSeries", this.updateReportViews, this);
 		this.model.bind("change:startDate", this.updateReportViews, this);
 		this.model.bind("change:endDate", this.updateReportViews, this);
@@ -139,8 +139,21 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		}
 	},
 	
-	updateSelectedTimeSeries: function() {
-		this.render();
+	updateView: function() {
+		var selectedTimeSeries = this.model.get("selectedTimeSeries");
+		var primaryTimeSeriesSelector = this.$(".primary-ts-selector");
+		var reportViewsContainer = this.$(".report-views-container");
+		var timeSeriesSelectionGrid = this.$(".time-series-selection-grid-container");
+		if(selectedTimeSeries){
+			primaryTimeSeriesSelector.removeClass("hidden");
+			reportViewsContainer.removeClass("hidden");
+			timeSeriesSelectionGrid.addClass("hidden");
+		}
+		else{
+			primaryTimeSeriesSelector.addClass("hidden");
+			reportViewsContainer.addClass("hidden");
+			timeSeriesSelectionGrid.removeClass("hidden");
+		}
 	},
 	
 	removeTimeSeries: function() {
@@ -186,6 +199,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			$.extend(criteria, requestParams);
 			//get parameters from all sources, combine into one request config and launch report
 			this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + reportOptions.reportType + (!reportOptions.isHtml ? "/download" : ""), criteria, "");
+			this.model.set("requestParams", null);
 		}
 	}
 });
