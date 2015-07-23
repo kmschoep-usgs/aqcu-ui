@@ -70,12 +70,14 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			model : this.model,
 			renderTo: $('.date-range'),
 			fieldConfig: {
-				isDateRange      : true,
-				includeLastMonths: true,
-				includeWaterYear : true,
-				displayName      : "Date Range",
-				fieldName        : "date_range",
-				description      : "Select last months range, enter a water year, or enter a start and end date."
+				isDateRange        : true,
+				includeLastMonths  : true,
+				includeWaterYear   : true,
+				startDateFieldName : "startDate";
+				endDateFieldName   : "endDate";
+				displayName        : "Date Range",
+				fieldName          : "date_range",
+				description        : "Select last months range, enter a water year, or enter a start and end date."
 			},
 		});
 
