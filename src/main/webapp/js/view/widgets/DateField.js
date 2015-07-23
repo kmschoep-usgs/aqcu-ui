@@ -28,8 +28,8 @@ AQCU.view.DateField = Backbone.View.extend({
 			{{#if includeLastMonths}}\
 			<div class='col-sm-3 col-lg-3'>\
 				<select class='form-control vision_field_lastMonths_{{fieldName}}'>\
-					<option value='none'>Select Recent Months</option>\
-					<option selected='true'>Last 12 months</option>\
+					<option selected='selected'>Select Recent Months</option>\
+					<option>Last 12 months</option>\
 					<option>Last 11 months</option>\
 					<option>Last 10 months</option>\
 					<option>Last  9 months</option>\
