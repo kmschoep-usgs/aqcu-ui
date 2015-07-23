@@ -31,9 +31,17 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	},
 	
 	preRender: function(){
+		/** The block below changes the identifiers so that the site number
+		 * is not displayed after the descriptive elements of the identifier.
+		 * It does so by splitting on "@" and using only the first element of the formed array. **/
+		var timeSeriesList = this.model.get("timeSeriesList");
+		for(var i=0;i < timeSeriesList.length;i++){
+			timeSeriesList[i]["identifier"] = 
+				timeSeriesList[i]["identifier"].split("@",1)[0];
+		}
 		this.context = {
 			selectedTimeSeries: this.model.get("selectedTimeSeries"),
-			timeSeriesList: this.model.get("timeSeriesList")
+			timeSeriesList: timeSeriesList
 		};
 	},
 	
