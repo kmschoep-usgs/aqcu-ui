@@ -65,9 +65,19 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	afterRender: function () {
 		this.ajaxCalls = {}; //used to cancel in progress ajax calls if needed
 
-		//TODO 
-
-		//date range selection
+		this.dateRange = new AQCU.view.DateField({
+			router: this.router,
+			model : this.model,
+			renderTo: $('.date-range'),
+			fieldConfig: {
+				isDateRange      : true,
+				includeLastMonths: true,
+				includeWaterYear : true,
+				displayName      : "Date Range",
+				fieldName        : "date_range",
+				description      : "Select last months range, enter a water year, or enter a start and end date."
+			},
+		});
 
 		this.fetchTimeSeries();
 
