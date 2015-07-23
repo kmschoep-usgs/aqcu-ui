@@ -66,9 +66,12 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.model       = this.options.model || this.options.searchModel; // stickit requires model not searchModel
 		this.fieldConfig = this.options.fieldConfig;
 		this.renderTo    = this.options.renderTo;
+		
 		this.waterYearMin= this.options.waterYearMin       ?this.options.waterYearMin       :1900;
 		this.startDate   = this.options.startDateFieldName ?this.options.startDateFieldName :"startDate";
 		this.endDate     = this.options.endDateFieldName   ?this.options.endDateFieldName   :"endDate";
+		this.dateFormat  = this.options.format             ?this.options.format             :"mm/dd/yyyy";
+		
 		this.dateGroup   = ".input_date_" + this.fieldConfig.fieldName;
 		this.startField  = ".input_date_start_" + this.fieldConfig.fieldName;
 		this.endField    = ".input_date_end_" + this.fieldConfig.fieldName;
@@ -122,7 +125,8 @@ AQCU.view.DateField = Backbone.View.extend({
 		return dates;
 	},
 	formatDate: function(date) {
-		return $.format.date(date, "MM/dd/yyyy");
+		// TODO note that jquery-dateFormat and bootstrap-datepicker are not aligned on MM vs mm for 01 month 
+		return $.format.date(date, this.dateFormat);
 	},
 	updateLastMonths: function() {
 		var months = 13 - this.$(this.lastMonthsField).prop('selectedIndex');
@@ -162,9 +166,10 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.renderTo.append(this.el);
 		
 		this.$(this.dateGroup).datepicker({
-		    todayBtn: true,
-		    autoclose: true,
-		    todayHighlight: true
+		    todayBtn      : true,
+		    autoclose     : true,
+		    todayHighlight: true,
+		    format        : this.dateFormat,
 		});
 		
 		var view = this;
