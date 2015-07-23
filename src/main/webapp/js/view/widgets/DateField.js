@@ -8,12 +8,11 @@ AQCU.view.DateField = Backbone.View.extend({
 	template: Handlebars.compile("\
 		<div class='nwis-field-container form-inline'>\
 			{{#if displayName}}\
-			<div class='col-sm-2 col-lg-2' style='margin-top:6px;'>\
-				<label for='{{fieldName}}'>{{displayName}}&nbsp;&nbsp;\
+			<div class='col-sm-2 col-lg-2'>\
+				<h5><label for='{{fieldName}}'>{{displayName}}&nbsp;</label>\
 				{{#if description}}\
 					<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
 				{{/if}}\
-				</label><br/>\
 			</div>\
 			{{/if}}\
 			{{#if includeWaterYear}}\
@@ -29,7 +28,8 @@ AQCU.view.DateField = Backbone.View.extend({
 			{{#if includeLastMonths}}\
 			<div class='col-sm-3 col-lg-3'>\
 				<select class='form-control vision_field_lastMonths_{{fieldName}}'>\
-					<option>Last 12 months</option>\
+					<option value='none'>Select Recent Months</option>\
+					<option selected='true'>Last 12 months</option>\
 					<option>Last 11 months</option>\
 					<option>Last 10 months</option>\
 					<option>Last  9 months</option>\
@@ -104,7 +104,10 @@ AQCU.view.DateField = Backbone.View.extend({
 		if (this.fieldConfig.includeLastMonths) {
 			// TODO in order for this to work the change events above must be processed - for now call direct work around
 			//this.$(this.lastMonthsField).change();
-			this.updateLastMonths();
+			var view = this;
+			setTimeout(function() {
+				view.updateLastMonths();
+			},500);
 		}
 	},
 	setDates: function(start, end) {
@@ -122,7 +125,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		return $.format.date(date, "MM/dd/yyyy");
 	},
 	updateLastMonths: function() {
-		var months = 12 - this.$(this.lastMonthsField).prop('selectedIndex');
+		var months = 13 - this.$(this.lastMonthsField).prop('selectedIndex');
 
 		var end    = new Date();
 		var end    = new Date(end.getYear()+1900, end.getMonth(), end.getDate());
@@ -130,6 +133,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		start.setMonth( start.getMonth() - months );
 		
 		this.setDates(start, end);
+		this.clearFields(this.lastMonthsField);
 	},
 	updateWaterYear: function() {
 		this.$(this.waterYearGroup).removeClass("has-error");
@@ -147,6 +151,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			var end   = new Date(year,   8, 30);
 			
 			this.setDates(start,end);
+			this.clearFields(this.waterYearField);
 		} catch (e) {
 			this.$(this.waterYearGroup).addClass("has-error");
 		}
@@ -161,5 +166,20 @@ AQCU.view.DateField = Backbone.View.extend({
 		    autoclose: true,
 		    todayHighlight: true
 		});
+		
+		var view = this;
+		this.$(this.dateGroup).datepicker()
+		    .on("hide", function(e) {
+				view.clearFields();
+		    });
+	},
+	clearFields: function(exclude) {
+		if (exclude !== this.waterYearField) {
+			this.$(this.waterYearField).val("");
+		}
+		if (exclude !== this.lastMonthsField) {
+			this.$(this.lastMonthsField).val('none');
+		}
+		
 	}
 });
