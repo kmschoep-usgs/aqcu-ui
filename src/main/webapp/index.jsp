@@ -22,8 +22,8 @@
         <link rel="stylesheet" type="text/css" href="webjars/font-awesome/4.3.0/css/font-awesome.min.css" />
         <%-- http://fortawesome.github.io/Font-Awesome/ via http://www.webjars.org/ --%>
 
-		<jsp:include page="/WEB-INF/jsp/constants.jsp"></jsp:include>
-		<%-- Load constants for the application from JNDI into JavaScript--%>
+        <jsp:include page="/WEB-INF/jsp/constants.jsp"></jsp:include>
+        <%-- Load constants for the application from JNDI into JavaScript--%>
 
         <%-- Javascript libs --%>
         <script type="text/javascript" src="js/lib/jquery/js/jquery-1.9.1.js"></script>
@@ -62,7 +62,10 @@
         <%-- util functions for the user interface --%>
 
         <link rel="stylesheet" type="text/css" href="webjars/select2/4.0.0/css/select2.css" />
-		<script type="text/javascript" src="webjars/select2/4.0.0/js/select2.full.js"></script>
+        <script type="text/javascript" src="webjars/select2/4.0.0/js/select2.full.js"></script>
+        <link rel="stylesheet" type="text/css" href="webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.css" />
+        <script type="text/javascript" src="webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="webjars/jquery-dateFormat/1.0.2/jquery-dateFormat.js"></script>
 
         <%-- models --%>
 
@@ -71,7 +74,7 @@
         <script type="text/javascript" src="js/view/SiteSelectorView.js"></script>
         <script type="text/javascript" src="js/view/TimeSeriesView.js"></script>
         <script type="text/javascript" src="js/view/TimeSeriesPrototypeView.js"></script>
-		<script type="text/javascript" src="js/view/TimeSeriesSelectionGridView.js"></script>
+        <script type="text/javascript" src="js/view/TimeSeriesSelectionGridView.js"></script>
         
         <script type="text/javascript" src="js/view/reports/BaseReportView.js"></script>
         <script type="text/javascript" src="js/view/reports/ExtremesReportView.js"></script>
@@ -90,6 +93,7 @@
         <script type="text/javascript" src="js/view/widgets/TextField.js"></script>
 
         <script type="text/javascript" src="js/view/widgets/Select2Field.js"></script>
+        <script type="text/javascript" src="js/view/widgets/DateField.js"></script>
 
         <%-- controllers --%>
         <script type="text/javascript" src="js/controller/AqcuRouter.js"></script>

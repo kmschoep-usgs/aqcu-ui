@@ -62,7 +62,6 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	createSiteSelectorWidget: function() {
-		
 		this.siteSelect = new AQCU.view.Select2Field({
 			router: this.router,
 			fieldConfig: {
