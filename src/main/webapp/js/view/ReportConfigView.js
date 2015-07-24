@@ -79,7 +79,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 				endDateFieldName   : "endDate",
 				displayName        : "Date Range",
 				fieldName          : "date_range",
-				description        : "Select last months range, enter a water year, or enter a start and end date."
+				description        : ""
 			},
 		});
 

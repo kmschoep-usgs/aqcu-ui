@@ -304,28 +304,30 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	setRatingModel: function(params){
-		var _this = this;
-		this.abortAjax(this.ajaxCalls[params.requestId]);
-		this.ajaxCalls[params.requestId] = $.ajax({
-			url: AQCU.constants.serviceEndpoint + 
-				"/service/lookup/derivationChain/ratingModel",
-			timeout: 120000,
-			dataType: "json",
-			data: {
-				timeSeriesIdentifier: params.timeseriesUid,
-				startDate: this.model.get("startDate"),
-				endDate: this.model.get("endDate")
-			},
-			context: this,
-			success: function(data){
-				if(data && data[0]) {
-					_this.model.set(params.requestId, data[0]);
+		if(params.timeseriesUid){
+			var _this = this;
+			this.abortAjax(this.ajaxCalls[params.requestId]);
+			this.ajaxCalls[params.requestId] = $.ajax({
+				url: AQCU.constants.serviceEndpoint + 
+					"/service/lookup/derivationChain/ratingModel",
+				timeout: 120000,
+				dataType: "json",
+				data: {
+					timeSeriesIdentifier: params.timeseriesUid,
+					startDate: this.model.get("startDate"),
+					endDate: this.model.get("endDate")
+				},
+				context: this,
+				success: function(data){
+					if(data && data[0]) {
+						_this.model.set(params.requestId, data[0]);
+					}
+				},
+				error: function() {
+					_this.model.set(params.requestId, null);
 				}
-			},
-			error: function() {
-				_this.model.set(params.requestId, null);
-			}
-		});
+			});
+		}
 	},
 	
 	constructReportOptions: function() {

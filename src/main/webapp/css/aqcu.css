@@ -141,7 +141,7 @@
 	width: 90%;
 	border: solid black 1px;
 	border-radius: 5px;
-    position: relative;
+	position: relative;
 	padding-bottom: .5em;
 	margin-top: 1em;
 	border-bottom-left-radius: 0px;
@@ -154,7 +154,7 @@
 	width: 90%;
 	border: solid black 1px;
 	border-radius: 5px;
-    position: relative;
+	position: relative;
 	padding: 0.75em 0em;
 	border-top-width: 0px;
 	border-top-left-radius: 0px;
@@ -195,7 +195,7 @@
 	width: 100%;
 	border: solid black 1px;
 	border-radius: 5px;
-    position: relative;
+	position: relative;
 }
 
 .report-card-header {
@@ -299,7 +299,7 @@ h2 {
 
 .icons table td {
 	padding-left: 0;
-    min-width: 10em;
+	min-width: 10em;
 }
 
 .nwis-home hr {
@@ -385,12 +385,12 @@ h2 {
 .upper-right-corner a {
 	font-weight: bold;
 	font-size: small;
-	color: #428BCA;    
+	color: #428BCA;	
 	border: 1px solid #D3D3D3;
-    border-radius: 15px 15px 15px 15px;
-    display: inline-block;
-    padding: 5px 14px;
-    cursor: pointer;
+	border-radius: 15px 15px 15px 15px;
+	display: inline-block;
+	padding: 5px 14px;
+	cursor: pointer;
 }
 
 .upper-right-corner a,
@@ -421,11 +421,11 @@ h2 {
 
 .nwis-login-section,
 .nwis-section-container {
-	min-height: 500px;    
+	min-height: 500px;	
 }
 
 .nwis-section-container-smaller {
-	min-height: 200px;    
+	min-height: 200px;	
 }
 
 /* search forms*/
@@ -445,12 +445,12 @@ h2 {
 {
 	border-top-left-radius: 4px;
 	border-top-right-radius: 4px;
-    border: 1px solid #aaa;
-    border-bottom: 0px;
-    font-size: 100%;
-    padding: 0.25em 0.25em;
-    margin-bottom: 0px;
-    background-color: #F5F5F5;
+	border: 1px solid #aaa;
+	border-bottom: 0px;
+	font-size: 100%;
+	padding: 0.25em 0.25em;
+	margin-bottom: 0px;
+	background-color: #F5F5F5;
 }
 
 .search-criteria-category-group
@@ -465,46 +465,46 @@ h2 {
 }
 
 .nwis-search-form-category-tip-target {
-    margin-left: 5px;
-    font-size: 90%;
+	margin-left: 5px;
+	font-size: 90%;
 }
 
 .nwis-search-form-input-select-none-selected {
-    color: #A0A0A0;
+	color: #A0A0A0;
 }
 
 .separator-title {
-    text-align: center;
-    height: 0.5em;
-    border-bottom: 1px solid;
-    margin-top: 0.5em;
-    margin-bottom: 1em;
+	text-align: center;
+	height: 0.5em;
+	border-bottom: 1px solid;
+	margin-top: 0.5em;
+	margin-bottom: 1em;
 }
 
 .separator-title:first-line {
-    background-color: white;
+	background-color: white;
 }
 
 .separator-title:before {
-    content: "\00a0 ";
-    color: white;
+	content: "\00a0 ";
+	color: white;
 }
 
 .separator-title:after {
-    content: "\00a0 ";
-    color: white;
+	content: "\00a0 ";
+	color: white;
 }
 
 .separator-footer {
-    text-align: center;
-    height: 0.5em;
-    border-bottom: 1px solid;
-    margin-top: 0.7em;
-    margin-bottom: 0.3em;
+	text-align: center;
+	height: 0.5em;
+	border-bottom: 1px solid;
+	margin-top: 0.7em;
+	margin-bottom: 0.3em;
 }
 
 .separator-footer:first-line {
-    background-color: white;
+	background-color: white;
 }
 
 .nwis-message-main {
@@ -647,7 +647,7 @@ h2 {
 }
 
 .output-column-list dt:after {
-    content: " -";
+	content: " -";
 }
 
 .output-column-list dd {
@@ -717,6 +717,6 @@ h2 {
 }
 
 .nwis-data_warning {
-	color: red;    
+	color: red;	
 	font-size: 10px;
 }
