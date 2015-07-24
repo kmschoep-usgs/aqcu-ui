@@ -1,4 +1,9 @@
 /** TODO clean up any unused nwis* or vision* rules **/
+#aqcu-ui-content {
+	padding-top: 40px;
+	min-height: 600px;
+}
+
 #aqcu-ui-content a {
 	cursor: pointer;
 }
@@ -7,16 +12,15 @@
 .time-series-home {
 	padding: 0px;
 	margin: 0px;
+	height: 100%;
 }
 
 .time-series-main-view {
 	margin: 0px;
 	padding: 0px;
+	height: 100%;
 }
 
-#aqcu-ui-content {
-	padding-top: 40px;
-}
 /** HOME: END **/
 
 
@@ -32,9 +36,9 @@
 
 .site-selection-panel {
 	background-color: #E6E6E6;
-	min-height: 600px;
 	height: 100%;
 	padding: 0px;
+	min-height: 600px;
 }
 
 .site-selector-site-list {

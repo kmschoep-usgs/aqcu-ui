@@ -72,7 +72,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 	*/
 	generateTimeSeriesDateRangeInput: function() {
 		var dateRange = new AQCU.view.NwisDateRange({
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "time_series_date_range",
 				displayName : "Date Range (yyyymmdd)",
@@ -88,7 +88,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 	*/
 	generateTimeSeriesWaterYearInput: function() {
 		var textField = new AQCU.view.TextField({
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "water_year",
 				displayName : "Water Year (yyyy)",
@@ -105,7 +105,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 	*/
 	generateTimeSeriesSiteSearch: function() {
 		var	searchField = new AQCU.view.TextField({
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "search_site_no",
 				displayName : "Site Number Search and Select",
@@ -118,7 +118,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		
 		var	select = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "select_site_no",
 				displayName : "",
@@ -131,7 +131,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		this.siteSelect = select;
 		
 		var	comparisonSearchField = new AQCU.view.TextField({
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "search_comp_site_no",
 				displayName : "Site Number Search and Select",
@@ -144,7 +144,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		
 		var	comparisonSelect = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "select_comp_site_no",
 				displayName : "",
@@ -159,7 +159,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 	generateTimeSeriesIdentifierFields : function() {
 		var	primaryTimeseriesIdentifier  = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "primaryTimeseriesIdentifier",
 				displayName : "Primary Timeseries",
@@ -173,7 +173,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		
 		var	comparisonTimeseriesIdentifier  = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "comparisonTimeseriesIdentifier",
 				displayName : "Comparison Timeseries",
@@ -187,7 +187,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		
 		var	secondaryTimeseriesIdentifier  = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "secondaryTimeseriesIdentifier",
 				displayName : "Secondary Timeseries",
@@ -201,7 +201,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		
 		var	upchainTimeseriesIdentifier   = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "upchainTimeseriesIdentifier",
 				displayName : "Upchain Timeseries",
@@ -215,7 +215,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		
 		var	derivedMeanTimeseriesIdentifier  = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "derivedMeanTimeseriesIdentifier",
 				displayName : "Derived Mean Timeseries",
@@ -229,7 +229,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		
 		var	derivedMaxTimeseriesIdentifier  = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "derivedMaxTimeseriesIdentifier",
 				displayName : "Derived Max Timeseries",
@@ -243,7 +243,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		
 		var	derivedMinTimeseriesIdentifier  = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "derivedMinTimeseriesIdentifier",
 				displayName : "Derived Min Timeseries",
@@ -257,7 +257,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		
 		var	ratingModelIdentifier  = new AQCU.view.TextField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "ratingModelIdentifier",
 				readOnly: "readonly",
@@ -275,7 +275,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 	generateReportTypeSelect : function() {
 		var	select = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "report_type",
 				displayName : "Report Type",
