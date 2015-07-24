@@ -13,19 +13,15 @@
 		</div>
 	</div>
 	
-
+	<div class="date-range"></div>
+	
 	<div class="row">
 		<div class="time-series-selection-grid-container col-sm-12 col-lg-12 {{#if selectedTimeSeries}} hidden {{/if}}">
 		</div>
 	</div>
 	
-	<div class="report-views-container row ">
+	<div class="report-views-container row {{#unless selectedTimeSeries}} hidden {{/unless}}">
 		<div class="available-reports col-sm-12 col-lg-12">
-			<div>
-				<div class="report-card" style="padding:4px;">
-					<div class="date-range"></div>
-				</div>
-			</div>
 		</div>
 	</div>
 	

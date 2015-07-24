@@ -688,7 +688,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 			
 			var sortedArray=[];
 			for(var opt in data){
-				sortedArray.push([opt,data[opt]])
+				sortedArray.push([opt,data[opt]]);
 			}
 			sortedArray.sort(function(a,b){
 				if(a[1].identifier > b[1].identifier) {
@@ -707,7 +707,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 			if(callback) {
 				callback();
 			}
-		}
+		};
 		return this.lookupTimeSeriesIdentifiers(param, _callback, function() {
 			mySelectField.removeClass("nwis-loading-indicator");
 			_this.displayErrorWindow("Could not find timeseries identifiers", "The chosen site may not have a timeseries associated with it.");
@@ -735,7 +735,7 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 		//do not send empty params
 		for(var k in param) {
 			if(param[k] === null || param[k] === '') {
-				delete param[k]
+				delete param[k];
 			}
 		}
 		
@@ -756,14 +756,14 @@ AQCU.view.TimeSeriesPrototypeView = AQCU.view.BaseView.extend({
 	},
 	
 	setRatingModel: function(ajaxParams){
-		var ratingModelIdentifier = this.$(".vision_field_ratingModelIdentifier")
+		var ratingModelIdentifier = this.$(".vision_field_ratingModelIdentifier");
 		this.model.set("ratingModelIdentifier", "");
 		ratingModelIdentifier.addClass("nwis-loading-indicator");
 		
 		//do not send null params
 		for(var k in ajaxParams) {
 			if(ajaxParams[k] === null || ajaxParams[k] === '') {
-				delete ajaxParams[k]
+				delete ajaxParams[k];
 			}
 		}
 		

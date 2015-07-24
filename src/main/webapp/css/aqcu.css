@@ -88,7 +88,7 @@
 .time-series-selection-grid-row{
 	cursor: pointer;
 	padding: 6px 1px;
-	border-bottom: 1px solid #A0A0A0 ;
+	border-bottom: 1px solid #A0A0A0;
 }
 
 .time-series-selection-grid-row:hover{
@@ -130,6 +130,33 @@
 
 /** TIME SERIES SELECTION: END **/
 
+/** DATE RANGE SELECTOR: START **/
+
+.date-range-container-top{
+	min-height: 3em;
+	width: 90%;
+	border: solid black 1px;
+	border-radius: 5px;
+    position: relative;
+	padding-bottom: .5em;
+	margin-top: 1em;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	background: #E4E4E4;
+}
+
+.date-range-container-bottom{
+	min-height: 4em;
+	width: 90%;
+	border: solid black 1px;
+	border-radius: 5px;
+    position: relative;
+	padding: 0.75em 0em;
+	border-top-width: 0px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+}
+
 /** REPORT CONFIG: START **/
 .report-config-panel {
 	padding: 1em;
@@ -163,7 +190,7 @@
 	min-height: 3em;
 	width: 100%;
 	border: solid black 1px;
-	border-radius: 10px;
+	border-radius: 5px;
     position: relative;
 }
 

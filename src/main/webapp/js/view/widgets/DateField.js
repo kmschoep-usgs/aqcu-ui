@@ -6,51 +6,59 @@ AQCU.view.DateField = Backbone.View.extend({
 	 * Handlebars template
 	 */
 	template: Handlebars.compile("\
-		<div class='nwis-field-container form-inline'>\
-			{{#if displayName}}\
-			<div class='col-sm-2 col-lg-2'>\
-				<h5><label for='{{fieldName}}'>{{displayName}}&nbsp;</label>\
-				{{#if description}}\
-					<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
-				{{/if}}\
-			</div>\
-			{{/if}}\
-			{{#if includeWaterYear}}\
-			<div class='col-sm-2 col-lg-3 vision_waterYear_{{fieldName}}'>\
-				<div style='float:left;margin-top:6px;'>\
-					<label class='control-label'>Water Year:</label>\
-				</div>\
-				<div style='float:left;width:50%'>\
-			    	<input type='text' class='input-sm form-control vision_field vision_field_waterYear_{{fieldName}}' maxlength='4'/>\
+		<div class='nwis-field-container form-inline' style='padding-bottom:1em;'>\
+			<div class='date-range-container-top'>\
+				<div>\
+					{{#if displayName}}\
+					<div class='header-container col-sm-2 col-lg-12'>\
+						<h5><label for='{{fieldName}}'>{{displayName}}&nbsp;</label>\
+						{{#if description}}\
+							<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
+						{{/if}}\
+					</div>\
 				</div>\
 			</div>\
-			{{/if}}\
-			{{#if includeLastMonths}}\
-			<div class='col-sm-3 col-lg-3'>\
-				<select class='form-control vision_field_lastMonths_{{fieldName}}'>\
-					<option selected='selected'>Select Recent Months</option>\
-					<option>Last 12 months</option>\
-					<option>Last 11 months</option>\
-					<option>Last 10 months</option>\
-					<option>Last  9 months</option>\
-					<option>Last  8 months</option>\
-					<option>Last  7 months</option>\
-					<option>Last  6 months</option>\
-					<option>Last  5 months</option>\
-					<option>Last  4 months</option>\
-					<option>Last  3 months</option>\
-					<option>Last  2 months</option>\
-					<option>Last month</option>\
-				</select>\
-			</div>\
-			{{/if}}\
-			<div class='col-sm-4 col-lg-4'>\
-				<div class='input-daterange input-group input_date_{{fieldName}}' >\
-				    <input type='text' class='input-sm form-control vision_field input_date_start_{{fieldName}}' name='start_{{fieldName}}' />\
-				    {{#if isDateRange}}\
-				    <span class='input-group-addon'>to</span>\
-				    <input type='text' class='input-sm form-control vision_field input_date_end_{{fieldName}}' name='end_{{fieldName}}' />\
-				    {{/if}}\
+			<div class='date-range-container-bottom'>\
+				<div>\
+					{{/if}}\
+					{{#if includeWaterYear}}\
+					<div class='col-sm-2 col-lg-3 vision_waterYear_{{fieldName}}'>\
+						<div style='float:left;margin-top:6px;'>\
+							<label class='control-label'>Water Year:</label>\
+						</div>\
+						<div style='float:left;width:50%'>\
+							<input type='text' class='input-sm form-control vision_field vision_field_waterYear_{{fieldName}}' maxlength='4'/>\
+						</div>\
+					</div>\
+					{{/if}}\
+					{{#if includeLastMonths}}\
+					<div class='col-sm-4 col-lg-4'>\
+						<select class='form-control vision_field_lastMonths_{{fieldName}}'>\
+							<option selected='selected'>Select Recent Months</option>\
+							<option>Last 12 months</option>\
+							<option>Last 11 months</option>\
+							<option>Last 10 months</option>\
+							<option>Last  9 months</option>\
+							<option>Last  8 months</option>\
+							<option>Last  7 months</option>\
+							<option>Last  6 months</option>\
+							<option>Last  5 months</option>\
+							<option>Last  4 months</option>\
+							<option>Last  3 months</option>\
+							<option>Last  2 months</option>\
+							<option>Last month</option>\
+						</select>\
+					</div>\
+					{{/if}}\
+					<div class='col-sm-4 col-lg-4'>\
+						<div class='input-daterange input-group input_date_{{fieldName}}' >\
+							<input type='text' class='input-sm form-control vision_field input_date_start_{{fieldName}}' name='start_{{fieldName}}' />\
+							{{#if isDateRange}}\
+							<span class='input-group-addon'>to</span>\
+							<input type='text' class='input-sm form-control vision_field input_date_end_{{fieldName}}' name='end_{{fieldName}}' />\
+							{{/if}}\
+						</div>\
+					</div>\
 				</div>\
 			</div>\
 		</div>"),
