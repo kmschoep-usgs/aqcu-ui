@@ -31,12 +31,12 @@ AQCU.view.NwisDateRange = Backbone.View.extend({
 	 * Will create and render a date range field field using a fieldConfig options defined in NWIS Search Models.
 	 */
 	initialize: function() {
-		this.searchModel = this.options.searchModel; //NWIS search model
+		this.model = this.options.model; //NWIS search model
 		this.fieldConfig = this.options.fieldConfig;
 
 		this.renderTo = this.options.renderTo;
 
-		this.searchModel.on("change:" + this.fieldConfig.fieldName, function(m, v, e) {
+		this.model.on("change:" + this.fieldConfig.fieldName, function(m, v, e) {
 			this.$(".vision_field_" + this.fieldConfig.fieldName).val(v);
 			if (!v)
 				this.clearDisplayValues();

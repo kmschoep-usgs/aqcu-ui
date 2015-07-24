@@ -47,10 +47,12 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 	
 	showView: function(view, opts) {
 		this.removeCurrentView();
+		var newEl = $('<div>');
+		$(this.applicationContentDiv).append(newEl);
 		this.currentView = new view($.extend({
+			el: newEl,
 			router: this
 		}, opts));
-		$(this.applicationContentDiv).append(this.currentView.el)
 	},
 	/**
 	 * Helper function. Removes all current application state by deleting the attributes entirely.

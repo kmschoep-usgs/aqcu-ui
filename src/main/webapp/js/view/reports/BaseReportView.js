@@ -27,15 +27,20 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			format: this.defaultFormat
 		});
 
-		this.model.bind("change:site", this.loadAllTimeSeriesOptions, this);
 		this.model.bind("change:selectedTimeSeries", this.loadAllRequiredTimeseries, this);
 		this.model.bind("change:startDate", this.loadAllRequiredTimeseries, this);
 		this.model.bind("change:endDate", this.loadAllRequiredTimeseries, this);
+
+		this.model.bind("change:site", this.loadAllTimeSeriesOptions, this);
+		this.model.bind("change:startDate", this.loadAllTimeSeriesOptions, this);
+		this.model.bind("change:endDate", this.loadAllTimeSeriesOptions, this);
 		
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 	},
 	
 	preRender: function() {
+		this.unstickit();
+		this.removeSelectFields();
 		this.context = {
 			reportName: this.reportName,
 			reportType: this.reportType
@@ -47,7 +52,23 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.hideWarning();
 		this.bindRatingModels();
 		this.buildAdvancedOptions();
+		this.loadAllTimeSeriesOptions();
 		this.stickit();
+	},
+	
+	remove: function() {
+		this.removeSelectFields();
+		AQCU.view.BaseView.prototype.remove.apply(this, arguments);
+	},
+	
+	removeSelectFields: function() {
+		if(this.formatSelector) {
+			this.formatSelector.remove();
+		}
+
+		for(var key in this.builtSelectorFields){
+			this.builtSelectorFields[key].remove();
+		}
 	},
 	
 	buildAdvancedOptions: function() {
@@ -58,7 +79,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var newContainer = $("<div>");
 		this.formatSelector = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : "format",
 				displayName : "Report Format",
@@ -69,7 +90,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		});
 		$.extend(this.bindings, this.formatSelector.getBindingConfig());
 		this.formatSelector.setSelectOptions([{KeyValue: "html", DisplayValue: "html"}, {KeyValue: "pdf", DisplayValue: "pdf"}]);
-		this.formatSelector.updateSelectedOption();
+		this.advancedOptionsContainer.append(newContainer);
 		
 		for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
 			this.createTimeseriesSelectionBox(this.advancedOptionsContainer, this.requiredRelatedTimeseriesConfig[i], true);
@@ -92,10 +113,10 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.selectorParams[params.requestId] = params;
 		this.builtSelectorFields[params.requestId] = new AQCU.view.SelectField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : params.requestId,
-				displayName : (isRequired ? "* " : "") + params.display,
+				displayName : params.display + (isRequired ? " *" : ""),
 				description : ""
 			},
 			renderTo: newContainer,
@@ -103,77 +124,74 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		});
 		$.extend(this.bindings, this.builtSelectorFields[params.requestId].getBindingConfig());
 		container.append(newContainer);
-		
 	},
 	
 	loadAllTimeSeriesOptions : function() {
-//		
-//		for(var key in this.builtSelectorFields){
-//			var tsSelector = this.builtSelectorFields[key];
-//			var params = this.selectorParams[key];
-//			if(this.model.get("site")) {
-//				var _this = this;
-//				tsSelector.setSelectOptions([]);
-//				this.$(".vision_select_field_" + params.requestId).removeClass("nwis-loading-indicator");
-//				this.abortAjax(this.ajaxCalls["tsList" + params.requestId]);
-//				this.ajaxCalls["tsList" + params.requestId] = $.ajax({
-//					url: AQCU.constants.serviceEndpoint + 
-//						"/service/lookup/timeseries/identifiers",
-//					timeout: 120000,
-//					dataType: "json",
-//					data: {
-//						stationId: this.model.get("site").siteNumber,
-//						parameter: params.parameter,
-//						publish: params.publish,
-//						computationIdentifier: params.computation,
-//						computationPeriodIdentifier: params.period 
-//					},
-//					context: this,
-//					success: function(data) {
-//						var sortedArray=[];
-//						for(var opt in data){
-//							sortedArray.push([opt,data[opt]])
-//						}
-//						sortedArray.sort(function(a,b){
-//							if(a[1].identifier > b[1].identifier) {
-//								return 1;
-//							} else if(a[1].identifier < b[1].identifier) {
-//								return -1;
-//							} else {
-//								return 0;
-//							}
-//						});
-//	
-//						var list = [];
-//						for(var i = 0; i < sortedArray.length; i++) {
-//							list.push({ KeyValue: sortedArray[i][0], DisplayValue: sortedArray[i][1].identifier});
-//						}
-//						_this.unstickit();
-//						tsSelector.setSelectOptions(list);
-//						tsSelector.updateSelectedOption();
-//						_this.stickit();
-//						_this.$(".vision_select_field_" + params.requestId).removeClass("nwis-loading-indicator");
-//						
-//					},
-//					error: function() {
-//						//TODO warn user?
-//					}
-//				});
-//			} else {
-//				tsSelector.setSelectOptions([]);
-//			}
-//		}
+		for(var key in this.builtSelectorFields){
+			if(this.model.get("site")) {
+				var tsSelector = this.builtSelectorFields[key];
+				var params = this.selectorParams[key];
+				this.populateTimeSeriesSelector(tsSelector, params);
+			} 
+		}
+	},
+	
+	populateTimeSeriesSelector: function(tsSelector, params) {
+		var _this = this;
+		this.$(".vision_select_field_" + params.requestId).removeClass("nwis-loading-indicator");
+		tsSelector.removeSelectOptions();
+		this.abortAjax(this.ajaxCalls["tsList" + params.requestId]);
+		this.ajaxCalls["tsList" + params.requestId] = $.ajax({
+			url: AQCU.constants.serviceEndpoint + 
+				"/service/lookup/timeseries/identifiers",
+			timeout: 120000,
+			dataType: "json",
+			data: {
+				stationId: this.model.get("site").siteNumber,
+				parameter: params.parameter,
+				publish: params.publish,
+				computationIdentifier: params.computation,
+				computationPeriodIdentifier: params.period 
+			},
+			success: function(data) {
+				var sortedArray=[];
+				for(var opt in data){
+					sortedArray.push([opt,data[opt]])
+				}
+				sortedArray.sort(function(a,b){
+					if(a[1].identifier > b[1].identifier) {
+						return 1;
+					} else if(a[1].identifier < b[1].identifier) {
+						return -1;
+					} else {
+						return 0;
+					}
+				});
+
+				var list = [];
+				for(var i = 0; i < sortedArray.length; i++) {
+					list.push({ KeyValue: sortedArray[i][0], DisplayValue: sortedArray[i][1].identifier});
+				}
+				tsSelector.setSelectOptions(list);
+				_this.stickit();
+				_this.$(".vision_select_field_" + params.requestId).removeClass("nwis-loading-indicator");
+				
+			},
+			error: function() {
+				//TODO warn user?
+			}
+		});
 	},
 	
 	createRatingModelDisplay : function(container, params, isRequired) {
 		var newContainer = $("<div>");
 		var	ratingModelText  = new AQCU.view.TextField({
 			router: this.router,
-			searchModel: this.model,
+			model: this.model,
 			fieldConfig: {
 				fieldName : params.requestId,
 				readOnly: "readonly",
-				displayName : (isRequired ? "* " : "") + params.display,
+				displayName : params.display + (isRequired ? " *" : ""),
 				description : "",
 				placeHolderText: "No rating model found"
 			},
@@ -324,6 +342,18 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		for(var i = 0; i < this.requiredRatingModels.length; i++) {
 			reportOptions[this.requiredRatingModels[i].requestId] = this.model.get(this.requiredRatingModels[i].requestId);
 		}
+		
+
+		//attach required time series selections
+		for(var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
+			reportOptions[this.optionalRelatedTimeseriesConfig[i].requestId] = this.model.get(this.optionalRelatedTimeseriesConfig[i].requestId);
+		}
+		
+		//attach required rating model selections
+		for(var i = 0; i < this.optionalRatingModels.length; i++) {
+			reportOptions[this.optionalRatingModels[i].requestId] = this.model.get(this.optionalRatingModels[i].requestId);
+		}
+		
 		
 		return reportOptions;
 	},

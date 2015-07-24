@@ -44,18 +44,17 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			});
 		
 		this.model.bind("change:site", this.siteUpdated, this);
-		this.model.bind("change:selectedTimeSeries", this.updateView, this);
-		this.model.bind("change:selectedTimeSeries", this.updateReportViews, this);
 		this.model.bind("change:startDate", this.updateReportViews, this);
 		this.model.bind("change:endDate", this.updateReportViews, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
+		this.model.bind("change:selectedTimeSeries", this.render, this);
 		
 		this.availableReportViews = [];
-		//this.REMOVE_ME_TEST_DATA_INIT();
 	},
 	
 	/*override*/
 	preRender: function() {
+		this.removeReportViews();
 		this.context = {
 			site : this.model.get("site"),
 			selectedTimeSeries : this.model.get("selectedTimeSeries")
@@ -65,21 +64,8 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	afterRender: function () {
 		this.ajaxCalls = {}; //used to cancel in progress ajax calls if needed
 
-		//TODO 
-
-		//date range selection
-
+		this.createReportViews();
 		this.fetchTimeSeries();
-
-		for (var i = 0; i < this.availableReports.length; i++) {
-			var view = new this.availableReports[i]({
-				parentModel: this.model,
-				router: this.router
-			});
-			this.$('.available-reports').append(view.el);
-			this.availableReportViews.push(view);
-		}
-		
 		this.stickit();
 		
 		this.REMOVE_ME_TEST_DATA_INIT();
@@ -88,6 +74,25 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	REMOVE_ME_TEST_DATA_INIT: function() {
 		this.model.set('startDate', new Date(2014, 9, 1, 0, 0, 0, 0).toISOString());
 		this.model.set('endDate', new Date(2014, 9, 31, 0, 0, 0, 0).toISOString());
+	},
+	
+	removeReportViews: function() {
+		while(this.availableReportViews.length > 0) {
+			this.availableReportViews[0].remove();
+			this.availableReportViews.shift();
+		}
+	},
+	
+	createReportViews: function() {
+		for (var i = 0; i < this.availableReports.length; i++) {
+			var view = new this.availableReports[i]({
+				parentModel: this.model,
+				router: this.router
+			});
+			this.$('.available-reports').append(view.el);
+			this.availableReportViews.push(view);
+		}
+		this.updateReportViews();
 	},
 	
 	fetchTimeSeries: function () {
@@ -139,32 +144,13 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		}
 	},
 	
-	updateView: function() {
-		var selectedTimeSeries = this.model.get("selectedTimeSeries");
-		var primaryTimeSeriesSelector = this.$(".primary-ts-selector");
-		var reportViewsContainer = this.$(".report-views-container");
-		var timeSeriesSelectionGrid = this.$(".time-series-selection-grid-container");
-		if(selectedTimeSeries){
-			primaryTimeSeriesSelector.removeClass("hidden");
-			reportViewsContainer.removeClass("hidden");
-			timeSeriesSelectionGrid.addClass("hidden");
-			this.$(".selected-identifier").html(selectedTimeSeries.identifier);
-		}
-		else{
-			primaryTimeSeriesSelector.addClass("hidden");
-			reportViewsContainer.addClass("hidden");
-			timeSeriesSelectionGrid.removeClass("hidden");
-			this.$(".selected-identifier").html("");
-		}
-	},
-	
 	removeTimeSeries: function() {
 		this.model.set("selectedTimeSeries", null);
 	},
 	
 	siteUpdated: function() {
 		this.model.set("requestParams", null);
-		this.model.set("selectedTimeSeries", null);
+		this.model.set("selectedTimeSeries", null); //this implicitly re-renders
 		this.render();
 	},
 	

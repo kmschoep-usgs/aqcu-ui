@@ -9,7 +9,7 @@
 		</div>
 		
 		<div class="primary-ts-selector col-sm-4 col-lg-6 {{#unless selectedTimeSeries}} hidden {{/unless}}"><span class="close-btn">X</span>
-			<span class="selected-identifier"></span>
+			<span class="selected-identifier">{{#if selectedTimeSeries}}{{selectedTimeSeries.identifier}}{{/if}}</span>
 		</div>
 	</div>
 	

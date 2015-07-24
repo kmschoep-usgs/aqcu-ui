@@ -31,14 +31,19 @@ AQCU.view.SelectField = Backbone.View.extend({
 		this.router = this.options.router; //NWIS Vision Router
 		this.fieldConfig = this.options.fieldConfig;
 		this.renderTo = this.options.renderTo;
-
+		this.hideNotSelect = this.options.hideNotSelect;
+		this.model = this.options.model;
+		
 		this.filterRequired = this.options.filterRequired;
-
+		this.events = {};
+		
 		this.events["change .vision_field_" + this.fieldConfig.fieldName] = this.updateSelectedOption;
 		this.events["change .vision_select_field_" + this.fieldConfig.fieldName] = this.setHiddenValue;
 
 		Backbone.View.prototype.initialize.apply(this, arguments);
 		this.render();
+
+		this.$(".vision_field_" + this.fieldConfig.fieldName).val(this.model.get(this.fieldConfig.fieldName));
 		this.updateSelectedOption();
 	},
 	render: function() {
@@ -53,8 +58,12 @@ AQCU.view.SelectField = Backbone.View.extend({
 	 */
 	getBindingConfig: function() {
 		var binding = {};
+		var _this = this;
 		binding[".vision_field_" + this.fieldConfig.fieldName] = {
-			observe: this.fieldConfig.fieldName
+			observe: this.fieldConfig.fieldName,
+			afterUpdate: function(el, val) {
+				_this.updateSelectedOption();
+			}
 		};
 		return binding;
 	},
@@ -91,7 +100,9 @@ AQCU.view.SelectField = Backbone.View.extend({
 	setSelectOptions: function(data) {
 		var selectField = this.$(".vision_select_field_" + this.fieldConfig.fieldName);
 		selectField.html("");
-		selectField.append('<option value="">Not selected</option>');
+		if(!this.hideNotSelect) {
+			selectField.append('<option value="">Not selected</option>');
+		}
 		for (var i = 0; i < data.length; i++) {
 			selectField.append('<option value="' + data[i]["KeyValue"] + '">' + data[i]["DisplayValue"] + '</option>');
 		}
