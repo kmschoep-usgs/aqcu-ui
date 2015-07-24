@@ -162,12 +162,14 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			reportViewsContainer.removeClass("hidden");
 			timeSeriesSelectionGrid.addClass("hidden");
 			this.$(".selected-identifier").html(selectedTimeSeries.identifier);
+			this.$el.parent().removeClass('nwis-loading-indicator');
 		}
 		else{
 			primaryTimeSeriesSelector.addClass("hidden");
 			reportViewsContainer.addClass("hidden");
 			timeSeriesSelectionGrid.removeClass("hidden");
 			this.$(".selected-identifier").html("");
+			this.$el.parent().removeClass('nwis-loading-indicator');
 		}
 	},
 	
@@ -176,9 +178,11 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	},
 	
 	siteUpdated: function() {
+		var nwisLocation = this.$el.parent();
 		this.model.set("requestParams", null);
 		this.model.set("selectedTimeSeries", null);
 		this.render();
+		nwisLocation.addClass('nwis-loading-indicator');
 	},
 	
 	setSite: function(site) {

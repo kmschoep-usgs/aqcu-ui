@@ -160,6 +160,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		//use subviews/models to avoid this kind of hackery
 		var siteNumber = $(clickedDom).attr("siteNumber"); 
 		this.removeBySiteNumber(siteNumber);
+		this.$el.parent().removeClass('nwis-loading-indicator');
 	},
 	
 	updateParentModelSelectedSite: function() {
