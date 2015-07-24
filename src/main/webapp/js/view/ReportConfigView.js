@@ -92,17 +92,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			this.$('.available-reports').append(view.el);
 			this.availableReportViews.push(view);
 		}
-		
-		this.stickit();
-		
-		this.REMOVE_ME_TEST_DATA_INIT();
 	},
-	
-	REMOVE_ME_TEST_DATA_INIT: function() {
-		this.model.set('startDate', new Date(2014, 9, 1, 0, 0, 0, 0).toISOString());
-		this.model.set('endDate', new Date(2014, 9, 31, 0, 0, 0, 0).toISOString());
-	},
-	
 	fetchTimeSeries: function () {
 		var site = this.model.get("site");
 		
