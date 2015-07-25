@@ -343,9 +343,9 @@ h2 {
 
 #aqcu_version_tag {
 	font-weight: bold;
-	font-size: x-small;
+	font-size: small;
 	position: relative;
-	text-align: center;
+	text-align: left;
 }
 
 #footer {
