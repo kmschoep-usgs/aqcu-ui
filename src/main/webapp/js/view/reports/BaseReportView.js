@@ -8,8 +8,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	optionalRelatedTimeseriesConfig: [],
 	optionalRatingModels: [],
 	
-	bindings: {},
-
 	events: {
 		'click .report-card-header': 'applyReportOptions',
 		'mouseover .report-card': 'showConfigBtn',
@@ -18,6 +16,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	initialize: function() {
 		this.ajaxCalls = {};
+		this.bindings = {};
 		this.parentModel = this.options.parentModel;
 		this.model = new Backbone.Model({
 			site: null,
@@ -50,7 +49,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	afterRender: function() {
 		this.hideConfigBtn();
 		this.hideWarning();
-		this.bindRatingModels();
+		this.bindAllRatingModels();
 		this.buildAdvancedOptions();
 		this.loadAllTimeSeriesOptions();
 		this.stickit();
@@ -279,28 +278,26 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	//automatically load rating models based on the bound timeseries selection
-	bindRatingModels: function() {
+	bindAllRatingModels: function() {
 		//required
 		for(var i = 0; i < this.requiredRatingModels.length; i++) {
-			var _ratingBinding = this.requiredRatingModels[i];
-			this.model.bind("change:" + _ratingBinding.bindTo, function(){
-				this.setRatingModel({
-					requestId: _ratingBinding.requestId,
-					timeseriesUid: this.model.get(_ratingBinding.bindTo)
-				});
-			}, this)
+			this.bindRatingModel(this.requiredRatingModels[i]);
+			
 		}
 
 		//optional
 		for(var i = 0; i < this.optionalRatingModels.length; i++) {
-			var _ratingBinding = this.optionalRatingModels[i];
-			this.model.bind("change:" + _ratingBinding.bindTo, function(){
-				this.setRatingModel({
-					requestId: _ratingBinding.requestId,
-					timeseriesUid: this.model.get(_ratingBinding.bindTo)
-				});
-			}, this)
+			this.bindRatingModel(this.optionalRatingModels[i]);
 		}
+	},
+	
+	bindRatingModel: function(binding) {
+		this.model.bind("change:" + binding.bindTo, function(){
+			this.setRatingModel({
+				requestId: binding.requestId,
+				timeseriesUid: this.model.get(binding.bindTo)
+			});
+		}, this)
 	},
 	
 	setRatingModel: function(params){
@@ -320,6 +317,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				context: this,
 				success: function(data){
 					if(data && data[0]) {
+						console.log("Setting " + params.requestId + " with " + data[0]);
 						_this.model.set(params.requestId, data[0]);
 					}
 				},

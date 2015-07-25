@@ -85,6 +85,8 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 
 		this.fetchTimeSeries();
 		this.stickit();
+		this.updateReportViews();
+		
 	},		
 			
 	removeReportViews: function() {		
@@ -103,7 +105,6 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			this.$('.available-reports').append(view.el);
 			this.availableReportViews.push(view);
 		}
-		this.updateReportViews();
 	},
 	
 	fetchTimeSeries: function () {
