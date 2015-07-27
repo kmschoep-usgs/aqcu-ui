@@ -121,7 +121,7 @@ AQCU.view.DateField = Backbone.View.extend({
 	},
 	setDates: function(start, end) {
 		this.$(this.startField).datepicker('setDate', start);
-		if (this.fieldConfig.isDateRange) {
+		if (this.fieldConfig.isDateRange && end) {
 			this.$(this.endField  ).datepicker('setDate',   end);
 		}
 	},
