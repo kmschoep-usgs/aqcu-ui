@@ -13,7 +13,10 @@
 		</div>
 	</div>
 	
-	<div class="date-range"></div>
+	
+	<div class="row {{#unless site}} hidden {{/unless}}">
+		<div class="date-range col-sm-12 col-lg-12"></div>
+	</div>
 	
 	<div class="row">
 		<div class="time-series-selection-grid-container col-sm-12 col-lg-12 {{#if selectedTimeSeries}} hidden {{/if}}">

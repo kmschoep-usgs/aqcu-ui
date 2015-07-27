@@ -22,8 +22,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 	 * Backbone router routes
 	 */
 	routes: {
-		"": "showTimeSeriesView",
-		"prototype": "showTimeSeriesPrototypeView"
+		"": "showTimeSeriesView"
 	},
 	/**
 	 * The active output options model that can be reset to the latest values
