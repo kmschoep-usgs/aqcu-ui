@@ -25,6 +25,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
 		//restores previously selected parameters for defaults if they exist 
+		var loadingIcon = false;
 		var site = this.options.site || null;
 		var selectedTimeSeries = this.options.selectedTimeSeries ||
 			site ? AQCU.util.localStorage.getData("selectedTimeSeries" + site) : null;
@@ -49,6 +50,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.model.bind("change:startDate", this.updateReportViews, this);
 		this.model.bind("change:endDate", this.updateReportViews, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
+		this.model.bind("change:loadingIcon", this.toggleIcon, this);
 		
 		this.availableReportViews = [];
 	},
@@ -154,6 +156,16 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		}
 	},
 	
+	toggleIcon: function(){
+		var iconStatus = this.model.get("loadingIcon");
+		if(iconStatus){
+			this.$el.parent().addClass("nwis-loading-indicator");
+		}
+		else{
+			this.$el.parent().removeClass("nwis-loading-indicator");
+		}
+	},
+	
 	updateView: function() {
 		var selectedTimeSeries = this.model.get("selectedTimeSeries");
 		var primaryTimeSeriesSelector = this.$(".primary-ts-selector");
@@ -164,15 +176,14 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			reportViewsContainer.removeClass("hidden");
 			timeSeriesSelectionGrid.addClass("hidden");
 			this.$(".selected-identifier").html(selectedTimeSeries.identifier);
-			this.$el.parent().removeClass('nwis-loading-indicator');
 		}
 		else{
 			primaryTimeSeriesSelector.addClass("hidden");
 			reportViewsContainer.addClass("hidden");
 			timeSeriesSelectionGrid.removeClass("hidden");
 			this.$(".selected-identifier").html("");
-			this.$el.parent().removeClass('nwis-loading-indicator');
 		}
+		this.model.set('loadingIcon',false);
 	},
 	
 	removeTimeSeries: function() {
@@ -184,7 +195,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.model.set("requestParams", null);
 		this.model.set("selectedTimeSeries", null);
 		this.render();
-		nwisLocation.addClass('nwis-loading-indicator');
+		this.model.set('loadingIcon',true);
 	},
 	
 	setSite: function(site) {

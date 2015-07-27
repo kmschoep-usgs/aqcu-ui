@@ -27,9 +27,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	},
 	
 	afterRender: function() {
-		//TODO Find a faster way to do this? Has to be post render though because
-		// otherwise the loading signal disappears before the outputs show.
-		this.$el.parent().parent().parent().parent().removeClass('nwis-loading-indicator');
+		this.parentModel.set('loadingIcon',false);
 	},
 	
 	preRender: function(){
