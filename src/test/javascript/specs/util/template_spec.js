@@ -11,6 +11,6 @@ describe("template.js", function() {
 
 describe("AQCU.util.template.getTemplate", function() {
 	it("it produces a Handlebars template of the returned data", function() {
-		expect(AQCU.util.template.getTemplate("select-sites")).toBeDefined();
+		expect(AQCU.util.template.getTemplate("seleaaact-sites")).toBeDefined();
 	});
 });

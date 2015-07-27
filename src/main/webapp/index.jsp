@@ -54,7 +54,6 @@
         <%-- namespacing and global vars --%>
         <script type="text/javascript" src="js/util/template.js"></script>
         <%-- util functions for handling templates --%>
-        <script type="text/javascript" src="js/util/query.js"></script>
         <script type="text/javascript" src="js/util/local_storage.js"></script>
         <%-- util functions generating query parameters --%>
         <script type="text/javascript" src="js/util/ui.js"></script>
@@ -71,26 +70,21 @@
 
         <%-- views --%>
         <script type="text/javascript" src="js/view/BaseView.js"></script>
-        <script type="text/javascript" src="js/view/SiteSelectorView.js"></script>
-        <script type="text/javascript" src="js/view/TimeSeriesView.js"></script>
-        <script type="text/javascript" src="js/view/TimeSeriesSelectionGridView.js"></script>
         
         <script type="text/javascript" src="js/view/reports/BaseReportView.js"></script>
         <script type="text/javascript" src="js/view/reports/ExtremesReportView.js"></script>
         <script type="text/javascript" src="js/view/reports/VDiagramReportView.js"></script>
         <script type="text/javascript" src="js/view/reports/UvHydrographReportView.js"></script>
+        
+        <script type="text/javascript" src="js/view/SiteSelectorView.js"></script>
+        <script type="text/javascript" src="js/view/TimeSeriesSelectionGridView.js"></script>
         <script type="text/javascript" src="js/view/ReportConfigView.js"></script>
+        <script type="text/javascript" src="js/view/TimeSeriesView.js"></script>
+        
         
         <%-- widgets --%>
-        <script type="text/javascript" src="js/view/widgets/PopupView.js"></script>
-        <%-- error popup view --%>
-        <script type="text/javascript" src="js/view/widgets/BoxSearch.js"></script>
-        <script type="text/javascript" src="js/view/widgets/NwisDateRange.js"></script>
-        <script type="text/javascript" src="js/view/widgets/NwisRange.js"></script>
-        <script type="text/javascript" src="js/view/widgets/MultiSelectShuttle.js"></script>
         <script type="text/javascript" src="js/view/widgets/SelectField.js"></script>
         <script type="text/javascript" src="js/view/widgets/TextField.js"></script>
-
         <script type="text/javascript" src="js/view/widgets/Select2Field.js"></script>
         <script type="text/javascript" src="js/view/widgets/DateField.js"></script>
 
@@ -101,6 +95,8 @@
         <%-- Init point for app --%>
         <script type="text/javascript" src="js/init.js"></script>
 
+		<script type="text/javascript">$(document).ready(AQCU.initialize);</script>
+		
         <jsp:include page="/WEB-INF/jsp/jiracollection.jsp"></jsp:include>
 		<%-- Load JIRA Collections Scripting --%>
 
