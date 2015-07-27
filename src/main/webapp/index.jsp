@@ -70,15 +70,17 @@
 
         <%-- views --%>
         <script type="text/javascript" src="js/view/BaseView.js"></script>
-        <script type="text/javascript" src="js/view/SiteSelectorView.js"></script>
-        <script type="text/javascript" src="js/view/TimeSeriesView.js"></script>
-        <script type="text/javascript" src="js/view/TimeSeriesSelectionGridView.js"></script>
-        <script type="text/javascript" src="js/view/ReportConfigView.js"></script>
         
         <script type="text/javascript" src="js/view/reports/BaseReportView.js"></script>
         <script type="text/javascript" src="js/view/reports/ExtremesReportView.js"></script>
         <script type="text/javascript" src="js/view/reports/VDiagramReportView.js"></script>
         <script type="text/javascript" src="js/view/reports/UvHydrographReportView.js"></script>
+        
+        <script type="text/javascript" src="js/view/SiteSelectorView.js"></script>
+        <script type="text/javascript" src="js/view/TimeSeriesSelectionGridView.js"></script>
+        <script type="text/javascript" src="js/view/ReportConfigView.js"></script>
+        <script type="text/javascript" src="js/view/TimeSeriesView.js"></script>
+        
         
         <%-- widgets --%>
         <script type="text/javascript" src="js/view/widgets/SelectField.js"></script>
