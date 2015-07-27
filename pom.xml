@@ -8,7 +8,7 @@
 		<version>0.4-SNAPSHOT</version>
 	</parent>
 	<packaging>war</packaging>
-	<name>Javascript Front end</name>
+	<name>AQCU Javascript UI</name>
 
 	<dependencies>
 		<dependency>
@@ -40,10 +40,22 @@
 			<artifactId>jersey-media-moxy</artifactId>
 			<version>2.11</version>
 		</dependency>
+		
+		<!-- WebJars -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>font-awesome</artifactId>
 			<version>4.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>2.1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery-ui</artifactId>
+			<version>1.11.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -64,6 +76,26 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery-dateFormat</artifactId>
 			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>underscorejs</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>handlebars</artifactId>
+			<version>3.0.0-1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>backbonejs</artifactId>
+			<version>1.2.1</version>
 		</dependency>
 	</dependencies>
 
@@ -132,63 +164,68 @@
 				<configuration>
 					<webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
 					<webDriverCapabilities>
-						<phantomjs.binary.path>${phantomjs.binary}</phantomjs.binary.path>
+						<capability>
+							<name>phantomjs.binary.path</name>
+							<value>${phantomjs.binary}</value>
+						</capability>
 					</webDriverCapabilities>
 					<jsSrcDir>${project.basedir}</jsSrcDir>
 					<jsTestSrcDir>${project.basedir}/src/test/javascript/specs</jsTestSrcDir>
 					<packageDir>${project.basedir}</packageDir>
-					<sourceIncludes> <!-- this should include same imports as index.jsp, mostly in the same order, 
-							with the exception of test dependencies -->
-						<include>**/src/test/javascript/sinon-1.6.0.js</include> <!-- Sinon testing lib -->
-						<include>**/src/test/javascript/AqcuTestSupport.js</include> <!-- Base testing helper functions -->
-						<include>**/src/test/javascript/jasmine-fixture.js</include> <!-- HTML test fixtures lib -->
-
-						<!-- Javascript libs -->
-						<include>**/src/main/**/js/lib/jquery/js/jquery-1.9.1.js</include>
-						<include>**/src/main/**/js/lib/bootstrap-3.0.0/dist/js/bootstrap.min.js</include>
-						<include>**/src/main/**/js/lib/jquery/js/jquery-1.9.1.js</include>
-						<include>**/src/main/**/js/lib/jquery/js/jquery-ui-1.10.3.custom.js</include>
-						<include>**/src/main/**/js/lib/underscore.js</include>
-						<include>**/src/main/**/js/lib/backbone.js</include>
-						<include>**/src/main/**/js/lib/backbone.stickit.js</include>
-						<include>**/src/main/**/js/lib/handlebars-1.0.0.js</include>
-						<include>**/src/main/**/js/lib/bootstrap-transfer/js/bootstrap-transfer.js</include>
-
-						<!-- Application assets -->
-						<include>**/src/main/**/js/config.js</include>
-						<include>**/src/main/**/js/util/auth.js</include>
-						<include>**/src/main/**/js/util/local_storage.js</include>
-						<include>**/src/main/**/js/util/template.js</include>
-						<include>**/src/main/**/js/util/ui.js</include>
-						<include>**/src/main/**/js/init.js</include>
+					<preloadSources>
+						<source>src/test/javascript/sinon-1.15.4.js</source> <!-- Sinon testing lib -->
+						<source>src/test/javascript/AqcuTestSupport.js</source> <!-- Base testing helper functions -->
+						<source>src/test/javascript/jasmine-fixture.js</source> <!-- HTML test fixtures lib -->
 						
-						<!-- TEST ONLY import -->
-						<include>**/src/test/javascript/constants_test.js</include> 
+						<!-- Javascript libs -->
+						<source>webjars/jquery/2.1.4/jquery.min.js</source>
+						<source>webjars/bootstrap/3.3.5/js/bootstrap.min.js</source>
+						<source>webjars/jquery-ui/1.11.4/jquery-ui.min.js</source>
+						<source>webjars/jquery-cookie/1.4.1-1/jquery.cookie.js</source>
+						<source>webjars/underscorejs/1.8.3/underscore-min.js</source>
+						<source>webjars/backbonejs/1.2.1/backbone-min.js</source>
+						<source>src/main/webapp/js/lib/backbone.stickit.js</source>
+						<source>webjars/handlebars/3.0.0-1/handlebars.min.js</source>
+						<source>webjars/select2/4.0.0/js/select2.full.js</source>
+						<source>webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.js</source>
+						<source>webjars/jquery-dateFormat/1.0.2/jquery-dateFormat.js</source>
+						
+						<!-- Application assets -->
+						<source>src/main/webapp/js/config.js</source>
+						<source>src/main/webapp/js/util/template.js</source>
+						<source>src/main/webapp/js/util/local_storage.js</source>
+						<source>src/main/webapp/js/util/ui.js</source>
+						<source>src/main/webapp/js/util/auth.js</source>
+						<source>src/main/webapp/js/init.js</source>
 
+						<!-- TEST ONLY import -->
+						<source>src/test/javascript/constants_test.js</source> 
+						
 						<!-- models -->
 
 						<!-- views -->
-						<include>**/src/main/**/js/view/BaseView.js</include>
-						<include>**/src/main/**/js/view/TimeSeriesView.js</include>
-						<include>**/src/main/**/js/view/SiteSelectorView.js</include>
-						<include>**/src/main/**/js/view/ReportConfigView.js</include>
-						<include>**/src/main/**/js/view/TimeSeriesSelectionGridView.js</include>
+						<source>src/main/webapp/js/view/BaseView.js</source>
+						
+						<source>src/main/webapp/js/view/reports/BaseReportView.js</source>
+						<source>src/main/webapp/js/view/reports/ExtremesReportView.js</source>
+						<source>src/main/webapp/js/view/reports/UvHydrographReportView.js</source>
+						<source>src/main/webapp/js/view/reports/VDiagramReportView.js</source>
+						
+						<source>src/main/webapp/js/view/SiteSelectorView.js</source>
+						<source>src/main/webapp/js/view/ReportConfigView.js</source>
+						<source>src/main/webapp/js/view/TimeSeriesSelectionGridView.js</source>
+						<source>src/main/webapp/js/view/TimeSeriesView.js</source>
 
-						<include>**/src/main/**/js/view/reports/BaseReportView.js</include>
-						<include>**/src/main/**/js/view/reports/ExtremesReportView.js</include>
-						<include>**/src/main/**/js/view/reports/UvHydrographReportView.js</include>
-						<include>**/src/main/**/js/view/reports/VDiagramReportView.js</include>
 						
 						<!-- widgets -->
-						<include>**/src/main/**/js/view/widgets/DateField.js</include>
-						<include>**/src/main/**/js/view/widgets/SelectField.js</include>
-						<include>**/src/main/**/js/view/widgets/Select2Field.js</include>
-						<include>**/src/main/**/js/view/widgets/TextField.js</include>
+						<source>src/main/webapp/js/view/widgets/DateField.js</source>
+						<source>src/main/webapp/js/view/widgets/SelectField.js</source>
+						<source>src/main/webapp/js/view/widgets/Select2Field.js</source>
+						<source>src/main/webapp/js/view/widgets/TextField.js</source>
 
 						<!-- controllers -->
-						<include>**/src/main/**/js/controller/AqcuRouter.js</include>
-
-					</sourceIncludes>
+						<source>src/main/webapp/js/controller/AqcuRouter.js</source>
+					</preloadSources>
 				</configuration>
 			</plugin>
 		</plugins>

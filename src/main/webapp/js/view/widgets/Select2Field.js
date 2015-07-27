@@ -8,7 +8,7 @@ AQCU.view.Select2Field = Backbone.View.extend({
 	template: Handlebars.compile("\
 			<div class='row nwis-field-container'>\
 				{{#if displayName}}\
-				<div class='col-sm-5 col-lg-5'>\
+				<div class='col-sm-5 col-md-5 col-lg-5'>\
 					<label for='{{fieldName}}'>{{displayName}}&nbsp;&nbsp;\
 					{{#if description}}\
 						<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
@@ -17,7 +17,7 @@ AQCU.view.Select2Field = Backbone.View.extend({
 				</div>\
 				{{/if}}\
 				<input type='hidden' name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}'/> \
-				<div class='{{#if displayName}}col-sm-7 col-lg-7{{else}}col-sm-12 col-lg-12{{/if}}'>\
+				<div class='{{#if displayName}}col-sm-7 col-md-7 col-lg-7{{else}}col-sm-12 col-md-12 col-lg-12{{/if}}'>\
 					<select class='vision_field vision_select_field_{{fieldName}}'>\
 						<option></option>\
 					</select>\
@@ -31,7 +31,8 @@ AQCU.view.Select2Field = Backbone.View.extend({
 	/**
 	 * Will create and render a text field using a fieldConfig options defined in NWIS Search Models.
 	 */
-	initialize: function() {
+	initialize: function(options) {
+		this.options = options
 		this.router      = this.options.router; //NWIS Vision Router
 		this.searchModel = this.options.searchModel; //NWIS search model
 		this.fieldConfig = this.options.fieldConfig;

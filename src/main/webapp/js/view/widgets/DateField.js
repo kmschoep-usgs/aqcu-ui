@@ -10,7 +10,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			<div class='date-range-container-top'>\
 				<div>\
 					{{#if displayName}}\
-					<div class='header-container col-sm-2 col-lg-12'>\
+					<div class='header-container col-sm-2 col-md-12 col-lg-12'>\
 						<h5><label for='{{fieldName}}'>{{displayName}}&nbsp;</label>\
 						{{#if description}}\
 							<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
@@ -22,7 +22,7 @@ AQCU.view.DateField = Backbone.View.extend({
 				<div>\
 					{{/if}}\
 					{{#if includeWaterYear}}\
-					<div class='col-sm-2 col-lg-3 vision_waterYear_{{fieldName}}'>\
+					<div class='col-sm-2 col-md-3 col-lg-3 vision_waterYear_{{fieldName}}'>\
 						<div style='float:left;margin-top:6px;'>\
 							<label class='control-label'>Water Year:</label>\
 						</div>\
@@ -32,7 +32,7 @@ AQCU.view.DateField = Backbone.View.extend({
 					</div>\
 					{{/if}}\
 					{{#if includeLastMonths}}\
-					<div class='col-sm-4 col-lg-4'>\
+					<div class='col-sm-4 col-md-4 col-lg-4'>\
 						<select class='form-control vision_field_lastMonths_{{fieldName}}'>\
 							<option value='none'>Select Recent Months</option>\
 							<option selected='true'>Last 12 months</option>\
@@ -50,7 +50,7 @@ AQCU.view.DateField = Backbone.View.extend({
 						</select>\
 					</div>\
 					{{/if}}\
-					<div class='col-sm-4 col-lg-4'>\
+					<div class='col-sm-4 col-md-4 col-lg-4'>\
 						<div class='input-daterange input-group input_date_{{fieldName}}' >\
 							<input type='text' class='input-sm form-control vision_field input_date_start_{{fieldName}}' name='start_{{fieldName}}' />\
 							{{#if isDateRange}}\
@@ -70,7 +70,8 @@ AQCU.view.DateField = Backbone.View.extend({
 	/**
 	 * Will create and render a text field using a fieldConfig options defined in NWIS Search Models.
 	 */
-	initialize: function() {
+	initialize: function(options) {
+		this.options = options
 		this.fieldConfig = this.options.fieldConfig;
 		this.renderTo    = this.options.renderTo;
 		

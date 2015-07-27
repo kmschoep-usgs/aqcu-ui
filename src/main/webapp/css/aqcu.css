@@ -68,10 +68,6 @@
 /** SITE SELECTOR: END **/
 
 /** TIME SERIES SELECTION: START **/
-.time-series-selection-grid{
-	width:150%;
-}
-
 .time-series-selection-grid-header{
 	border: solid #A0A0A0 1px;
 	border-radius: 2px;

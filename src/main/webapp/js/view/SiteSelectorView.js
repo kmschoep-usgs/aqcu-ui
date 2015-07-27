@@ -16,6 +16,8 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	initialize: function() {
+		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
+		
 		this.router = this.options.router;
 		this.parentModel = this.options.parentModel;
 		
@@ -27,8 +29,6 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		this.model.bind("change:selectedSite", this.updateParentModelSelectedSite, this);
 		this.model.bind("change:siteList", this.refreshView, this);		
 		this.model.bind("change:siteList", function() { AQCU.util.localStorage.setData("aqcuSiteList", this.model.get("siteList")) }, this);
-		
-		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 	},
 	
 	refreshView: function() {

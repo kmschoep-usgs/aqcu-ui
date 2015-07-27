@@ -1,6 +1,6 @@
 <div class="report-config container">
 	<div class="row">
-		<div class="header col-sm-8 col-lg-8">
+		<div class="header col-sm-6 col-md-6 col-lg-6">
 			{{#if site}}
 			{{site.siteNumber}} - {{site.siteName}}
 			{{else}}
@@ -8,23 +8,23 @@
 			{{/if}}
 		</div>
 		
-		<div class="primary-ts-selector col-sm-4 col-lg-4 {{#unless selectedTimeSeries}} hidden {{/unless}}"><span class="close-btn">X</span>
+		<div class="primary-ts-selector col-sm-3 col-md-3 col-lg-3 {{#unless selectedTimeSeries}} hidden {{/unless}}"><span class="close-btn">X</span>
 			<span class="selected-identifier"></span>
 		</div>
 	</div>
 	
 	
 	<div class="row {{#unless site}} hidden {{/unless}}">
-		<div class="date-range col-sm-12 col-lg-12"></div>
+		<div class="date-range col-sm-10 col-md-10 col-lg-10"></div>
 	</div>
 	
 	<div class="row">
-		<div class="time-series-selection-grid-container col-sm-12 col-lg-12 {{#if selectedTimeSeries}} hidden {{/if}}">
+		<div class="time-series-selection-grid-container col-sm-10 col-md-10 col-lg-10 {{#if selectedTimeSeries}} hidden {{/if}}">
 		</div>
 	</div>
 	
 	<div class="report-views-container row {{#unless selectedTimeSeries}} hidden {{/unless}}">
-		<div class="available-reports col-sm-12 col-lg-12">
+		<div class="available-reports col-sm-8 col-md-8 col-lg-8">
 		</div>
 	</div>
 	
