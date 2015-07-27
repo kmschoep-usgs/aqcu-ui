@@ -80,7 +80,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 				displayName        : "Date Range",
 				fieldName          : "date_range",
 				description        : "Select last months range, enter a water year, or enter a start and end date."
-			},
+			}
 		});
 
 		this.fetchTimeSeries();
@@ -124,7 +124,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 				success: function (data) {
 					var sortedArray = [];
 					for (var opt in data) {
-						sortedArray.push([opt, data[opt]])
+						sortedArray.push([opt, data[opt]]);
 					}
 					sortedArray.sort(function (a, b) {
 						if (a[1].identifier > b[1].identifier) {
