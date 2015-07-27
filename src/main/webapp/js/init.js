@@ -1,7 +1,4 @@
-/**
- * JQuery invoked init function
- */
-$(document).ready(function() {
+AQCU.initialize = function() {
 	//Set up and start router
 	AQCU.router = new AQCU.controller.AqcuRouter();
 	Backbone.history.start();
@@ -39,4 +36,4 @@ $(document).ready(function() {
 	}
 	
 	AQCU.util.auth.verifyLoggedIn();
-});
+};

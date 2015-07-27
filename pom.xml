@@ -156,32 +156,34 @@
 
 						<!-- Application assets -->
 						<include>**/src/main/**/js/config.js</include>
+						<include>**/src/main/**/js/util/auth.js</include>
+						<include>**/src/main/**/js/util/local_storage.js</include>
 						<include>**/src/main/**/js/util/template.js</include>
-						<include>**/src/main/**/js/util/query.js</include>
 						<include>**/src/main/**/js/util/ui.js</include>
+						<include>**/src/main/**/js/init.js</include>
 						
 						<!-- TEST ONLY import -->
 						<include>**/src/test/javascript/constants_test.js</include> 
-
-						<!-- plugins -->
 
 						<!-- models -->
 
 						<!-- views -->
 						<include>**/src/main/**/js/view/BaseView.js</include>
 						<include>**/src/main/**/js/view/TimeSeriesView.js</include>
+						<include>**/src/main/**/js/view/SiteSelectorView.js</include>
+						<include>**/src/main/**/js/view/ReportConfigView.js</include>
+						<include>**/src/main/**/js/view/TimeSeriesSelectionGridView.js</include>
 
-						<!-- View templates -->
-
+						<include>**/src/main/**/js/view/reports/BaseReportView.js</include>
+						<include>**/src/main/**/js/view/reports/ExtremesReportView.js</include>
+						<include>**/src/main/**/js/view/reports/UvHydrographReportView.js</include>
+						<include>**/src/main/**/js/view/reports/VDiagramReportView.js</include>
+						
 						<!-- widgets -->
-						<include>**/src/main/**/js/view/widgets/PopupView.js</include>
-						<include>**/src/main/**/js/view/widgets/BoxSearch.js</include>
-						<include>**/src/main/**/js/view/widgets/NwisDateRange.js</include>
-						<include>**/src/main/**/js/view/widgets/NwisRange.js</include>
-						<include>**/src/main/**/js/view/widgets/MultiSelectShuttle.js</include>
+						<include>**/src/main/**/js/view/widgets/DateField.js</include>
 						<include>**/src/main/**/js/view/widgets/SelectField.js</include>
+						<include>**/src/main/**/js/view/widgets/Select2Field.js</include>
 						<include>**/src/main/**/js/view/widgets/TextField.js</include>
-						<include>**/src/main/**/js/view/widgets/CounterHeader.js</include>
 
 						<!-- controllers -->
 						<include>**/src/main/**/js/controller/AqcuRouter.js</include>

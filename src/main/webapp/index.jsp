@@ -54,7 +54,6 @@
         <%-- namespacing and global vars --%>
         <script type="text/javascript" src="js/util/template.js"></script>
         <%-- util functions for handling templates --%>
-        <script type="text/javascript" src="js/util/query.js"></script>
         <script type="text/javascript" src="js/util/local_storage.js"></script>
         <%-- util functions generating query parameters --%>
         <script type="text/javascript" src="js/util/ui.js"></script>
@@ -101,6 +100,8 @@
         <%-- Init point for app --%>
         <script type="text/javascript" src="js/init.js"></script>
 
+		<script type="text/javascript">$(document).ready(AQCU.initialize);</script>
+		
         <jsp:include page="/WEB-INF/jsp/jiracollection.jsp"></jsp:include>
 		<%-- Load JIRA Collections Scripting --%>
 
