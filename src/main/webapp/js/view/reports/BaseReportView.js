@@ -317,7 +317,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				context: this,
 				success: function(data){
 					if(data && data[0]) {
-						console.log("Setting " + params.requestId + " with " + data[0]);
 						_this.model.set(params.requestId, data[0]);
 					}
 				},
