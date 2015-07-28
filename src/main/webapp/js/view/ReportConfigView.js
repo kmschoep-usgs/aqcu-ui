@@ -138,7 +138,6 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	},
 	
 	siteUpdated: function() {
-		this.$el.parent();
 		this.model.set("requestParams", null);
 		this.model.set("selectedTimeSeries", null);
 		this.render();
