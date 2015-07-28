@@ -7,15 +7,15 @@ AQCU.view.SelectField = Backbone.View.extend({
 	 */
 	template: Handlebars.compile("<div class='row nwis-field-container'> \
 		{{#if displayName}}\
-		<div class='col-sm-5 col-lg-5'>\
+		<div class='col-sm-5 col-md-5 col-lg-5'>\
 			<label for='{{fieldName}}'>{{displayName}}&nbsp;&nbsp;\
 			{{#if description}}\
 				<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
 			{{/if}}\
 		</label><br/></div> {{/if}}\
-        <input type='hidden' name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}'/> \
-		<div class='{{#if displayName}}col-sm-7 col-lg-7{{else}}col-sm-12 col-lg-12{{/if}}'>\
-		<select type='checkbox' class='vision_field vision_select_field_{{fieldName}}'>\
+			<input type='hidden' name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}'/> \
+		<div class='{{#if displayName}}col-sm-7 col-md-7 col-lg-7{{else}}col-sm-12 col-md-12 col-lg-12{{/if}}'>\
+		<select class='vision_field vision_select_field_{{fieldName}}'>\
 		</select>\
 		</div> \
 		</div>"),
@@ -27,7 +27,8 @@ AQCU.view.SelectField = Backbone.View.extend({
 	/**
 	 * Will create and render a text field using a fieldConfig options defined in NWIS Search Models.
 	 */
-	initialize: function() {
+	initialize: function(options) {
+		this.options = options
 		this.router = this.options.router; //NWIS Vision Router
 		this.fieldConfig = this.options.fieldConfig;
 		this.renderTo = this.options.renderTo;
@@ -37,14 +38,14 @@ AQCU.view.SelectField = Backbone.View.extend({
 		this.filterRequired = this.options.filterRequired;
 		this.events = {};
 		
-		this.events["change .vision_field_" + this.fieldConfig.fieldName] = this.updateSelectedOption;
-		this.events["change .vision_select_field_" + this.fieldConfig.fieldName] = this.setHiddenValue;
-
 		Backbone.View.prototype.initialize.apply(this, arguments);
 		this.render();
 
 		this.$(".vision_field_" + this.fieldConfig.fieldName).val(this.model.get(this.fieldConfig.fieldName));
 		this.updateSelectedOption();
+		var _this = this;
+		this.$(".vision_field_" + this.fieldConfig.fieldName).change(function() { _this.updateSelectedOption(); });
+		this.$(".vision_select_field_" + this.fieldConfig.fieldName).change(function() { _this.setHiddenValue(); });
 	},
 	render: function() {
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates

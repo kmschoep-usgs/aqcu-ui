@@ -16,7 +16,8 @@ AQCU.view.BaseView = Backbone.View.extend({
 	/**
 	 * Default initializer, will retrieve template and call render
 	 */
-	initialize: function() {
+	initialize: function(options) {
+		this.options = options;
 		this.router = this.options.router;
 		this.context = this.options.context;
 		AQCU.util.template.getTemplate({ template: this.templateName, context : this}).done( function(template) {

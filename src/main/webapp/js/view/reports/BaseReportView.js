@@ -15,6 +15,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	initialize: function() {
+		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
+		
 		this.ajaxCalls = {};
 		this.bindings = {};
 		this.parentModel = this.options.parentModel;
@@ -33,8 +35,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.model.bind("change:site", this.loadAllTimeSeriesOptions, this);
 		this.model.bind("change:startDate", this.loadAllTimeSeriesOptions, this);
 		this.model.bind("change:endDate", this.loadAllTimeSeriesOptions, this);
-		
-		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 	},
 	
 	preRender: function() {
@@ -317,7 +317,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				context: this,
 				success: function(data){
 					if(data && data[0]) {
-						console.log("Setting " + params.requestId + " with " + data[0]);
 						_this.model.set(params.requestId, data[0]);
 					}
 				},
