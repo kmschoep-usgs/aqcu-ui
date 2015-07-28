@@ -25,7 +25,6 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
 		//restores previously selected parameters for defaults if they exist 
-		var loadingIcon = false;
 		var site = this.options.site || null;
 		var selectedTimeSeries = this.options.selectedTimeSeries ||
 			site ? AQCU.util.localStorage.getData("selectedTimeSeries" + site) : null;
@@ -50,7 +49,6 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.model.bind("change:startDate", this.updateReportViews, this);
 		this.model.bind("change:endDate", this.updateReportViews, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
-		this.model.bind("change:loadingIcon", this.toggleIcon, this);
 		
 		this.availableReportViews = [];
 	},
@@ -64,7 +62,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		};
 	},
 	
-	afterRender: function () {
+	afterRender: function () {		
 		this.ajaxCalls = {}; //used to cancel in progress ajax calls if needed
 
 		this.createReportViews();
@@ -85,7 +83,18 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			},
 		});
 
-		this.fetchTimeSeries();
+		//this.fetchTimeSeries();
+		var site = this.model.get('site');
+		if(site){
+			this.selectionGrid = new AQCU.view.TimeSeriesSelectionGridView({
+				parentModel: this.model,
+				router: this.router,
+				el: this.$(".time-series-selection-grid-container"),
+				//Make this in TSSGV.js
+				//timeSeriesList: sortedFormattedArray
+				site: site
+			});
+		}
 		this.stickit();
 	},		
 			
@@ -107,95 +116,32 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		}
 	},
 	
-	fetchTimeSeries: function () {
-		var site = this.model.get("site");
-		
-		if (site) {
-			$.ajax({
-				url: AQCU.constants.serviceEndpoint +
-						"/service/lookup/timeseries/identifiers",
-				timeout: 120000,
-				dataType: "json",
-				data: {
-					stationId: site.siteNumber,
-					computationIdentifier: "Unknown", //Unknown seems to be applied to non-mean/DV series
-					computationPeriodIdentifier: "Unknown" //Unknown seems to be applied to non-mean/DV series
-				},
-				context: this,
-				success: function (data) {
-					var sortedArray = [];
-					for (var opt in data) {
-						sortedArray.push([opt, data[opt]]);
-					}
-					sortedArray.sort(function (a, b) {
-						if (a[1].identifier > b[1].identifier) {
-							return 1;
-						} else if (a[1].identifier < b[1].identifier) {
-							return -1;
-						} else {
-							return 0;
-						}
-					});
-					var sortedFormattedArray = [];
-					for (var i = 0; i < sortedArray.length; i++) {
-						var timeSeriesEntry = sortedArray[i][1];
-						timeSeriesEntry.uid = sortedArray[i][0];
-						sortedFormattedArray.push(timeSeriesEntry);
-					}
-					this.selectionGrid = new AQCU.view.TimeSeriesSelectionGridView({
-						parentModel: this.model,
-						router: this.router,
-						el: this.$(".time-series-selection-grid-container"),
-						timeSeriesList: sortedFormattedArray
-					});					
-				},
-				error: function () {
-
-				}
-			});
-		}
-	},
-	
-	toggleIcon: function(){
-		var iconStatus = this.model.get("loadingIcon");
-		if(iconStatus){
-			this.$el.parent().addClass("nwis-loading-indicator");
-		}
-		else{
-			this.$el.parent().removeClass("nwis-loading-indicator");
-		}
-	},
-	
 	updateView: function() {
 		var selectedTimeSeries = this.model.get("selectedTimeSeries");
 		var primaryTimeSeriesSelector = this.$(".primary-ts-selector");
 		var reportViewsContainer = this.$(".report-views-container");
-		var timeSeriesSelectionGrid = this.$(".time-series-selection-grid-container");
 		if(selectedTimeSeries){
 			primaryTimeSeriesSelector.removeClass("hidden");
 			reportViewsContainer.removeClass("hidden");
-			timeSeriesSelectionGrid.addClass("hidden");
 			this.$(".selected-identifier").html(selectedTimeSeries.identifier);
 		}
 		else{
 			primaryTimeSeriesSelector.addClass("hidden");
 			reportViewsContainer.addClass("hidden");
-			timeSeriesSelectionGrid.removeClass("hidden");
 			this.$(".selected-identifier").html("");
 		}
-		this.model.set('loadingIcon',false);
 	},
 	
 	removeTimeSeries: function() {
 		this.model.set("selectedTimeSeries", null);
+		this.selectionGrid.closeButtonClicked();
 	},
 	
 	siteUpdated: function() {
-		var nwisLocation = this.$el.parent();
+		this.$el.parent();
 		this.model.set("requestParams", null);
 		this.model.set("selectedTimeSeries", null);
 		this.render();
-		this.model.set('loadingIcon',true);
 	},
 	
 	setSite: function(site) {
