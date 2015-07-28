@@ -8,7 +8,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 	 * Container div in HTML. May want to inject this.
 	 */
 	applicationContentDiv: '#aqcu-ui-content', //selector for container div of application
-
+ 
 	initialize: function() {
 		this.bind('route', this.pageView);
 	},

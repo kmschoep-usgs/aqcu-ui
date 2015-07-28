@@ -9,7 +9,7 @@ AQCU.initialize = function() {
 	//global ajax handler to detect timed out sesssion
 	$(document).ajaxSuccess(AQCU.router.checkSession);
 	$(document).ajaxError(AQCU.router.checkSession);
-	
+	  
 	// Tie in the JIRA Issue Collector if we have an endpoint
 	var $toggle = $("#display-nwis-feedback-toggle");
 	if ($('script[id="script-tag-jira-collection-url"]').attr('src').length) {
