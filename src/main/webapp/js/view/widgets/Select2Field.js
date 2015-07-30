@@ -32,39 +32,34 @@ AQCU.view.Select2Field = Backbone.View.extend({
 	 * Will create and render a text field using a fieldConfig options defined in NWIS Search Models.
 	 */
 	initialize: function(options) {
-		this.options = options
-		this.router      = this.options.router; //NWIS Vision Router
-		this.searchModel = this.options.searchModel; //NWIS search model
-		this.fieldConfig = this.options.fieldConfig;
-		this.renderTo    = this.options.renderTo;
-		this.select2     = this.options.select2;
-		this.field       = ".vision_field_" + this.fieldConfig.fieldName;
-		this.selector    = ".vision_select_field_" + this.fieldConfig.fieldName;
+		Backbone.View.prototype.initialize.apply(this, arguments);
+		
+		this.fieldConfig = options.fieldConfig;
+		this.select2     = options.select2;
+		this.field       = ".vision_field_" + options.fieldConfig.fieldName;
+		this.selector    = ".vision_select_field_" + options.fieldConfig.fieldName;
+		
 
 		// set default value - override available
-		if ( ! this.select2.minimumInputLength) {
-			this.select2.minimumInputLength = 3;
+		if ( ! options.select2.minimumInputLength) {
+			options.select2.minimumInputLength = 3;
 		}
-		if (this.select2.ajax && ! this.select2.ajax.quietMillis) {
-			this.select2.ajax.quietMillis=500;
+		if (options.select2.ajax && ! options.select2.ajax.quietMillis) {
+			options.select2.ajax.quietMillis=500;
 		}
-		if (this.select2.ajax && ! this.select2.ajax.delay) {
-			this.select2.ajax.delay=1000;
+		if (options.select2.ajax && ! options.select2.ajax.delay) {
+			options.select2.ajax.delay=1000;
 		}
-		
-		this.filterRequired = this.options.filterRequired;
 		
 		this.events["change " + this.field] = this.updateSelectedOption;
 		this.events["change " + this.selector] = this.setHiddenValue;
 
-		Backbone.View.prototype.initialize.apply(this, arguments);
 		this.render();
 		this.updateSelectedOption();
 	},
 	render: function() {
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
-		this.$el.append(newDom);
-		this.renderTo.append(this.el);
+		this.$el.html(newDom);
 		this.$(this.selector).select2(this.select2);
 	},
 	/**

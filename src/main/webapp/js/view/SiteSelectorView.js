@@ -26,9 +26,8 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 				siteList: AQCU.util.localStorage.getData("aqcuSiteList") || [] 
 			});
 
-		this.model.bind("change:selectedSite", this.updateParentModelSelectedSite, this);
-		this.model.bind("change:siteList", this.refreshView, this);		
-		this.model.bind("change:siteList", function() { AQCU.util.localStorage.setData("aqcuSiteList", this.model.get("siteList")) }, this);
+		this.model.bind("change:selectedSite",   this.updateParentModelSelectedSite, this);
+		this.model.bind("change:siteList",       this.updateSiteList, this);
 	},
 	
 	refreshView: function() {
@@ -63,7 +62,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	
 	createSiteSelectorWidget: function() {
 		this.siteSelect = new AQCU.view.Select2Field({
-			router: this.router,
+			el:'.site-select-widget',
 			fieldConfig: {
 				fieldName   : "select_site_no",
 				description : "Search by site name or number"
@@ -93,21 +92,25 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 				    cache: true
 				},
 			},
-			renderTo: this.$el.find('.site-select-widget'),
-			startHidden: false,
 		});
 		$.extend(this.bindings, this.siteSelect.getBindingConfig());
-		
-		this.model.bind("change:select_site_no", function() {
-			var siteNumber = this.model.get("select_site_no");
-			if (siteNumber) {
-				var displayValue = this.siteSelect.getDisplayValue(siteNumber);
-				if(displayValue) {
-					var siteName = displayValue.replace(siteNumber + " - ", ""); 
-					this.addSiteToList(siteNumber, siteName);
-				}
+		this.model.bind("change:select_site_no", this.onSiteSearchSelect, this);	
+	},
+
+	updateSiteList: function() {
+		this.refreshView(); 
+		AQCU.util.localStorage.setData("aqcuSiteList", this.model.get("siteList"))
+	},
+	
+	onSiteSearchSelect : function() {
+		var siteNumber = this.model.get("select_site_no");
+		if (siteNumber) {
+			var displayValue = this.siteSelect.getDisplayValue(siteNumber);
+			if (displayValue) {
+				var siteName = displayValue.replace(siteNumber + " - ", ""); 
+				this.addSiteToList(siteNumber, siteName);
 			}
-		}, this);	
+		}
 	},
 	
 	addSiteToList: function(siteNumber, siteName) {
