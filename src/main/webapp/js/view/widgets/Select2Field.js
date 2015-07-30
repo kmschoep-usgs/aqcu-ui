@@ -32,8 +32,6 @@ AQCU.view.Select2Field = Backbone.View.extend({
 	 * Will create and render a text field using a fieldConfig options defined in NWIS Search Models.
 	 */
 	initialize: function(options) {
-		Backbone.View.prototype.initialize.apply(this, arguments);
-		
 		this.fieldConfig = options.fieldConfig;
 		this.select2     = options.select2;
 		this.field       = ".vision_field_" + options.fieldConfig.fieldName;
