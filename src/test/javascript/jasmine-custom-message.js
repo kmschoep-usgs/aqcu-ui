@@ -50,9 +50,11 @@
   var wrapExpect = function(expect, customMessage) {
     return function(actual) {
       var assertion = expect(actual);
+      var assertionAddExpectationResult = assertion.addExpectationResult;
       if (! ofType(customMessage, 'undefined', 'null')) {
-        assertion.message = assertion.not.message = function() {
-          return getMessage(assertion, customMessage, arguments);
+        assertion.addExpectationResult = function(passed, data, isError) {
+          data.message = customMessage +" -> "+ data.message
+          return assertionAddExpectationResult(passed, data, isError);
         };
       }
       return assertion;
