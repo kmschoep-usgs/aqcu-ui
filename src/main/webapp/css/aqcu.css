@@ -68,13 +68,13 @@
 /** SITE SELECTOR: END **/
 
 /** TIME SERIES SELECTION: START **/
-//TODO:Testing this min height to ensure it doesn't mess with small screens.
+
 .time-series-selection-grid-container{
 	min-height: 200px;
 }
 
 .time-series-selection-grid{
-	width:150%;
+	width:130%;
 }
 
 .time-series-selection-grid-header{
