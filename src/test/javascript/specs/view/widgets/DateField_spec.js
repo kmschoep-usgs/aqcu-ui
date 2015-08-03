@@ -1,52 +1,70 @@
 describe("DateField.js", function() {
-	it("Defines these public attributes and API functions", function() {
-		expect(AQCU.view.DateField).toBeDefined();
+	var dateField;
+	var model;
+	
+	var testDate = function(description, dateStr, expectedYear, expectedMonth, expectedDate) {
+		since(description + " is " + dateStr);
+		expect(dateStr).toBeDefined();
+		
+		var parts = dateStr.split('-');
+		
+		since(description + " year");
+		expect(parseInt(parts[0])).toBe(expectedYear);
+		since(description + " month");
+		expect(parseInt(parts[1])).toBe(expectedMonth);
+		since(description + " day");
+		expect(parseInt(parts[2])).toBe(expectedDate);
+	}
+
+	afterEach(function(){
+		$('.date-range').html('');
 	});
 	
-	it("Sets Default Date Range", function() {
-		var dateField;
-		var model = new Backbone.Model();
+	beforeEach(function(){
+		model = new Backbone.Model();
 		expect(model.get('startDate')).not.toBeDefined();
 		expect(model.get('endDate')).not.toBeDefined();
+		
 		model.set('startDate','');
 		model.set('endDate','');
 		
-		runs(function () {
-			dateField = new AQCU.view.DateField({
-				router  : this.router,
-				model   : model,
-				renderTo: $('.date-range'),
-				format  : "yyyy-mm-dd",
-				fieldConfig: {
-					isDateRange        : true,
-					includeLastMonths  : true,
-					includeWaterYear   : true,
-					startDateFieldName : "startDate",
-					endDateFieldName   : "endDate",
-					displayName        : "Date Range",
-					fieldName          : "date_range",
-					description        : "",
-				},
-			});
-			expect(dateField).toBeDefined();
-	    });
-
-	    waitsFor(function() {
-	      return model.get('startDate') !== undefined && model.get('startDate') !== '';
-	    }, 5000); 
-
-	    runs(function () {
-			expect(model.get('startDate')).toBeDefined();
-			expect(model.get('endDate')).toBeDefined();
-			
-			expect(model.get('startDate').getDate()).toBe(new Date().getDate());
-			expect(model.get('startDate').getMonth()).toBe(new Date().getMonth());
-			expect(model.get('startDate').getYear()).toBe(new Date().getYear());
-			expect(model.get('endDate').getDate()).toBe(new Date().getDate());
-			expect(model.get('endDate').getMonth()).toBe(new Date().getMonth());
-			expect(model.get('endDate').getYear()).toBe(new Date().getYear()+1);
-	    });
-			
+		var dom = $('<div class="date-range"></div>');
+	    $(document.body).append(dom);
+		
+		dateField = new AQCU.view.DateField({
+			el     : '.date-range',
+			renderTo : $('.date-range'),
+			model  : model,
+			format : "yyyy-mm-dd",
+			fieldConfig: {
+				isDateRange        : true,
+				includeLastMonths  : true,
+				includeWaterYear   : true,
+				startDateFieldName : "startDate",
+				endDateFieldName   : "endDate",
+				displayName        : "Date Range",
+				fieldName          : "date_range",
+				description        : "",
+			},
+		});
+	});
+	
+	it("Defines these public attributes and API functions", function() {
+		expect(AQCU.view.DateField).toBeDefined();
+		expect(dateField).toBeDefined();
+		expect(model).toBeDefined();
+	});
+	
+	it("should sets default start and end date", function() {
+		var waitsFor = function() {
+		      return model.get('startDate') !== undefined && model.get('startDate') !== '';
+		}
+		var runs = function () {
+			var date = new Date();
+			testDate("startDate ", model.get('startDate'), date.getYear()+1900-1, date.getMonth()+1, date.getDate())
+			testDate("endDate ", model.get('endDate'), date.getYear()+1900, date.getMonth()+1, date.getDate())
+	    }
+	    waitsForAndRuns(waitsFor, runs, 5000); 
 	});
 });
 

@@ -164,6 +164,8 @@
 						<source>src/test/javascript/sinon-1.15.4.js</source> <!-- Sinon testing lib -->
 						<source>src/test/javascript/AqcuTestSupport.js</source> <!-- Base testing helper functions -->
 						<source>src/test/javascript/jasmine-fixture.js</source> <!-- HTML test fixtures lib -->
+						<source>src/test/javascript/jasmine-custom-message.js</source> <!-- message helper lib -->
+						<source>src/test/javascript/waitsForAndRuns.js</source> <!-- async helper lib -->
 						
 						<!-- Javascript libs -->
 						<source>webjars/jquery/2.1.4/jquery.min.js</source>
