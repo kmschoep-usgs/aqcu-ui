@@ -3,17 +3,13 @@ describe("DateField.js", function() {
 	var model;
 	
 	var testDate = function(description, dateStr, expectedYear, expectedMonth, expectedDate) {
-		since(description + " is " + dateStr);
-		expect(dateStr).toBeDefined();
+		since(description + " is " + dateStr).expect(dateStr).toBeDefined();
 		
 		var parts = dateStr.split('-');
 		
-		since(description + " year");
-		expect(parseInt(parts[0])).toBe(expectedYear);
-		since(description + " month");
-		expect(parseInt(parts[1])).toBe(expectedMonth);
-		since(description + " day");
-		expect(parseInt(parts[2])).toBe(expectedDate);
+		since(description + " year").expect(parseInt(parts[0])).toBe(expectedYear);
+		since(description + " month").expect(parseInt(parts[1])).toBe(expectedMonth);
+		since(description + " day").expect(parseInt(parts[2])).toBe(expectedDate);
 	}
 
 	afterEach(function(){
@@ -49,22 +45,19 @@ describe("DateField.js", function() {
 		});
 	});
 	
-	it("Defines these public attributes and API functions", function() {
+	it("defines these public attributes and API functions", function() {
 		expect(AQCU.view.DateField).toBeDefined();
 		expect(dateField).toBeDefined();
 		expect(model).toBeDefined();
 	});
 	
-	it("should sets default start and end date", function() {
-		var waitsFor = function() {
-		      return model.get('startDate') !== undefined && model.get('startDate') !== '';
-		}
-		var runs = function () {
-			var date = new Date();
-			testDate("startDate ", model.get('startDate'), date.getYear()+1900-1, date.getMonth()+1, date.getDate())
-			testDate("endDate ", model.get('endDate'), date.getYear()+1900, date.getMonth()+1, date.getDate())
-	    }
-	    waitsForAndRuns(waitsFor, runs, 5000); 
+	it("should set default start and end date", function() {
+	    var test = model.get('startDate') !== undefined && model.get('startDate') !== '';
+	    since('expect date fields to be initialized').expect(test).toBeTruthy();
+
+		var date = new Date();
+		testDate('initial startDate', model.get('startDate'), date.getYear()+1900-1, date.getMonth()+1, date.getDate());
+		testDate('initial endDate', model.get('endDate'), date.getYear()+1900, date.getMonth()+1, date.getDate());
 	});
 });
 
