@@ -67,9 +67,8 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 
 		this.createReportViews();
 		this.dateRange = new AQCU.view.DateField({
-			router  : this.router,
+			el      : '.date-range',
 			model   : this.model,
-			renderTo: $('.date-range'),
 			format  : "yyyy-mm-dd",
 			fieldConfig: {
 				isDateRange        : true,

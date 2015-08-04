@@ -29,7 +29,6 @@ describe("DateField.js", function() {
 		
 		dateField = new AQCU.view.DateField({
 			el     : '.date-range',
-			renderTo : $('.date-range'),
 			model  : model,
 			format : "yyyy-mm-dd",
 			fieldConfig: {

@@ -73,7 +73,6 @@ AQCU.view.DateField = Backbone.View.extend({
 	initialize: function(options) {
 		this.options = options
 		this.fieldConfig = this.options.fieldConfig;
-		this.renderTo    = this.options.renderTo;
 		
 		// stickit requires model rather than searchModel which included for backward compatibility
 		this.model       = this.options.model              ?this.options.model              :this.options.searchModel;
@@ -170,8 +169,7 @@ AQCU.view.DateField = Backbone.View.extend({
 	},
 	render: function() {
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
-		this.$el.append(newDom);
-		this.renderTo.append(this.el);
+		this.$el.html(newDom);
 		
 		this.$(this.dateGroup).datepicker({
 		    todayBtn      : true,
