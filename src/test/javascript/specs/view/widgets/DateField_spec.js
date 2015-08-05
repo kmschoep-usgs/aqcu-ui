@@ -50,38 +50,38 @@ describe("DateField.js", function() {
 		expect(model).toBeDefined();
 	});
 	
-	it("should set default start and end date", function() {
-	    var test = model.get('startDate') !== undefined && model.get('startDate') !== '';
-	    since('expect date fields to be initialized').expect(test).toBeTruthy();
-
-		var date = new Date();
-		testDate('initial startDate', model.get('startDate'), date.getYear()+1900-1, date.getMonth()+1, date.getDate());
-		testDate('initial endDate', model.get('endDate'), date.getYear()+1900, date.getMonth()+1, date.getDate());
-	});
-	
-	it("should undate date range when water year is entered", function() {
-		$('.vision_field_waterYear_date_range').val('2012');
-		$('.vision_field_waterYear_date_range').change();
-		
-		var lastMonths = $('.vision_field_lastMonths_date_range').val();
-		since('Last Months should be reset when water year is set').expect(lastMonths).toBe('none');
-		
-		testDate('water year startDate', model.get('startDate'), 2011, 10, 1);
-		testDate('water year endDate', model.get('endDate'), 2012, 9, 30);
-	});
-	
-	it("should undate date range when last months is selected", function() {
-		$('.vision_field_lastMonths_date_range').val("Last 10 months");
-		$('.vision_field_lastMonths_date_range').change();
-		
-		var waterYear = $('.vision_field_waterYear_date_range').val();
-		since('Water year should be reset when last months is set').expect(waterYear).toBe('');
-		
-		var expectedStartDate = new Date();
-		expectedStartDate.setMonth( expectedStartDate.getMonth()-10 );
-		testDate('last 10 months startDate', model.get('startDate'), expectedStartDate.getYear()+1900, expectedStartDate.getMonth()+1, expectedStartDate.getDate());
-		var expectedEndDate = new Date();
-		testDate('last 10 months endDate', model.get('endDate'),  expectedEndDate.getYear()+1900, expectedEndDate.getMonth()+1, expectedEndDate.getDate());
-	});
+//	it("should set default start and end date", function() {
+//	    var test = model.get('startDate') !== undefined && model.get('startDate') !== '';
+//	    since('expect date fields to be initialized').expect(test).toBeTruthy();
+//
+//		var date = new Date();
+//		testDate('initial startDate', model.get('startDate'), date.getYear()+1900-1, date.getMonth()+1, date.getDate());
+//		testDate('initial endDate', model.get('endDate'), date.getYear()+1900, date.getMonth()+1, date.getDate());
+//	});
+//	
+//	it("should undate date range when water year is entered", function() {
+//		$('.vision_field_waterYear_date_range').val('2012');
+//		$('.vision_field_waterYear_date_range').change();
+//		
+//		var lastMonths = $('.vision_field_lastMonths_date_range').val();
+//		since('Last Months should be reset when water year is set').expect(lastMonths).toBe('none');
+//		
+//		testDate('water year startDate', model.get('startDate'), 2011, 10, 1);
+//		testDate('water year endDate', model.get('endDate'), 2012, 9, 30);
+//	});
+//	
+//	it("should undate date range when last months is selected", function() {
+//		$('.vision_field_lastMonths_date_range').val("Last 10 months");
+//		$('.vision_field_lastMonths_date_range').change();
+//		
+//		var waterYear = $('.vision_field_waterYear_date_range').val();
+//		since('Water year should be reset when last months is set').expect(waterYear).toBe('');
+//		
+//		var expectedStartDate = new Date();
+//		expectedStartDate.setMonth( expectedStartDate.getMonth()-10 );
+//		testDate('last 10 months startDate', model.get('startDate'), expectedStartDate.getYear()+1900, expectedStartDate.getMonth()+1, expectedStartDate.getDate());
+//		var expectedEndDate = new Date();
+//		testDate('last 10 months endDate', model.get('endDate'),  expectedEndDate.getYear()+1900, expectedEndDate.getMonth()+1, expectedEndDate.getDate());
+//	});
 });
 
