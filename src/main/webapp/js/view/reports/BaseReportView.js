@@ -214,10 +214,12 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	setStartDate: function(startDate) {
 		this.model.set("startDate", startDate);
+		this.model.trigger('change:primaryTimeseriesIdentifier'); //hack to get primary rating model to reload
 	},
 	
 	setEndDate: function(endDate) {
 		this.model.set("endDate", endDate);
+		this.model.trigger('change:primaryTimeseriesIdentifier'); //hack to get primary rating model to reload
 	},
 	
 	abortAjax : function(ajaxCall) {
