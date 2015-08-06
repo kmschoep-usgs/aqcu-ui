@@ -15,18 +15,24 @@ describe("DateField.js", function() {
 	afterEach(function(){
 		$('.date-range').html('');
 	});
+		
+	var setupDom = function(){
+		if ($('.date-range').length === 0) {
+			var dom = $('<div class="date-range"></div>');
+		    $(document.body).append(dom);
+		}
+	}
 	
 	beforeEach(function(){
+		setupDom();
+		
 		model = new Backbone.Model();
 		expect(model.get('startDate')).not.toBeDefined();
 		expect(model.get('endDate')).not.toBeDefined();
 		
 		model.set('startDate','');
 		model.set('endDate','');
-		
-		var dom = $('<div class="date-range"></div>');
-	    $(document.body).append(dom);
-		
+				
 		dateField = new AQCU.view.DateField({
 			el     : '.date-range',
 			model  : model,
