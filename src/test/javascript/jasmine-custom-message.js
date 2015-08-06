@@ -24,14 +24,14 @@
     return types.indexOf(valType) > -1;
   };
 
-  var getMessage = function(assertion, message, args) {
+  var getMessage = function(data, message) {
     while (! ofType(message, 'string', 'number', 'boolean')) {
       switch (true) {
         case ofType(message, 'undefined', 'null'):
-          message = 'You cannot use `' + message + '` as a custom message';
+          message = data.message || 'You cannot use `' + message + '` as a custom message';
           break;
         case ofType(message, 'function'):
-          message = message.apply(assertion, args);
+          message = message.call(data);
           break;
         case message && ofType(message.toString, 'function') && message.toString().indexOf('[object ') !== 0:
           message = message.toString();
@@ -44,19 +44,20 @@
       }
     }
 
-    return message.toString();
+    return message.toString() + " -> " + data.message;
+  };
+
+  var wrapAddExpectationResult = function(addExpectationResult, customMessage) {
+    return function(passed, data) {
+      data.message = getMessage(data, customMessage);
+      addExpectationResult(passed, data);
+    };
   };
 
   var wrapExpect = function(expect, customMessage) {
     return function(actual) {
       var assertion = expect(actual);
-      var assertionAddExpectationResult = assertion.addExpectationResult;
-      if (! ofType(customMessage, 'undefined', 'null')) {
-        assertion.addExpectationResult = function(passed, data, isError) {
-          data.message = customMessage +" -> "+ data.message
-          return assertionAddExpectationResult(passed, data, isError);
-        };
-      }
+      assertion.addExpectationResult = assertion.not.addExpectationResult = wrapAddExpectationResult(assertion.addExpectationResult, customMessage);
       return assertion;
     };
   };
