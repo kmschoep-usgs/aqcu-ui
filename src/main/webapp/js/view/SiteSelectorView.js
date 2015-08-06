@@ -28,6 +28,11 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 
 		this.model.bind("change:selectedSite",   this.updateParentModelSelectedSite, this);
 		this.model.bind("change:siteList",       this.updateSiteList, this);
+		
+		var that = this;
+		setTimeout(function(){
+			that.refreshView();
+		},100);
 	},
 	
 	refreshView: function() {
