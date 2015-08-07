@@ -4,6 +4,10 @@ TODO: Figure out if the USGS google analytics code will actually be required to 
 <script type="application/javascript" src="http://www.usgs.gov/scripts/analytics/usgs-analytics.js"></script>
 --%>
 <script>
+if (location.href.indexOf("localhost") >= 0) {
+	ga = function(){};
+} else {
+
 	(function(i, s, o, g, r, a, m) {
 		i['GoogleAnalyticsObject'] = r;
 		i[r] = i[r] || function() {
@@ -18,5 +22,6 @@ TODO: Figure out if the USGS google analytics code will actually be required to 
 	ga('create', 'UA-50379402-1', 'auto');
 	ga('set', 'anonymizeIp', true);
 	ga('send', 'pageview');
+}
 </script>
 

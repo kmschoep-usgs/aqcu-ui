@@ -1,4 +1,20 @@
 /**
+ * extend stickit to properly handle binding to select2 components
+ */
+Backbone.Stickit.addHandler([
+	{
+		selector: '.select2-hidden-accessible',
+		events: ['change'],
+		getVal: function($el) {
+			return $el.val();
+		},
+		update: function($el, val, model, options) {
+			$el.val(val);
+		}
+	}
+]);
+
+/**
  * Backbone view to encapsulate the text field widget
  */
 AQCU.view.Select2Field = Backbone.View.extend({
@@ -16,7 +32,6 @@ AQCU.view.Select2Field = Backbone.View.extend({
 					</label><br/>\
 				</div>\
 				{{/if}}\
-				<input type='hidden' name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}'/> \
 				<div class='{{#if displayName}}col-sm-7 col-md-7 col-lg-7{{else}}col-sm-12 col-md-12 col-lg-12{{/if}}'>\
 					<select class='vision_field vision_select_field_{{fieldName}}'>\
 						<option></option>\
@@ -32,13 +47,13 @@ AQCU.view.Select2Field = Backbone.View.extend({
 	 * Will create and render a text field using a fieldConfig options defined in NWIS Search Models.
 	 */
 	initialize: function(options) {
+		// template configurations
 		this.fieldConfig = options.fieldConfig;
-		this.select2     = options.select2;
-		this.field       = ".vision_field_" + options.fieldConfig.fieldName;
-		this.selector    = ".vision_select_field_" + options.fieldConfig.fieldName;
 		
-
-		// set default value - override available
+		// select2 configurations
+		this.select2     = options.select2;
+		this.selector    = ".vision_select_field_" + options.fieldConfig.fieldName;
+		// select2 defaults - override available
 		if ( ! options.select2.minimumInputLength) {
 			options.select2.minimumInputLength = 3;
 		}
@@ -49,48 +64,28 @@ AQCU.view.Select2Field = Backbone.View.extend({
 			options.select2.ajax.delay=1000;
 		}
 		
-		this.events["change " + this.field] = this.updateSelectedOption;
-		this.events["change " + this.selector] = this.setHiddenValue;
-
+		// model bindings
+		this.model       = options.model;
+		this.modelField  = options.modelField ?options.modelField :options.fieldConfig.fieldName;
+		if (this.model.get(this.modelField) === undefined) {
+			this.model.set(this.modelField, '');
+		}
+		this.bindings = {}; // dynamic binding
+		this.bindings[this.selector] = this.modelField;
+		
 		this.render();
-		this.updateSelectedOption();
 	},
 	render: function() {
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
 		this.$el.html(newDom);
 		this.$(this.selector).select2(this.select2);
-	},
-	/**
-	 * The HTML that is generated here can be bound using Backbone stickit with the following
-	 * config attributes.
-	 * @returns JSON object containing a single config for this element
-	 */
-	getBindingConfig: function() {
-		var binding = {};
-		binding[this.field] = {
-			observe: this.fieldConfig.fieldName
-		};
-		return binding;
+		this.stickit();
 	},
 	getDisplayValue: function(value) {
-		return this.$(this.selector).find("option[value='"+value+"']").html()
-	},
-	/**
-	 * Helper function to sync up the hidden value with the two date fields
-	 */
-	updateSelectedOption: function() {
-		var value = this.$(this.field).val();
-		this.$(this.selector).val(value);
-	},
-	/**
-	 * Helper function, when when either display values are updated, the hidden value is updated
-	 */
-	setHiddenValue: function() {
-		var oldVal = this.$(this.field).val();
-		var newVal = this.$(this.selector).val();
-		this.$(this.field).val(newVal);
-		if (oldVal !== newVal) {
-			this.$(this.field).change();
+		// if no value is given then use the current value
+		if (value === undefined) {
+			value = $(this.selector).val();
 		}
+		return this.$(this.selector).find("option[value='"+value+"']").text();
 	},
 });
