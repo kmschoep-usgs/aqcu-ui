@@ -73,21 +73,15 @@ AQCU.view.Select2Field = Backbone.View.extend({
 		this.bindings = {}; // dynamic binding
 		this.bindings[this.selector] = this.modelField;
 		
-		console.log('select2field.initialize ' + this.selector)
-		
 		this.render();
 	},
 	render: function() {
-		console.log('select2field.render ' + this.selector)
-		
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
 		this.$el.html(newDom);
 		this.$(this.selector).select2(this.select2);
 		this.stickit();
 	},
 	getDisplayValue: function(value) {
-		console.log('select2field.getDisplayValue ' + this.selector)
-		
 		// if no value is given then use the current value
 		if (value === undefined) {
 			value = $(this.selector).val();

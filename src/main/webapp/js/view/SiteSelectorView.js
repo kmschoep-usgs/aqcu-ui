@@ -16,8 +16,6 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	initialize: function() {
-		console.log('SiteSelectorView.initialize');
-		
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
 		this.router = this.options.router;
