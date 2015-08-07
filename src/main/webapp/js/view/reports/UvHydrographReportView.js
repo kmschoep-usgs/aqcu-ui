@@ -64,11 +64,11 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 	createComparisonSiteSelector: function() {
-		var newContainer = $('<div id="comparisonSite"></div>');
+		var newContainer = $('<div class="aqcu-uv-comparison-site"></div>');
 		this.advancedOptionsContainer.append(newContainer);
 
 		this.comparisonSite = new AQCU.view.Select2Field({
-			el: '#comparisonSite',
+			el: '.aqcu-uv-comparison-site',
 			model : this.model,
 			fieldConfig: {
 				fieldName   : "comparisonSite",
