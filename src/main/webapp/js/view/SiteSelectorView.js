@@ -16,6 +16,8 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	initialize: function() {
+		console.log('SiteSelectorView.initialize');
+		
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
 		this.router = this.options.router;
@@ -28,13 +30,9 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 
 		this.model.bind("change:selectedSite",   this.updateParentModelSelectedSite, this);
 		this.model.bind("change:siteList",       this.updateSiteList, this);
-		
-		var that = this;
-		setTimeout(function(){
-			that.refreshView();
-		},100);
+		this.model.bind("change:select_site_no", this.onSiteSearchSelect, this);	
 	},
-	
+		
 	refreshView: function() {
 		this.preRender();
 		this.baseRender();
@@ -68,6 +66,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	createSiteSelectorWidget: function() {
 		this.siteSelect = new AQCU.view.Select2Field({
 			el:'.site-select-widget',
+			model:this.model,
 			fieldConfig: {
 				fieldName   : "select_site_no",
 				description : "Search by site name or number"
@@ -98,8 +97,6 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 				},
 			},
 		});
-		$.extend(this.bindings, this.siteSelect.getBindingConfig());
-		this.model.bind("change:select_site_no", this.onSiteSearchSelect, this);	
 	},
 
 	updateSiteList: function() {
