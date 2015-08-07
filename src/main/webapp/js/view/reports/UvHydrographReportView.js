@@ -64,8 +64,11 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 	createComparisonSiteSelector: function() {
-		var newContainer = $("<div>");
+		var newContainer = $('<div id="comparisonSite"></div>');
+		this.advancedOptionsContainer.append(newContainer);
+
 		this.comparisonSite = new AQCU.view.Select2Field({
+			el: '#comparisonSite',
 			model : this.model,
 			fieldConfig: {
 				fieldName   : "comparisonSite",
@@ -74,7 +77,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			},
 			select2: {
 				placeholder : "Comparison siter",
-				dropdownCssClass: "site-selector-search-list-width",
+				width: '100%',
 				ajax : {
 					url: AQCU.constants.serviceEndpoint + "/service/lookup/sites",
 				    dataType: 'json',
@@ -97,11 +100,8 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 				    cache: true
 				},
 			},
-			renderTo: newContainer,
 			startHidden: false,
-		});
-		this.advancedOptionsContainer.append(newContainer);
-		
+		});		
 		this.model.bind("change:comparisonSite", this.loadComparisonTimeSeriesList, this);	
 	},
 	
