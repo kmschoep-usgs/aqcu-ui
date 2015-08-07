@@ -66,7 +66,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	createComparisonSiteSelector: function() {
 		var newContainer = $("<div>");
 		this.comparisonSite = new AQCU.view.Select2Field({
-			router: this.router,
+			model : this.model,
 			fieldConfig: {
 				fieldName   : "comparisonSite",
 				displayName: "Comparison Site",
@@ -100,7 +100,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			renderTo: newContainer,
 			startHidden: false,
 		});
-		$.extend(this.bindings, this.comparisonSite.getBindingConfig());
 		this.advancedOptionsContainer.append(newContainer);
 		
 		this.model.bind("change:comparisonSite", this.loadComparisonTimeSeriesList, this);	
