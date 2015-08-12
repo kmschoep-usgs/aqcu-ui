@@ -36,6 +36,13 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			publish: 'true',
 			computation: 'Minn',
 			period: 'Daily'
+		},{
+			requestId: "derivedMedianTimeseriesIdentifier",
+			display: "Daily Median",
+			direction: "downchain",
+			publish: 'true',
+			computation: 'Median',
+			period: 'Daily'
 		}],
 	optionalRatingModels: [{ 
 			requestId: "ratingModelIdentifier", 
