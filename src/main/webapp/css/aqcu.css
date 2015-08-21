@@ -34,9 +34,20 @@
 	padding: 1em;	
 }
 
+.site-selection-panel-container {
+	padding-left: 0px;	
+}
+
 .site-selection-panel {
+	margin-left: 0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-top: solid 1px #a0a0a0;
+	border-right: solid 1px #a0a0a0;
+	border-bottom: solid 1px #a0a0a0;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
 	background-color: #E6E6E6;
-	height: 100%;
 	padding: 0px;
 	min-height: 600px;
 }
@@ -59,11 +70,21 @@
 	font-weight: bold;
 	cursor: pointer;
 	position: absolute;
-	right: .5em;
+	right: 1.5em;
 }
 
 .site-selector-selected-site {
 	background-color: white;
+	border-top: solid 1px #a0a0a0;
+	border-bottom: solid 1px #a0a0a0;
+	/*a bit hackey, doing this to hide parent's border*/
+	border-right: solid 1px white;
+	position: relative;
+	right: -2px;
+}
+
+.site-selector-selected-site .site-selector-remove-site {
+	right: .5em;
 }
 /** SITE SELECTOR: END **/
 
@@ -144,7 +165,7 @@
 .date-range-container-top{
 	min-height: 3em;
 	width: 90%;
-	border: solid black 1px;
+	border: solid #a0a0a0 1px;
 	border-radius: 5px;
 	position: relative;
 	padding-bottom: .5em;
@@ -157,7 +178,7 @@
 .date-range-container-bottom{
 	min-height: 4em;
 	width: 90%;
-	border: solid black 1px;
+	border: solid #a0a0a0 1px;
 	border-radius: 5px;
 	position: relative;
 	padding: 0.75em 0em;
