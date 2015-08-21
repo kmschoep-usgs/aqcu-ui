@@ -1,7 +1,7 @@
 AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	templateName: 'report-card',
 	reportName: null, //Display name of report
-	defaultFormat: 'pdf',
+	defaultFormat: 'html',
 	selectedTimeSeries: null, //array of json objects describing selected timeseries, this array is ordered
 	requiredRelatedTimeseriesConfig: [], //override this
 	requiredRatingModels: [],
