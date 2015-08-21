@@ -83,7 +83,7 @@
 	/*a bit hackey, doing this to hide parent's border*/
 	border-right: solid 1px white;
 	position: relative;
-	right: -1px;
+	right: -2px; /* some zoom levels reveal border at -1px*/
 }
 
 .site-selector-selected-site .site-selector-remove-site {
