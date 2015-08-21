@@ -83,7 +83,7 @@
 	/*a bit hackey, doing this to hide parent's border*/
 	border-right: solid 1px white;
 	position: relative;
-	right: -2px;
+	right: -1px;
 }
 
 .site-selector-selected-site .site-selector-remove-site {
