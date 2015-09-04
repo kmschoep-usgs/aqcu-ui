@@ -67,10 +67,10 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			model:this.model,
 			fieldConfig: {
 				fieldName   : "select_site_no",
-				description : "Search by site name or number"
+				description : "Search by location name or number"
 			},
 			select2: {
-				placeholder : "Search by site name or number",
+				placeholder : "Search by location name or number",
 				dropdownCssClass: "site-selector-search-list-width",
 				ajax : {
 					url: AQCU.constants.serviceEndpoint + "/service/lookup/sites",

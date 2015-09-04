@@ -211,7 +211,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 		url = url.replace("paged", "streaming") + "/" + format + "?" + jQuery.param(data, true);
 		fullUrl = url;
 
-		window.open(fullUrl, 'Download');
+		window.open(fullUrl,'Download ' + new Date().getMilliseconds());
 
 		ga('send', 'event', {
 			'eventCategory': 'reportDownload',

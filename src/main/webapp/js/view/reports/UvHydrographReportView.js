@@ -83,7 +83,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 				description : ""
 			},
 			select2: {
-				placeholder : "Comparison siter",
+				placeholder : "Comparison location",
 				width: '100%',
 				ajax : {
 					url: AQCU.constants.serviceEndpoint + "/service/lookup/sites",
