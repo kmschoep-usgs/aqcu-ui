@@ -7,7 +7,8 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			direction: "downchain",
 			publish: 'true',
 			computation: 'Unknown',
-			period: 'Unknown'
+			period: 'Unknown',
+			skipAutoLoad: true
 		},{
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Upchain Time Series",

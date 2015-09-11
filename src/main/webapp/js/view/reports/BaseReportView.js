@@ -242,6 +242,9 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 
 	loadRelatedTimeseries: function(params){
+		if(params.skipAutoLoad) {
+			return;
+		}
 		this.abortAjax(this.ajaxCalls[params.requestId]);
 		this.ajaxCalls[params.requestId] = $.ajax({
 			url: AQCU.constants.serviceEndpoint + 
