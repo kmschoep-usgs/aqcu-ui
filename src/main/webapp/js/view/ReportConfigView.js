@@ -8,7 +8,8 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	availableReports: [
 		AQCU.view.ExtremesReportView,
 		AQCU.view.VDiagramReportView,
-		AQCU.view.UvHydrographReportView
+		AQCU.view.UvHydrographReportView,
+		AQCU.view.SiteVisitPeakReportView
 		],
        
 	/**

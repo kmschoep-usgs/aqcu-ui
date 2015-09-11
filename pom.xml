@@ -200,6 +200,7 @@
 						<source>src/main/webapp/js/view/reports/ExtremesReportView.js</source>
 						<source>src/main/webapp/js/view/reports/UvHydrographReportView.js</source>
 						<source>src/main/webapp/js/view/reports/VDiagramReportView.js</source>
+						<source>src/main/webapp/js/view/reports/SiteVisitPeakReportView.js</source>
 						
 						<source>src/main/webapp/js/view/SiteSelectorView.js</source>
 						<source>src/main/webapp/js/view/ReportConfigView.js</source>
