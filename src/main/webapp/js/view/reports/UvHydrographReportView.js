@@ -1,6 +1,6 @@
 AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	reportName: "UV Hydrograph",
-	reportType: "swuvhydrograph",
+	reportType: "uvhydrograph",
 	optionalRelatedTimeseriesConfig: [{
 			requestId: "secondaryTimeseriesIdentifier",
 			display: "Secondary Time Series",

@@ -1,6 +1,6 @@
 AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 	reportName: "V-Diagram",
-	reportType: "swreviewvdiagram",
+	reportType: "vdiagram",
 	requiredRelatedTimeseriesConfig: [{
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Gage Height",
