@@ -48,6 +48,7 @@
 		<script type="text/javascript" src="js/view/reports/VDiagramReportView.js"></script>
 		<script type="text/javascript" src="js/view/reports/UvHydrographReportView.js"></script>
 		<script type="text/javascript" src="js/view/reports/SiteVisitPeakReportView.js"></script>
+		<script type="text/javascript" src="js/view/reports/SensorReadingSummaryReportView.js"></script>
 		
 		<script type="text/javascript" src="js/view/SiteSelectorView.js"></script>
 		<script type="text/javascript" src="js/view/TimeSeriesSelectionGridView.js"></script>
