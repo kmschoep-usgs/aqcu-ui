@@ -4,7 +4,7 @@ AQCU.view.SensorReadingSummaryReportView = AQCU.view.BaseReportView.extend({
 	optionalRelatedTimeseriesConfig: [{
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Gage Height",
-			parameter: "Gage height",
+			parameter: "Discharge",
 			direction: "upchain",
 			publish: 'true',
 			computation: 'Unknown',
@@ -13,22 +13,6 @@ AQCU.view.SensorReadingSummaryReportView = AQCU.view.BaseReportView.extend({
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Precipitation",
 			parameter: "Precipitation",
-			direction: "upchain",
-			publish: 'true',
-			computation: 'Unknown',
-			period: 'Unknown'
-		},{
-			requestId: "upchainTimeseriesIdentifier",
-			display: "Water Level",
-			parameter: "Water Level",
-			direction: "upchain",
-			publish: 'true',
-			computation: 'Unknown',
-			period: 'Unknown'
-		},{
-			requestId: "upchainTimeseriesIdentifier",
-			display: "Elevation",
-			parameter: "Elevation",
 			direction: "upchain",
 			publish: 'true',
 			computation: 'Unknown',
