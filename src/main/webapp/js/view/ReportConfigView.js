@@ -10,7 +10,8 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		AQCU.view.VDiagramReportView,
 		AQCU.view.UvHydrographReportView,
 		AQCU.view.SiteVisitPeakReportView,
-		AQCU.view.SensorReadingSummaryReportView
+		AQCU.view.SensorReadingSummaryReportView,
+		AQCU.view.DvHydrographReportView
 		],
        
 	/**
