@@ -203,6 +203,7 @@
 						<source>src/main/webapp/js/view/reports/SiteVisitPeakReportView.js</source>
 						<source>src/main/webapp/js/view/reports/SensorReadingSummaryReportView.js</source>
 						<source>src/main/webapp/js/view/reports/DvHydrographReportView.js</source>
+						<source>src/main/webapp/js/view/reports/FiveYearGWSummaryReportView.js</source>
 						
 						<source>src/main/webapp/js/view/SiteSelectorView.js</source>
 						<source>src/main/webapp/js/view/ReportConfigView.js</source>
