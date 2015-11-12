@@ -209,12 +209,12 @@
 	overflow: hidden;
 	white-space: nowrap;
 	width: auto;
+	cursor: pointer;
 }
 
 .report-config .primary-ts-selector .close-btn {
 	font-weight: bold;
 	padding-left: 1em;
-	cursor: pointer;
 }
 /** REPORT CONFIG: END **/
 

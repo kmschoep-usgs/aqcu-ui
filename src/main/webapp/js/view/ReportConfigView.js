@@ -22,7 +22,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	bindings: {},
 
 	events: {
-		"click .close-btn": "removeTimeSeries"
+		"click .primary-ts-selector": "removeTimeSeries"
 	},
 	
 	initialize: function() {
