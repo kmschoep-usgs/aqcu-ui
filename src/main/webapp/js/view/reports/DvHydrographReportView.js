@@ -1,7 +1,7 @@
 AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	reportName: "DV Hydrograph",
 	reportType: "dvhydrograph",
-	optionalRelatedTimeseriesConfig: [{
+	requiredRelatedTimeseriesConfig: [{
 			requestId: "firstDownChainIdentifier",
 			display: "First Downchain Stat Derived Time Series",
 			direction: "downchain",
@@ -9,7 +9,8 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			parameter: 'userSelectedParameter',
 			period: 'Daily',
 			dynamicParameter: 'true'
-		}, {
+		}],
+	optionalRelatedTimeseriesConfig: [{
 			requestId: "secondDownChainIdentifier",
 			display: "Second Downchain Stat Derived Time Series",
 			direction: "downchain",
