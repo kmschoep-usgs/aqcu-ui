@@ -6,7 +6,6 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "First Downchain Stat Derived Time Series",
 			direction: "downchain",
 			publish: 'true',
-			parameter: 'userSelectedParameter',
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}],
@@ -15,7 +14,6 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Second Downchain Stat Derived Time Series",
 			direction: "downchain",
 			publish: 'true',
-			parameter: 'userSelectedParameter',
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}, {
@@ -23,23 +21,22 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Third Downchain Stat Derived Time Series",
 			direction: "downchain",
 			publish: 'true',
-			parameter: 'userSelectedParameter',
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}, {
-			requestId: "dvSecondaryReferenceIdentifier",
+			requestId: "secondaryReferenceIdentifier",
 			display: "Secondary Reference Time Series",
 			direction: "downchain",
 			publish: 'true',
 			period: 'Daily'
 		}, {
-			requestId: "dvTertiaryReferenceIdentifier",
+			requestId: "tertiaryReferenceIdentifier",
 			display: "Tertiary Reference Time Series",
 			direction: "downchain",
 			publish: 'true',
 			period: 'Daily'
 		}, {
-			requestId: "dvQuaternaryReferenceIdentifier",
+			requestId: "quaternaryReferenceIdentifier",
 			display: "Quaternary Reference Time Series",
 			direction: "downchain",
 			publish: 'true',

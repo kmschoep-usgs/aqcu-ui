@@ -1,28 +1,26 @@
 AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 	reportName: "Five Year GW Summary",
 	reportType: "fiveyeargwsummary",
-	optionalRelatedTimeseriesConfig: [{			
-			requestId: "fiveYearFirstDownChainIdentifier",
+	requiredRelatedTimeseriesConfig: [{
+			requestId: "firstDownChainIdentifier",
 			display: "First Downchain Stat Derived Time Series",
 			direction: "downchain",
 			publish: 'true',
-			parameter: 'userSelectedParameter',
 			period: 'Daily',
 			dynamicParameter: 'true'
-		},{
-			requestId: "fiveYearSecondDownChainIdentifier",
+		}],
+	optionalRelatedTimeseriesConfig: [{
+			requestId: "secondDownChainIdentifier",
 			display: "Second Downchain Stat Derived Time Series",
 			direction: "downchain",
 			publish: 'true',
-			parameter: 'userSelectedParameter',
 			period: 'Daily',
 			dynamicParameter: 'true'
 		},{
-			requestId: "fiveYearThirdDownChainIdentifier",
+			requestId: "thirdDownChainIdentifier",
 			display: "Third Downchain Stat Derived Time Series",
 			direction: "downchain",
 			publish: 'true',
-			parameter: 'userSelectedParameter',
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}],
