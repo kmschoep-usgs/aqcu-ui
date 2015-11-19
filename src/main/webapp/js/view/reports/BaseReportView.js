@@ -255,7 +255,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				timeSeriesIdentifier: this.model.get("selectedTimeSeries").uid,
 				direction: params.direction,
 				publish: params.publish,
-				parameter: params.parameter === "userSelectedParameter"? this.model.get("selectedTimeSeries").parameter : params.parameter,
+				parameter: params.parameter,
 				computationIdentifier: params.computation || 'Unknown',
 				computationPeriodIdentifier: params.period || 'Unknown',
 				startDate: this.model.get("startDate"),
