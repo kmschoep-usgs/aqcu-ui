@@ -7,8 +7,8 @@ AQCU.view.ExtremesReportView = AQCU.view.BaseReportView.extend({
 			direction: "upchain",
 			parameter: "Gage height",
 			publish: 'true',
-			computation: 'Unknown',
-			period: 'Unknown'
+			computation: 'Instantaneous',
+			period: 'Points'
 		},{
 			requestId: "derivedMeanTimeseriesIdentifier",
 			display: "Mean Daily Discharge",

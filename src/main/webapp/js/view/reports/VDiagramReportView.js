@@ -7,8 +7,8 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			parameter: "Gage height",
 			direction: "upchain",
 			publish: 'true',
-			computation: 'Unknown',
-			period: 'Unknown'
+			computation: 'Instantaneous',
+			period: 'Points'
 		}],
 	requiredRatingModels: [{ requestId: "ratingModelIdentifier", display: "Primary Rating Model", bindTo: "primaryTimeseriesIdentifier"}]
 });

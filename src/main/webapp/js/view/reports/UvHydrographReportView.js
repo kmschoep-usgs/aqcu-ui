@@ -6,16 +6,16 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Secondary Time Series",
 			direction: "downchain",
 			publish: 'true',
-			computation: 'Unknown',
-			period: 'Unknown',
+			computation: 'Instantaneous',
+			period: 'Points',
 			skipAutoLoad: true
 		},{
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Upchain Time Series",
 			direction: "upchain",
 			publish: 'true',
-			computation: 'Unknown',
-			period: 'Unknown'
+			computation: 'Instantaneous',
+			period: 'Points'
 		},{
 			requestId: "derivedMeanTimeseriesIdentifier",
 			display: "Daily Mean",
@@ -140,8 +140,8 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 				dataType: "json",
 				data: {
 					stationId: siteNumber,
-					computationIdentifier: "Unknown", //Unknown seems to be applied to non-mean/DV series
-					computationPeriodIdentifier: "Unknown" //Unknown seems to be applied to non-mean/DV series
+					computationIdentifier: 'Instantaneous', //Instantaneous seems to be applied to non-mean/DV series
+					computationPeriodIdentifier: 'Points' //Points seems to be applied to non-mean/DV series
 				},
 				context: this,
 				success: function (data) {

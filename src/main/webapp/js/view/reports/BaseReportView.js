@@ -256,8 +256,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				direction: params.direction,
 				publish: params.publish,
 				parameter: params.parameter,
-				computationIdentifier: params.computation || 'Unknown',
-				computationPeriodIdentifier: params.period || 'Unknown',
+				computationIdentifier: params.computation || 'Instantaneous',
+				computationPeriodIdentifier: params.period || 'Points',
 				startDate: this.model.get("startDate"),
 				endDate: this.model.get("endDate")
 			},

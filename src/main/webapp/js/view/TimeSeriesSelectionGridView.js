@@ -43,8 +43,8 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 			dataType: "json",
 			data: {
 				stationId: site.siteNumber,
-				computationIdentifier: "Unknown", //Unknown seems to be applied to non-mean/DV series
-				computationPeriodIdentifier: "Unknown" //Unknown seems to be applied to non-mean/DV series
+				computationIdentifier: "Instantaneous", //Instantaneous seems to be applied to non-mean/DV series
+				computationPeriodIdentifier: "Points" //Points seems to be applied to non-mean/DV series
 			},
 			context: _this,
 			success: function (data) {
