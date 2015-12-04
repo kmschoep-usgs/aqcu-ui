@@ -9,22 +9,6 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}],
-	optionalRelatedTimeseriesConfig: [{
-			requestId: "secondDownChainIdentifier",
-			display: "Second Downchain Stat Derived Time Series",
-			direction: "downchain",
-			publish: 'true',
-			period: 'Daily',
-			dynamicParameter: 'true'
-		},{
-			requestId: "thirdDownChainIdentifier",
-			display: "Third Downchain Stat Derived Time Series",
-			direction: "downchain",
-			publish: 'true',
-			period: 'Daily',
-			dynamicParameter: 'true'
-		}],
-		
 	loadAllRequiredTimeseries: function () {
 		this.clearRatingModels();
 		
