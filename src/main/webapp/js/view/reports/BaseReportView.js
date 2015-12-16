@@ -61,10 +61,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	removeSelectFields: function() {
-		if(this.formatSelector) {
-			this.formatSelector.remove();
-		}
-
 		for(var key in this.builtSelectorFields){
 			this.builtSelectorFields[key].remove();
 		}
@@ -74,22 +70,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.advancedOptionsContainer = this.$(".adv-options-container");
 		this.builtSelectorFields = {};
 		this.selectorParams = {};
-		
-		var newContainer = $("<div>");
-		this.formatSelector = new AQCU.view.SelectField({
-			router: this.router,
-			model: this.model,
-			fieldConfig: {
-				fieldName : "format",
-				displayName : "Report Format",
-				description : ""
-			},
-			renderTo: newContainer,
-			startHidden: false
-		});
-		$.extend(this.bindings, this.formatSelector.getBindingConfig());
-		this.formatSelector.setSelectOptions([{KeyValue: "html", DisplayValue: "html"}, {KeyValue: "pdf", DisplayValue: "pdf"}]);
-		this.advancedOptionsContainer.append(newContainer);
 		
 		for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
 			this.createTimeseriesSelectionBox(this.advancedOptionsContainer, this.requiredRelatedTimeseriesConfig[i], true);
