@@ -44,7 +44,9 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 				startDate: startDate,
 				endDate: endDate,
 				selectedTimeSeries: selectedTimeSeries, 
-				requestParams: null //this gets set by select
+				requestParams: null, //this gets set by select,
+				filterPublish: this.parentModel.get("filterPublish"),
+				filterPrimary: this.parentModel.get("filterPrimary")
 			});
 		
 		this.model.bind("change:site", this.siteUpdated, this);
@@ -53,8 +55,15 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.model.bind("change:startDate", this.updateReportViews, this);
 		this.model.bind("change:endDate", this.updateReportViews, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
+		this.model.bind("change:filterPublish", this.updateParentFilters, this);
+		this.model.bind("change:filterPrimary", this.updateParentFilters, this);
 		
 		this.availableReportViews = [];
+	},
+	
+	updateParentFilters : function() {
+		this.parentModel.set("filterPublish", this.model.get("filterPublish"));
+		this.parentModel.set("filterPrimary", this.model.get("filterPrimary"));
 	},
 	
 	/*override*/

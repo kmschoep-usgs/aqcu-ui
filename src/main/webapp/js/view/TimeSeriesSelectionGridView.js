@@ -8,7 +8,10 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	* Used by Backbone Stickit to bind HTML input elements to Backbone models.
 	* This will be built up in the initialize function.
 	*/
-	bindings: {},
+	bindings: {
+		"#filterPublish" : "filterPublish",
+		"#filterPrimary" : "filterPrimary"
+	},
 
 	events: {
 		"click .time-series-selection-grid-row": "timeSeriesClicked"
@@ -23,16 +26,29 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		this.parentModel = this.options.parentModel;
 		
 		this.model = this.options.model || new Backbone.Model({
-				timeSeriesList: this.options.timeSeriesList
+				timeSeriesList: this.options.timeSeriesList, //this gets set by select,
+				filterPublish: this.parentModel.get("filterPublish"),
+				filterPrimary: this.parentModel.get("filterPrimary")
 			});
 			
 		this.model.bind("change:visibility",this.changeVisibility,this);
-		//this.model.bind("change:site",this.fetchTimeSeries,this);
+		this.model.bind("change:filterPublish",this.displayGrid,this);
+		this.model.bind("change:filterPrimary",this.displayGrid,this);
 		this.site = this.options.site;
 		this.fetchTimeSeries();
 	},
 	
-		fetchTimeSeries: function () {
+	displayGrid: function() {
+		//set parent filters so these settings stick across site navigation
+		this.parentModel.set("filterPublish", this.model.get("filterPublish"));
+		this.parentModel.set("filterPrimary", this.model.get("filterPrimary"));
+		
+		this.beautifyAndFilter();
+		this.model.set('visibility','shown');
+		this.render();
+	},
+	
+	fetchTimeSeries: function () {
 		this.model.set('visibility','loading');
 		var _this = this;
 		var site = this.site;
@@ -68,9 +84,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 					sortedFormattedArray.push(timeSeriesEntry);
 				}
 				_this.model.set("timeSeriesList", sortedFormattedArray);
-				_this.beautify();
-				_this.model.set('visibility','shown');
-				_this.render();
+				_this.displayGrid();
 			},
 			error: function () {
 
@@ -79,20 +93,33 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	},
 	
 	afterRender: function() {
+		this.stickit();
 	},
 	
 	preRender: function(){
 	},
 	
-	beautify: function(){
+	beautifyAndFilter: function(){
 		var timeSeriesList = this.model.get("timeSeriesList");
+		var filteredList = []
 		for(var i=0;i < timeSeriesList.length;i++){
-			timeSeriesList[i]["identifier"] = 
-				timeSeriesList[i]["identifier"].split("@",1)[0];
+			var newRec = timeSeriesList[i];
+			var includeRec = true;
+			if(this.model.get("filterPublish") && !newRec.publish) {
+				includeRec = false;
+			}
+
+			if(this.model.get("filterPrimary") && !newRec.primary) {
+				includeRec = false;
+			}	
+			if(includeRec) {
+				newRec["identifier"] = newRec["identifier"].split("@",1)[0]
+				filteredList.push(newRec);
+			}
 		}
 		this.context = {
 			selectedTimeSeries: this.model.get("selectedTimeSeries"),
-			timeSeriesList: timeSeriesList
+			timeSeriesList: filteredList
 		};
 	},
 	
