@@ -9,11 +9,11 @@ AQCU.view.ExtremesReportView = AQCU.view.BaseReportView.extend({
 			computation: 'Instantaneous',
 			period: 'Points'
 		},{
-			requestId: "derivedMeanTimeseriesIdentifier",
-			display: "Mean Daily Value",
+			requestId: "derivedTimeseriesIdentifier",
+			display: "Daily Value",
 			direction: "downchain",
+			defaultComputation: "Mean", //note this parameter is used to load a default since we aren't specifying a computation filter
 			publish: 'true',
-			computation: 'Mean',
 			period: 'Daily'
 		}]
 });

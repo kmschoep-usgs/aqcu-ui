@@ -245,6 +245,13 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		if(params.skipAutoLoad) {
 			return;
 		}
+		
+		var computationFilter = params.computation || params.defaultComputation;
+		computationFilter = computationFilter || 'Instantaneous';
+		
+		var periodFilter = params.period || params.defaultPeriod;
+		periodFilter = periodFilter || 'Points';
+		
 		this.abortAjax(this.ajaxCalls[params.requestId]);
 		this.ajaxCalls[params.requestId] = $.ajax({
 			url: AQCU.constants.serviceEndpoint + 
@@ -256,8 +263,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				direction: params.direction,
 				publish: params.publish,
 				parameter: params.parameter,
-				computationIdentifier: params.computation || 'Instantaneous',
-				computationPeriodIdentifier: params.period || 'Points',
+				computationIdentifier: computationFilter,
+				computationPeriodIdentifier: periodFilter,
 				startDate: this.model.get("startDate"),
 				endDate: this.model.get("endDate")
 			},
