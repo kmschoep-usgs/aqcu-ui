@@ -117,6 +117,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 				filteredList.push(newRec);
 			}
 		}
+		this.model.set("filteredList", filteredList);
 		this.context = {
 			selectedTimeSeries: this.model.get("selectedTimeSeries"),
 			timeSeriesList: filteredList
@@ -127,7 +128,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		this.model.set('visibility','hidden');
 		var targetID = $(event.currentTarget).attr("id");
 		targetID = parseInt(targetID.substring(targetID.indexOf("-")+1));
-		this.parentModel.set("selectedTimeSeries",this.model.get("timeSeriesList")[targetID]);
+		this.parentModel.set("selectedTimeSeries",this.model.get("filteredList")[targetID]);
 	},
 	
 	changeVisibility: function(){
