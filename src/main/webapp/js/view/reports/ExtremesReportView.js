@@ -3,17 +3,15 @@ AQCU.view.ExtremesReportView = AQCU.view.BaseReportView.extend({
 	reportType: "extremes",
 	requiredRelatedTimeseriesConfig: [{
 			requestId: "upchainTimeseriesIdentifier",
-			display: "Gage height",
+			display: "Upchain Series",
 			direction: "upchain",
-			parameter: "Gage height",
 			publish: 'true',
 			computation: 'Instantaneous',
 			period: 'Points'
 		},{
 			requestId: "derivedMeanTimeseriesIdentifier",
-			display: "Mean Daily Discharge",
+			display: "Mean Daily Value",
 			direction: "downchain",
-			parameter: "Discharge",
 			publish: 'true',
 			computation: 'Mean',
 			period: 'Daily'
