@@ -37,7 +37,7 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 		computation: 'Median',
 		period: 'Daily'
 	}],
-optionalRatingModels: [{ 
+	optionalRatingModels: [{ 
 		requestId: "ratingModelIdentifier", 
 		display: "Primary Rating Model", 
 		bindTo: "primaryTimeseriesIdentifier"
