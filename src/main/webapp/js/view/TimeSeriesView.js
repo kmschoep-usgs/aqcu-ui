@@ -3,7 +3,7 @@
  */
 AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 	templateName: 'time-series',
-       
+
 	/**
 	* Used by Backbone Stickit to bind HTML input elements to Backbone models.
 	* This will be built up in the initialize function.
@@ -19,7 +19,9 @@ AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 		this.router = this.options.router;
 		
 		this.model = this.options.model || new Backbone.Model({
-				selectedSite: null
+				selectedSite: null,
+				filterPublish: true,
+				filterPrimary: true
 			});
 
 		this.model.bind("change:selectedSite", this.siteSelected, this);	
