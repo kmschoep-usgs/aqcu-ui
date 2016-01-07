@@ -38,6 +38,9 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.model.set("selectedTimeSeries", this.parentModel.get("selectedTimeSeries"));
 		this.model.set("startDate", this.parentModel.get("startDate"));
 		this.model.set("endDate", this.parentModel.get("endDate"));
+		if(this.parentModel.get("selectedTimeSeries")) {
+			this.model.set("primaryTimeseriesIdentifier", this.parentModel.get("selectedTimeSeries").uid); //this should trigger rating models to reload
+		}
 	},
 	
 	preRender: function() {
@@ -54,8 +57,12 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.hideWarning();
 		this.bindAllRatingModels();
 		this.buildAdvancedOptions();
-		this.loadAllTimeSeriesOptions(this.loadAllRequiredTimeseries);
 		this.stickit();
+		this.loadAllTimeSeriesOptions(this.loadAllRequiredTimeseries);
+
+		if(this.parentModel.get("selectedTimeSeries")) {
+			this.model.set("primaryTimeseriesIdentifier", this.parentModel.get("selectedTimeSeries").uid);
+		}
 	},
 	
 	remove: function() {
