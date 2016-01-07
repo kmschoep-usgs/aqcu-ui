@@ -56,6 +56,9 @@
 		
 		<script type="text/javascript" src="js/view/SiteSelectorView.js"></script>
 		<script type="text/javascript" src="js/view/TimeSeriesSelectionGridView.js"></script>
+		<script type="text/javascript" src="js/view/ReportConfigHeaderView.js"></script>
+		<script type="text/javascript" src="js/view/ReportConfigParamsView.js"></script>
+		<script type="text/javascript" src="js/view/ReportConfigSelectionView.js"></script>
 		<script type="text/javascript" src="js/view/ReportConfigView.js"></script>
 		<script type="text/javascript" src="js/view/TimeSeriesView.js"></script>
 		

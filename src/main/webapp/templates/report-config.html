@@ -1,31 +1,13 @@
 <div class="report-config container">
-	<div class="row">
-		<div class="header col-sm-12 col-md-12 col-lg-12">
-			{{#if site}}
-			{{site.siteNumber}} - {{site.siteName}}
-			{{else}}
-			<<< SELECT A LOCATION
-			{{/if}}
-			&nbsp;
-			<span class="primary-ts-selector {{#unless selectedTimeSeries}} hidden {{/unless}}">
-				<span class="selected-identifier"></span>
-				<span class="close-btn">X</span>
-			</span>
-		</div>
+	<div class="row report-config-header-container">
 	</div>
 	
-	<div class="row {{#unless site}} hidden {{/unless}}">
-		<div class="date-range col-sm-10 col-md-10 col-lg-10"></div>
+	<div class="row report-config-params-container">
 	</div>
 	
-	<div class="row">
-		<div class="time-series-selection-grid-container col-sm-10 col-md-10 col-lg-10">
-		</div>
+	<div class="row time-series-selection-grid-container">
 	</div>
 	
-	<div class="report-views-container row {{#unless selectedTimeSeries}} hidden {{/unless}}">
-		<div class="available-reports col-sm-8 col-md-8 col-lg-8">
-		</div>
+	<div class="row report-views-container">
 	</div>
-	
 </div>

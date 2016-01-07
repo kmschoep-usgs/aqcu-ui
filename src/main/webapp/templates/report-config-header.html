@@ -1,0 +1,14 @@
+<div class="col-sm-12 col-md-12 col-lg-12">
+	<div class="header">
+		{{#if site}}
+		{{site.siteNumber}} - {{site.siteName}}
+		{{else}}
+		<<< SELECT A LOCATION
+		{{/if}}
+		&nbsp;
+		<span class="primary-ts-selector {{#unless selectedTimeSeries}} hidden {{/unless}}">
+			<span class="selected-identifier">{{selectedTimeSeries.identifier}}</span>
+			<span class="close-btn">X</span>
+		</span>
+	</div>
+</div>

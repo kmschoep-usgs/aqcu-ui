@@ -21,20 +21,23 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.bindings = {};
 		this.parentModel = this.options.parentModel;
 		this.model = new Backbone.Model({
-			site: null,
-			selectedTimeSeries: null,
-			startDate: null,
-			endDate: null,
+			site: this.parentModel.get("site"),
+			selectedTimeSeries: this.parentModel.get("selectedTimeSeries"),
+			startDate: this.parentModel.get("startDate"),
+			endDate: this.parentModel.get("endDate"),
 			format: this.defaultFormat
 		});
-
-		this.model.bind("change:selectedTimeSeries", this.loadAllRequiredTimeseries, this);
-		this.model.bind("change:startDate", this.loadAllRequiredTimeseries, this);
-		this.model.bind("change:endDate", this.loadAllRequiredTimeseries, this);
-
-		this.model.bind("change:site", this.loadAllTimeSeriesOptions, this);
-		this.model.bind("change:startDate", this.loadAllTimeSeriesOptions, this);
-		this.model.bind("change:endDate", this.loadAllTimeSeriesOptions, this);
+		
+		this.parentModel.bind("change:selectedTimeSeries change:startDate change:endDate", this.updateMyAtts, this);
+		this.model.bind("change:site", function() { this.loadAllTimeSeriesOptions(); }, this);
+		this.model.bind("change:startDate change:endDate", this.loadAllRequiredTimeseries, this);
+	},
+	
+	updateMyAtts: function() {
+		this.model.set("site", this.parentModel.get("site"));
+		this.model.set("selectedTimeSeries", this.parentModel.get("selectedTimeSeries"));
+		this.model.set("startDate", this.parentModel.get("startDate"));
+		this.model.set("endDate", this.parentModel.get("endDate"));
 	},
 	
 	preRender: function() {
@@ -51,7 +54,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.hideWarning();
 		this.bindAllRatingModels();
 		this.buildAdvancedOptions();
-		this.loadAllTimeSeriesOptions();
+		this.loadAllTimeSeriesOptions(this.loadAllRequiredTimeseries);
 		this.stickit();
 	},
 	
@@ -105,14 +108,17 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		container.append(newContainer);
 	},
 	
-	loadAllTimeSeriesOptions : function() {
-		for(var key in this.builtSelectorFields){
-			if(this.model.get("site")) {
+	loadAllTimeSeriesOptions : function(callback) {
+		if(this.model.get("site")) {
+			for(var key in this.builtSelectorFields){
 				var tsSelector = this.builtSelectorFields[key];
 				var params = this.selectorParams[key];
 				this.populateTimeSeriesSelector(tsSelector, params);
-			} 
-		}
+			}
+			if(callback) {
+				$.proxy(callback, this, this.ajaxCalls)();
+			}
+		} 
 	},
 	
 	populateTimeSeriesSelector: function(tsSelector, params) {
@@ -180,28 +186,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		$.extend(this.bindings, ratingModelText.getBindingConfig());
 		container.append(newContainer);
 	},
-	
-	setSelectedTimeSeries: function(selectedTimeSeries) {
-		this.model.set("selectedTimeSeries", selectedTimeSeries);
-		if(selectedTimeSeries) {
-			this.model.set("primaryTimeseriesIdentifier", selectedTimeSeries.uid);
-		}
-	},
-	
-	setSite: function(site) {
-		this.model.set("site", site);
-	},
-	
-	setStartDate: function(startDate) {
-		this.model.set("startDate", startDate);
-		this.model.trigger('change:primaryTimeseriesIdentifier'); //hack to get primary rating model to reload
-	},
-	
-	setEndDate: function(endDate) {
-		this.model.set("endDate", endDate);
-		this.model.trigger('change:primaryTimeseriesIdentifier'); //hack to get primary rating model to reload
-	},
-	
+
 	abortAjax : function(ajaxCall) {
 		if(ajaxCall && ajaxCall.abort) {
 			ajaxCall.abort();

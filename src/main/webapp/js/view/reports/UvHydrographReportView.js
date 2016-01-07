@@ -110,7 +110,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			},
 			startHidden: false,
 		});		
-		this.model.bind("change:comparisonSite", this.loadComparisonTimeSeriesList, this);	
+//		this.model.bind("change:comparisonSite", this.loadComparisonTimeSeriesList, this);	
 	},
 	
 	createComparisonTimeseriesSelector: function() {

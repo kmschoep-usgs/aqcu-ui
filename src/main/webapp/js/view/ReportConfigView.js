@@ -3,20 +3,7 @@
  */
 AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	templateName: 'report-config',
-	
-	//Someday this may change dynamically depending on selected TS
-	availableReports: [
-		AQCU.view.CorrectionsAtAGlanceReportView,
-		AQCU.view.DvHydrographReportView,
-		AQCU.view.ExtremesReportView,
-		AQCU.view.FiveYearGWSummaryReportView,
-		AQCU.view.SensorReadingSummaryReportView,
-		AQCU.view.SiteVisitPeakReportView,
-//		AQCU.view.TimeSeriesSummaryFullReportView,
-		AQCU.view.UvHydrographReportView,
-		AQCU.view.VDiagramReportView
-		],
-       
+
 	/**
 	* Used by Backbone Stickit to bind HTML input elements to Backbone models.
 	* This will be built up in the initialize function.
@@ -24,14 +11,14 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	bindings: {},
 
 	events: {
-		"click .primary-ts-selector": "removeTimeSeries"
 	},
 	
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
-		//restores previously selected parameters for defaults if they exist 
-		var site = this.options.site || null;
+		this.parentModel = this.options.parentModel;
+		
+		var site = this.parentModel.get("site");
 		var selectedTimeSeries = this.options.selectedTimeSeries ||
 			site ? AQCU.util.localStorage.getData("selectedTimeSeries" + site) : null;
 		var startDate = this.options.startDate ||
@@ -39,38 +26,22 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		var endDate = this.options.endDate ||
 			site ? AQCU.util.localStorage.getData("endDate-" + site) : null;	
 			
-		this.parentModel = this.options.parentModel;
-		
 		this.model = this.options.model || new Backbone.Model({
-				site: site,
+				site: this.parentModel.get("site"),
 				startDate: startDate,
 				endDate: endDate,
 				selectedTimeSeries: selectedTimeSeries, 
-				requestParams: null, //this gets set by select,
+				requestParams: null,
 				filterPublish: this.parentModel.get("filterPublish"),
 				filterPrimary: this.parentModel.get("filterPrimary")
 			});
 		
-		this.model.bind("change:site", this.siteUpdated, this);
-		this.model.bind("change:selectedTimeSeries", this.updateView, this);
-		this.model.bind("change:selectedTimeSeries", this.updateReportViews, this);
-		this.model.bind("change:startDate", this.updateReportViews, this);
-		this.model.bind("change:endDate", this.updateReportViews, this);
+		this.parentModel.bind("change:selectedSite", this.siteUpdated, this);
 		this.model.bind("change:requestParams", this.launchReport, this);
-		this.model.bind("change:filterPublish", this.updateParentFilters, this);
-		this.model.bind("change:filterPrimary", this.updateParentFilters, this);
-		
-		this.availableReportViews = [];
-	},
-	
-	updateParentFilters : function() {
-		this.parentModel.set("filterPublish", this.model.get("filterPublish"));
-		this.parentModel.set("filterPrimary", this.model.get("filterPrimary"));
 	},
 	
 	/*override*/
 	preRender: function() {
-		this.removeReportViews();
 		this.context = {
 			site : this.model.get("site"),
 			selectedTimeSeries : this.model.get("selectedTimeSeries")
@@ -80,101 +51,38 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	afterRender: function () {		
 		this.ajaxCalls = {}; //used to cancel in progress ajax calls if needed
 
-		this.createReportViews();
-		this.dateRange = new AQCU.view.DateField({
-			el      : '.date-range',
-			model   : this.model,
-			format  : "yyyy-mm-dd",
-			fieldConfig: {
-				isDateRange        : true,
-				includeLastMonths  : true,
-				includeWaterYear   : true,
-				startDateFieldName : "startDate",
-				endDateFieldName   : "endDate",
-				displayName        : "Date Range",
-				fieldName          : "date_range",
-				description        : ""
-			},
+		this.reportConfigHeader = new AQCU.view.ReportConfigParamsView({
+			parentModel: this.model,
+			router: this.router,
+			el: this.$(".report-config-params-container")
+		});
+		
+		this.reportConfigHeader = new AQCU.view.ReportConfigHeaderView({
+			parentModel: this.model,
+			router: this.router,
+			el: this.$(".report-config-header-container")
 		});
 
-		//this.fetchTimeSeries();
-		var site = this.model.get('site');
-		if(site){
-			this.selectionGrid = new AQCU.view.TimeSeriesSelectionGridView({
+		this.selectionGrid = new AQCU.view.TimeSeriesSelectionGridView({
 				parentModel: this.model,
 				router: this.router,
-				el: this.$(".time-series-selection-grid-container"),
-				//Make this in TSSGV.js
-				//timeSeriesList: sortedFormattedArray
-				site: site
+				el: this.$(".time-series-selection-grid-container")
 			});
-		}
+		
+		this.reportsGrid = new AQCU.view.ReportConfigSelectionView({
+			parentModel: this.model,
+			router: this.router,
+			el: this.$(".report-views-container")
+		});
+		
 		this.stickit();
-	},		
-			
-	removeReportViews: function() {		
-		while(this.availableReportViews.length > 0) {		
-			this.availableReportViews[0].remove();		
-			this.availableReportViews.shift();		
-		}		
-	},		
-			
-	createReportViews: function() {
-		for (var i = 0; i < this.availableReports.length; i++) {
-			var view = new this.availableReports[i]({
-				parentModel: this.model,
-				router: this.router
-			});
-			this.$('.available-reports').append(view.el);
-			this.availableReportViews.push(view);
-		}
 	},
-	
-	updateView: function() {
-		var selectedTimeSeries = this.model.get("selectedTimeSeries");
-		var primaryTimeSeriesSelector = this.$(".primary-ts-selector");
-		var reportViewsContainer = this.$(".report-views-container");
-		if(selectedTimeSeries){
-			primaryTimeSeriesSelector.removeClass("hidden");
-			reportViewsContainer.removeClass("hidden");
-			this.$(".selected-identifier").html(selectedTimeSeries.identifier);
-		}
-		else{
-			primaryTimeSeriesSelector.addClass("hidden");
-			reportViewsContainer.addClass("hidden");
-			this.$(".selected-identifier").html("");
-		}
-	},
-	
-	removeTimeSeries: function() {
-		this.model.set("selectedTimeSeries", null);
-		this.selectionGrid.closeButtonClicked();
-	},
+
 	
 	siteUpdated: function() {
 		this.model.set("requestParams", null);
 		this.model.set("selectedTimeSeries", null);
-		this.render();
-	},
-	
-	setSite: function(site) {
-		this.model.set("site", site);
-	},
-	
-	//update report views with new user selections
-	updateReportViews: function() {
-		//update all report view cards
-		var site = this.model.get("site");
-		var selectedTimeSeries = this.model.get("selectedTimeSeries");
-		var startDate = this.model.get("startDate");
-		var endDate = this.model.get("endDate");
-		for(var i = 0; i < this.availableReportViews.length; i++) {
-			var report = this.availableReportViews[i]
-			report.setSite(site);
-			report.setSelectedTimeSeries(selectedTimeSeries);
-			report.setStartDate(startDate);
-			report.setEndDate(endDate);
-		};
+		this.model.set("site", this.parentModel.get("selectedSite"));
 	},
 	
 	launchReport: function() {

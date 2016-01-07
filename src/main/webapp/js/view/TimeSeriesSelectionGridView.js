@@ -30,11 +30,11 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 				filterPublish: this.parentModel.get("filterPublish"),
 				filterPrimary: this.parentModel.get("filterPrimary")
 			});
-			
+
+		this.parentModel.bind("change:selectedTimeSeries",this.updateVisibility,this);
 		this.model.bind("change:visibility",this.changeVisibility,this);
-		this.model.bind("change:filterPublish",this.displayGrid,this);
-		this.model.bind("change:filterPrimary",this.displayGrid,this);
-		this.site = this.options.site;
+		this.model.bind("change:filterPublish change:filterPrimary",this.displayGrid,this);
+		this.parentModel.bind("change:site", this.fetchTimeSeries, this)
 		this.fetchTimeSeries();
 	},
 	
@@ -49,45 +49,51 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	},
 	
 	fetchTimeSeries: function () {
-		this.model.set('visibility','loading');
 		var _this = this;
-		var site = this.site;
-		$.ajax({
-			url: AQCU.constants.serviceEndpoint +
-					"/service/lookup/timeseries/identifiers",
-			timeout: 120000,
-			dataType: "json",
-			data: {
-				stationId: site.siteNumber
-			},
-			context: _this,
-			success: function (data) {
-				var sortedArray = [];
-				for (var opt in data) {
-					sortedArray.push([opt, data[opt]]);
-				}
-				sortedArray.sort(function (a, b) {
-					if (a[1].identifier > b[1].identifier) {
-						return 1;
-					} else if (a[1].identifier < b[1].identifier) {
-						return -1;
-					} else {
-						return 0;
+		var site = this.parentModel.get("site");
+		if(site) {
+			_this.model.set("timeSeriesList", []);
+			this.displayGrid();
+			this.model.set('visibility','loading');
+			$.ajax({
+				url: AQCU.constants.serviceEndpoint +
+						"/service/lookup/timeseries/identifiers",
+				timeout: 120000,
+				dataType: "json",
+				data: {
+					stationId: site.siteNumber
+				},
+				context: _this,
+				success: function (data) {
+					var sortedArray = [];
+					for (var opt in data) {
+						sortedArray.push([opt, data[opt]]);
 					}
-				});
-				var sortedFormattedArray = [];
-				for (var i = 0; i < sortedArray.length; i++) {
-					var timeSeriesEntry = sortedArray[i][1];
-					timeSeriesEntry.uid = sortedArray[i][0];
-					sortedFormattedArray.push(timeSeriesEntry);
+					sortedArray.sort(function (a, b) {
+						if (a[1].identifier > b[1].identifier) {
+							return 1;
+						} else if (a[1].identifier < b[1].identifier) {
+							return -1;
+						} else {
+							return 0;
+						}
+					});
+					var sortedFormattedArray = [];
+					for (var i = 0; i < sortedArray.length; i++) {
+						var timeSeriesEntry = sortedArray[i][1];
+						timeSeriesEntry.uid = sortedArray[i][0];
+						sortedFormattedArray.push(timeSeriesEntry);
+					}
+					_this.model.set("timeSeriesList", sortedFormattedArray);
+					_this.displayGrid();
+				},
+				error: function () {
+	
 				}
-				_this.model.set("timeSeriesList", sortedFormattedArray);
-				_this.displayGrid();
-			},
-			error: function () {
-
-			}
-		});
+			});
+		} else {
+			this.model.set('visibility','hidden');
+		}
 	},
 	
 	afterRender: function() {
@@ -146,7 +152,10 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		}
 	},
 	
-	closeButtonClicked: function(){
-		this.model.set('visibility','shown');
+	updateVisibility: function(evt, selectedTimeseries){
+		if(selectedTimeseries == null)
+			this.model.set('visibility','shown');
+		else 
+			this.model.set('visibility','hidden');
 	}
 });

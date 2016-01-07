@@ -41,9 +41,5 @@ AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 		});
 		
 		this.stickit();
-	},
-	
-	siteSelected: function() {
-		this.reportConfigPanel.setSite(this.model.get("selectedSite"));
 	}
 });
