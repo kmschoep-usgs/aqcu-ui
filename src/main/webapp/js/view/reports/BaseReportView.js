@@ -28,19 +28,31 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			format: this.defaultFormat
 		});
 		
-		this.parentModel.bind("change:selectedTimeSeries change:startDate change:endDate", this.updateMyAtts, this);
+		this.parentModel.bind("change:selectedTimeSeries", this.updateSelectedTs, this);
+		this.parentModel.bind("change:startDate", this.updateStartDate, this);
+		this.parentModel.bind("change:endDate", this.updateEndDate, this);
+		this.parentModel.bind("change:site", this.updateSite, this);
 		this.model.bind("change:site", function() { this.loadAllTimeSeriesOptions(); }, this);
 		this.model.bind("change:startDate change:endDate", this.loadAllRequiredTimeseries, this);
 	},
 	
-	updateMyAtts: function() {
-		this.model.set("site", this.parentModel.get("site"));
+	updateSelectedTs: function() {
 		this.model.set("selectedTimeSeries", this.parentModel.get("selectedTimeSeries"));
-		this.model.set("startDate", this.parentModel.get("startDate"));
-		this.model.set("endDate", this.parentModel.get("endDate"));
 		if(this.parentModel.get("selectedTimeSeries")) {
 			this.model.set("primaryTimeseriesIdentifier", this.parentModel.get("selectedTimeSeries").uid); //this should trigger rating models to reload
 		}
+	},
+	
+	updateStartDate: function() {
+		this.model.set("startDate", this.parentModel.get("startDate"));
+	},
+	
+	updateEndDate: function() {
+		this.model.set("endDate", this.parentModel.get("endDate"));
+	},
+	
+	updateSite: function() {
+		this.model.set("site", this.parentModel.get("site"));
 	},
 	
 	preRender: function() {
