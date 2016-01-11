@@ -17,20 +17,11 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
 		this.parentModel = this.options.parentModel;
-		
 		var site = this.parentModel.get("site");
-		var selectedTimeSeries = this.options.selectedTimeSeries ||
-			site ? AQCU.util.localStorage.getData("selectedTimeSeries" + site) : null;
-		var startDate = this.options.startDate ||
-			site ? AQCU.util.localStorage.getData("startDate-" + site) : null;	
-		var endDate = this.options.endDate ||
-			site ? AQCU.util.localStorage.getData("endDate-" + site) : null;	
-			
 		this.model = this.options.model || new Backbone.Model({
 				site: this.parentModel.get("site"),
-				startDate: startDate,
-				endDate: endDate,
-				selectedTimeSeries: selectedTimeSeries, 
+				dateSelection: this.parentModel.get("dateSelection"),
+				selectedTimeSeries: this.parentModel.get("selectedTimeSeries"), 
 				requestParams: null,
 				filterPublish: this.parentModel.get("filterPublish"),
 				filterPrimary: this.parentModel.get("filterPrimary")
@@ -51,7 +42,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	afterRender: function () {		
 		this.ajaxCalls = {}; //used to cancel in progress ajax calls if needed
 
-		this.reportConfigHeader = new AQCU.view.ReportConfigParamsView({
+		this.reportParamsHeader = new AQCU.view.ReportConfigParamsView({
 			parentModel: this.model,
 			router: this.router,
 			el: this.$(".report-config-params-container")
@@ -91,8 +82,10 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		if(requestParams) {
 			var criteria = {
 				station : this.model.get("site").siteNumber.trim(),
-				startDate : this.model.get("startDate"),
-				endDate : this.model.get("endDate")
+				startDate : this.model.get("dateSelection").startDate,
+				endDate : this.model.get("dateSelection").endDate,
+				waterYear : this.model.get("dateSelection").waterYear,
+				lastMonths : this.model.get("dateSelection").lastMonths
 			};
 		
 			$.extend(criteria, requestParams);

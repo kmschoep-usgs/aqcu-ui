@@ -49,7 +49,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 	loadAllRequiredTimeseries: function () {
-		if (this.model.get("selectedTimeSeries") && this.model.get("startDate") && this.model.get("endDate")) {
+		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")) {
 			for (var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
 				this.loadRelatedTimeseries(this.requiredRelatedTimeseriesConfig[i]);
 			}

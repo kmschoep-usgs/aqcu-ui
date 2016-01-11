@@ -23,17 +23,15 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.model = new Backbone.Model({
 			site: this.parentModel.get("site"),
 			selectedTimeSeries: this.parentModel.get("selectedTimeSeries"),
-			startDate: this.parentModel.get("startDate"),
-			endDate: this.parentModel.get("endDate"),
+			dateSelection: this.parentModel.get("dateSelection"),
 			format: this.defaultFormat
 		});
 		
 		this.parentModel.bind("change:selectedTimeSeries", this.updateSelectedTs, this);
-		this.parentModel.bind("change:startDate", this.updateStartDate, this);
-		this.parentModel.bind("change:endDate", this.updateEndDate, this);
+		this.parentModel.bind("change:dateSelection", this.updateDateSelection, this);
 		this.parentModel.bind("change:site", this.updateSite, this);
 		this.model.bind("change:site", function() { this.loadAllTimeSeriesOptions(); }, this);
-		this.model.bind("change:startDate change:endDate", this.loadAllRequiredTimeseries, this);
+		this.model.bind("change:dateSelection", this.loadAllRequiredTimeseries, this);
 	},
 	
 	updateSelectedTs: function() {
@@ -43,12 +41,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		}
 	},
 	
-	updateStartDate: function() {
-		this.model.set("startDate", this.parentModel.get("startDate"));
-	},
-	
-	updateEndDate: function() {
-		this.model.set("endDate", this.parentModel.get("endDate"));
+	updateDateSelection: function() {
+		this.model.set("dateSelection", this.parentModel.get("dateSelection"));
 	},
 	
 	updateSite: function() {
@@ -215,7 +209,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	loadAllRequiredTimeseries: function() {
 		this.clearRatingModels();
 		
-		if(this.model.get("selectedTimeSeries") && this.model.get("startDate") && this.model.get("endDate")) {
+		if(this.model.get("selectedTimeSeries") && this.model.get("dateSelection")) {
 			for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
 				this.loadRelatedTimeseries(this.requiredRelatedTimeseriesConfig[i]);
 			}
@@ -249,8 +243,10 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				parameter: params.parameter,
 				computationIdentifier: computationFilter,
 				computationPeriodIdentifier: periodFilter,
-				startDate: this.model.get("startDate"),
-				endDate: this.model.get("endDate")
+				startDate: this.model.get("dateSelection").startDate,
+				endDate: this.model.get("dateSelection").endDate,
+				waterYear: this.model.get("dateSelection").waterYear,
+				lastMonths: this.model.get("dateSelection").lastMonths
 			},
 			context: this,
 			success: function(data) {
@@ -307,8 +303,10 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				dataType: "json",
 				data: {
 					timeSeriesIdentifier: params.timeseriesUid,
-					startDate: this.model.get("startDate"),
-					endDate: this.model.get("endDate")
+					startDate: this.model.get("dateSelection").startDate,
+					endDate: this.model.get("dateSelection").endDate,
+					waterYear: this.model.get("dateSelection").waterYear,
+					lastMonths: this.model.get("dateSelection").lastMonths
 				},
 				context: this,
 				success: function(data){

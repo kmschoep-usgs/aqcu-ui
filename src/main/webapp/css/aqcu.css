@@ -168,12 +168,8 @@
 
 .date-range-container-top{
 	min-height: 3em;
-	width: 90%;
 	border: solid #a0a0a0 1px;
 	border-radius: 5px;
-	position: relative;
-	padding-bottom: .5em;
-	margin-top: 1em;
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 	background: #E4E4E4;
@@ -181,7 +177,6 @@
 
 .date-range-container-bottom{
 	min-height: 4em;
-	width: 90%;
 	border: solid #a0a0a0 1px;
 	border-radius: 5px;
 	position: relative;
@@ -189,6 +184,10 @@
 	border-top-width: 0px;
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
+}
+
+.input-daterange {
+	width: 10em;
 }
 
 /** REPORT CONFIG: START **/

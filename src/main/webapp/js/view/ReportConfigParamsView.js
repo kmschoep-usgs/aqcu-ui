@@ -14,9 +14,8 @@ AQCU.view.ReportConfigParamsView = AQCU.view.BaseView.extend({
 	
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
-			
 		this.parentModel = this.options.parentModel;
-		
+		this.parentModel.set("dateSelection", { "lastMonths" : 12 }); //default
 		this.parentModel.bind("change:site", this.render, this);
 	},
 	
@@ -29,19 +28,8 @@ AQCU.view.ReportConfigParamsView = AQCU.view.BaseView.extend({
 	
 	afterRender: function () {
 		this.dateRange = new AQCU.view.DateField({
-			el      : '.date-range',
-			model   : this.parentModel,
-			format  : "yyyy-mm-dd",
-			fieldConfig: {
-				isDateRange        : true,
-				includeLastMonths  : true,
-				includeWaterYear   : true,
-				startDateFieldName : "startDate",
-				endDateFieldName   : "endDate",
-				displayName        : "Date Range",
-				fieldName          : "date_range",
-				description        : ""
-			},
+			el: '.date-range',
+			parentModel: this.parentModel
 		});
 	}
 });
