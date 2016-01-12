@@ -81,12 +81,21 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		var reportOptions = this.model.get("reportOptions");
 		if(requestParams) {
 			var criteria = {
-				station : this.model.get("site").siteNumber.trim(),
-				startDate : this.model.get("dateSelection").startDate,
-				endDate : this.model.get("dateSelection").endDate,
-				waterYear : this.model.get("dateSelection").waterYear,
-				lastMonths : this.model.get("dateSelection").lastMonths
+				station : this.model.get("site").siteNumber.trim()
 			};
+
+			if(this.model.get("dateSelection").startDate) 
+				criteria.startDate = this.model.get("dateSelection").startDate;
+			
+			if(this.model.get("dateSelection").endDate) 
+				criteria.endDate = this.model.get("dateSelection").endDate;
+			
+			if(this.model.get("dateSelection").waterYear) 
+				criteria.waterYear = this.model.get("dateSelection").waterYear;
+			
+			if(this.model.get("dateSelection").lastMonths) 
+				criteria.lastMonths = this.model.get("dateSelection").lastMonths;
+			
 		
 			$.extend(criteria, requestParams);
 			//get parameters from all sources, combine into one request config and launch report
