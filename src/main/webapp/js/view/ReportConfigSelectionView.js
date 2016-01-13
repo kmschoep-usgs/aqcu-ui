@@ -29,6 +29,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 			
 		this.parentModel = this.options.parentModel;
+		this.savedReportsController = this.options.savedReportsController;
 		
 		this.parentModel.bind("change:selectedTimeSeries", this.render, this);
 		
@@ -52,6 +53,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		for (var i = 0; i < this.availableReports.length; i++) {
 			var view = new this.availableReports[i]({
 				parentModel: this.parentModel,
+				savedReportsController: this.savedReportsController,
 				router: this.router
 			});
 			this.$('.available-reports').append(view.el);

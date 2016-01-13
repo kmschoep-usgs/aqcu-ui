@@ -16,6 +16,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
+		this.savedReportsController = this.options.savedReportsController;
+		
 		this.ajaxCalls = {};
 		this.bindings = {};
 		this.parentModel = this.options.parentModel;
@@ -331,6 +333,23 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		}
 	},
 	
+	//returns a map to match IDs to display values
+	constructDisplayValuesMap: function(requestParams) {
+		var displayValues = {};
+		_.each(requestParams, function(val, key){
+			var selectedTs = this.model.get("selectedTimeSeries");
+			if(key == "primaryTimeseriesIdentifier") {
+				displayValues[val] = selectedTs.identifier + "@" + this.model.get("site").siteNumber;
+			} else {
+				var advancedField = this.builtSelectorFields[key];
+				if(advancedField) {
+					displayValues[val] = advancedField.getOptionDisplayValue(val);
+				}
+			}
+		}, this) 
+		return displayValues;
+	},
+	
 	constructReportOptions: function() {
 		var reportOptions = {
 			primaryTimeseriesIdentifier: this.model.get("primaryTimeseriesIdentifier")
@@ -357,6 +376,21 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			reportOptions[this.optionalRatingModels[i].requestId] = this.model.get(this.optionalRatingModels[i].requestId);
 		}
 		
+		//date and site
+		reportOptions.station = this.model.get("site").siteNumber.trim();
+
+		if(this.model.get("dateSelection").startDate) 
+			reportOptions.startDate = this.model.get("dateSelection").startDate;
+		
+		if(this.model.get("dateSelection").endDate) 
+			reportOptions.endDate = this.model.get("dateSelection").endDate;
+		
+		if(this.model.get("dateSelection").waterYear) 
+			reportOptions.waterYear = this.model.get("dateSelection").waterYear;
+		
+		if(this.model.get("dateSelection").lastMonths) 
+			reportOptions.lastMonths = this.model.get("dateSelection").lastMonths;
+			
 		
 		return reportOptions;
 	},
@@ -395,7 +429,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	saveReport: function() {
 		if(this.validate()) {
-			alert("TODO")
+			var requestParams = this.constructReportOptions();
+			this.savedReportsController.saveReport(this.reportType, this.reportName, this.model.get("format"), this.constructDisplayValuesMap(requestParams), requestParams);
 		} else {
 			this.flashWarning();
 		}

@@ -16,8 +16,11 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
+		this.savedReportsController = this.options.savedReportsController;
+		
 		this.parentModel = this.options.parentModel;
 		var site = this.parentModel.get("site");
+		
 		this.model = this.options.model || new Backbone.Model({
 				site: this.parentModel.get("site"),
 				dateSelection: this.parentModel.get("dateSelection"),
@@ -63,6 +66,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.reportsGrid = new AQCU.view.ReportConfigSelectionView({
 			parentModel: this.model,
 			router: this.router,
+			savedReportsController: this.savedReportsController,
 			el: this.$(".report-views-container")
 		});
 		
@@ -80,26 +84,8 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		var requestParams = this.model.get("requestParams");
 		var reportOptions = this.model.get("reportOptions");
 		if(requestParams) {
-			var criteria = {
-				station : this.model.get("site").siteNumber.trim()
-			};
-
-			if(this.model.get("dateSelection").startDate) 
-				criteria.startDate = this.model.get("dateSelection").startDate;
-			
-			if(this.model.get("dateSelection").endDate) 
-				criteria.endDate = this.model.get("dateSelection").endDate;
-			
-			if(this.model.get("dateSelection").waterYear) 
-				criteria.waterYear = this.model.get("dateSelection").waterYear;
-			
-			if(this.model.get("dateSelection").lastMonths) 
-				criteria.lastMonths = this.model.get("dateSelection").lastMonths;
-			
-		
-			$.extend(criteria, requestParams);
 			//get parameters from all sources, combine into one request config and launch report
-			this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + reportOptions.reportType + (!reportOptions.isHtml ? "/download" : ""), criteria, "");
+			this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + reportOptions.reportType + (!reportOptions.isHtml ? "/download" : ""), requestParams, "");
 			this.model.set("requestParams", null);
 		}
 	}

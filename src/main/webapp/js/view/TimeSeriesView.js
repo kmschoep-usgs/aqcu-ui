@@ -43,6 +43,7 @@ AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 		this.reportConfigPanel = new AQCU.view.ReportConfigView({
 			parentModel: this.model,
 			router: this.router,
+			savedReportsController: AQCU.controller.SavedReportsController,
 			el: this.$el.find(".report-config-panel")
 		});
 		

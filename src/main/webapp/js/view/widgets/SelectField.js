@@ -29,6 +29,7 @@ AQCU.view.SelectField = Backbone.View.extend({
 	 */
 	initialize: function(options) {
 		this.options = options
+		this.data = []
 		this.router = this.options.router; //NWIS Vision Router
 		this.fieldConfig = this.options.fieldConfig;
 		this.renderTo = this.options.renderTo;
@@ -99,6 +100,7 @@ AQCU.view.SelectField = Backbone.View.extend({
 	},
 	
 	setSelectOptions: function(data) {
+		this.data = data;
 		var selectField = this.$(".vision_select_field_" + this.fieldConfig.fieldName);
 		selectField.html("");
 		if(!this.hideNotSelect) {
@@ -108,6 +110,17 @@ AQCU.view.SelectField = Backbone.View.extend({
 			selectField.append('<option value="' + data[i]["KeyValue"] + '">' + data[i]["DisplayValue"] + '</option>');
 		}
 		this.updateSelectedOption();
+	},
+	
+	getOptionDisplayValue : function(value) {
+		var result;
+		for(var i = 0; i < this.data.length; i++) {
+			if(this.data[i]["KeyValue"] == value) {
+				result = this.data[i]["DisplayValue"];
+				break;
+			}
+		}
+		return result;
 	},
 	
 	getDisplayValue: function(value) {
