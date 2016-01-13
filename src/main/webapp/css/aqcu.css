@@ -32,13 +32,10 @@
 
 .site-selector-search {
 	padding: 1em;	
+	border-top: 1px solid #a0a0a0;
 }
 
-.site-selection-panel-container {
-	padding-left: 0px;	
-}
-
-.site-selection-panel {
+.left-container {
 	margin-left: 0px;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -50,6 +47,19 @@
 	background-color: #E6E6E6;
 	padding: 0px;
 	min-height: 600px;
+}
+
+
+.left-container hr {
+	margin-top: 0px;	
+	margin-bottom: 0px;	
+}
+
+.site-selection-panel-container {
+	padding-left: 0px;	
+}
+
+.site-selection-panel {
 }
 
 .site-selector-site-list {
@@ -98,7 +108,7 @@
 }
 
 .time-series-selection-grid{
-	width:130%;
+	width:140%;
 }
 
 .time-series-selection-grid-header{
@@ -234,9 +244,16 @@
 	cursor: pointer;
 }
 
-.config-btn {
+.add-to-saved-reports {
 	position: absolute;
 	right: 1em;
+	top: 1em;
+	cursor: pointer;
+}
+
+.config-btn {
+	position: absolute;
+	right: 3em;
 	top: 1em;
 	cursor: pointer;
 }
@@ -244,7 +261,7 @@
 .warning-indicator {
 	color: red;
 	position: absolute;
-	right: 2em;
+	right: 4em;
 	top: 1em;
 }
 /** REPORT CARDS: END **/
@@ -262,16 +279,12 @@
 	padding-top: 0px;
 }
 
-.ui-widget {
-	font-size: 0.8em;
-}
-
 .clear_all_selection_criteria_link {
 	font-size: x-small;
 }
 
 .clear_selection_criteria_button {
-	font-size: 0.5em;
+	font-size: 1em;
 }
 
 h2 {
@@ -749,4 +762,32 @@ h2 {
 .nwis-data_warning {
 	color: red;	
 	font-size: 10px;
+}
+
+/* Saved reports start*/
+.saved-reports-button {
+	background-color: #327CC3;
+	font-weight: bold;
+	color: white;
+	padding: .5em;
+	border-radius: 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.saved-reports-container {
+	padding: 10px;
+	text-align: center;
+}
+
+.saved-reports-button .badge {
+	background-color: white;
+	color: #327CC3;
+	border-radius: 10px;
+	display: inline-block;
+	text-align: center;
+	font-weight: 700;
+	min-width: 10px;
+	padding: 3px 7px;
 }

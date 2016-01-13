@@ -25,6 +25,7 @@
 		<script type="text/javascript" src="webjars/underscorejs/1.8.3/underscore-min.js"></script>
 		<script type="text/javascript" src="webjars/backbonejs/1.2.1/backbone-min.js"></script>
 		<script type="text/javascript" src="js/lib/backbone.stickit.js"></script>
+		<script type="text/javascript" src="js/lib/bootstrap-confirmation.min.js"></script>
 		<script type="text/javascript" src="webjars/handlebars/3.0.0-1/handlebars.min.js"></script>
 		<script type="text/javascript" src="webjars/select2/4.0.0/js/select2.full.js"></script>
 		<script type="text/javascript" src="webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.js"></script>
@@ -61,6 +62,7 @@
 		<script type="text/javascript" src="js/view/ReportConfigSelectionView.js"></script>
 		<script type="text/javascript" src="js/view/ReportConfigView.js"></script>
 		<script type="text/javascript" src="js/view/TimeSeriesView.js"></script>
+		<script type="text/javascript" src="js/view/SavedReportsView.js"></script>
 		
 		<%-- widgets --%>
 		<script type="text/javascript" src="js/view/widgets/PopupView.js"></script>
@@ -71,6 +73,7 @@
 
 		<%-- controllers --%>
 		<script type="text/javascript" src="js/controller/AqcuRouter.js"></script>
+		<script type="text/javascript" src="js/controller/SavedReportsController.js"></script>
 
 		<%-- Init point for app --%>
 		<script type="text/javascript" src="js/init.js"></script>

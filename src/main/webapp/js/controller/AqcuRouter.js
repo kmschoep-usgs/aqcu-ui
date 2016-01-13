@@ -224,6 +224,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 		});
 
 	},
+
 	checkSession: function(req, resp) {
 		var resText = resp.responseText;
 		if (resText) {

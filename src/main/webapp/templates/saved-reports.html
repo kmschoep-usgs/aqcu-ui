@@ -1,0 +1,23 @@
+<div class="saved-reports-container">
+	<div class="saved-reports-button" data-toggle="modal" data-target="#savedReports-{{id}}">
+		<span>Saved Reports</span>&nbsp;&nbsp;<span class="badge">{{savedReports.length}}</span>
+	</div>
+	
+	<div class="saved-reports modal fade" id="savedReports-{{id}}" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Saved Reports</h4>
+				</div>
+				<div class="saved-reports-body modal-body">
+				{{#unless savedReports.length}}
+				You currently do not have any saved reports. To save a report, use 
+				the <i class="fa fa-save"></i> buttons in the report configuration menus.
+				{{/unless}}
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

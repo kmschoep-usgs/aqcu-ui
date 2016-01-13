@@ -9,9 +9,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	optionalRatingModels: [],
 	
 	events: {
-		'click .report-card-header': 'applyReportOptions',
-		'mouseover .report-card': 'showConfigBtn',
-		'mouseout .report-card': 'hideConfigBtn'
+		'click .report-card-header': 'applyReportOptions'//,
+//		'click .add-to-saved-reports': 'saveReport',
 	},
 	
 	initialize: function() {
@@ -59,7 +58,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	afterRender: function() {
-		this.hideConfigBtn();
 		this.hideWarning();
 		this.bindAllRatingModels();
 		this.buildAdvancedOptions();
@@ -69,6 +67,16 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		if(this.parentModel.get("selectedTimeSeries")) {
 			this.model.set("primaryTimeseriesIdentifier", this.parentModel.get("selectedTimeSeries").uid);
 		}
+		
+		//hook up save button
+		$('.add-to-saved-reports').confirmation({
+			title: "Save this report?",
+			placement: "left",
+			onConfirm: $.proxy(this.saveReport, this),
+			btnOkLabel: "Yes",
+			btnCancelLabel: "No"
+			
+		});
 	},
 	
 	remove: function() {
@@ -385,12 +393,12 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		}
 	},
 	
-	hideConfigBtn: function() {
-		this.$(".config-btn").hide();
-	},
-	
-	showConfigBtn: function() {
-		this.$(".config-btn").show();
+	saveReport: function() {
+		if(this.validate()) {
+			alert("TODO")
+		} else {
+			this.flashWarning();
+		}
 	},
 	
 	hideWarning: function() {

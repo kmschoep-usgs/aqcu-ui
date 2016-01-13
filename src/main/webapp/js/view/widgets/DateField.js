@@ -14,14 +14,14 @@ AQCU.view.DateField = Backbone.View.extend({
 	 * Handlebars template
 	 */
 	template: Handlebars.compile("\
-		<div class='container'>\
+		<div class='col-sm-12 col-md-12 col-lg-12'>\
 			<div class='date-range-container-top row'>\
-				<div class='header-container col-sm-8 col-md-8 col-lg-8'>\
+				<div class='header-container col-sm-12 col-md-12 col-lg-12'>\
 					<h5><label>Select Time Range</label>\
 				</div>\
 			</div>\
 			<div class='date-range-container-bottom row'>\
-				<div class='col-sm-2 col-md-2 col-lg-2'>\
+				<div class='col-sm-3 col-md-3 col-lg-3'>\
 					<div style='float:left;margin-top:.5em;'><label>Months:&nbsp;</label></div>\
 					<div style='float:left;width:60%'><select class='form-control aqcu_field_lastMonths'>\
 						<option value='12'>Last 12</option>\
@@ -39,7 +39,7 @@ AQCU.view.DateField = Backbone.View.extend({
 						<option value='0'>-</option>\
 					</select></div>\
 				</div>\
-				<div class='col-sm-2 col-md-2 col-lg-2'>\
+				<div class='col-sm-3 col-md-3 col-lg-3'>\
 					<div style='float:left;margin-top:.5em;'><label>Water Year:&nbsp</label></div>\
 					<div style='float:left;width:40%'><input type='text' class='input-sm form-control aqcu_field_waterYear' maxlength='4' placeholder='      -'/></div>\
 				</div>\

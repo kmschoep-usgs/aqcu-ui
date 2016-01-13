@@ -28,6 +28,12 @@ AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 	},
 	
 	afterRender: function() {
+		this.savedReportsPanel = new AQCU.view.SavedReportsView({
+			router: this.router,
+			controller: AQCU.controller.SavedReportsController,
+			el: this.$el.find(".saved-reports-panel")
+		});
+		
 		this.siteSelectorPanel = new AQCU.view.SiteSelectorView({
 			parentModel: this.model,
 			router: this.router,
