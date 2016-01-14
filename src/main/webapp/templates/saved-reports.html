@@ -36,7 +36,10 @@
 				<div class="modal-footer">
 					{{#if savedReports.length}}<button type="button" class="btn btn-primary export-saved-reports">Export</button>{{/if}}
 					<button type="button" class="btn btn-primary import-saved-reports">Import</button>
-					{{#if savedReports.length}}<button type="button" class="btn btn-primary download-all-saved-reports">Download All (.zip)</button>{{/if}}
+					{{#if savedReports.length}}
+					<button type="button" class="btn btn-primary open-all-saved-reports">Open All</button>
+					<button type="button" class="btn btn-primary download-all-saved-reports">Download All (.zip)</button>
+					{{/if}}
 					
 				</div>
 			</div>

@@ -12,6 +12,7 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 		"click .delete-saved-report" : "deleteSavedReport",
 		"click .export-saved-reports" : "exportSavedReports",
 		"click .import-saved-reports" : "importSavedReports",
+		"click .open-all-saved-reports" : "openAll",
 		"click .download-all-saved-reports" : "downloadAllAsZip"
 	},
 	
@@ -51,6 +52,16 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 		var requestParams = selectedReport.requestParameters;
 		this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + 
 				selectedReport.reportType + (!selectedReport.format == "html" ? "/download" : ""), requestParams, "");
+	},
+	
+	openAll: function() {
+		var reports = this.model.get("savedReports");
+		for(var i =0; i < reports.length; i++) {
+			var selectedReport = reports[i];
+			var requestParams = selectedReport.requestParameters;
+			this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + 
+					selectedReport.reportType + (!selectedReport.format == "html" ? "/download" : ""), requestParams, "");
+		}
 	},
 	
 	deleteAllSavedReports : function(evt) {
