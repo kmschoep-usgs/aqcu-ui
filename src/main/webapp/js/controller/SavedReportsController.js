@@ -24,6 +24,14 @@ AQCU.controller.SavedReportsController = function() {
 			_updateRegisteredModels(reports);
 		},
 		
+		saveAllReports: function(savedReportsArray) {
+			var reports = AQCU.controller.SavedReportsController.getSavedReports();
+			for(var i = 0; i < savedReportsArray.length; i++) {
+				reports.push(savedReportsArray[i]);
+			}
+			AQCU.controller.SavedReportsController.setSavedReports(reports);
+		},
+		
 		getSavedReports : function() {
 			var savedReports = AQCU.util.localStorage.getData(LOCAL_STORAGE_KEY) || [];
 			return savedReports;

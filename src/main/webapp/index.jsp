@@ -30,6 +30,8 @@
 		<script type="text/javascript" src="webjars/select2/4.0.0/js/select2.full.js"></script>
 		<script type="text/javascript" src="webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.js"></script>
 		<script type="text/javascript" src="webjars/jquery-dateFormat/1.0.2/jquery-dateFormat.js"></script>
+		<script type="text/javascript" src="js/lib/jquery.iframe-transport.js"></script>
+		<script type="text/javascript" src="js/lib/jquery.fileupload.js"></script>
 
 		<%-- AQCU javascript --%>
 		<jsp:include page="/WEB-INF/jsp/constants.jsp"></jsp:include>	

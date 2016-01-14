@@ -11,7 +11,6 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 		"click .delete-all-saved-reports" : "deleteAllSavedReports",
 		"click .delete-saved-report" : "deleteSavedReport",
 		"click .export-saved-reports" : "exportSavedReports",
-		"click .import-saved-reports" : "importSavedReports",
 		"click .open-all-saved-reports" : "openAll",
 		"click .download-all-saved-reports" : "downloadAllAsZip"
 	},
@@ -44,6 +43,19 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 	
 	afterRender: function() {
 		this.hideSaveSuccess();
+		var _this = this;
+		//hook up import button with fileupload plugin
+		this.$('.fileupload').fileupload({
+			url: AQCU.constants.serviceEndpoint + "/service/echo/upload",
+			dataType: 'json',
+			done: function (e, data) {
+				var openModal = _this.$(".modal");
+				openModal.on("hidden.bs.modal", function(){
+					AQCU.controller.SavedReportsController.saveAllReports(data.result);
+				});
+				openModal.modal("hide");
+			}
+		})
 	},
 	
 	launchReport: function(evt) {
@@ -111,13 +123,22 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 	},
 	
 	exportSavedReports: function() {
-		alert("TODO export")
+		var downloadIFrame = $(".exportFrame");
+		if(!downloadIFrame.length) {
+			this.$el.append($("<iframe>").hide().addClass("exportFrame"))
+			downloadIFrame = $(".exportFrame");
+		}
+		$(downloadIFrame.contents().find("body")).html("<form method='POST' action='" +
+				AQCU.constants.serviceEndpoint + "/service/echo/savedreports'><textarea name='json' type='text'>" +
+				JSON.stringify(this.model.get("savedReports")) +
+		"</textarea></form>");
+		$(downloadIFrame.contents().find("form")).submit();
 	},
 	
 	importSavedReports: function() {
-		alert("TODO import")
+		
 	},
-	
+
 	downloadAllAsZip: function() {
 		alert("TODO Download All")
 	},
