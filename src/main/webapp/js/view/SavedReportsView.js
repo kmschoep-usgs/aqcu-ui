@@ -136,7 +136,16 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 	},
 
 	downloadAllAsZip: function() {
-		alert("TODO Download All")
+		var batchRequestFrame = $(".batchRequestFrame");
+		if(!batchRequestFrame.length) {
+			this.$el.append($("<iframe>").hide().addClass("batchRequestFrame"))
+			batchRequestFrame = $(".batchRequestFrame");
+		}
+		$(batchRequestFrame.contents().find("body")).html("<form method='POST' action='" +
+				AQCU.constants.serviceEndpoint + "/service/batch/reports'><textarea name='json' type='text'>" +
+				JSON.stringify(this.model.get("savedReports")) +
+		"</textarea></form>");
+		$(batchRequestFrame.contents().find("form")).submit();
 	},
 	
 	hideSaveSuccess: function() {
