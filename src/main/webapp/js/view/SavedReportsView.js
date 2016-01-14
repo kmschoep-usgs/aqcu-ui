@@ -8,6 +8,7 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 
 	events: {
 		"click .saved-report-desc" : "launchReport",
+		"click .delete-all-saved-reports" : "deleteAllSavedReports",
 		"click .delete-saved-report" : "deleteSavedReport",
 		"click .export-saved-reports" : "exportSavedReports",
 		"click .import-saved-reports" : "importSavedReports",
@@ -50,6 +51,28 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 		var requestParams = selectedReport.requestParameters;
 		this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + 
 				selectedReport.reportType + (!selectedReport.format == "html" ? "/download" : ""), requestParams, "");
+	},
+	
+	deleteAllSavedReports : function(evt) {
+		evt.stopImmediatePropagation();
+		var delButton = $(evt.currentTarget);
+		var _this = this;
+		delButton.confirmation({
+			title: "Delete ALL saved reports?",
+			placement: "bottom",
+			onConfirm: function() {
+				var openModal = _this.$(".modal");
+				openModal.on("hidden.bs.modal", function(){
+					AQCU.controller.SavedReportsController.setSavedReports([]);
+				});
+				openModal.modal("hide");
+			},
+			btnOkLabel: "Yes",
+			btnCancelLabel: "No"
+		});
+		
+		delButton.confirmation("show");
+		
 	},
 	
 	deleteSavedReport: function(evt) {
