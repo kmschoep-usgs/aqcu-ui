@@ -60,20 +60,20 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 	
 	launchReport: function(evt) {
 		var index = $(evt.currentTarget).attr("index");
-		var selectedReport = this.model.get("savedReports")[index];
-		var requestParams = selectedReport.requestParameters;
-		this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + 
-				selectedReport.reportType + (!selectedReport.format == "html" ? "/download" : ""), requestParams, "");
+		this.downloadReport(this.model.get("savedReports")[index]);
 	},
 	
 	openAll: function() {
 		var reports = this.model.get("savedReports");
 		for(var i =0; i < reports.length; i++) {
-			var selectedReport = reports[i];
-			var requestParams = selectedReport.requestParameters;
-			this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + 
-					selectedReport.reportType + (!selectedReport.format == "html" ? "/download" : ""), requestParams, "");
+			this.downloadReport(reports[i]);
 		}
+	},
+	
+	downloadReport: function(selectedReport) {
+		var requestParams = selectedReport.requestParameters;
+		this.router.startDownload(AQCU.constants.serviceEndpoint + "/service/reports/" + 
+				selectedReport.reportType + (!selectedReport.format == "html" ? "/download" : ""), requestParams, "");
 	},
 	
 	deleteAllSavedReports : function(evt) {
