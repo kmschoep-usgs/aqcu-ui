@@ -155,7 +155,7 @@ Handlebars.registerHelper('SavedReportsDisplayText', function(savedReport) {
 	var params = savedReport.requestParameters;
 	
 	var html = "<b><u>" + savedReport.reportName + "</u></b><br/><div class='saved-report-card-description'>" +
-	metadata[params.primaryTimeseriesIdentifier] + "<br/>";
+	metadata[params.primaryTimeseriesIdentifier] + ", ";
 	if(savedReport.requestParameters.lastMonths) {
 		html += "Last " + params.lastMonths + " months";
 	} else if(params.waterYear) {
