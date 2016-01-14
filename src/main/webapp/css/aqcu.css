@@ -811,6 +811,7 @@ h2 {
 }
 
 .saved-report-desc {
+	width: 90%;
 	cursor: pointer;
 }
 
@@ -825,7 +826,7 @@ h2 {
 .delete-saved-report {
 	position: absolute;
 	right: 2em;
-	top: 20px;
+	top: 30px;
 	cursor: pointer;
 }
 
