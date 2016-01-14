@@ -9,8 +9,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	optionalRatingModels: [],
 	
 	events: {
-		'click .report-card-header': 'applyReportOptions'//,
-//		'click .add-to-saved-reports': 'saveReport',
+		'click .report-card-header': 'applyReportOptions'
 	},
 	
 	initialize: function() {
