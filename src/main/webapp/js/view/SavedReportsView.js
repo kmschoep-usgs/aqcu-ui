@@ -134,10 +134,6 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 		"</textarea></form>");
 		$(downloadIFrame.contents().find("form")).submit();
 	},
-	
-	importSavedReports: function() {
-		
-	},
 
 	downloadAllAsZip: function() {
 		alert("TODO Download All")
