@@ -7,11 +7,11 @@
 		<title>NWIS Reporting Application for Time Series</title>
 
 		<%-- Libs CSS--%>
-		<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="webjars/jquery-ui/1.11.4/jquery-ui.min.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="webjars/font-awesome/4.3.0/css/font-awesome.min.css" />
 		<link rel="stylesheet" type="text/css" href="webjars/select2/4.0.0/css/select2.css" />
 		<link rel="stylesheet" type="text/css" href="webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.css" />
+		<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" />
 
 		<%-- AQCU CSS --%>
 		<link rel="stylesheet" href="css/usgs_style_main.css" />

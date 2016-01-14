@@ -72,7 +72,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		
 		//hook up save button
 		$('.add-to-saved-reports').confirmation({
-			title: "Save this report?",
+			title: "Save this " + this.reportName + " report?",
 			placement: "left",
 			onConfirm: $.proxy(this.saveReport, this),
 			btnOkLabel: "Yes",
@@ -338,12 +338,14 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var displayValues = {};
 		_.each(requestParams, function(val, key){
 			var selectedTs = this.model.get("selectedTimeSeries");
-			if(key == "primaryTimeseriesIdentifier") {
-				displayValues[val] = selectedTs.identifier + "@" + this.model.get("site").siteNumber;
-			} else {
-				var advancedField = this.builtSelectorFields[key];
-				if(advancedField) {
-					displayValues[val] = advancedField.getOptionDisplayValue(val);
+			if(val) {
+				if(key == "primaryTimeseriesIdentifier") {
+					displayValues[val] = selectedTs.identifier + "@" + this.model.get("site").siteNumber;
+				} else {
+					var advancedField = this.builtSelectorFields[key];
+					if(advancedField) {
+						displayValues[val] = advancedField.getOptionDisplayValue(val);
+					}
 				}
 			}
 		}, this) 

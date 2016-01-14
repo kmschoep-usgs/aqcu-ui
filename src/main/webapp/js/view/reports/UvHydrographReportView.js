@@ -177,6 +177,23 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		}
 	},
 	
+	//returns a map to match IDs to display values
+	constructDisplayValuesMap: function(requestParams) {
+		var displayValues = AQCU.view.BaseReportView.prototype.constructDisplayValuesMap.apply(this, arguments);
+		_.each(requestParams, function(val, key){
+			if(key == "comparisonTimeseriesIdentifier") {
+				if(val) {
+					var advancedField = this.comparisonSelectthis.comparisonSelect;
+					if(advancedField) {
+						displayValues[val] = advancedField.getOptionDisplayValue(val);
+					}
+				}
+			}
+		}, this) 
+		return displayValues;
+	},
+	
+	
 	constructReportOptions: function() {
 		var reportOptions = AQCU.view.BaseReportView.prototype.constructReportOptions.apply(this, arguments);
 		if(this.model.get("comparisonStation")) {
