@@ -29,7 +29,7 @@
                     </span>
                 </span><!-- vcard -->
             </p>
-            <p id="footer-contact-info">Page Contact Information: <a href="#" id="display-nwis-feedback-toggle">NWIS Reporting Support</a></p>
+            <p id="footer-contact-info">Page Contact Information: <a href="#" id="display-feedback-toggle">NWIS Reporting Support</a></p>
 			<div id="aqcu_version_tag">version: 1.0?</div>
         </div><!-- /page-info -->
         <div id="gov-buttons">

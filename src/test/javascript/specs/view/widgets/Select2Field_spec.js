@@ -8,7 +8,7 @@ describe("Select2Field.js", function() {
 			// this does not load the CSS
 			$(document.head).append( $('<link rel="stylesheet" type="text/css" href="/webjars/select2/4.0.0/css/select2.css"/>') );
 			// this CSS also is not applied
-			$(document.head).append( $('<style>.dropdownCssClass{width:33px;} .vision_select_field_asdf{color:red;} span{color:red;}</style>') );
+			$(document.head).append( $('<style>.dropdownCssClass{width:33px;} .aqcu_select_field_asdf{color:red;} span{color:red;}</style>') );
 			// this is necessary - a landing place for the widget
 		    $(document.body).append( $('<div class="select2"></div>') );
 		}
@@ -48,8 +48,8 @@ describe("Select2Field.js", function() {
 	
 	
 	it('injects DOM elements',function(){
-		since('shoule no longer create a hidden input with id class').expect($('.vision_field_asdf1').length).toBe(0);
-		since('Create select with id class').expect($('.vision_select_field_asdf1').length).toBe(1);
+		since('shoule no longer create a hidden input with id class').expect($('.aqcu_field_asdf1').length).toBe(0);
+		since('Create select with id class').expect($('.aqcu_select_field_asdf1').length).toBe(1);
 		since('Placeholder text should be set').expect($('.select2-selection__placeholder').text()).toBe("some placeholder text");
 	});
 	

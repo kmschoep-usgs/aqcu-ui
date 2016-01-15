@@ -3,7 +3,7 @@
  */
 AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	templateName: 'site-selector',
-       
+	
 	/**
 	* Used by Backbone Stickit to bind HTML input elements to Backbone models.
 	* This will be built up in the initialize function.
@@ -163,7 +163,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		//use subviews/models to avoid this kind of hackery
 		var siteNumber = $(clickedDom).attr("siteNumber"); 
 		this.removeBySiteNumber(siteNumber);
-		this.$el.parent().removeClass('nwis-loading-indicator');
+		this.$el.parent().removeClass('aqcu-loading-indicator');
 	},
 	
 	updateParentModelSelectedSite: function() {

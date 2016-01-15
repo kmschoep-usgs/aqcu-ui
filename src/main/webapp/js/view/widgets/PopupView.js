@@ -32,7 +32,6 @@ AQCU.view.PopupView = Backbone.View.extend({
 	render: function() {
 		//create dom and attach to parent
 		this.messageDiv = $('<div>');
-		this.messageDiv.addClass('nwis-modal-error-window');
 		this.messageDiv.attr("title", this.title);
 		this.messageDiv.html(this.message);
 		$(document.body).append(this.messageDiv);

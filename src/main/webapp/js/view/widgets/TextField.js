@@ -5,14 +5,14 @@ AQCU.view.TextField = Backbone.View.extend({
 	/**
 	 * Handlebars template
 	 */
-	template: Handlebars.compile("<div class='row nwis-field-container'> \
+	template: Handlebars.compile("<div class='row field-container'> \
 		{{#if displayName}}\
 		<div class='col-sm-5 col-md-5 col-lg-5'><label for='{{fieldName}}'>{{displayName}}&nbsp;&nbsp; \
 			{{#if description}}\
-				<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
+				<i class='fa fa-question-circle category-tip-target' title='{{description}}'></i>\
 			{{/if}}\
 		</label><br/></div> {{/if}}\
-		<div class='{{#if displayName}}col-sm-7 col-md-7 col-lg-7{{else}}col-sm-12 col-md-12 col-lg-12{{/if}}'><input name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}' placeholder='{{placeHolderText}}' {{readOnly}}/></div> \
+		<div class='{{#if displayName}}col-sm-7 col-md-7 col-lg-7{{else}}col-sm-12 col-md-12 col-lg-12{{/if}}'><input name='{{fieldName}}' class='aqcu_field aqcu_field_{{fieldName}}' placeholder='{{placeHolderText}}' {{readOnly}}/></div> \
 		</div>"),
 	/**
 	 * Backbone events object. See backbone documentation
@@ -47,7 +47,7 @@ AQCU.view.TextField = Backbone.View.extend({
 	 */
 	getBindingConfig: function() {
 		var binding = {};
-		binding[".vision_field_" + this.fieldConfig.fieldName] = {
+		binding[".aqcu_field_" + this.fieldConfig.fieldName] = {
 			observe: this.fieldConfig.fieldName,
 			events: ['blur'] //this causes the model to only update after you leave the field
 		};

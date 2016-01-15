@@ -11,7 +11,7 @@ AQCU.initialize = function() {
 	$(document).ajaxError(AQCU.router.checkSession);
 	  
 	// Tie in the JIRA Issue Collector if we have an endpoint
-	var $toggle = $("#display-nwis-feedback-toggle");
+	var $toggle = $("#display-feedback-toggle");
 	if ($('script[id="script-tag-jira-collection-url"]').attr('src').length) {
 		window.ATL_JQ_PAGE_PROPS = {
 			"triggerFunction": function(showCollectorDialog) {

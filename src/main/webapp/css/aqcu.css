@@ -1,4 +1,3 @@
-/** TODO clean up any unused nwis* or vision* rules **/
 #aqcu-ui-content {
 	padding-top: 40px;
 	min-height: 600px;
@@ -264,6 +263,24 @@
 	right: 4em;
 	top: 1em;
 }
+
+.report-card-loader-base {
+	background-color:rgba(255,255,255,0.8);
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 99%;
+	width: 99%;
+	border-radius: 5px;
+}
+
+.aqcu-lg-loader-spinner {
+	height: 100%;
+	width: 100%;
+	background: url('../images/loading.gif')
+		no-repeat center center 
+}
+
 /** REPORT CARDS: END **/
 
 
@@ -271,20 +288,8 @@
 	top: -10px;
 }
 
-.nwis-menu-table {
-	text-align: center;
-}
-
 .container {
 	padding-top: 0px;
-}
-
-.clear_all_selection_criteria_link {
-	font-size: x-small;
-}
-
-.clear_selection_criteria_button {
-	font-size: 1em;
 }
 
 h2 {
@@ -293,86 +298,12 @@ h2 {
 	font-family: 'Ubuntu', sans-serif;
 }
 
-.nwis-home div {
-	text-align: center;
-}
-
-.nwis-home table {
-	width: 100%;
-	padding-left: 3em;
-	padding-right: 3em;
-}
-
-.nwis-home table input {
-	width: 15em;
-}
-
-.nwis-home table td {
-	text-align:center;
-	padding-left: 1em;
-	padding-right: 1em;
-	min-width: 20em;
-}
-
-.nwis-home .left-align {
-	text-align: left;
-	max-width: 20em;
-}
-
-.buttons {
-	width: 100%;
-}
-
-.hydro-reports {
-	width: 45%;
-}
-
-.dedup-reports {
-	width: 55%;
-}
-
-.icons {
-	width: 100%;
-	text-align: center;
-}
-
-.icons table {
-	width: 100%;
-}
-
-.icons table td {
-	padding-left: 0;
-	min-width: 10em;
-}
-
-.nwis-home hr {
-	border: 0;
-	height: 9px;
-	background: url(../images/hr.png) 0 no-repeat;
-	margin-left: 42px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.home-container {
-	margin: auto;
-	width:900px;
-}
-
-.vision-gui .container {
-	max-width: 20000px;
-}
-
 .site-title {
 	text-align:center;
 	padding-bottom: 30px;
 }
 
-.nwis-hidden {
-	display: none;
-}
-
-.nwis-loading-indicator {
+.aqcu-loading-indicator {
 	background: url('../images/ajax-loader-small.gif')
 		no-repeat center center;
 }
@@ -437,13 +368,7 @@ h2 {
 }
 
 .upper-right-corner a,
-.nwis-login-section,
-.nwis-container,
-.nwis-section-container,
-.search-criteria-category-group,
-.nwis-field-container input,
-.nwis-multi-expander-selected,
-.nwis-report-type-model.selected  {
+field-container input {
 	border: 1px solid #A0A0A0;
 }
 
@@ -451,317 +376,29 @@ h2 {
 	background-color: white;
 }
 
-/* search forms*/
-.nwis-login-section,
-.nwis-container,
-.nwis-section-container {
-	border-radius: 4px 4px 4px 4px;
-	list-style: none outside none;
-	margin: 0.25%;
-	padding: 8px 15px;
-	overflow: auto;
-}
-
-.nwis-login-section,
-.nwis-section-container {
-	min-height: 500px;	
-}
-
-.nwis-section-container-smaller {
-	min-height: 200px;	
-}
-
-/* search forms*/
-.nwis-report-grid-container {
-	min-height: 100px !important;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;
-	overflow: hidden;
-}
-
-.search-criteria-container h3,.selected-criteria-container h5,.search-form-fields-container h5,.nwis-report-type-form h5,.chosen-output-columns-container h5
-{
-	font-weight: bold;
-}
-
-.search-criteria-category-group-container h3
-{
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
-	border: 1px solid #aaa;
-	border-bottom: 0px;
-	font-size: 100%;
-	padding: 0.25em 0.25em;
-	margin-bottom: 0px;
-	background-color: #F5F5F5;
-}
-
-.search-criteria-category-group
-{
-	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
-}
-
-.nwis-search-form-node
-{
-	padding: 0.05em 1.4em;
-}
-
-.nwis-search-form-category-tip-target {
-	margin-left: 5px;
-	font-size: 90%;
-}
-
-.nwis-search-form-input-select-none-selected {
-	color: #A0A0A0;
-}
-
-.separator-title {
-	text-align: center;
-	height: 0.5em;
-	border-bottom: 1px solid;
-	margin-top: 0.5em;
-	margin-bottom: 1em;
-}
-
-.separator-title:first-line {
-	background-color: white;
-}
-
-.separator-title:before {
-	content: "\00a0 ";
-	color: white;
-}
-
-.separator-title:after {
-	content: "\00a0 ";
-	color: white;
-}
-
-.separator-footer {
-	text-align: center;
-	height: 0.5em;
-	border-bottom: 1px solid;
-	margin-top: 0.7em;
-	margin-bottom: 0.3em;
-}
-
-.separator-footer:first-line {
-	background-color: white;
-}
-
-.nwis-message-main {
-	margin-left:20px;
-}
-
-.search-criteria-category-group-container, .chosen-output-columns{
-	min-height: 5em;
-}
-
-.chosen-output-columns{
-	font-size: small;
-	padding-left:0;
-	padding-right: 0;
-}
-
-.search-form-fields-container, .column-group-form-fields-container {
-	padding-left:0;
-	padding-right: 0;
-}
-
-.search-form-container,.report-type-form-container {
-	min-width: 43.5%;
-}
-
-.report-download-container {
-	text-align:center;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.search-criteria-container,.selected-criteria-container,.report-types-container,.chosen-output-columns-container {
-	min-width: 27.5%;
-}
-
-.search-form-fields-container h5 {
-	text-decoration: underline;
-}
-
-.nwis-search-form-node {
-	font-size: small;
-	cursor: pointer;
-	padding-bottom: 0.1em;
-}
-
-.nwis-search-form-node.selected {
-	background-color: #E4E4E4;
-	font-weight: bold;
-	padding-left: 1.4em;
-	padding-top: 0px;
-	padding-bottom: 0px;
-}
-
-.nwis-field-container {
-	font-size: small;
-}
-
-.search-criteria-report h5 {
-	text-decoration: underline;
-	padding-bottom: 0px;
-	margin-bottom: 0px;
-}
-
-.search-criteria-report div {
-	padding-left: 5px;
-	margin-bottom: 0px;
-	padding-bottom: 0px;
-	font-size: small;
-}
-
-.vision_field {
+.aqcu_field {
 	width: 100%;
 }
 
-.vision_date_field,.vision_range_field,.vision_box_field {
+.aqcu_date_field,
+.aqcu_range_field,
+.aqcu_box_field {
 	width: 40%;
 }
 
-.nwis-field-container input {
+field-container {
+	font-size: small;
+}
+
+field-container input {
 	-moz-border-radius: 2px;
 	border-radius: 2px;
 	margin: 1px;
 }
 
-/* boxsearch */
-.nwis-box-search {
-	white-space: nowrap;
-	text-align: center;
-}
-
-/* multiselect */
-.nwis-multi-expander {
-	cursor: pointer;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-
-.nwis-multi-expander-selected {
-	-moz-border-radius: 2px;
-	border-radius: 2px;
-	width: 100%;
-	padding: 2px;
-	cursor: pointer;
-}
-
-/* review selected sites*/
-.selected-sites-grid {
-	height: 525px;
-}
-
-.filtered {
-	font-family: Lucida Console, Courier New, Consolas, Monaco,
-		Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, monospace;
-	font-size: small;
-}
-
-.nwis-report-type-model-text {
-	margin-left: 20px;	
-}
-
-.report-types-container h5 {
-	font-weight: bold;
-	margin-bottom: 2px;
-	margin-left: 10px;	
-}
-
-.output-report-type, .output-column-group-list, output-column-group-list-short {
-	float:left;
-}
-
-.output-column-list dl {
-	padding: 0 0 0 1em;
-	display: block;
-}
-
-.output-column-list dt {
-	float: left;
-	clear:left;
-}
-
-.output-column-list dt:after {
-	content: " -";
-}
-
-.output-column-list dd {
-	float: left;
-	clear:right;
-	padding-left: 1em
-}
-
-/* report type options */
-.nwis-report-type-model {
-	font-size: small;
-	cursor: pointer;
-	padding-bottom: 0.1em;
-}
-
-.nwis-report-type-model.selected {
-	background-color: #F5F5F5;
-	font-weight: bold;
-	padding: 1px;
-	border-radius: 2px 2px 2px 2px;
-}
-
-.jstree {
-	padding-bottom: 1em;
-	font-size: small;
-}
-
-.breadcrumb {
-	margin-bottom: 0px;
-}
-
-.section {
-	margin-bottom: 0px;
-	background-color: #DAE4E9;
-}
-
-.adjust-pager {
-	margin-bottom: 0.8em; 
-	margin-top: 0;
-}
-
-.pager-title {
-	font-size: 150%;
-}
-
-#nwis-map-feature-table {
-	background-repeat: no-repeat;
-	background-position-x: 100%;
-	background-position-y: bottom;
-	background-size: 40%;
-	font-weight: bold;
-}
-
-#nwis-map-dialog {
-	overflow: hidden;
-}
-
-.nwis-message-icon {
-	float: left;
-	margin: 0 7px 50px 0;
-}
-
-#nwis-more-sites-button {
-	width: 100%;
-	min-height: 40px;
-	font-size: 1.2em;
-}
-
-.nwis-data_warning {
-	color: red;	
-	font-size: 10px;
+category-tip-target {
+	margin-left: 5px;
+	font-size: 90%;
 }
 
 /* Saved reports start*/

@@ -22,18 +22,18 @@ AQCU.view.Select2Field = Backbone.View.extend({
 	 * Handlebars template
 	 */
 	template: Handlebars.compile("\
-			<div class='row nwis-field-container'>\
+			<div class='row field-container'>\
 				{{#if displayName}}\
 				<div class='col-sm-5 col-md-5 col-lg-5'>\
 					<label for='{{fieldName}}'>{{displayName}}&nbsp;&nbsp;\
 					{{#if description}}\
-						<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
+						<i class='fa fa-question-circle category-tip-target' title='{{description}}'></i>\
 					{{/if}}\
 					</label><br/>\
 				</div>\
 				{{/if}}\
 				<div class='{{#if displayName}}col-sm-7 col-md-7 col-lg-7{{else}}col-sm-12 col-md-12 col-lg-12{{/if}}'>\
-					<select class='vision_field vision_select_field_{{fieldName}}'>\
+					<select class='aqcu_field aqcu_select_field_{{fieldName}}'>\
 						<option></option>\
 					</select>\
 				</div>\
@@ -52,7 +52,7 @@ AQCU.view.Select2Field = Backbone.View.extend({
 		
 		// select2 configurations
 		this.select2     = options.select2;
-		this.selector    = ".vision_select_field_" + options.fieldConfig.fieldName;
+		this.selector    = ".aqcu_select_field_" + options.fieldConfig.fieldName;
 		// select2 defaults - override available
 		if ( ! options.select2.minimumInputLength) {
 			options.select2.minimumInputLength = 3;

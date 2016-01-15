@@ -138,15 +138,15 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	changeVisibility: function(){
 		switch(this.model.get("visibility")){
 			case "hidden":
-				this.$el.removeClass('nwis-loading-indicator');
+				this.$el.removeClass('aqcu-lg-loader-spinner');
 				this.$el.addClass('hidden');
 				break;
 			case "loading":
 				this.$el.removeClass('hidden');
-				this.$el.addClass('nwis-loading-indicator');
+				this.$el.addClass('aqcu-lg-loader-spinner');
 				break;
 			case "shown":
-				this.$el.removeClass('nwis-loading-indicator');
+				this.$el.removeClass('aqcu-lg-loader-spinner');
 				this.$el.removeClass('hidden');
 				break;
 		}

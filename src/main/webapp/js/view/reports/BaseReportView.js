@@ -60,6 +60,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	afterRender: function() {
 		this.hideWarning();
+		this.hideLoader();
 		this.bindAllRatingModels();
 		this.buildAdvancedOptions();
 		this.stickit();
@@ -145,10 +146,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	populateTimeSeriesSelector: function(tsSelector, params) {
 		var _this = this;
-		this.$(".vision_select_field_" + params.requestId).removeClass("nwis-loading-indicator");
 		tsSelector.removeSelectOptions();
-		this.abortAjax(this.ajaxCalls["tsList" + params.requestId]);
-		this.ajaxCalls["tsList" + params.requestId] = $.ajax({
+		this.startAjax("tsList" + params.requestId, $.ajax({
 			url: AQCU.constants.serviceEndpoint + 
 				"/service/lookup/timeseries/identifiers",
 			timeout: 120000,
@@ -181,13 +180,12 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				}
 				tsSelector.setSelectOptions(list);
 				_this.stickit();
-				_this.$(".vision_select_field_" + params.requestId).removeClass("nwis-loading-indicator");
 				
 			},
 			error: function() {
 				//TODO warn user?
 			}
-		});
+		}));
 	},
 	
 	createRatingModelDisplay : function(container, params, isRequired) {
@@ -209,6 +207,12 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		container.append(newContainer);
 	},
 
+	startAjax : function(ajaxId, ajaxPromise) {
+		//if call previous call in progress
+		this.abortAjax(this.ajaxCalls[ajaxId]);
+		this.ajaxCalls[ajaxId] = ajaxPromise;
+	}, 
+	
 	abortAjax : function(ajaxCall) {
 		if(ajaxCall && ajaxCall.abort) {
 			ajaxCall.abort();
@@ -239,8 +243,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var periodFilter = params.period || params.defaultPeriod;
 		periodFilter = periodFilter || 'Points';
 		
-		this.abortAjax(this.ajaxCalls[params.requestId]);
-		this.ajaxCalls[params.requestId] = $.ajax({
+		this.startAjax(params.requestId, $.ajax({
 			url: AQCU.constants.serviceEndpoint + 
 				"/service/lookup/derivationChain/find",
 			timeout: 120000,
@@ -266,7 +269,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			error: function() {
 				this.model.set(params.requestId, null);
 			}
-		});
+		}));
 	},
 	
 	clearRatingModels: function(){
@@ -304,8 +307,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	setRatingModel: function(params){
 		if(params.timeseriesUid){
 			var _this = this;
-			this.abortAjax(this.ajaxCalls[params.requestId]);
-			this.ajaxCalls[params.requestId] = $.ajax({
+			this.startAjax(params.requestId, $.ajax({
 				url: AQCU.constants.serviceEndpoint + 
 					"/service/lookup/derivationChain/ratingModel",
 				timeout: 120000,
@@ -326,7 +328,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				error: function() {
 					_this.model.set(params.requestId, null);
 				}
-			});
+			}));
 		} else {
 			this.model.set(params.requestId, null);
 		}
@@ -443,5 +445,13 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	flashWarning: function() {
 		this.$(".warning-indicator").show().fadeOut(2000, function(){});
+	},
+	
+	showLoader: function() {
+		this.$(".report-card-loader-base").show();
+	},
+	
+	hideLoader: function() {
+		this.$(".report-card-loader-base").hide();
 	}
 });

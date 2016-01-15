@@ -53,7 +53,7 @@
 		</div>
 		
 		<div class="container aqcu-authenticate-body">
-			<div class="nwis-loading-indicator">&nbsp;</div> Verifying user...
+			<div class="aqcu-loading-indicator">&nbsp;</div> Verifying user...
 		</div>
 		
 		<div id="aqcu_version_tag" class="lower-right-corner">version: 1.0?</div>

@@ -5,17 +5,17 @@ AQCU.view.SelectField = Backbone.View.extend({
 	/**
 	 * Handlebars template
 	 */
-	template: Handlebars.compile("<div class='row nwis-field-container'> \
+	template: Handlebars.compile("<div class='row field-container'> \
 		{{#if displayName}}\
 		<div class='col-sm-5 col-md-5 col-lg-5'>\
 			<label for='{{fieldName}}'>{{displayName}}&nbsp;&nbsp;\
 			{{#if description}}\
-				<i class='fa fa-question-circle nwis-search-form-category-tip-target' title='{{description}}'></i>\
+				<i class='fa fa-question-circle category-tip-target' title='{{description}}'></i>\
 			{{/if}}\
 		</label><br/></div> {{/if}}\
-			<input type='hidden' name='{{fieldName}}' class='vision_field vision_field_{{fieldName}}'/> \
+			<input type='hidden' name='{{fieldName}}' class='aqcu_field aqcu_field_{{fieldName}}'/> \
 		<div class='{{#if displayName}}col-sm-7 col-md-7 col-lg-7{{else}}col-sm-12 col-md-12 col-lg-12{{/if}}'>\
-		<select class='vision_field vision_select_field_{{fieldName}}'>\
+		<select class='aqcu_field aqcu_select_field_{{fieldName}}'>\
 		</select>\
 		</div> \
 		</div>"),
@@ -42,11 +42,11 @@ AQCU.view.SelectField = Backbone.View.extend({
 		Backbone.View.prototype.initialize.apply(this, arguments);
 		this.render();
 
-		this.$(".vision_field_" + this.fieldConfig.fieldName).val(this.model.get(this.fieldConfig.fieldName));
+		this.$(".aqcu_field_" + this.fieldConfig.fieldName).val(this.model.get(this.fieldConfig.fieldName));
 		this.updateSelectedOption();
 		var _this = this;
-		this.$(".vision_field_" + this.fieldConfig.fieldName).change(function() { _this.updateSelectedOption(); });
-		this.$(".vision_select_field_" + this.fieldConfig.fieldName).change(function() { _this.setHiddenValue(); });
+		this.$(".aqcu_field_" + this.fieldConfig.fieldName).change(function() { _this.updateSelectedOption(); });
+		this.$(".aqcu_select_field_" + this.fieldConfig.fieldName).change(function() { _this.setHiddenValue(); });
 	},
 	render: function() {
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
@@ -61,7 +61,7 @@ AQCU.view.SelectField = Backbone.View.extend({
 	getBindingConfig: function() {
 		var binding = {};
 		var _this = this;
-		binding[".vision_field_" + this.fieldConfig.fieldName] = {
+		binding[".aqcu_field_" + this.fieldConfig.fieldName] = {
 			observe: this.fieldConfig.fieldName,
 			afterUpdate: function(el, val) {
 				_this.updateSelectedOption();
@@ -101,7 +101,7 @@ AQCU.view.SelectField = Backbone.View.extend({
 	
 	setSelectOptions: function(data) {
 		this.data = data;
-		var selectField = this.$(".vision_select_field_" + this.fieldConfig.fieldName);
+		var selectField = this.$(".aqcu_select_field_" + this.fieldConfig.fieldName);
 		selectField.html("");
 		if(!this.hideNotSelect) {
 			selectField.append('<option value="">Not selected</option>');
@@ -124,33 +124,33 @@ AQCU.view.SelectField = Backbone.View.extend({
 	},
 	
 	getDisplayValue: function(value) {
-		return this.$(".vision_select_field_" + this.fieldConfig.fieldName).find("option[value='"+value+"']").html()
+		return this.$(".aqcu_select_field_" + this.fieldConfig.fieldName).find("option[value='"+value+"']").html()
 	},
 	
 	showLoader: function() {
-		this.$(".vision_select_field_" + this.fieldConfig.fieldName).addClass("nwis-loading-indicator")
+		this.$(".aqcu_select_field_" + this.fieldConfig.fieldName).addClass("aqcu-loading-indicator")
 	},
 	
 	hideLoader: function() {
-		this.$(".vision_select_field_" + this.fieldConfig.fieldName).removeClass("nwis-loading-indicator")
+		this.$(".aqcu_select_field_" + this.fieldConfig.fieldName).removeClass("aqcu-loading-indicator")
 	},
 	
 	/**
 	 * Helper function to sync up the hidden value with the two date fields
 	 */
 	updateSelectedOption: function() {
-		var value = this.$(".vision_field_" + this.fieldConfig.fieldName).val();
-		this.$(".vision_select_field_" + this.fieldConfig.fieldName).val(value);
+		var value = this.$(".aqcu_field_" + this.fieldConfig.fieldName).val();
+		this.$(".aqcu_select_field_" + this.fieldConfig.fieldName).val(value);
 	},
 	/**
 	 * Helper function, when when either display values are updated, the hidden value is updated
 	 */
 	setHiddenValue: function() {
-		var oldVal = this.$(".vision_field_" + this.fieldConfig.fieldName).val();
-		var newVal = this.$(".vision_select_field_" + this.fieldConfig.fieldName).val();
-		this.$(".vision_field_" + this.fieldConfig.fieldName).val(newVal);
+		var oldVal = this.$(".aqcu_field_" + this.fieldConfig.fieldName).val();
+		var newVal = this.$(".aqcu_select_field_" + this.fieldConfig.fieldName).val();
+		this.$(".aqcu_field_" + this.fieldConfig.fieldName).val(newVal);
 		if (oldVal !== newVal) {
-			this.$(".vision_field_" + this.fieldConfig.fieldName).change();
+			this.$(".aqcu_field_" + this.fieldConfig.fieldName).change();
 		}
 	}
 });
