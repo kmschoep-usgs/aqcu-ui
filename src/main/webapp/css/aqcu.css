@@ -824,14 +824,20 @@ h2 {
 }
 
 .delete-saved-report {
+	font-size: large;
 	position: absolute;
-	right: 2em;
-	top: 30px;
+	right: 1.25em;
+	top: 25px;
 	cursor: pointer;
+	color: #808080;
 }
 
 .delete-all-saved-reports {
+	font-size: xx-large;
+	position: absolute;
 	cursor: pointer;
+	right: 1em;
+	color: #808080;
 }
 
 .saved-report-card-description {

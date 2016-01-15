@@ -82,7 +82,7 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 		var _this = this;
 		delButton.confirmation({
 			title: "Delete ALL saved reports?",
-			placement: "bottom",
+			placement: "left",
 			onConfirm: function() {
 				var openModal = _this.$(".modal");
 				openModal.on("hidden.bs.modal", function(){

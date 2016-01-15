@@ -9,7 +9,6 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Saved Reports</h4>
-					{{#if savedReports.length}}<i class="delete-all-saved-reports fa fa-trash"></i>{{/if}}
 				</div>
 				<div class="modal-body">
 					<div class="saved-reports-body container">
@@ -44,6 +43,7 @@
 					<button type="button" class="btn btn-primary download-all-saved-reports">Download All (.zip)</button>
 					{{/if}}
 					
+					{{#if savedReports.length}}<i class="delete-all-saved-reports fa fa-trash"></i>{{/if}}
 				</div>
 			</div>
 		</div>
