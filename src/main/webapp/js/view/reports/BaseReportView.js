@@ -208,9 +208,15 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 
 	startAjax : function(ajaxId, ajaxPromise) {
+		this.showLoader();
 		//if call previous call in progress
 		this.abortAjax(this.ajaxCalls[ajaxId]);
 		this.ajaxCalls[ajaxId] = ajaxPromise;
+		
+		var _this = this;
+		$.when(ajaxPromise).done(function(){
+			_this.hideLoader();
+		});
 	}, 
 	
 	abortAjax : function(ajaxCall) {
@@ -452,6 +458,15 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	hideLoader: function() {
-		this.$(".report-card-loader-base").hide();
+		//for wait for all ajax request before turning off the loader
+		var callsInProgress = false;
+		_.each(this.ajaxCalls, function(val, key){
+			if(val.readyState < 4) {
+				callsInProgress = true;
+			}
+		});
+		if(!callsInProgress) {
+			this.$(".report-card-loader-base").hide();
+		}
 	}
 });
