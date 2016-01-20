@@ -43,7 +43,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	updateDateSelection: function() {
 		this.model.set("dateSelection", this.parentModel.get("dateSelection"));
-		
 	},
 	
 	updateSite: function() {

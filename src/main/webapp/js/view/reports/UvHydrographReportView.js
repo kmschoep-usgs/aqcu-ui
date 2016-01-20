@@ -88,29 +88,29 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 				width: '100%',
 				ajax : {
 					url: AQCU.constants.serviceEndpoint + "/service/lookup/sites",
-				    dataType: 'json',
-				    data: function (params) {
-					    return {
+					dataType: 'json',
+					data: function (params) {
+						return {
 							pageSize: 10,
 							siteNumber: params.term
 						}
-				    },
-				    processResults: function (data, page) {
-				    	var siteList = [];
+					},
+					processResults: function (data, page) {
+						var siteList = [];
 						for (var i = 0; i < data.length; i++) {
 							siteList.push({ 
 								id  : data[i].siteNumber,
 								text: data[i].siteNumber +" - "+ data[i].siteName}
 							);
 						}
-				        return {results: siteList};
-				    },
-				    cache: true
+						return {results: siteList};
+					},
+					cache: true
 				},
 			},
 			startHidden: false,
 		});		
-//		this.model.bind("change:comparisonSite", this.loadComparisonTimeSeriesList, this);	
+		this.model.bind("change:comparisonSite", this.loadComparisonTimeSeriesList, this);	
 	},
 	
 	createComparisonTimeseriesSelector: function() {
