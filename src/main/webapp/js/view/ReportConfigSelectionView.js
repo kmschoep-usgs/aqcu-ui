@@ -5,12 +5,12 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	
 	//Someday this may change dynamically depending on selected TS
 	availableReports: [
-		AQCU.view.CorrectionsAtAGlanceReportView,
-		AQCU.view.DvHydrographReportView,
-		AQCU.view.ExtremesReportView,
-		AQCU.view.FiveYearGWSummaryReportView,
-		AQCU.view.SensorReadingSummaryReportView,
-		AQCU.view.SiteVisitPeakReportView,
+//		AQCU.view.CorrectionsAtAGlanceReportView,
+//		AQCU.view.DvHydrographReportView,
+//		AQCU.view.ExtremesReportView,
+//		AQCU.view.FiveYearGWSummaryReportView,
+//		AQCU.view.SensorReadingSummaryReportView,
+//		AQCU.view.SiteVisitPeakReportView,
 //		AQCU.view.TimeSeriesSummaryFullReportView,
 		AQCU.view.UvHydrographReportView,
 		AQCU.view.VDiagramReportView

@@ -43,6 +43,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	updateDateSelection: function() {
 		this.model.set("dateSelection", this.parentModel.get("dateSelection"));
+		
 	},
 	
 	updateSite: function() {
@@ -307,7 +308,15 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				requestId: binding.requestId,
 				timeseriesUid: this.model.get(binding.bindTo)
 			});
-		}, this)
+		}, this);
+		
+		//bind date change as well
+		this.model.bind("change:dateSelection", function(){
+			this.setRatingModel({
+				requestId: binding.requestId,
+				timeseriesUid: this.model.get(binding.bindTo)
+			});
+		}, this);
 	},
 	
 	setRatingModel: function(params){
