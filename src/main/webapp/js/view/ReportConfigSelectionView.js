@@ -11,7 +11,6 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		AQCU.view.FiveYearGWSummaryReportView,
 		AQCU.view.SensorReadingSummaryReportView,
 		AQCU.view.SiteVisitPeakReportView,
-		AQCU.view.TimeSeriesSummaryFullReportView,
 		AQCU.view.UvHydrographReportView,
 		AQCU.view.VDiagramReportView
 		],
