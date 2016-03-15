@@ -1,26 +1,12 @@
-<%@page import="javax.naming.NamingException"%>
-<%@page import="javax.naming.Context"%>
-<%@page import="javax.naming.InitialContext"%>
+<%@page import="gov.usgs.aqcu.util.AqcuConfigurationLoaderSingleton"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%!
-	public String getJNDIValue(String var) {
-		String result;
-		try {
-			Context ctx = new InitialContext();
-			result =  (String) ctx.lookup("java:comp/env/" + var);
-		} catch (NamingException ex) {
-			result = "";
-		}
-		return result;
-	}
-%>
 <script  type="text/javascript">
 	if (!window.AQCU) {
 		window.AQCU = {}; //top level namespace
 	}
 
 	AQCU.constants = {
-		nwisRaHome: '<%=getJNDIValue("nwis-ra.home")%>',
-		serviceEndpoint: '<%=getJNDIValue("aqcu.reports.front.end")%>'
+		nwisRaHome: '<%=AqcuConfigurationLoaderSingleton.getProperty("nwis-ra.home")%>',
+		serviceEndpoint: '<%=AqcuConfigurationLoaderSingleton.getProperty("aqcu.reports.front.end")%>'
 	};
 </script>
