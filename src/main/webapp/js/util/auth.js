@@ -35,6 +35,7 @@ AQCU.util.auth = function() {
 			var token = $.cookie("NwisAuthCookie");
 			return token;
 		},
+		
 		nwisRaLogout : function() {
 			AQCU.util.auth.setAuthToken();
 			$.ajax({
@@ -53,6 +54,7 @@ AQCU.util.auth = function() {
 				context: this
 			});
 		},
+		
 		logout : function() {
 			$.ajax({
 				url: AQCU.constants.serviceEndpoint + "/service/auth/logout",
@@ -68,6 +70,7 @@ AQCU.util.auth = function() {
 				context: this
 			});
 		},
+		
 		verifyLoggedIn : function() {
 			var currentToken = AQCU.util.auth.getAuthToken();
 			$.ajax({
@@ -76,7 +79,7 @@ AQCU.util.auth = function() {
 				dataType: "json",
 				type: "GET",
 				data: {
-					pageSize: '1'
+					siteNumber : "%"
 				},
 				success: function(data) {
 					//do nothing, login state is good
@@ -94,7 +97,7 @@ AQCU.util.auth = function() {
 $.ajaxSetup({
 	statusCode: {
 		401: function(){
-			var currentToken = AQCU.util.auth.getAuthToken();
+			var currentToken = AQCU.util.auth.logout();
 			if(!currentToken) {
 				window.location = AQCU.constants.nwisRaHome + "/login.jsp";
 			} else {
