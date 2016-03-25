@@ -71,10 +71,13 @@ AQCU.util.auth = function() {
 		verifyLoggedIn : function() {
 			var currentToken = AQCU.util.auth.getAuthToken();
 			$.ajax({
-				url: AQCU.constants.serviceEndpoint + "/service/lookup/report/types",
+				url: AQCU.constants.serviceEndpoint + "/service/lookup/sitefile",
 				async: false,
 				dataType: "json",
 				type: "GET",
+				data: {
+					pageSize: '1'
+				},
 				success: function(data) {
 					//do nothing, login state is good
 				},
