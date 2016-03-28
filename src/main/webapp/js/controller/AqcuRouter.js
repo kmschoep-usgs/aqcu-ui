@@ -70,6 +70,10 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 		}
 	},
 	
+	nwisRaHome : function() {
+		window.location = AQCU.constants.nwisRaHome + "/authenticate.jsp?token=" + AQCU.util.auth.getAuthToken();
+	},
+	
 	/**
 	 * Will do an ajax call to a version file on the server, and will parse that into a tag on
 	 * the page
