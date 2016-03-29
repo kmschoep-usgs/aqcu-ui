@@ -56,8 +56,8 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	}],
 	
 	removeSelectFields: function() {
-		if(this.comparisonSite){
-			this.comparisonSite.remove();
+		if(this.comparisonStation){
+			this.comparisonStation.remove();
 		}
 		if(this.comparisonSelect) {
 			this.comparisonSelect.remove();
@@ -75,11 +75,11 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		var newContainer = $('<div class="aqcu-uv-comparison-site"></div>');
 		this.advancedOptionsContainer.append(newContainer);
 
-		this.comparisonSite = new AQCU.view.Select2Field({
+		this.comparisonStation = new AQCU.view.Select2Field({
 			el: '.aqcu-uv-comparison-site',
 			model : this.model,
 			fieldConfig: {
-				fieldName   : "comparisonSite",
+				fieldName   : "comparisonStation",
 				displayName: "Comparison Site",
 				description : ""
 			},
@@ -110,7 +110,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			},
 			startHidden: false,
 		});		
-		this.model.bind("change:comparisonSite", this.loadComparisonTimeSeriesList, this);	
+		this.model.bind("change:comparisonStation", this.loadComparisonTimeSeriesList, this);	
 	},
 	
 	createComparisonTimeseriesSelector: function() {
@@ -131,7 +131,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 	loadComparisonTimeSeriesList: function() {
-		var siteNumber = this.model.get("comparisonSite");
+		var siteNumber = this.model.get("comparisonStation");
 		if (siteNumber) {
 			$.ajax({
 				url: AQCU.constants.serviceEndpoint +
