@@ -114,6 +114,21 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 	createComparisonTimeseriesSelector: function() {
+		var primaryPubField = $("<div class='row field-container'><div class='col-sm-5 col-md-5 col-lg-5'></div>" +
+				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
+				"<label><input class='filterComparisonPublish' type='checkbox' value='check' checked=true>Publish Only</label>" +
+				"<label><input class='filterComparisonPrimary' type='checkbox' value='check' checked=true>Primary Only</label>" +
+				"</div></div>");//not sure this warrants using a template
+		this.model.set("filterComparisonPublish", true);
+		this.model.set("filterComparisonPrimary", true);
+		var _this = this;
+		$.extend(this.bindings, {
+			".filterComparisonPublish" : "filterComparisonPublish",
+			".filterComparisonPrimary" : "filterComparisonPrimary"
+		});
+		this.model.bind("change:filterComparisonPublish",this.populateComparisonTsSelect, this);
+		this.model.bind("change:filterComparisonPrimary",this.populateComparisonTsSelect, this);
+		
 		var newContainer = $("<div>");
 		this.comparisonSelect = new AQCU.view.SelectField({
 			router: this.router,
@@ -127,6 +142,9 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			startHidden: false
 		});
 		$.extend(this.bindings, this.comparisonSelect.getBindingConfig());
+		
+
+		this.advancedOptionsContainer.append(primaryPubField);
 		this.advancedOptionsContainer.append(newContainer);
 	},
 	
@@ -145,35 +163,55 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 				},
 				context: this,
 				success: function (data) {
-					var sortedArray = [];
-					for (var opt in data) {
-						sortedArray.push([opt, data[opt]])
-					}
-					sortedArray.sort(function (a, b) {
-						if (a[1].identifier > b[1].identifier) {
-							return 1;
-						} else if (a[1].identifier < b[1].identifier) {
-							return -1;
-						} else {
-							return 0;
-						}
-					});
-					var sortedFormattedArray = [];
-					for (var i = 0; i < sortedArray.length; i++) {
-						var timeSeriesEntry = sortedArray[i][1];
-						timeSeriesEntry.uid = sortedArray[i][0];
-						sortedFormattedArray.push(timeSeriesEntry);
-					}		
-					var timeSeriesList = [];
-					for(var i = 0; i < sortedFormattedArray.length; i++) {
-						timeSeriesList.push({ KeyValue: sortedFormattedArray[i].uid, DisplayValue: sortedFormattedArray[i].identifier});
-					}
-					this.comparisonSelect.setSelectOptions(timeSeriesList);
+					this.model.set("comparisonTimeseriesRawData", data);
+					this.populateComparisonTsSelect();
 				},
 				error: function () {
 
 				}
 			});
+		}
+	},
+	
+	populateComparisonTsSelect : function() {
+		var data = this.model.get("comparisonTimeseriesRawData");
+		if(data) {
+			var sortedArray = [];
+			for (var opt in data) {
+				sortedArray.push([opt, data[opt]])
+			}
+			sortedArray.sort(function (a, b) {
+				if (a[1].identifier > b[1].identifier) {
+					return 1;
+				} else if (a[1].identifier < b[1].identifier) {
+					return -1;
+				} else {
+					return 0;
+				}
+			});
+			var sortedFormattedArray = [];
+			for (var i = 0; i < sortedArray.length; i++) {
+				var timeSeriesEntry = sortedArray[i][1];
+				timeSeriesEntry.uid = sortedArray[i][0];
+				sortedFormattedArray.push(timeSeriesEntry);
+			}		
+			var timeSeriesList = [];
+			var publishFlag = this.model.get("filterComparisonPublish");
+			var primaryFlag = this.model.get("filterComparisonPrimary");
+			
+			for(var i = 0; i < sortedFormattedArray.length; i++) {
+				var skip = false;
+				if(publishFlag && !sortedFormattedArray[i].publish) {
+					skip = true;
+				}
+				if(primaryFlag && !sortedFormattedArray[i].primary) {
+					skip = true;
+				}
+				if(!skip) {
+					timeSeriesList.push({ KeyValue: sortedFormattedArray[i].uid, DisplayValue: sortedFormattedArray[i].identifier});
+				}
+			}
+			this.comparisonSelect.setSelectOptions(timeSeriesList);
 		}
 	},
 	
