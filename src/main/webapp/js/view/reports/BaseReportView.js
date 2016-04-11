@@ -97,6 +97,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.builtSelectorFields = {};
 		this.selectorParams = {};
 		
+		this.createPrimaryPublishFilters();
+		
 		for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
 			this.createTimeseriesSelectionBox(this.advancedOptionsContainer, this.requiredRelatedTimeseriesConfig[i], true);
 		}
@@ -142,6 +144,34 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				$.proxy(callback, this, this.ajaxCalls)();
 			}
 		} 
+	},
+	
+	createPrimaryPublishFilters: function() {
+		var primaryPubField = $("<div><div><div class='row field-container'><div class='col-sm-5 col-md-5 col-lg-5'><label>Filter Time Series By</label><br></div>" +
+				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
+				"<label><input class='filterComparisonPublish' type='checkbox' value='check' checked=true>Publish Only</label>" +
+				"<label><input class='filterComparisonPrimary' type='checkbox' value='check' checked=true>Primary Only</label>" +
+				"</div></div></div></div>");//not sure this warrants using a template
+		this.model.set("filterComparisonPublish", true);
+		this.model.set("filterComparisonPrimary", true);
+		$.extend(this.bindings, {
+			".filterComparisonPublish" : "filterComparisonPublish",
+			".filterComparisonPrimary" : "filterComparisonPrimary"
+		});
+		this.advancedOptionsContainer.append(primaryPubField);
+	},
+	
+	getPrimaryFilter : function() {
+		
+	},
+	
+	getPublishFilter : function() {
+		
+	},
+	
+	bindToPrimPubFilters: function(bindFunc, scope) {
+		this.model.bind("change:filterComparisonPublish", bindFunc, scope);
+		this.model.bind("change:filterComparisonPrimary", bindFunc, scope);
 	},
 	
 	populateTimeSeriesSelector: function(tsSelector, params) {

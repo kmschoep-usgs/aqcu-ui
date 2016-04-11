@@ -114,20 +114,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 	createComparisonTimeseriesSelector: function() {
-		var primaryPubField = $("<div class='row field-container'><div class='col-sm-5 col-md-5 col-lg-5'></div>" +
-				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
-				"<label><input class='filterComparisonPublish' type='checkbox' value='check' checked=true>Publish Only</label>" +
-				"<label><input class='filterComparisonPrimary' type='checkbox' value='check' checked=true>Primary Only</label>" +
-				"</div></div>");//not sure this warrants using a template
-		this.model.set("filterComparisonPublish", true);
-		this.model.set("filterComparisonPrimary", true);
-		var _this = this;
-		$.extend(this.bindings, {
-			".filterComparisonPublish" : "filterComparisonPublish",
-			".filterComparisonPrimary" : "filterComparisonPrimary"
-		});
-		this.model.bind("change:filterComparisonPublish",this.populateComparisonTsSelect, this);
-		this.model.bind("change:filterComparisonPrimary",this.populateComparisonTsSelect, this);
+		this.bindToPrimPubFilters(this.populateComparisonTsSelect, this);
 		
 		var newContainer = $("<div>");
 		this.comparisonSelect = new AQCU.view.SelectField({
@@ -143,8 +130,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		});
 		$.extend(this.bindings, this.comparisonSelect.getBindingConfig());
 		
-
-		this.advancedOptionsContainer.append(primaryPubField);
 		this.advancedOptionsContainer.append(newContainer);
 	},
 	
