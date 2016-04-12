@@ -97,25 +97,33 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.builtSelectorFields = {};
 		this.selectorParams = {};
 		
-		this.createPrimaryPublishFilters();
+		if(this.requiredRelatedTimeseriesConfig.length || this.optionalRelatedTimeseriesConfig.length) {
+			this.createPrimaryPublishFilters();
+		}
 		
 		for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
-			this.createTimeseriesSelectionBox(this.advancedOptionsContainer, this.requiredRelatedTimeseriesConfig[i], true);
+			this.createTimeseriesSelectionBox(this.requiredRelatedTimeseriesConfig[i], true);
 		}
 		
 		for(var i = 0; i < this.requiredRatingModels.length; i++) {
-			this.createRatingModelDisplay(this.advancedOptionsContainer, this.requiredRatingModels[i], true);
+			this.createRatingModelDisplay(this.requiredRatingModels[i], true);
 		}
 		for(var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
-			this.createTimeseriesSelectionBox(this.advancedOptionsContainer, this.optionalRelatedTimeseriesConfig[i], false);
+			this.createTimeseriesSelectionBox(this.optionalRelatedTimeseriesConfig[i], false);
 		}
 
 		for(var i = 0; i < this.optionalRatingModels.length; i++) {
-			this.createRatingModelDisplay(this.advancedOptionsContainer, this.optionalRatingModels[i], false);
+			this.createRatingModelDisplay(this.optionalRatingModels[i], false);
 		}
 	},
 	
-	createTimeseriesSelectionBox : function(container, params, isRequired) {
+	createTimeseriesSelectionBox : function(params, isRequired) {
+		var container = this.advancedOptionsContainer;
+		
+		this.bindToPrimPubFilters(function() { 
+			this.populateTsSelect(params.requestId); 
+		}, this);
+		
 		var newContainer = $("<div>");
 		this.selectorParams[params.requestId] = params;
 		this.builtSelectorFields[params.requestId] = new AQCU.view.SelectField({
@@ -131,6 +139,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		});
 		$.extend(this.bindings, this.builtSelectorFields[params.requestId].getBindingConfig());
 		container.append(newContainer);
+		
+		return this.builtSelectorFields[params.requestId];
 	},
 	
 	loadAllTimeSeriesOptions : function(callback) {
@@ -138,7 +148,15 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			for(var key in this.builtSelectorFields){
 				var tsSelector = this.builtSelectorFields[key];
 				var params = this.selectorParams[key];
-				this.populateTimeSeriesSelector(tsSelector, params);
+				this.loadTimeseriesIdentifiers(
+						key,
+						{
+							stationId: this.model.get("site").siteNumber,
+							parameter: params.parameter,
+							publish: params.publish,
+							computationIdentifier: params.computation,
+							computationPeriodIdentifier: params.period 
+						});
 			}
 			if(callback) {
 				$.proxy(callback, this, this.ajaxCalls)();
@@ -147,11 +165,18 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	createPrimaryPublishFilters: function() {
-		var primaryPubField = $("<div><div><div class='row field-container'><div class='col-sm-5 col-md-5 col-lg-5'><label>Filter Time Series By</label><br></div>" +
+		var primaryPubField = $("<div><div><div class='row field-container'>" +
+				
+				"<div class='col-sm-5 col-md-5 col-lg-5'>" +
+				"<label for='filterComparisonPublish'>Filter Time Series Selections To</label><br>" +
+				"</div>" +
+				
 				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
-				"<label><input class='filterComparisonPublish' type='checkbox' value='check' checked=true>Publish Only</label>" +
-				"<label><input class='filterComparisonPrimary' type='checkbox' value='check' checked=true>Primary Only</label>" +
-				"</div></div></div></div>");//not sure this warrants using a template
+				"<label><input class='filterComparisonPublish' name='filterComparisonPublish' type='checkbox' value='check' checked=true>Publish Only</label>" +
+				"&nbsp;<label><input class='filterComparisonPrimary' type='checkbox' value='check' checked=true>Primary Only</label>" +
+				"</div>" +
+				
+				"</div></div></div>");//not sure this warrants using a template YET
 		this.model.set("filterComparisonPublish", true);
 		this.model.set("filterComparisonPrimary", true);
 		$.extend(this.bindings, {
@@ -162,11 +187,11 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	getPrimaryFilter : function() {
-		
+		return this.model.get("filterComparisonPrimary");
 	},
 	
 	getPublishFilter : function() {
-		
+		return this.model.get("filterComparisonPublish");
 	},
 	
 	bindToPrimPubFilters: function(bindFunc, scope) {
@@ -174,51 +199,73 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.model.bind("change:filterComparisonPrimary", bindFunc, scope);
 	},
 	
-	populateTimeSeriesSelector: function(tsSelector, params) {
-		var _this = this;
-		tsSelector.removeSelectOptions();
-		this.startAjax("tsList" + params.requestId, $.ajax({
-			url: AQCU.constants.serviceEndpoint + 
-				"/service/lookup/timeseries/identifiers",
-			timeout: 120000,
-			dataType: "json",
-			data: {
-				stationId: this.model.get("site").siteNumber,
-				parameter: params.parameter,
-				publish: params.publish,
-				computationIdentifier: params.computation,
-				computationPeriodIdentifier: params.period 
-			},
-			success: function(data) {
-				var sortedArray=[];
-				for(var opt in data){
-					sortedArray.push([opt,data[opt]])
-				}
-				sortedArray.sort(function(a,b){
-					if(a[1].identifier > b[1].identifier) {
-						return 1;
-					} else if(a[1].identifier < b[1].identifier) {
-						return -1;
-					} else {
-						return 0;
-					}
-				});
+	loadTimeseriesIdentifiers: function(selectorIdentifier, params) {
+		if (params.stationId) {
+			$.ajax({
+				url: AQCU.constants.serviceEndpoint +
+						"/service/lookup/timeseries/identifiers",
+				timeout: 120000,
+				dataType: "json",
+				data: params,
+				context: this,
+				success: function (data) {
+					this.model.set(selectorIdentifier + "FullList", data);
+					this.populateTsSelect(selectorIdentifier);
+				},
+				error: function () {
 
-				var list = [];
-				for(var i = 0; i < sortedArray.length; i++) {
-					list.push({ KeyValue: sortedArray[i][0], DisplayValue: sortedArray[i][1].identifier});
 				}
-				tsSelector.setSelectOptions(list);
-				_this.stickit();
-				
-			},
-			error: function() {
-				//TODO warn user?
-			}
-		}));
+			});
+		}
 	},
 	
-	createRatingModelDisplay : function(container, params, isRequired) {
+	populateTsSelect : function(selectorIdentifier) {
+		var tsSelector = this.builtSelectorFields[selectorIdentifier];
+		tsSelector.removeSelectOptions();
+		var data = this.model.get(selectorIdentifier + "FullList");
+		if(data) {
+			var sortedArray = [];
+			for (var opt in data) {
+				sortedArray.push([opt, data[opt]])
+			}
+			sortedArray.sort(function (a, b) {
+				if (a[1].identifier > b[1].identifier) {
+					return 1;
+				} else if (a[1].identifier < b[1].identifier) {
+					return -1;
+				} else {
+					return 0;
+				}
+			});
+			var sortedFormattedArray = [];
+			for (var i = 0; i < sortedArray.length; i++) {
+				var timeSeriesEntry = sortedArray[i][1];
+				timeSeriesEntry.uid = sortedArray[i][0];
+				sortedFormattedArray.push(timeSeriesEntry);
+			}		
+			var timeSeriesList = [];
+			
+			var publishFlag = this.getPublishFilter();
+			var primaryFlag = this.getPrimaryFilter();
+			
+			for(var i = 0; i < sortedFormattedArray.length; i++) {
+				var skip = false;
+				if(publishFlag && !sortedFormattedArray[i].publish) {
+					skip = true;
+				}
+				if(primaryFlag && !sortedFormattedArray[i].primary) {
+					skip = true;
+				}
+				if(!skip) {
+					timeSeriesList.push({ KeyValue: sortedFormattedArray[i].uid, DisplayValue: sortedFormattedArray[i].identifier});
+				}
+			}
+			tsSelector.setSelectOptions(timeSeriesList);
+		}
+	},
+	
+	createRatingModelDisplay : function(params, isRequired) {
+		var container = this.advancedOptionsContainer;
 		var newContainer = $("<div>");
 		var	ratingModelText  = new AQCU.view.TextField({
 			router: this.router,

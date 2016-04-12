@@ -45,7 +45,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	
 	initialize: function() {
 		AQCU.view.BaseReportView.prototype.initialize.apply(this, arguments);
-		this.model.bind("change:selectedTimeSeries", this.loadAllTimeSeriesOptions, this); //additional event handler
+		this.model.bind("change:selectedTimeSeries", function() { this.loadAllTimeSeriesOptions() }, this); //additional event handler
 	},
 	
 	loadAllRequiredTimeseries: function () {
@@ -60,16 +60,14 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 		
-	loadAllTimeSeriesOptions : function() {
+	loadAllTimeSeriesOptions : function(callback) {
 		if(this.model.get("site")) {
 			for(var key in this.builtSelectorFields){
 				if(this.selectorParams[key].dynamicParameter && this.model.get('selectedTimeSeries')){
 					this.selectorParams[key].parameter = this.model.get('selectedTimeSeries').parameter;
 				}
-				var tsSelector = this.builtSelectorFields[key];
-				var params = this.selectorParams[key];
-				this.populateTimeSeriesSelector(tsSelector, params);
 			} 
+			AQCU.view.BaseReportView.prototype.loadAllTimeSeriesOptions.apply(this, [callback]);
 		}
 	}
 

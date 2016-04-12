@@ -110,103 +110,38 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			},
 			startHidden: false,
 		});		
-		this.model.bind("change:comparisonStation", this.loadComparisonTimeSeriesList, this);	
-	},
-	
-	createComparisonTimeseriesSelector: function() {
-		this.bindToPrimPubFilters(this.populateComparisonTsSelect, this);
 		
-		var newContainer = $("<div>");
-		this.comparisonSelect = new AQCU.view.SelectField({
-			router: this.router,
-			model: this.model,
-			fieldConfig: {
-				fieldName : "comparisonTimeseriesIdentifier",
-				displayName : "Comparison Time Series",
-				description : ""
-			},
-			renderTo: newContainer,
-			startHidden: false
-		});
-		$.extend(this.bindings, this.comparisonSelect.getBindingConfig());
-		
-		this.advancedOptionsContainer.append(newContainer);
-	},
-	
-	loadComparisonTimeSeriesList: function() {
-		var siteNumber = this.model.get("comparisonStation");
-		if (siteNumber) {
-			$.ajax({
-				url: AQCU.constants.serviceEndpoint +
-						"/service/lookup/timeseries/identifiers",
-				timeout: 120000,
-				dataType: "json",
-				data: {
-					stationId: siteNumber,
+		//make sure to update list for comparison timeseries if site changes
+		this.model.bind("change:comparisonStation", function() {
+			this.loadTimeseriesIdentifiers(
+				"comparisonTimeseriesIdentifier",
+				{
+					stationId: this.model.get("comparisonStation"),
 					computationIdentifier: 'Instantaneous', //Instantaneous seems to be applied to non-mean/DV series
 					computationPeriodIdentifier: 'Points' //Points seems to be applied to non-mean/DV series
-				},
-				context: this,
-				success: function (data) {
-					this.model.set("comparisonTimeseriesRawData", data);
-					this.populateComparisonTsSelect();
-				},
-				error: function () {
-
-				}
-			});
-		}
+				});
+		}, this);	
+		
 	},
 	
-	populateComparisonTsSelect : function() {
-		var data = this.model.get("comparisonTimeseriesRawData");
-		if(data) {
-			var sortedArray = [];
-			for (var opt in data) {
-				sortedArray.push([opt, data[opt]])
-			}
-			sortedArray.sort(function (a, b) {
-				if (a[1].identifier > b[1].identifier) {
-					return 1;
-				} else if (a[1].identifier < b[1].identifier) {
-					return -1;
-				} else {
-					return 0;
-				}
-			});
-			var sortedFormattedArray = [];
-			for (var i = 0; i < sortedArray.length; i++) {
-				var timeSeriesEntry = sortedArray[i][1];
-				timeSeriesEntry.uid = sortedArray[i][0];
-				sortedFormattedArray.push(timeSeriesEntry);
-			}		
-			var timeSeriesList = [];
-			var publishFlag = this.model.get("filterComparisonPublish");
-			var primaryFlag = this.model.get("filterComparisonPrimary");
-			
-			for(var i = 0; i < sortedFormattedArray.length; i++) {
-				var skip = false;
-				if(publishFlag && !sortedFormattedArray[i].publish) {
-					skip = true;
-				}
-				if(primaryFlag && !sortedFormattedArray[i].primary) {
-					skip = true;
-				}
-				if(!skip) {
-					timeSeriesList.push({ KeyValue: sortedFormattedArray[i].uid, DisplayValue: sortedFormattedArray[i].identifier});
-				}
-			}
-			this.comparisonSelect.setSelectOptions(timeSeriesList);
-		}
+	//create additional TS Selector
+	createComparisonTimeseriesSelector: function() {
+		this.comparisonSelect = this.createTimeseriesSelectionBox(
+				{
+					requestId: "comparisonTimeseriesIdentifier",
+					display: "Comparison Time Series"
+				},
+				false
+				);
 	},
 	
-	//returns a map to match IDs to display values
+	//add additional field to base display map
 	constructDisplayValuesMap: function(requestParams) {
 		var displayValues = AQCU.view.BaseReportView.prototype.constructDisplayValuesMap.apply(this, arguments);
 		_.each(requestParams, function(val, key){
 			if(key == "comparisonTimeseriesIdentifier") {
 				if(val) {
-					var advancedField = this.comparisonSelectthis.comparisonSelect;
+					var advancedField = this.comparisonSelect;
 					if(advancedField) {
 						displayValues[val] = advancedField.getOptionDisplayValue(val);
 					}
