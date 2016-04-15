@@ -102,14 +102,14 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		}
 		
 		for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
-			this.createTimeseriesSelectionBox(this.requiredRelatedTimeseriesConfig[i], true);
+			this.createTimeseriesSelectionBox($.extend(this.requiredRelatedTimeseriesConfig[i], { baseField: true }), true);
 		}
 		
 		for(var i = 0; i < this.requiredRatingModels.length; i++) {
 			this.createRatingModelDisplay(this.requiredRatingModels[i], true);
 		}
 		for(var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
-			this.createTimeseriesSelectionBox(this.optionalRelatedTimeseriesConfig[i], false);
+			this.createTimeseriesSelectionBox($.extend(this.optionalRelatedTimeseriesConfig[i], { baseField: true }), false);
 		}
 
 		for(var i = 0; i < this.optionalRatingModels.length; i++) {
@@ -148,15 +148,17 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			for(var key in this.builtSelectorFields){
 				var tsSelector = this.builtSelectorFields[key];
 				var params = this.selectorParams[key];
-				this.loadTimeseriesIdentifiers(
-						key,
-						{
-							stationId: this.model.get("site").siteNumber,
-							parameter: params.parameter,
-							publish: params.publish,
-							computationIdentifier: params.computation,
-							computationPeriodIdentifier: params.period 
-						});
+				if(params.baseField) { //this is done so that any select boxes added by subclasses do not auto load with this function
+					this.loadTimeseriesIdentifiers(
+							key,
+							{
+								stationId: this.model.get("site").siteNumber,
+								parameter: params.parameter,
+								publish: params.publish,
+								computationIdentifier: params.computation,
+								computationPeriodIdentifier: params.period 
+							});
+				}
 			}
 			if(callback) {
 				$.proxy(callback, this, this.ajaxCalls)();
@@ -168,35 +170,35 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var primaryPubField = $("<div><div><div class='row field-container'>" +
 				
 				"<div class='col-sm-5 col-md-5 col-lg-5'>" +
-				"<label for='filterComparisonPublish'>Filter Time Series Selections To</label><br>" +
+				"<label for='filterPublish'>Filter Time Series Selections To</label><br>" +
 				"</div>" +
 				
 				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
-				"<label><input class='filterComparisonPublish' name='filterComparisonPublish' type='checkbox' value='check' checked=true>Publish Only</label>" +
-				"&nbsp;<label><input class='filterComparisonPrimary' type='checkbox' value='check' checked=true>Primary Only</label>" +
+				"<label><input class='filterPublish' name='filterPublish' type='checkbox' value='check' checked=true>Publish Only</label>" +
+				"&nbsp;<label><input class='filterPrimary' type='checkbox' value='check' checked=true>Primary Only</label>" +
 				"</div>" +
 				
 				"</div></div></div>");//not sure this warrants using a template YET
-		this.model.set("filterComparisonPublish", true);
-		this.model.set("filterComparisonPrimary", true);
+		this.model.set("filterPublish", true);
+		this.model.set("filterPrimary", true);
 		$.extend(this.bindings, {
-			".filterComparisonPublish" : "filterComparisonPublish",
-			".filterComparisonPrimary" : "filterComparisonPrimary"
+			".filterPublish" : "filterPublish",
+			".filterPrimary" : "filterPrimary"
 		});
 		this.advancedOptionsContainer.append(primaryPubField);
 	},
 	
 	getPrimaryFilter : function() {
-		return this.model.get("filterComparisonPrimary");
+		return this.model.get("filterPrimary");
 	},
 	
 	getPublishFilter : function() {
-		return this.model.get("filterComparisonPublish");
+		return this.model.get("filterPublish");
 	},
 	
 	bindToPrimPubFilters: function(bindFunc, scope) {
-		this.model.bind("change:filterComparisonPublish", bindFunc, scope);
-		this.model.bind("change:filterComparisonPrimary", bindFunc, scope);
+		this.model.bind("change:filterPublish", bindFunc, scope);
+		this.model.bind("change:filterPrimary", bindFunc, scope);
 	},
 	
 	loadTimeseriesIdentifiers: function(selectorIdentifier, params) {
