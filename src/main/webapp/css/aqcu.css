@@ -171,6 +171,11 @@
 }
 **/
 
+.time-series-selection-grid-row-btm {
+	padding-top: 15px;
+	font-size: x-small;
+}
+
 /** TIME SERIES SELECTION: END **/
 
 /** DATE RANGE SELECTOR: START **/
