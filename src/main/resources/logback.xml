@@ -28,7 +28,6 @@
 		<appender-ref ref="file" />
 	</root>
 
-	<logger name="org.eclipseorg.eclipse" level="INFO" />
-	<logger name="org.apache.catalina.core.ContainerBase" level="INFO" />
 	<logger name="org.apache.http.wire" level="WARN" />
+	<logger name="net.jodah.lyra.internal" level="WARN" />
 </configuration>
