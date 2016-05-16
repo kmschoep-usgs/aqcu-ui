@@ -23,12 +23,11 @@
 
 	</appender>
 
-	<root level="ERROR">
+	<root level="INFO">
 		<appender-ref ref="stdout" />
 		<appender-ref ref="file" />
 	</root>
 
-	<logger name="org.eclipseorg.eclipse" level="ERROR" />
-	<logger name="org.apache.catalina.core.ContainerBase" level="ERROR" />
 	<logger name="org.apache.http.wire" level="WARN" />
+	<logger name="net.jodah.lyra.internal" level="WARN" />
 </configuration>
