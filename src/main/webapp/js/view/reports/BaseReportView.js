@@ -31,10 +31,12 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.parentModel.bind("change:site", this.updateSite, this);
 		this.model.bind("change:site", function() { this.loadAllTimeSeriesOptions(); }, this);
 		this.model.bind("change:dateSelection", this.loadAllRequiredTimeseries, this);
+		
+		this.loading = true;
 	},
 	
 	updateDateSelection: function() {
-		this.model.set("primaryTimeseriesIdentifier", this.parentModel.get("dateSelection"));
+		this.model.set("dateSelection", this.parentModel.get("dateSelection"));
 	},
 	
 	updateSite: function() {
@@ -505,6 +507,10 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	applyReportOptions: function() {
+		if(this.loading) {
+			return;
+		}
+		
 		if(this.validate()) {
 			this.parentModel.set("reportOptions", {
 				reportType: this.reportType,
@@ -527,14 +533,21 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	hideWarning: function() {
 		this.$(".warning-indicator").hide();
+		this.$(".config-btn").show();
 	},
 	
 	flashWarning: function() {
-		this.$(".warning-indicator").show().fadeOut(2000, function(){});
+		_this = this;
+		this.$(".config-btn").hide();
+		this.$(".warning-indicator").show().fadeOut(2000, function(){_this.$(".config-btn").show();});
 	},
 	
 	showLoader: function() {
-		this.$(".report-card-loader-base").show();
+		this.loading = true;
+		this.$(".config-btn").hide();
+		this.$(".add-to-saved-reports").hide();
+		this.$(".loading-indicator").show();
+		
 	},
 	
 	hideLoader: function() {
@@ -546,7 +559,10 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			}
 		});
 		if(!callsInProgress) {
-			this.$(".report-card-loader-base").hide();
+			this.loading = false;
+			this.$(".loading-indicator").hide();
+			this.$(".config-btn").show();
+			this.$(".add-to-saved-reports").show();
 		}
 	}
 });

@@ -230,29 +230,20 @@
 	float:right;
 }
 
-.config-btn {
+.config-btn, .warning-indicator {
 	position: relative;
 	right: 0.1em;
 	top: 0.2em;
 	cursor: pointer;
-	float:right;
+	float: right;
 }
 
 .warning-indicator {
 	color: red;
-	position: inherit;
-	right: 4em;
-	top: 1em;
 }
 
-.report-card-loader-base {
-	background-color:rgba(255,255,255,0.8);
-	position: relative;
-	top: 0px;
-	left: 0px;
-	height: 99%;
-	width: 99%;
-	border-radius: 5px;
+.loading-indicator {
+	margin-top: 0.25em;
 }
 
 .aqcu-lg-loader-spinner {
