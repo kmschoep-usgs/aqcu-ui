@@ -1,5 +1,5 @@
 AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
-	reportName: "V-Diagram",
+	reportName: "VD",
 	reportType: "vdiagram",
 	requiredRelatedTimeseriesConfig: [{
 			requestId: "upchainTimeseriesIdentifier",

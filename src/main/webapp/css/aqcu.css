@@ -209,43 +209,47 @@
 /** REPORT CARDS: START **/
 .report-card {
 	margin-top: 1em;
-	min-height: 3em;
-	width: 100%;
+	min-height: 4em;
+	width: 12%;
 	border: solid black 1px;
 	border-radius: 5px;
-	position: relative;
+	/** position: relative; **/
+        float: left; 
 }
 
 .report-card-header {
 	margin-top: .75em;
+        float:left;
 	font-weight: bold;
 	cursor: pointer;
 }
 
 .add-to-saved-reports {
-	position: absolute;
-	right: 1em;
-	top: 1em;
+	position: relative;
+	right: 0.1em;
+	top: 0.4em;
 	cursor: pointer;
+        float:right;
 }
 
 .config-btn {
-	position: absolute;
-	right: 3em;
-	top: 1em;
+	position: relative;
+	right: 0.1em;
+	top: 0.2em;
 	cursor: pointer;
+        float:right;
 }
 
 .warning-indicator {
 	color: red;
-	position: absolute;
+	position: inherit;
 	right: 4em;
 	top: 1em;
 }
 
 .report-card-loader-base {
 	background-color:rgba(255,255,255,0.8);
-	position: absolute;
+	position: relative;
 	top: 0px;
 	left: 0px;
 	height: 99%;
@@ -254,10 +258,8 @@
 }
 
 .aqcu-lg-loader-spinner {
-	height: 100%;
-	width: 100%;
-	background: url('../images/loading.gif')
-		no-repeat center center 
+	background: url('../images/ajax-loader-small.gif') 
+            no-repeat center center;
 }
 
 /** REPORT CARDS: END **/
@@ -268,7 +270,8 @@
 }
 
 .container {
-	padding-top: 0px;
+	padding-top: 3px;
+        margin-right: 2px;
 }
 
 h2 {

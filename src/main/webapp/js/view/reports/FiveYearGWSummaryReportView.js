@@ -1,5 +1,5 @@
 AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
-	reportName: "Five Year GW Summary",
+	reportName: "5YR",
 	reportType: "fiveyeargwsum",
 	requiredRelatedTimeseriesConfig: [{
 			requestId: "firstDownChainIdentifier",
