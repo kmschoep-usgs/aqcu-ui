@@ -22,27 +22,19 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.parentModel = this.options.parentModel;
 		this.model = new Backbone.Model({
 			site: this.parentModel.get("site"),
-			selectedTimeSeries: this.parentModel.get("selectedTimeSeries"),
+			selectedTimeSeries: this.options.selectedTimeSeries,
 			dateSelection: this.parentModel.get("dateSelection"),
 			format: this.defaultFormat
 		});
 		
-		this.parentModel.bind("change:selectedTimeSeries", this.updateSelectedTs, this);
 		this.parentModel.bind("change:dateSelection", this.updateDateSelection, this);
 		this.parentModel.bind("change:site", this.updateSite, this);
 		this.model.bind("change:site", function() { this.loadAllTimeSeriesOptions(); }, this);
 		this.model.bind("change:dateSelection", this.loadAllRequiredTimeseries, this);
 	},
 	
-	updateSelectedTs: function() {
-		this.model.set("selectedTimeSeries", this.parentModel.get("selectedTimeSeries"));
-		if(this.parentModel.get("selectedTimeSeries")) {
-			this.model.set("primaryTimeseriesIdentifier", this.parentModel.get("selectedTimeSeries").uid); //this should trigger rating models to reload
-		}
-	},
-	
 	updateDateSelection: function() {
-		this.model.set("dateSelection", this.parentModel.get("dateSelection"));
+		this.model.set("primaryTimeseriesIdentifier", this.parentModel.get("dateSelection"));
 	},
 	
 	updateSite: function() {
@@ -54,7 +46,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.removeSelectFields();
 		this.context = {
 			reportName: this.reportName,
-			reportType: this.reportType
+			reportType: this.reportType,
+			primaryTimeseriesIdentifier: this.model.get("primaryTimeseriesIdentifier")
 		}
 	},
 	
@@ -65,10 +58,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.buildAdvancedOptions();
 		this.stickit();
 		this.loadAllTimeSeriesOptions(this.loadAllRequiredTimeseries);
-
-		if(this.parentModel.get("selectedTimeSeries")) {
-			this.model.set("primaryTimeseriesIdentifier", this.parentModel.get("selectedTimeSeries").uid);
-		}
 		
 		//hook up save button
 		$('.add-to-saved-reports').confirmation({
@@ -79,6 +68,10 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			btnCancelLabel: "No"
 			
 		});
+		
+		//this is lame, but this triggers the rating models to load
+		this.model.set("primaryTimeseriesIdentifier", null);
+		this.model.set("primaryTimeseriesIdentifier", this.options.selectedTimeSeries.uid);
 	},
 	
 	remove: function() {

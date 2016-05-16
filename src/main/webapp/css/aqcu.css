@@ -129,13 +129,13 @@
 }
 
 .time-series-selection-grid-row{
-	cursor: pointer;
 	padding: 6px 1px;
 	border-bottom: 1px solid #A0A0A0;
 }
 
-.time-series-selection-grid-row:hover{
-	background-color: #E4E4E4;
+.see-reports-btn {
+	cursor: pointer;
+	font-size: x-large;
 }
 
 .time-series-identifier{
@@ -143,19 +143,9 @@
 	overflow: hidden;
 }
 
-.time-series-identifier:hover{
-	width: auto;
-	min-width: 25%;
-}
-
 .time-series-description{
 	text-overflow: ellipsis;
 	overflow: hidden;
-}
-
-.time-series-description:hover{
-	width: auto;
-	min-width: 25%;
 }
 
 /** uid no longer displayed. 
@@ -214,22 +204,6 @@
 	padding: .5em;
 }
 
-.report-config .primary-ts-selector {
-	background-color: #327CC3;
-	color: white;
-	padding: .5em;
-	border-radius: 5px;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-	width: auto;
-	cursor: pointer;
-}
-
-.report-config .primary-ts-selector .close-btn {
-	font-weight: bold;
-	padding-left: 1em;
-}
 /** REPORT CONFIG: END **/
 
 /** REPORT CARDS: START **/

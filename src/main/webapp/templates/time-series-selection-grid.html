@@ -16,7 +16,7 @@
 		<div class="time-series-vertical-line col-sm-1 col-md-1 col-lg-1">Units</div>
 	</div>
 	{{#each timeSeriesList}}
-	<div class="row time-series-selection-grid-row" id="timeseries-{{@index}}">
+	<div class="row time-series-selection-grid-row">
 		<div class="col-sm-12 col-md-12 col-lg-12 time-series-selection-grid-row-top">
 			<div class="row time-series-selection-grid-row-top-content">
 				<div class="col-sm-2 col-md-2 col-lg-2">{{parameter}}</div>
@@ -33,7 +33,9 @@
 		<div class="col-sm-12 col-md-12 col-lg-12 time-series-selection-grid-row-btm">
 			<div class="row time-series-selection-grid-row-btm-content">
 				<div class="col-sm-2 col-md-2 col-lg-2 time-series-selection-grid-row-btm-desc"><b>Description and reports:</b><br/>{{description}}</div>
-				<div class="col-sm-10 col-md-10 col-lg-10 time-series-selection-grid-row-btm-reports"></div>
+				<div class="col-sm-10 col-md-10 col-lg-10 time-series-selection-grid-row-btm-reports">
+				<i class="fa fa-folder-open-o see-reports-btn" id="timeseries-{{@index}}"></i>
+				</div>
 			</div>
 		</div>
 	</div>

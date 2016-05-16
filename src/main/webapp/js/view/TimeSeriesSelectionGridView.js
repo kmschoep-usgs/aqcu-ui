@@ -14,11 +14,10 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	},
 
 	events: {
-		"click .time-series-selection-grid-row": "timeSeriesClicked"
+		"click .see-reports-btn": "loadReportCards"
 	},
 	
 	initialize: function() {
-		
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 				
 		this.router = this.options.router;
@@ -31,14 +30,18 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 				filterPrimary: this.parentModel.get("filterPrimary")
 			});
 
-		this.parentModel.bind("change:selectedTimeSeries",this.updateVisibility,this);
 		this.model.bind("change:visibility",this.changeVisibility,this);
 		this.model.bind("change:filterPublish change:filterPrimary",this.displayGrid,this);
 		this.parentModel.bind("change:site", this.fetchTimeSeries, this)
+		
+		this.displayedReportSelectors = {};
+		
 		this.fetchTimeSeries();
 	},
 	
 	displayGrid: function() {
+		this.destroyReportCards();
+		
 		//set parent filters so these settings stick across site navigation
 		this.parentModel.set("filterPublish", this.model.get("filterPublish"));
 		this.parentModel.set("filterPrimary", this.model.get("filterPrimary"));
@@ -123,16 +126,34 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		}
 		this.model.set("filteredList", filteredList);
 		this.context = {
-			selectedTimeSeries: this.model.get("selectedTimeSeries"),
 			timeSeriesList: filteredList
 		};
 	},
 	
-	timeSeriesClicked: function(event){
-		this.model.set('visibility','hidden');
+	loadReportCards: function(event){
 		var targetID = $(event.currentTarget).attr("id");
 		targetID = parseInt(targetID.substring(targetID.indexOf("-")+1));
-		this.parentModel.set("selectedTimeSeries",this.model.get("filteredList")[targetID]);
+		var selectedTimeSeries = this.model.get("filteredList")[targetID];
+		 
+		if(!this.displayedReportSelectors[selectedTimeSeries.uid]) { //only create a new report card selector if not already exists
+			//get the element inside the grid to render a new report config view to
+			var reportSelectorContainer = $(event.currentTarget).parent();
+			
+			this.displayedReportSelectors[selectedTimeSeries.uid] = new AQCU.view.ReportConfigSelectionView({
+				parentModel: this.parentModel,
+				router: this.router,
+				selectedTimeSeries: selectedTimeSeries,
+				savedReportsController: this.savedReportsController,
+				el: reportSelectorContainer[0]
+			});
+		}
+	},
+	
+	destroyReportCards: function() {
+		for(var r in this.displayedReportSelectors) {
+			this.displayedReportSelectors[r].remove();
+		}
+		this.displayedReportSelectors = {};
 	},
 	
 	changeVisibility: function(){
@@ -150,12 +171,5 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 				this.$el.removeClass('hidden');
 				break;
 		}
-	},
-	
-	updateVisibility: function(evt, selectedTimeseries){
-		if(selectedTimeseries == null)
-			this.model.set('visibility','shown');
-		else 
-			this.model.set('visibility','hidden');
 	}
 });

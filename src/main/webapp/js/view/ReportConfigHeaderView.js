@@ -10,7 +10,6 @@ AQCU.view.ReportConfigHeaderView = AQCU.view.BaseView.extend({
 	bindings: {},
 
 	events: {
-		"click .primary-ts-selector": "removeTimeSeries"
 	},
 	
 	initialize: function() {
@@ -18,21 +17,16 @@ AQCU.view.ReportConfigHeaderView = AQCU.view.BaseView.extend({
 			
 		this.parentModel = this.options.parentModel;
 		
-		this.parentModel.bind("change:site change:selectedTimeSeries", this.render, this);
+		this.parentModel.bind("change:site", this.render, this);
 	},
 	
 	/*override*/
 	preRender: function() {
 		this.context = {
-			site : this.parentModel.get("site"),
-			selectedTimeSeries : this.parentModel.get("selectedTimeSeries")
+			site : this.parentModel.get("site")
 		};
 	},
 	
 	afterRender: function () {		
-	},		
-	
-	removeTimeSeries: function() {
-		this.parentModel.set("selectedTimeSeries", null);
 	}
 });

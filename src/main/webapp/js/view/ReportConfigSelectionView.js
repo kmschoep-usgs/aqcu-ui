@@ -28,10 +28,8 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 			
 		this.parentModel = this.options.parentModel;
+		this.selectedTimeSeries = this.options.selectedTimeSeries;
 		this.savedReportsController = this.options.savedReportsController;
-		
-		this.parentModel.bind("change:selectedTimeSeries", this.render, this);
-		
 		this.availableReportViews = [];
 	},
 	
@@ -39,8 +37,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	preRender: function() {
 		this.removeReportViews();
 		this.context = {
-			site : this.parentModel.get("site"),
-			selectedTimeSeries : this.parentModel.get("selectedTimeSeries")
+			site : this.parentModel.get("site")
 		};
 	},
 	
@@ -53,6 +50,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 			var view = new this.availableReports[i]({
 				parentModel: this.parentModel,
 				savedReportsController: this.savedReportsController,
+				selectedTimeSeries: this.selectedTimeSeries,
 				router: this.router
 			});
 			this.$('.available-reports').append(view.el);
@@ -65,5 +63,9 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 			this.availableReportViews[0].remove();		
 			this.availableReportViews.shift();		
 		}		
+	},
+	
+	remove: function() {
+		this.removeReportViews();
 	}
 });

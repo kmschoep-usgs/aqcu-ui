@@ -37,8 +37,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 	/*override*/
 	preRender: function() {
 		this.context = {
-			site : this.model.get("site"),
-			selectedTimeSeries : this.model.get("selectedTimeSeries")
+			site : this.model.get("site")
 		};
 	},
 	
@@ -63,20 +62,12 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 				el: this.$(".time-series-selection-grid-container")
 			});
 		
-		this.reportsGrid = new AQCU.view.ReportConfigSelectionView({
-			parentModel: this.model,
-			router: this.router,
-			savedReportsController: this.savedReportsController,
-			el: this.$(".report-views-container")
-		});
-		
 		this.stickit();
 	},
 
 	
 	siteUpdated: function() {
 		this.model.set("requestParams", null);
-		this.model.set("selectedTimeSeries", null);
 		this.model.set("site", this.parentModel.get("selectedSite"));
 	},
 	
