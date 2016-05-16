@@ -258,7 +258,7 @@
 }
 
 .aqcu-lg-loader-spinner {
-	background: url('../images/ajax-loader-small.gif') 
+	background: url('../images/loading.gif') 
             no-repeat center center;
 }
 
