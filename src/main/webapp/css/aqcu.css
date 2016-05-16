@@ -280,7 +280,7 @@
 
 .aqcu-lg-loader-spinner {
 	background: url('../images/loading.gif') 
-            no-repeat center center;
+            no-repeat center center
 }
 
 /** REPORT CARDS: END **/
@@ -308,7 +308,7 @@ h2 {
 
 .aqcu-loading-indicator {
 	background: url('../images/ajax-loader-small.gif')
-		no-repeat center center;
+		no-repeat center center
 }
 
 .aqcu-authenticate-body {
