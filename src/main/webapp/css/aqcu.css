@@ -208,9 +208,8 @@
 
 /** REPORT CARDS: START **/
 .report-card {
-	margin-top: 1em;
 	min-height: 4em;
-	width: 12%;
+	width: 8em;
 	border: solid black 1px;
 	border-radius: 5px;
 	float: left; 
