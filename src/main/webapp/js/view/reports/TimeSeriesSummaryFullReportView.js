@@ -1,5 +1,5 @@
 AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
-	reportName: "Time Series Summary",
+	reportName: "TSS",
 	reportType: "timeseriessummary",
 	optionalRelatedTimeseriesConfig: [{
 		requestId: "upchainTimeseriesIdentifier",
