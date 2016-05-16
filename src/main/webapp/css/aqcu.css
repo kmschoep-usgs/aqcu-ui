@@ -213,13 +213,12 @@
 	width: 12%;
 	border: solid black 1px;
 	border-radius: 5px;
-	/** position: relative; **/
-        float: left; 
+	float: left; 
 }
 
 .report-card-header {
 	margin-top: .75em;
-        float:left;
+	float:left;
 	font-weight: bold;
 	cursor: pointer;
 }
@@ -229,7 +228,7 @@
 	right: 0.1em;
 	top: 0.4em;
 	cursor: pointer;
-        float:right;
+	float:right;
 }
 
 .config-btn {
@@ -237,7 +236,7 @@
 	right: 0.1em;
 	top: 0.2em;
 	cursor: pointer;
-        float:right;
+	float:right;
 }
 
 .warning-indicator {
@@ -259,7 +258,7 @@
 
 .aqcu-lg-loader-spinner {
 	background: url('../images/loading.gif') 
-            no-repeat center center;
+		no-repeat center center
 }
 
 /** REPORT CARDS: END **/
@@ -271,7 +270,7 @@
 
 .container {
 	padding-top: 3px;
-        margin-right: 2px;
+	margin-right: 2px;
 }
 
 h2 {
@@ -287,7 +286,7 @@ h2 {
 
 .aqcu-loading-indicator {
 	background: url('../images/ajax-loader-small.gif')
-		no-repeat center center;
+		no-repeat center center
 }
 
 .aqcu-authenticate-body {
