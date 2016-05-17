@@ -133,7 +133,11 @@
 	border-bottom: 1px solid #A0A0A0;
 }
 
-.see-reports-btn {
+.report-expander-container {
+	text-align: right;	
+}
+
+.see-reports-btn, .remove-reports-btn {
 	cursor: pointer;
 	font-size: x-large;
 }

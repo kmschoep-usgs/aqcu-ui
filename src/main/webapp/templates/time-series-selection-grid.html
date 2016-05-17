@@ -33,8 +33,12 @@
 		<div class="col-sm-12 col-md-12 col-lg-12 time-series-selection-grid-row-btm">
 			<div class="row time-series-selection-grid-row-btm-content">
 				<div class="col-sm-2 col-md-2 col-lg-2 time-series-selection-grid-row-btm-desc"><b>Description and reports:</b><br/>{{description}}</div>
-				<div class="col-sm-10 col-md-10 col-lg-10 time-series-selection-grid-row-btm-reports">
-				<i class="fa fa-folder-open-o see-reports-btn" id="timeseries-{{@index}}"></i>
+				<div class="col-sm-1 col-md-1 col-lg-1 report-expander-container">
+					<i class="fa fa-folder-o see-reports-btn" id="timeseries-{{@index}}"></i>
+					<i class="fa fa-folder-open-o remove-reports-btn hidden" id="remtimeseries-{{@index}}"></i>
+				</div>
+				<div class="col-sm-9 col-md-9 col-lg-9 time-series-selection-grid-row-btm-reports">
+					<div class="reports-container-{{@index}}"></div>
 				</div>
 			</div>
 		</div>
