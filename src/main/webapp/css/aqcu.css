@@ -209,7 +209,8 @@
 /** REPORT CARDS: START **/
 .report-card {
 	min-height: 4em;
-	width: 8em;
+	width: 6em;
+	padding: .5em;
 	border: solid black 1px;
 	border-radius: 5px;
 	float: left; 
