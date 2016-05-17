@@ -89,21 +89,24 @@ AQCU.util.auth = function() {
 				},
 				context: this
 			});
-		}
-	};
-}();
-
-//global ajax settings
-$.ajaxSetup({
-	statusCode: {
-		401: function(){
+		},
+		
+		redirectFunction : function(){
 			var currentToken = AQCU.util.auth.logout();
 			if(!currentToken) {
 				window.location = AQCU.constants.nwisRaHome + "/login.jsp";
 			} else {
 				window.location = AQCU.constants.nwisRaHome + "/login.jsp?timedOut=true";
 			}
-		}
+		} 
+	};
+}();
+
+//global ajax settings
+$.ajaxSetup({
+	statusCode: {
+		401: AQCU.util.auth.redirectFunction,
+		403: AQCU.util.auth.redirectFunction
 	},
 	headers: {
 		"Authorization": "Bearer " + AQCU.util.auth.getAuthToken()
