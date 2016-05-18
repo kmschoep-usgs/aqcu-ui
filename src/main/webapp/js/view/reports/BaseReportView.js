@@ -49,7 +49,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.context = {
 			reportName: this.reportName,
 			reportType: this.reportType,
-			primaryTimeseriesIdentifier: this.model.get("primaryTimeseriesIdentifier"),
+			//primaryTimeseriesIdentifier: this.model.get("primaryTimeseriesIdentifier"),
+			primaryTimeseriesIdentifier: this.model.get("selectedTimeSeries").uid,
 			primaryTsLabel: this.model.get("selectedTimeSeries").identifier
 		}
 	},
