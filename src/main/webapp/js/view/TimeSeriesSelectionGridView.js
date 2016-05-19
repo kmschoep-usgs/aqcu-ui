@@ -169,7 +169,9 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	
 	destroyReportCards: function() {
 		for(var r in this.displayedReportSelectors) {
-			this.displayedReportSelectors[r].remove();
+			if(this.displayedReportSelectors[r]) {
+				this.displayedReportSelectors[r].remove();
+			}
 		}
 		this.displayedReportSelectors = {};
 	},
