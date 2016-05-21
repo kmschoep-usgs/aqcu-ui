@@ -28,6 +28,7 @@
 		<appender-ref ref="file" />
 	</root>
 
+	<logger name="gov.usgs.cida.microservices.messaging" level="INFO" />
 	<logger name="org.apache.http.wire" level="WARN" />
-	<logger name="net.jodah.lyra.internal" level="WARN" />
+	<logger name="net.jodah.lyra.internal" level="OFF" />
 </configuration>
