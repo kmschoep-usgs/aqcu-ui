@@ -1,5 +1,6 @@
 AQCU.view.SensorReadingSummaryReportView = AQCU.view.BaseReportView.extend({
-	reportName: "SRS",
+	reportName: "Sensor Reading Summary", 
+	reportAbbreviation: "SRS",
 	reportType: "sensorreadingsummary",
 });
 

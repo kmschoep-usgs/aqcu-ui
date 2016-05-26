@@ -1,6 +1,7 @@
 AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	templateName: 'report-card',
 	reportName: null, //Display name of report
+	reportAbbreviation: null, //short name for reports
 	defaultFormat: 'html',
 	selectedTimeSeries: null, //array of json objects describing selected timeseries, this array is ordered
 	requiredRelatedTimeseriesConfig: [], //override this
@@ -48,6 +49,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.removeSelectFields();
 		this.context = {
 			reportName: this.reportName,
+			reportAbbreviation: this.reportAbbreviation,
 			reportType: this.reportType,
 			primaryTimeseriesIdentifier: this.model.get("selectedTimeSeries").uid,
 			primaryTsLabel: this.model.get("selectedTimeSeries").identifier

@@ -1,5 +1,5 @@
 <div class="report-card container">
-	<div class="report-card-header"> {{reportName}}</div>
+	<div class="report-card-header" title="{{reportName}} Report"> {{reportAbbreviation}}</div>
 	<i class="loading-indicator fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
 	<i class="warning-indicator fa fa-warning"></i>
 	<i class="config-btn fa fa-gear" data-toggle="modal" data-target="#{{reportType}}{{primaryTimeseriesIdentifier}}AdvOpt"></i><br />
@@ -11,7 +11,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">{{reportName}} Options for {{primaryTsLabel}}</h4>
+					<h4 class="modal-title">{{reportName}} Report Options for {{primaryTsLabel}}</h4>
 				</div>
 				<div class="adv-options-container modal-body">
 				</div>

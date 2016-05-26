@@ -220,6 +220,10 @@
 	float: left; 
 }
 
+.report-card-title {
+	font-size: large;
+}
+
 .report-card-header {
 	margin-top: .75em;
 	float:left;
@@ -254,6 +258,14 @@
 .aqcu-lg-loader-spinner {
 	background: url('../images/loading.gif') 
 		no-repeat center center
+}
+
+.adv-options {
+	font-size: medium;
+}
+
+.adv-options .modal-title {
+	font-size: large;
 }
 
 /** REPORT CARDS: END **/

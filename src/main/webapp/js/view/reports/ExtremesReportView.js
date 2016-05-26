@@ -1,5 +1,6 @@
 AQCU.view.ExtremesReportView = AQCU.view.BaseReportView.extend({
-	reportName: "EX",
+	reportName: "Extremes", 
+	reportAbbreviation: "EXT",
 	reportType: "extremes",
 	requiredRelatedTimeseriesConfig: [{
 			requestId: "upchainTimeseriesIdentifier",

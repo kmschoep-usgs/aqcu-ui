@@ -1,4 +1,5 @@
 AQCU.view.CorrectionsAtAGlanceReportView = AQCU.view.BaseReportView.extend({
-	reportName: "CORR",
+	reportName: "Corrections at a Glance", 
+	reportAbbreviation: "CORR",
 	reportType: "correctionsataglance"
 });
