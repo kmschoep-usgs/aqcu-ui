@@ -1,5 +1,6 @@
 AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
-	reportName: "DV",
+	reportName: "DV Hydrograph", 
+	reportAbbreviation: "DV",
 	reportType: "dvhydrograph",
 	requiredRelatedTimeseriesConfig: [{
 			requestId: "firstDownChainIdentifier",

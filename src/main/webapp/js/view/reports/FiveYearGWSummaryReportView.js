@@ -1,5 +1,6 @@
 AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
-	reportName: "5YR",
+	reportName: "Five Year Ground Water Summary", 
+	reportAbbreviation: "5YR",
 	reportType: "fiveyeargwsum",
 	requiredRelatedTimeseriesConfig: [{
 			requestId: "firstDownChainIdentifier",

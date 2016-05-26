@@ -1,5 +1,6 @@
 AQCU.view.SiteVisitPeakReportView = AQCU.view.BaseReportView.extend({
-	reportName: "SVP",
+	reportName: "Site Visit Peak", 
+	reportAbbreviation: "SVP",
 	reportType: "sitevisitpeak"
 
 });
