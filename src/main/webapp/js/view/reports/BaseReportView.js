@@ -225,18 +225,24 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var primaryFlag = this.getPrimaryFilter();
 		var data = this.model.get(selectorIdentifier + "FullList");
 		if(data) {
-			var dataArray = _.toArray(data);
-			}
-		var filteredDerivationChain = _.find(derivationChainArray, function(devChain){
-			return _.find(dataArray, function(tsList){
-				return tsList.publish == publishFlag
-				&& tsList.primary == primaryFlag
-				&& devChain == tsList.uid;
+			var dataArray = [];
+			for (var opt in data) {
+				dataArray.push([opt, data[opt]])
+			};
+			var flatArray = [];
+			flatArray = _.map(dataArray,function(obj){
+				return _.last(obj)
 				});
-			});
-		this.model.set(params.requestId, filteredDerivationChain);
+			var filteredDerivationChain = _.find(derivationChainArray, function(devChain){
+				return _.find(flatArray, function(ts){
+					return ts.publish == publishFlag
+					&& ts.primary == primaryFlag
+					&& devChain == ts.uid;
+					});
+				});
+			this.model.set(params.requestId, filteredDerivationChain);
+		}
 	},
-	
 	
 	populateTsSelect : function(selectorIdentifier) {
 		var tsSelector = this.builtSelectorFields[selectorIdentifier];
