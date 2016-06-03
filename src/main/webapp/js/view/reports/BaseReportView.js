@@ -226,17 +226,11 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var data = this.model.get(selectorIdentifier + "FullList");
 		if(data) {
 			var dataArray = [];
-			for (var opt in data) {
-				dataArray.push([opt, data[opt]])
-			};
-			var flatArray = [];
-			flatArray = _.map(dataArray,function(obj){
-				return _.last(obj)
-				});
+			var dataArray = _.toArray(data);
 			var filteredDerivationChain = _.find(derivationChainArray, function(devChain){
-				return _.find(flatArray, function(ts){
-					return ts.publish == publishFlag
-					&& ts.primary == primaryFlag
+				return _.find(dataArray, function(ts){
+					return (ts.publish == publishFlag || _.isNull(publishFlag))
+					&& (ts.primary == primaryFlag || _.isNull(primaryFlag))
 					&& devChain == ts.uid;
 					});
 				});
@@ -253,38 +247,30 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			for (var opt in data) {
 				sortedArray.push([opt, data[opt]])
 			}
-			sortedArray.sort(function (a, b) {
-				if (a[1].identifier > b[1].identifier) {
-					return 1;
-				} else if (a[1].identifier < b[1].identifier) {
-					return -1;
-				} else {
-					return 0;
-				}
-			});
+			sortedArray = _.sortBy(sortedArray, function(obj){
+				return obj[1].identifier;
+				});
 			var sortedFormattedArray = [];
-			for (var i = 0; i < sortedArray.length; i++) {
-				var timeSeriesEntry = sortedArray[i][1];
-				timeSeriesEntry.uid = sortedArray[i][0];
+			_.each(sortedArray, function(obj){
+				var timeSeriesEntry = obj[1];
+				timeSeriesEntry.uid = obj[0];
 				sortedFormattedArray.push(timeSeriesEntry);
-			}		
+				});	
 			var timeSeriesList = [];
-			
 			var publishFlag = this.getPublishFilter();
 			var primaryFlag = this.getPrimaryFilter();
-			
-			for(var i = 0; i < sortedFormattedArray.length; i++) {
+			_.each(sortedFormattedArray, function(obj){
 				var skip = false;
-				if(publishFlag && !sortedFormattedArray[i].publish) {
+				if(publishFlag && !obj.publish) {
 					skip = true;
 				}
-				if(primaryFlag && !sortedFormattedArray[i].primary) {
+				if(primaryFlag && !obj.primary) {
 					skip = true;
 				}
 				if(!skip) {
-					timeSeriesList.push({ KeyValue: sortedFormattedArray[i].uid, DisplayValue: sortedFormattedArray[i].identifier});
+					timeSeriesList.push({ KeyValue: obj.uid, DisplayValue: obj.identifier});
 				}
-			}
+			});
 			tsSelector.setSelectOptions(timeSeriesList);
 		}
 	},
