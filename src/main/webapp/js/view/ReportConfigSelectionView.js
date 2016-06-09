@@ -44,8 +44,39 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	afterRender: function () {
 		this.createReportViews();
 	},		
-			
+	
+	fetchProcessorTypes: function(selectedTimesSeries){
+		if(selectedTimesSeries.uid){
+			var _this = this;
+			$.ajax({
+				url: AQCU.constants.serviceEndpoint + 
+					"/service/lookup/timeseries/processorTypes",
+				timeout: 120000,
+				dataType: "json",
+				data: {
+					timeSeriesIdentifier: selectedTimesSeries.uid,
+					startDate: this.parentModel.get("dateSelection").startDate,
+					endDate: this.parentModel.get("dateSelection").endDate,
+					waterYear: this.parentModel.get("dateSelection").waterYear,
+					lastMonths: this.parentModel.get("dateSelection").lastMonths
+				},
+				context: this,
+				success: function(data){
+					if(data[0]) {
+						this.selectedTimesSeries.processorTypes = data;
+					}
+				},
+				error: function() {
+					this.selectedTimesSeries.processorTypes = null;
+				}
+			});
+		} else {
+			this.selectedTimesSeries.processorTypes = null;
+		}
+	},
+	
 	createReportViews: function() {
+		//this.fetchProcessorTypes(this.selectedTimeSeries);
 		for (var i = 0; i < this.availableReports.length; i++) {
 			if 	(
 				(_.contains(['CORR','EXT', 'SRS'], this.availableReports[i][0])) ||

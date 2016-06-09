@@ -356,7 +356,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			},
 			context: this,
 			success: function(data) {
-				if(data[0]) {
+				if(data.uids[0]) {
 					this.setFilteredDerivationChain(params, data);
 				}
 			},
