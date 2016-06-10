@@ -218,26 +218,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			});
 		}
 	},
-	
-	setFilteredDerivationChain : function(params, derivationChainArray) {
-		var selectorIdentifier = params.requestId;
-		var publishFlag = this.getPublishFilter();
-		var primaryFlag = this.getPrimaryFilter();
-		var data = this.model.get(selectorIdentifier + "FullList");
-		if(data) {
-			var dataArray = [];
-			var dataArray = _.toArray(data);
-			var filteredDerivationChain = _.find(derivationChainArray, function(devChain){
-				return _.find(dataArray, function(ts){
-					return (ts.publish == publishFlag || _.isNull(publishFlag))
-					&& (ts.primary == primaryFlag || _.isNull(primaryFlag))
-					&& devChain == ts.uid;
-					});
-				});
-			this.model.set(params.requestId, filteredDerivationChain);
-		}
-	},
-	
+
 	populateTsSelect : function(selectorIdentifier) {
 		var tsSelector = this.builtSelectorFields[selectorIdentifier];
 		tsSelector.removeSelectOptions();
@@ -247,30 +228,38 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			for (var opt in data) {
 				sortedArray.push([opt, data[opt]])
 			}
-			sortedArray = _.sortBy(sortedArray, function(obj){
-				return obj[1].identifier;
-				});
+			sortedArray.sort(function (a, b) {
+				if (a[1].identifier > b[1].identifier) {
+					return 1;
+				} else if (a[1].identifier < b[1].identifier) {
+					return -1;
+				} else {
+					return 0;
+				}
+			});
 			var sortedFormattedArray = [];
-			_.each(sortedArray, function(obj){
-				var timeSeriesEntry = obj[1];
-				timeSeriesEntry.uid = obj[0];
+			for (var i = 0; i < sortedArray.length; i++) {
+				var timeSeriesEntry = sortedArray[i][1];
+				timeSeriesEntry.uid = sortedArray[i][0];
 				sortedFormattedArray.push(timeSeriesEntry);
-				});	
+			}		
 			var timeSeriesList = [];
+			
 			var publishFlag = this.getPublishFilter();
 			var primaryFlag = this.getPrimaryFilter();
-			_.each(sortedFormattedArray, function(obj){
+			
+			for(var i = 0; i < sortedFormattedArray.length; i++) {
 				var skip = false;
-				if(publishFlag && !obj.publish) {
+				if(publishFlag && !sortedFormattedArray[i].publish) {
 					skip = true;
 				}
-				if(primaryFlag && !obj.primary) {
+				if(primaryFlag && !sortedFormattedArray[i].primary) {
 					skip = true;
 				}
 				if(!skip) {
-					timeSeriesList.push({ KeyValue: obj.uid, DisplayValue: obj.identifier});
+					timeSeriesList.push({ KeyValue: sortedFormattedArray[i].uid, DisplayValue: sortedFormattedArray[i].identifier});
 				}
-			});
+			}
 			tsSelector.setSelectOptions(timeSeriesList);
 		}
 	},
@@ -357,7 +346,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			context: this,
 			success: function(data) {
 				if(data[0]) {
-					this.setFilteredDerivationChain(params, data);
+					this.model.set(params.requestId, data[0]);
 				}
 			},
 			error: function() {
