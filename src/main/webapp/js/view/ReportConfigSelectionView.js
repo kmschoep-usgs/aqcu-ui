@@ -5,20 +5,29 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	
 	//Someday this may change dynamically depending on selected TS
 	availableReports: [
-	                   ['CORR', AQCU.view.CorrectionsAtAGlanceReportView],
-	                   ['DV', AQCU.view.DvHydrographReportView],
-	                   ['EXT', AQCU.view.ExtremesReportView],
-	                   ['5YR', AQCU.view.FiveYearGWSummaryReportView],
-	                   ['SRS', AQCU.view.SensorReadingSummaryReportView],
-	                   ['SVP', AQCU.view.SiteVisitPeakReportView],
-	                   ['UV', AQCU.view.UvHydrographReportView],
-	                   ['VD', AQCU.view.VDiagramReportView]
+	                  // ['CORR', AQCU.view.CorrectionsAtAGlanceReportView],
+	                  // ['DV', AQCU.view.DvHydrographReportView],
+	                  // ['EXT', AQCU.view.ExtremesReportView],
+	                  // ['5YR', AQCU.view.FiveYearGWSummaryReportView],
+	                  // ['SRS', AQCU.view.SensorReadingSummaryReportView],
+	                  // ['SVP', AQCU.view.SiteVisitPeakReportView],
+	                  // ['UV', AQCU.view.UvHydrographReportView],
+	                  // ['VD', AQCU.view.VDiagramReportView]
+	                  AQCU.view.CorrectionsAtAGlanceReportView,
+	          		AQCU.view.DvHydrographReportView,
+	          		AQCU.view.ExtremesReportView,
+	          		AQCU.view.FiveYearGWSummaryReportView,
+	          		AQCU.view.SensorReadingSummaryReportView,
+	          		AQCU.view.SiteVisitPeakReportView,
+	          		AQCU.view.UvHydrographReportView,
+	          		AQCU.view.VDiagramReportView
 		],
 	
 	/**
 	* Used by Backbone Stickit to bind HTML input elements to Backbone models.
 	* This will be built up in the initialize function.
 	*/
+	ajaxCalls: {},
 	bindings: {},
 
 	events: {
@@ -45,8 +54,8 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		this.createReportViews();
 	},		
 	
-	fetchProcessorTypes: function(selectedTimesSeries){
-		if(selectedTimesSeries.uid){
+	fetchProcessorTypes: function(){
+		if(this.selectedTimeSeries.uid){
 			var _this = this;
 			$.ajax({
 				url: AQCU.constants.serviceEndpoint + 
@@ -54,7 +63,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 				timeout: 120000,
 				dataType: "json",
 				data: {
-					timeSeriesIdentifier: selectedTimesSeries.uid,
+					timeSeriesIdentifier: _this.selectedTimeSeries.uid,
 					startDate: this.parentModel.get("dateSelection").startDate,
 					endDate: this.parentModel.get("dateSelection").endDate,
 					waterYear: this.parentModel.get("dateSelection").waterYear,
@@ -63,36 +72,53 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 				context: this,
 				success: function(data){
 					if(data[0]) {
-						this.selectedTimesSeries.processorTypes = data;
+						var stuff = data;
+						_this.selectedTimeSeries.processorTypes = data;
 					}
 				},
 				error: function() {
-					this.selectedTimesSeries.processorTypes = null;
+					_this.selectedTimeSeries.processorTypes = null;
 				}
 			});
 		} else {
-			this.selectedTimesSeries.processorTypes = null;
+			_this.selectedTimeSeries.processorTypes = null;
 		}
 	},
 	
-	createReportViews: function() {
+	//createReportViews: function() {
 		//this.fetchProcessorTypes(this.selectedTimeSeries);
+		//for (var i = 0; i < this.availableReports.length; i++) {
+		//	if 	(
+		//		(_.contains(['CORR','EXT', 'SRS'], this.availableReports[i][0])) ||
+		//		(this.availableReports[i][0] == 'UV' && _.contains(['Instantaneous','Decumulated'],this.selectedTimeSeries.computation) && _.contains(['Points', 'Hourly'], this.selectedTimeSeries.period)) 
+		//		){
+		//		var view = new this.availableReports[i][1]({
+		//			parentModel: this.parentModel,
+		//			savedReportsController: this.savedReportsController,
+		//			selectedTimeSeries: this.selectedTimeSeries,
+		//			router: this.router
+		//		});
+		//		this.$('.available-reports').append(view.el);
+		//		this.availableReportViews.push(view);
+		//	}
+		
+		
+		//}
+	//},		
+	
+	createReportViews: function() {
+		this.fetchProcessorTypes();
 		for (var i = 0; i < this.availableReports.length; i++) {
-			if 	(
-				(_.contains(['CORR','EXT', 'SRS'], this.availableReports[i][0])) ||
-				(this.availableReports[i][0] == 'UV' && _.contains(['Instantaneous','Decumulated'],this.selectedTimeSeries.computation) && _.contains(['Points', 'Hourly'], this.selectedTimeSeries.period)) 
-				){
-				var view = new this.availableReports[i][1]({
-					parentModel: this.parentModel,
-					savedReportsController: this.savedReportsController,
-					selectedTimeSeries: this.selectedTimeSeries,
-					router: this.router
-				});
-				this.$('.available-reports').append(view.el);
-				this.availableReportViews.push(view);
-			}
+			var view = new this.availableReports[i]({
+				parentModel: this.parentModel,
+				savedReportsController: this.savedReportsController,
+				selectedTimeSeries: this.selectedTimeSeries,
+				router: this.router
+			});
+			this.$('.available-reports').append(view.el);
+			this.availableReportViews.push(view);
 		}
-	},		
+	},
 			
 	removeReportViews: function() {		
 		while(this.availableReportViews.length > 0) {		
