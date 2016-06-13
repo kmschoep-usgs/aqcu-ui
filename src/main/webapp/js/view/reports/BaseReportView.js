@@ -234,7 +234,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			var filteredDerivationChain = _.find(filteredData, function(ts){
 				return _.contains(derivationChainArray,ts.uid);
 			});
-			
 			return filteredDerivationChain.uid;
 		}
 	},
@@ -365,7 +364,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			context: this,
 			success: function(data) {
 				if(data[0]) {
-					//this.setFilteredDerivationChain(params, data);
 					this.model.set(params.requestId, this.setFilteredDerivationChain(params, data));
 				}
 			},
