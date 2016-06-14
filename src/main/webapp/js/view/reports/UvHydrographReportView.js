@@ -84,11 +84,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	
 	loadAllTimeSeriesOptions : function(callback) {
 		if(this.model.get("site")) {
-			for(var key in this.builtSelectorFields){
-				if(this.selectorParams[key].dynamicParameter && this.model.get('selectedTimeSeries')){
-					this.selectorParams[key].parameter = this.model.get('selectedTimeSeries').parameter;
-				}
-			} 
 			AQCU.view.BaseReportView.prototype.loadAllTimeSeriesOptions.apply(this, [callback]);
 		}
 	},
