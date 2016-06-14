@@ -57,6 +57,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	fetchProcessorTypes: function(){
 		if(this.selectedTimeSeries.uid){
 			var _this = this;
+			var stuff;
 			$.ajax({
 				url: AQCU.constants.serviceEndpoint + 
 					"/service/lookup/timeseries/processorTypes",
@@ -71,8 +72,8 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 				},
 				context: this,
 				success: function(data){
-					if(data[0]) {
-						var stuff = data;
+					if(data) {
+						stuff = data;
 						_this.selectedTimeSeries.processorTypes = data;
 					}
 				},
