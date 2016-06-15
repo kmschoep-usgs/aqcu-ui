@@ -100,34 +100,35 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		}
 	},
 	
+	showAvailableReport: function(reportFlavor, selectedTimeSeries){
+		return (_.contains(['CORR','EXT', 'SRS'], reportFlavor)) 
+		|| (reportFlavor == 'UV' 
+			&& _.contains(['Instantaneous','Decumulated'], selectedTimeSeries.computation) 
+			&& _.contains(['Points', 'Hourly'], selectedTimeSeries.period)) 
+		|| (reportFlavor == 'DV'
+			&& (
+					_.contains(['Daily', 'Weekly'], selectedTimeSeries.period)  
+					|| (
+						_.contains(['Points', 'Hourly'], selectedTimeSeries.period) && _.contains(selectedTimeSeries.processorTypes.downChain, 'Statistics')
+					)
+				)
+			)
+		|| (reportFlavor == '5YR' && _.contains(this.gwReportParameters, selectedTimeSeries.parameter)) 
+		|| (reportFlavor == 'SVP' && _.some(this.svpReportParameterLengthUnits, function(unit){
+				return selectedTimeSeries.identifier.indexOf(unit) > -1 
+					&& selectedTimeSeries.identifier.indexOf(".ft^") == -1;
+				})
+			)
+		|| (reportFlavor == 'VD' 
+			&& selectedTimeSeries.timeSeriesType === "ProcessorDerived" 
+			&& _.contains(selectedTimeSeries.processorTypes.upChain, 'RatingModel')
+			) 
+	},
+	
 	createReportViews: function() {
 		this.fetchProcessorTypes(this.selectedTimeSeries);
-		var _this = this;
 		for (var i = 0; i < this.availableReports.length; i++) {
-			if 	(
-				(_.contains(['CORR','EXT', 'SRS'], this.availableReports[i][0])) 
-				|| (this.availableReports[i][0] == 'UV' 
-					&& _.contains(['Instantaneous','Decumulated'],this.selectedTimeSeries.computation) 
-					&& _.contains(['Points', 'Hourly'], this.selectedTimeSeries.period)) 
-				|| (this.availableReports[i][0] == 'DV'
-					&& (
-							_.contains(['Daily', 'Weekly'], this.selectedTimeSeries.period)  
-							|| (
-								_.contains(['Points', 'Hourly'], this.selectedTimeSeries.period) && _.contains(this.selectedTimeSeries.processorTypes.downChain, 'Statistics')
-							)
-						)
-					)
-				|| (this.availableReports[i][0] == '5YR' && _.contains(this.gwReportParameters, this.selectedTimeSeries.parameter)) 
-				|| (this.availableReports[i][0] == 'SVP' && _.some(this.svpReportParameterLengthUnits,function(unit){
-						return _this.selectedTimeSeries.identifier.indexOf(unit) > -1 
-							&& _this.selectedTimeSeries.identifier.indexOf(".ft^") == -1;
-						})
-					)
-				|| (this.availableReports[i][0] == 'VD' 
-					&& this.selectedTimeSeries.timeSeriesType === "ProcessorDerived" 
-					&& _.contains(this.selectedTimeSeries.processorTypes.upChain, 'RatingModel')
-					) 
-				){
+			if 	(this.showAvailableReport(this.availableReports[i][0],this.selectedTimeSeries)){
 				var view = new this.availableReports[i][1]({
 					parentModel: this.parentModel,
 					savedReportsController: this.savedReportsController,
