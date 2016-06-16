@@ -71,7 +71,6 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	fetchProcessorTypes: function(){
 		if(this.selectedTimeSeries.uid){
 			var _this = this;
-			var stuff;
 			$.ajax({
 				url: AQCU.constants.serviceEndpoint + 
 					"/service/lookup/timeseries/processorTypes",
@@ -100,33 +99,34 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		}
 	},
 	
-	showAvailableReport: function(reportFlavor, selectedTimeSeries){
+	showAvailableReport: function(reportFlavor){
+		var _this = this;
 		return (_.contains(['CORR','EXT', 'SRS'], reportFlavor)) 
 		|| (reportFlavor == 'UV' 
-			&& _.contains(['Instantaneous','Decumulated'], selectedTimeSeries.computation) 
-			&& _.contains(['Points', 'Hourly'], selectedTimeSeries.period)) 
+			&& _.contains(['Instantaneous','Decumulated'], _this.selectedTimeSeries.computation) 
+			&& _.contains(['Points', 'Hourly'], _this.selectedTimeSeries.period)) 
 		|| (reportFlavor == 'DV'
 			&& (
-					_.contains(['Daily', 'Weekly'], selectedTimeSeries.period)  
+					_.contains(['Daily', 'Weekly'], _this.selectedTimeSeries.period)  
 					|| (
-						_.contains(['Points', 'Hourly'], selectedTimeSeries.period) && _.contains(selectedTimeSeries.processorTypes.downChain, 'Statistics')
+						_.contains(['Points', 'Hourly'], _this.selectedTimeSeries.period) && _.contains(_this.selectedTimeSeries.processorTypes.downChain, 'Statistics')
 					)
 				)
 			)
-		|| (reportFlavor == '5YR' && _.contains(this.gwReportParameters, selectedTimeSeries.parameter)) 
+		|| (reportFlavor == '5YR' && _.contains(this.gwReportParameters, _this.selectedTimeSeries.parameter)) 
 		|| (reportFlavor == 'SVP' && _.some(this.svpReportParameterLengthUnits, function(unit){
-				return selectedTimeSeries.identifier.indexOf(unit) > -1 
-					&& selectedTimeSeries.identifier.indexOf(".ft^") == -1;
+				return _this.selectedTimeSeries.identifier.indexOf(unit) > -1 
+					&& _this.selectedTimeSeries.identifier.indexOf(".ft^") == -1;
 				})
 			)
 		|| (reportFlavor == 'VD' 
-			&& selectedTimeSeries.timeSeriesType === "ProcessorDerived" 
-			&& _.contains(selectedTimeSeries.processorTypes.upChain, 'RatingModel')
+			&& _this.selectedTimeSeries.timeSeriesType === "ProcessorDerived" 
+			&& _.contains(_this.selectedTimeSeries.processorTypes.upChain, 'RatingModel')
 			) 
 	},
 	
 	createReportViews: function() {
-		this.fetchProcessorTypes(this.selectedTimeSeries);
+		this.fetchProcessorTypes();
 		for (var i = 0; i < this.availableReports.length; i++) {
 			if 	(this.showAvailableReport(this.availableReports[i][0],this.selectedTimeSeries)){
 				var view = new this.availableReports[i][1]({
