@@ -218,7 +218,26 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			});
 		}
 	},
-
+	
+	setFilteredDerivationChain : function(params, derivationChainArray) {
+		var selectorIdentifier = params.requestId;
+		var publishFlag = this.getPublishFilter();
+		var primaryFlag = this.getPrimaryFilter();
+		var data = this.model.get(selectorIdentifier + "FullList");
+		if(data) {
+			var dataArray = [];
+			var dataArray = _.toArray(_.clone(data));
+			var filteredData = _.filter(dataArray, function(obj){
+				return (obj.publish == publishFlag || _.isNull(publishFlag))
+					&& (obj.primary == primaryFlag || _.isNull(primaryFlag))
+			})
+			var filteredDerivationChain = _.find(filteredData, function(ts){
+				return _.contains(derivationChainArray,ts.uid);
+			});
+			return filteredDerivationChain.uid;
+		}
+	},
+	
 	populateTsSelect : function(selectorIdentifier) {
 		var tsSelector = this.builtSelectorFields[selectorIdentifier];
 		tsSelector.removeSelectOptions();
@@ -244,7 +263,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				sortedFormattedArray.push(timeSeriesEntry);
 			}		
 			var timeSeriesList = [];
-			
 			var publishFlag = this.getPublishFilter();
 			var primaryFlag = this.getPrimaryFilter();
 			
@@ -346,7 +364,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			context: this,
 			success: function(data) {
 				if(data[0]) {
-					this.model.set(params.requestId, data[0]);
+					this.model.set(params.requestId, this.setFilteredDerivationChain(params, data));
 				}
 			},
 			error: function() {
