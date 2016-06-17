@@ -39,7 +39,7 @@
 		<jsp:include page="/WEB-INF/jsp/jiracollection.jsp"></jsp:include>
 
 		<%-- Google Analytics --%>
-		<script type="application/javascript" src="//www.usgs.gov/scripts/analytics/usgs-analytics.js"></script>
+		<script type="application/javascript" src="//www2.usgs.gov/scripts/analytics/usgs-analytics.js"></script>
 		<jsp:include page="/WEB-INF/jsp/analytics.jsp"></jsp:include>
 		
 	</head>	
