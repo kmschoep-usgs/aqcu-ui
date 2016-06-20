@@ -56,6 +56,22 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			bindTo: "secondaryTimeseriesIdentifier"
 	}],
 	
+	initialize: function() {
+		AQCU.view.BaseReportView.prototype.initialize.apply(this, arguments);
+		this.model.bind("change:selectedTimeSeries", function() { this.loadAllTimeSeriesOptions() }, this); //additional event handler
+	},
+	
+	loadAllRequiredTimeseries: function () {
+		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")) {
+			for (var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
+				this.loadRelatedTimeseries(this.requiredRelatedTimeseriesConfig[i]);
+			}
+			for (var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
+				this.loadRelatedTimeseries(this.optionalRelatedTimeseriesConfig[i]);
+			}
+		}
+	},
+	
 	removeSelectFields: function() {
 		if(this.comparisonStation){
 			this.comparisonStation.remove();
@@ -64,6 +80,12 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			this.comparisonSelect.remove();
 		}
 		AQCU.view.BaseReportView.prototype.removeSelectFields.apply(this, arguments);
+	},
+	
+	loadAllTimeSeriesOptions : function(callback) {
+		if(this.model.get("site")) {
+			AQCU.view.BaseReportView.prototype.loadAllTimeSeriesOptions.apply(this, [callback]);
+		}
 	},
 	
 	buildAdvancedOptions: function() {
