@@ -20,7 +20,9 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
-				
+		
+		this.savedReportsController = this.options.savedReportsController;
+		
 		this.router = this.options.router;
 		
 		this.parentModel = this.options.parentModel;

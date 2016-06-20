@@ -59,6 +59,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		this.selectionGrid = new AQCU.view.TimeSeriesSelectionGridView({
 				parentModel: this.model,
 				router: this.router,
+				savedReportsController: AQCU.controller.SavedReportsController,
 				el: this.$(".time-series-selection-grid-container")
 			});
 		
