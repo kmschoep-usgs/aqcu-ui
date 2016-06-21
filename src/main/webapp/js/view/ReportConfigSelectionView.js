@@ -110,7 +110,6 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	
 	populateAvailableReports: function(selectedTimeSeries){
 		var _this = this;
-		_this.fetchProcessorTypes(selectedTimeSeries);
 		_this.fetchProcessorTypesPromise().done(function(){
 		_this.availableReports.push(AQCU.view.CorrectionsAtAGlanceReportView);
 		if (
@@ -143,7 +142,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		};
 		
 		_this.availableReportsPopulated.resolve(_this.availableReports);
-		return (_this.availableReports) ;
+		return _this.availableReportsPopulated.promise() ;
 		
 		});
 
@@ -153,6 +152,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		_this = this;
 		_this.availableReports = [];
 		_this.$(".loading-indicator").show();
+		_this.fetchProcessorTypes(_this.selectedTimeSeries);
 		_this.populateAvailableReports(_this.selectedTimeSeries);
 		_this.populateAvailableReportsPromise().done(function(){
 		_.each(_this.availableReports, function(report){
