@@ -56,14 +56,14 @@ describe("Select2Field.js", function() {
 	
 	it('should fire bindings on change',function(){
 		$(select2.selector).html('');
-		$(select2.selector).append($('<option value="1">option 1</otpion>'))
-		$(select2.selector).append($('<option value="2">option 2</otpion>'))
-		$(select2.selector).append($('<option value="3">option 3</otpion>'))
+		$(select2.selector).append($('<option value="1">option 1</option>'))
+		$(select2.selector).append($('<option value="2">option 2</option>'))
+		$(select2.selector).append($('<option value="3">option 3</option>'))
 		
 		// we cannot test this until the select2 css can be loaded
 //		since('Drop down class should be used').expect($('.dropdownCssClass').length).toBe(1);
 		
-		since('initial value should be empty because of tests do not suppor ajax').expect( model.get('asdf1') ).toBe('');
+		since('initial value should be empty because tests do not support ajax').expect( model.get('asdf1') ).toBe('');
 		$(select2.selector).val('2').change();
 		since('model binding should set model value').expect( model.get('asdf1') ).toBe('2');
 		model.set('asdf1','3');
