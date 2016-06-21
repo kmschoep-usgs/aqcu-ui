@@ -2,5 +2,6 @@
 AQCU.constants = {
 	feedbackEmail: 'test_feedback_email',
 	helpEmail: 'test_help_email',
-	visionInfoEndpoint: 'supportURL'
+	visionInfoEndpoint: 'supportURL',
+	serviceEndpoint: 'http://fakeserver.com'
 };
