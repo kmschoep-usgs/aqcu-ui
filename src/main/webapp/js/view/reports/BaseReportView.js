@@ -66,7 +66,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		
 		//hook up save button
 		$('.add-to-saved-reports').confirmation({
-			title: "Save this " + this.reportName + " report?",
+			title: "Add this " + this.reportName + " report to your list?",
 			placement: "left",
 			onConfirm: $.proxy(this.saveReport, this),
 			btnOkLabel: "Yes",
