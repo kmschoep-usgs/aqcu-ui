@@ -122,7 +122,7 @@ describe("BaseReportView.js", function() {
 	
 	describe("Tests for setFilteredDerivationChain", function() {
 	
-		it("Expects the derivation chain time series that is selected to be filtered by advanced options window's Published and Primary flag selections", function(){
+		it("Expects the derivation chain time series that is selected to be one where primary=true, publish=true, if it exists", function(){
 			 //test when Published Only and Primary Only are both true
 			var publishedFlag = true;
 			var primaryFlag = true;
@@ -140,44 +140,32 @@ describe("BaseReportView.js", function() {
 				})
 			});			
 			view.model.set(testParams.requestId + "FullList", testIdentifierFullList);
-			view.model.set("filterPrimary", primaryFlag);
-			view.model.set("filterPublish", publishedFlag);
-			var testFilteredDerivationChain = view.setFilteredDerivationChain(testParams,testDerivationChain);
+			var testFilteredDerivationChain = view.getFilteredDerivationChain(testParams,testDerivationChain);
 			
 			expect(testFilteredDerivationChain = "1234");
 			
-			//test when Published Only and Primary Only are both false
-			var publishedFlag = false;
-			var primaryFlag = false;
-
-			view.model.set(testParams.requestId + "FullList", testIdentifierFullList);
-			view.model.set("filterPrimary", primaryFlag);
-			view.model.set("filterPublish", publishedFlag);
-			var testFilteredDerivationChain = view.setFilteredDerivationChain(testParams,testDerivationChain);
-
-			expect(["1234", "abcdefg", "a1b1c1d1", "a2b3c4d5"]).toContain(testFilteredDerivationChain);
+		});
+		
+		it("Expects the derivation chain time series that is selected to be one where primary=true, publish=false, if it exists and primary=true, publish=true does not exist", function(){
+			view = new AQCU.view.BaseReportView({
+				template : thisTemplate,
+				savedReportsController: savedReportsControllerSpy,
+				selectedTimeSeries: thisSelectedTimeSeries,
+				selectorIdentifier: "testIdentifier",
+				testIdentifierFullList: testIdentifierFullList,
+				parentModel : new Backbone.Model({
+					site: '1234',
+					selectedTimeSeries: thisSelectedTimeSeries,
+					dateSelection: thisDateSelection,
+					format: thisDefaultFormat
+				})
+			});
+			testIdentifierFullListPruned = _.without(testIdentifierFullList,"1234");
 			
-			// test when Published Only is true Primary Only is false
-			var publishedFlag = true;
-			var primaryFlag = false;
-
-			view.model.set(testParams.requestId + "FullList", testIdentifierFullList);
-			view.model.set("filterPrimary", primaryFlag);
-			view.model.set("filterPublish", publishedFlag);
-			var testFilteredDerivationChain = view.setFilteredDerivationChain(testParams,testDerivationChain);
+			view.model.set(testParams.requestId + "FullList", testIdentifierFullListPruned);
+			var testFilteredDerivationChain = view.getFilteredDerivationChain(testParams,testDerivationChain);
 			
-			expect(["a2b3c4d5", "1234"]).toContain(testFilteredDerivationChain);
-			
-			// test when Published Only is false Primary Only is true
-			var publishedFlag = false;
-			var primaryFlag = true;
-
-			view.model.set(testParams.requestId + "FullList", testIdentifierFullList);
-			view.model.set("filterPrimary", primaryFlag);
-			view.model.set("filterPublish", publishedFlag);
-			var testFilteredDerivationChain = view.setFilteredDerivationChain(testParams,testDerivationChain);
-			
-			expect(["a1b1c1d1", "1234"]).toContain(testFilteredDerivationChain);
+			expect(testFilteredDerivationChain = "a1b1c1d1");
 			
 		});
 	});

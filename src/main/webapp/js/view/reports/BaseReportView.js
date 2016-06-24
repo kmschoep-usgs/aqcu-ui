@@ -32,7 +32,9 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.parentModel.bind("change:site", this.updateSite, this);
 		this.model.bind("change:site", function() { this.loadAllTimeSeriesOptions(); }, this);
 		this.model.bind("change:dateSelection", this.loadAllRequiredTimeseries, this);
-		
+		this.loadRelatedTimeseriesFetched = $.Deferred();
+		this.loadTimeseriesIdentifiersFetched = $.Deferred();
+		this.setRatingModelFetched = $.Deferred();
 		this.loading = true;
 	},
 	
@@ -62,7 +64,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.bindAllRatingModels();
 		this.buildAdvancedOptions();
 		this.stickit();
-		this.loadAllTimeSeriesOptions(this.loadAllRequiredTimeseries);
+		this.loadAllTimeSeriesOptions();
 		
 		//hook up save button
 		$('.add-to-saved-reports').confirmation({
@@ -141,7 +143,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		return this.builtSelectorFields[params.requestId];
 	},
 	
-	loadAllTimeSeriesOptions : function(callback) {
+	loadAllTimeSeriesOptions : function() {
+		var _this = this;
 		if(this.model.get("site")) {
 			for(var key in this.builtSelectorFields){
 				var tsSelector = this.builtSelectorFields[key];
@@ -155,12 +158,18 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 								publish: params.publish,
 								computationIdentifier: params.computation,
 								computationPeriodIdentifier: params.period 
+							}).done(function(data){
+								_this.model.set(key + "FullList", data);
+								_this.loadRelatedTimeseries(params).done(function(derivationChains){
+									_this.populateTsSelect(key);
+									_this.loadAllRequiredTimeseries(key, derivationChains);
+								});
 							});
 				}
 			}
-			if(callback) {
-				$.proxy(callback, this, this.ajaxCalls)();
-			}
+			//if(callback) {
+			//	$.proxy(callback, this, this.ajaxCalls)();
+			//}
 		} 
 	},
 	
@@ -172,13 +181,13 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				"</div>" +
 				
 				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
-				"<label><input class='filterPublish' name='filterPublish' type='checkbox' value='check' checked=true>Publish Only</label>" +
-				"&nbsp;<label><input class='filterPrimary' type='checkbox' value='check' checked=true>Primary Only</label>" +
+				"<label><input class='filterPublish' name='filterPublish' type='checkbox' value='check' checked=false>Publish Only</label>" +
+				"&nbsp;<label><input class='filterPrimary' type='checkbox' value='check' checked=false>Primary Only</label>" +
 				"</div>" +
 				
 				"</div></div></div>");//not sure this warrants using a template YET
-		this.model.set("filterPublish", true);
-		this.model.set("filterPrimary", true);
+		this.model.set("filterPublish", false);
+		this.model.set("filterPrimary", false);
 		$.extend(this.bindings, {
 			".filterPublish" : "filterPublish",
 			".filterPrimary" : "filterPrimary"
@@ -200,6 +209,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	loadTimeseriesIdentifiers: function(selectorIdentifier, params) {
+		var _this = this;
+		this.loadTimeseriesIdentifiersFetched = $.Deferred();
 		if (params.stationId) {
 			$.ajax({
 				url: AQCU.constants.serviceEndpoint +
@@ -209,36 +220,20 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				data: params,
 				context: this,
 				success: function (data) {
-					this.model.set(selectorIdentifier + "FullList", data);
-					this.populateTsSelect(selectorIdentifier);
+					//this.model.set(selectorIdentifier + "FullList", data);
+					//this.populateTsSelect(selectorIdentifier);
+					_this.loadTimeseriesIdentifiersFetched.resolve(data);
 				},
 				error: function () {
-
+					_this.loadTimeseriesIdentifiersFetched.reject(data);
 				}
 			});
 		}
-	},
-	
-	setFilteredDerivationChain : function(params, derivationChainArray) {
-		var selectorIdentifier = params.requestId;
-		var publishFlag = this.getPublishFilter();
-		var primaryFlag = this.getPrimaryFilter();
-		var data = this.model.get(selectorIdentifier + "FullList");
-		if(data) {
-			var dataArray = [];
-			var dataArray = _.toArray(_.clone(data));
-			var filteredData = _.filter(dataArray, function(obj){
-				return (obj.publish == publishFlag || _.isNull(publishFlag))
-					&& (obj.primary == primaryFlag || _.isNull(primaryFlag))
-			})
-			var filteredDerivationChain = _.find(filteredData, function(ts){
-				return _.contains(derivationChainArray,ts.uid);
-			});
-			return filteredDerivationChain.uid;
-		}
+		return this.loadTimeseriesIdentifiersFetched.promise();
 	},
 	
 	populateTsSelect : function(selectorIdentifier) {
+		console.log(this.reportAbbreviation + " populateTsSelect for " + selectorIdentifier);
 		var tsSelector = this.builtSelectorFields[selectorIdentifier];
 		tsSelector.removeSelectOptions();
 		var data = this.model.get(selectorIdentifier + "FullList");
@@ -325,19 +320,22 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		
 		if(this.model.get("selectedTimeSeries") && this.model.get("dateSelection")) {
 			for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
-				this.loadRelatedTimeseries(this.requiredRelatedTimeseriesConfig[i]);
+				this.setRelatedTimeseries(this.requiredRelatedTimeseriesConfig[i]);
 			}
 			for(var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
-				this.loadRelatedTimeseries(this.optionalRelatedTimeseriesConfig[i]);
+				this.setRelatedTimeseries(this.optionalRelatedTimeseriesConfig[i]);
 			}
 		}
 	},
-
+	
 	loadRelatedTimeseries: function(params){
+		var _this = this;
+		this.loadRelatedTimeseriesFetched = $.Deferred();
 		if(params.skipAutoLoad) {
-			return;
-		}
-		
+			_this.loadRelatedTimeseriesFetched.resolve(null);
+			return this.loadRelatedTimeseriesFetched.promise();
+		};
+		var rdata;
 		var computationFilter = params.computation || params.defaultComputation;
 		computationFilter = computationFilter || 'Instantaneous';
 		
@@ -363,16 +361,50 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			},
 			context: this,
 			success: function(data) {
-				if(data[0]) {
-					this.model.set(params.requestId, this.setFilteredDerivationChain(params, data));
-				}
+				   rdata = data;
+					_this.loadRelatedTimeseriesFetched.resolve(data);
 			},
 			error: function() {
-				this.model.set(params.requestId, null);
+				//this.model.set(params.requestId, null);
+				_this.loadRelatedTimeseriesFetched.resolve();
 			}
 		}));
+		//rdata = data;
+		return this.loadRelatedTimeseriesFetched.promise();
+		//this.model.set(params.requestId, this.getFilteredDerivationChain(params, data));
+		//console.log(this.reportAbbreviation + " loadRelatedTimeseries set model with getFilteredDerivationChain: "  + this.model.get(params.requestId));
 	},
 	
+	setRelatedTimeseries : function(selectorIdentifier, derivationChains) {
+		var _this = this;
+		//console.log(this.reportAbbreviation + " getFilteredDerivationChain for " + params.requestId);
+		//this.loadRelatedTimeseries(params).done(function(data){
+			if (derivationChains != null){
+				//var selectorIdentifier = params.requestId;
+				var fullList = _this.model.get(selectorIdentifier + "FullList");
+				if(fullList) {
+					var dataArray = [];
+					var dataArray = _.toArray(_.clone(fullList));
+					// find all the time series from the FullList that match the incoming derivation chains.
+					var filteredData = _.filter(dataArray, function(ts){
+						return _.contains(derivationChains,ts.uid)
+					});
+					// sort the result by publish and primary, which will put the true-trues a the top, then true-false, then false-true, then false-false
+					var sortedArray = _(filteredData).chain().sortBy('publish').sortBy('primary').reverse().value();
+					// we want the first one, which will be true-true, if it exists.
+					var filteredDerivationChain = _.first(sortedArray);
+					if (filteredDerivationChain){
+						_this.model.set(selectorIdentifier, filteredDerivationChain.uid);
+					} else
+						_this.model.set(selectorIdentifier, null);
+				} 
+			} else {
+					_this.model.set(selectorIdentifier, derivationChains);
+			}
+					
+		//});
+	},
+
 	clearRatingModels: function(){
 		for(var i = 0; i < this.requiredRatingModels.length; i++) {
 			this.model.set(this.requiredRatingModels[i].requestId, null);
@@ -397,10 +429,13 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	bindRatingModel: function(binding) {
+		var _this = this;
 		this.model.bind("change:" + binding.bindTo, function(){
 			this.setRatingModel({
 				requestId: binding.requestId,
 				timeseriesUid: this.model.get(binding.bindTo)
+			}).done(function(data){
+				_this.model.set(binding.requestId, data)
 			});
 		}, this);
 		
@@ -409,13 +444,15 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			this.setRatingModel({
 				requestId: binding.requestId,
 				timeseriesUid: this.model.get(binding.bindTo)
+			}).done(function(data){
+				_this.model.set(binding.requestId, data)
 			});
 		}, this);
 	},
 	
 	setRatingModel: function(params){
+		var _this = this;
 		if(params.timeseriesUid){
-			var _this = this;
 			this.startAjax(params.requestId, $.ajax({
 				url: AQCU.constants.serviceEndpoint + 
 					"/service/lookup/derivationChain/ratingModel",
@@ -431,16 +468,20 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				context: this,
 				success: function(data){
 					if(data && data[0]) {
-						_this.model.set(params.requestId, data[0]);
+						_this.setRatingModelFetched.resolve(data[0]);
+						//_this.model.set(params.requestId, data[0]);
 					}
 				},
 				error: function() {
-					_this.model.set(params.requestId, null);
+					_this.setRatingModelFetched.resolve(null);
+					//_this.model.set(params.requestId, null);
 				}
 			}));
 		} else {
-			this.model.set(params.requestId, null);
+			_this.setRatingModelFetched.resolve(null);
+			//this.model.set(params.requestId, null);
 		}
+		return this.setRatingModelFetched.promise();
 	},
 	
 	//returns a map to match IDs to display values

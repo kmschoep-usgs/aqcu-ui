@@ -2,8 +2,6 @@
  */
 AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	templateName: 'report-config-selection',
-	
-	availableReports: [],
 		
 	// I don't love hard-coding these.  We'll see how much the list needs to change in the future...
 	gwReportParameters: [
@@ -25,8 +23,8 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	                     ],
 
 	svpReportParameterLengthUnits: [
-	                               ".ft", 
-	                               ".in"],
+	                               "ft", 
+	                               "in"],
 	            
 	/**
 	* Used by Backbone Stickit to bind HTML input elements to Backbone models.
@@ -47,6 +45,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		this.processorTypesFetched = $.Deferred();
 		this.availableReportsPopulated = $.Deferred();
 		this.availableReportViews = [];
+		this.availableReports = [];
 	},
 	
 	/*override*/
@@ -93,25 +92,24 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 				context: this,
 				success: function(data){
 					if(data) {
-						selectedTimeSeries.processorTypes = data;
 						_this.processorTypesFetched.resolve(data);
 					}
 				},
 				error: function() {
-					selectedTimeSeries.processorTypes = null;
 					_this.processorTypesFetched.reject('error');
 				}
 			});
 		} else {
-			_this.processorTypesFetched.reject('no timeseries selected');
+			this.processorTypesFetched.reject('no timeseries selected');
 		}
-		return _this.processorTypesFetched.promise();
+		return this.processorTypesFetched.promise();
 	},
 	
 	populateAvailableReports: function(selectedTimeSeries){
+		this.availableReports = [];
 		var _this = this;
-		_this.fetchProcessorTypesPromise().done(function(){
-		_this.availableReports.push(AQCU.view.CorrectionsAtAGlanceReportView);
+		/*
+		this.availableReports.push(AQCU.view.CorrectionsAtAGlanceReportView);
 		if (
 				_.contains(['Daily', 'Weekly'], selectedTimeSeries.period)  
 				|| (
@@ -121,51 +119,47 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 			) {
 			_this.availableReports.push(AQCU.view.DvHydrographReportView);
 		};
-		_this.availableReports.push(AQCU.view.ExtremesReportView);	
+		this.availableReports.push(AQCU.view.ExtremesReportView);	
 		if (_.contains(_this.gwReportParameters, selectedTimeSeries.parameter)) {
 			_this.availableReports.push(AQCU.view.FiveYearGWSummaryReportView);
 		};
-		_this.availableReports.push(AQCU.view.SensorReadingSummaryReportView);
-		if (_.some(_this.svpReportParameterLengthUnits, function(unit){
-				return selectedTimeSeries.identifier.indexOf(unit) > -1 
-					&& selectedTimeSeries.identifier.indexOf(".ft^") == -1;
-				})){
+		this.availableReports.push(AQCU.view.SensorReadingSummaryReportView);
+		if (_.contains(this.svpReportParameterLengthUnits, selectedTimeSeries.units)){
 			_this.availableReports.push(AQCU.view.SiteVisitPeakReportView);
 		};
+		*/
 		if (_.contains(['Instantaneous','Decumulated'], selectedTimeSeries.computation) 
 				&& _.contains(['Points', 'Hourly'], selectedTimeSeries.period)) {
 			_this.availableReports.push(AQCU.view.UvHydrographReportView);
 		};
+		/*
 		if (selectedTimeSeries.timeSeriesType === "ProcessorDerived" 
 			&& _.contains(selectedTimeSeries.processorTypes.upChain, 'RatingModel')) {
 			_this.availableReports.push(AQCU.view.VDiagramReportView);
 		};
-		
-		_this.availableReportsPopulated.resolve(_this.availableReports);
-		return _this.availableReportsPopulated.promise() ;
-		
-		});
-
+		*/
+		this.availableReportsPopulated.resolve(_this.availableReports);
+		return this.availableReportsPopulated.promise();
 	},
 	
 	createReportViews: function() {
-		_this = this;
-		_this.availableReports = [];
-		_this.$(".loading-indicator").show();
-		_this.fetchProcessorTypes(_this.selectedTimeSeries);
-		_this.populateAvailableReports(_this.selectedTimeSeries);
-		_this.populateAvailableReportsPromise().done(function(){
-		_.each(_this.availableReports, function(report){
-				var view = new report({
-					parentModel: _this.parentModel,
-					savedReportsController: _this.savedReportsController,
-					selectedTimeSeries: _this.selectedTimeSeries,
-					router: _this.router
+		var _this = this;
+		this.$(".loading-indicator").show();
+		this.fetchProcessorTypes(_this.selectedTimeSeries).done(function(data){
+			_this.selectedTimeSeries.processorTypes = data;
+			_this.populateAvailableReports(_this.selectedTimeSeries).done(function(availableReports){
+				_.each(availableReports, function(report){
+					var view = new report({
+						parentModel: _this.parentModel,
+						savedReportsController: _this.savedReportsController,
+						selectedTimeSeries: _this.selectedTimeSeries,
+						router: _this.router
+					});
+					_this.$(".loading-indicator").hide();
+					_this.$('.available-reports').append(view.el);
+					_this.availableReportViews.push(view);	
+			
 				});
-				_this.$(".loading-indicator").hide();
-				_this.$('.available-reports').append(view.el);
-				_this.availableReportViews.push(view);	
-		
 			});
 		});
 	},		

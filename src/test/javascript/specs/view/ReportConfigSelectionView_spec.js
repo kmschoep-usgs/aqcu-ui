@@ -71,8 +71,8 @@ describe("ReportConfigSelectionView.js", function() {
 			template : thisTemplate,
 			savedReportsController: savedReportsControllerSpy,
 			selectedTimeSeries: thisSelectedTimeSeries,
-			fetchProcessorTypesPromise: getProcessorPromise,
-			populateAvailableReportsPromise: getReportsPromise,
+			processorTypesFetched: getProcessorPromise,
+			availableReportsPopulated: getReportsPromise,
 			availableReportViews: thisAvailableReportViews,
 			availableReports: thisAvailableReports,
 			parentModel : new Backbone.Model({
@@ -122,31 +122,39 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(doneSpy).toHaveBeenCalledWith(response);
 	});
 	
-	it('Expects a successful fetchProcessorTypes to add processor types to selectedTimeSeries object', function() {
+	it('Expects a successful createReportViews to add processor types to selectedTimeSeries object', function() {
 		var doneSpy = jasmine.createSpy('doneSpy');
 		var response = testProcessors;
 		view.fetchProcessorTypes(thisSelectedTimeSeries).done(doneSpy);
 		server.respond([200, {"Content-Type": "application/json"}, JSON.stringify(response)]);
+		view.createReportViews();
 		expect(view.selectedTimeSeries.processorTypes.upChain).toEqual(["testOne","RatingModel"]);
 		expect(view.selectedTimeSeries.processorTypes.downChain).toEqual(["Statistics","ProcessorTwo"]);
 	});
-	
-	/*
-	it('Expects that when populateAvailableReports is called, fetchProcessorTypes is called', function() {
+
+	it('Expects that when createReportViews is called, fetchProcessorTypes is called', function() {
 		var d = $.Deferred();
 		spyOn(AQCU.view.ReportConfigSelectionView.prototype, 'fetchProcessorTypes').and.callFake(function() {
 			return d;
 		});
 		d.resolve(testProcessors);
-		view.populateAvailableReports(thisSelectedTimeSeries);
+		view.createReportViews();
 		expect(view.fetchProcessorTypes).toHaveBeenCalled();
 	});
-	*/
-	it('Expects that when populateAvailableReports is called, getProcessorPromise is called', function() {
-		view.populateAvailableReports(thisSelectedTimeSeries);
-		//expect($('.plot-loading-indicator').is(':visible')).toBe(true);
-		//expect($('.plot-div').is(':visible')).toBe(false);
-		expect(getProcessorPromise).toHaveBeenCalled();
+	
+	it('Expects that when createReportViews is called, populateAvailableReports is called', function() {
+		var d = $.Deferred();
+		var a = $.Deferred();
+		spyOn(AQCU.view.ReportConfigSelectionView.prototype, 'fetchProcessorTypes').and.callFake(function() {
+			return d;
+		});
+		d.resolve(testProcessors);
+		spyOn(AQCU.view.ReportConfigSelectionView.prototype, 'populateAvailableReports').and.callFake(function() {
+			return a;
+		});
+		a.resolve([AQCU.view.ReportConfigSelectionView]);
+		view.createReportViews();
+		expect(view.populateAvailableReports).toHaveBeenCalled();
 	});
 	
 	it('Expects that when populateAvailableReports is called, the appropriate views appear', function() {
@@ -156,7 +164,208 @@ describe("ReportConfigSelectionView.js", function() {
 		});
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
-		expect(view.fetchProcessorTypes).toHaveBeenCalled();
+		
+		expect(view.availableReports.length).toEqual(5);
+		
+		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["Statistics","ProcessorTwo"]};
+		thisSelectedTimeSeriesPT = {
+				computation: "Mean",
+				description: "fake time series for testing view",
+				identifier: "fake time series 1",
+				parameter: "Discharge",
+				timeSeriesType: "ProcessorDerived",
+				processorTypes: testProcessors,
+				period: "Daily",
+				primary: true,
+				publish: true,
+				uid: "br549",
+				units: "ft^3/s"
+			};
+		
+		d.resolve(testProcessors);
+		view.populateAvailableReports(thisSelectedTimeSeriesPT);
+		
+		expect(view.availableReports.length).toEqual(4);
+		
+		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo"]};
+		thisSelectedTimeSeriesPT = {
+				computation: "Mean",
+				description: "fake time series for testing view",
+				identifier: "fake time series 1",
+				parameter: "Discharge",
+				timeSeriesType: "ProcessorDerived",
+				processorTypes: testProcessors,
+				period: "Daily",
+				primary: true,
+				publish: true,
+				uid: "br549",
+				units: "ft^3/s"
+			};
+		
+		d.resolve(testProcessors);
+		view.populateAvailableReports(thisSelectedTimeSeriesPT);
+		
+		expect(view.availableReports.length).toEqual(4);
+		
+		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo"]};
+		thisSelectedTimeSeriesPT = {
+				computation: "Mean",
+				description: "fake time series for testing view",
+				identifier: "fake time series 1",
+				parameter: "Discharge",
+				timeSeriesType: "ProcessorDerived",
+				processorTypes: testProcessors,
+				period: "Points",
+				primary: true,
+				publish: true,
+				uid: "br549",
+				units: "ft^3/s"
+			};
+		
+		d.resolve(testProcessors);
+		view.populateAvailableReports(thisSelectedTimeSeriesPT);
+		
+		expect(view.availableReports.length).toEqual(3);
+		
+		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo"]};
+		thisSelectedTimeSeriesPT = {
+				computation: "Instantaneous",
+				description: "fake time series for testing view",
+				identifier: "fake time series 1",
+				parameter: "Discharge",
+				timeSeriesType: "ProcessorDerived",
+				processorTypes: testProcessors,
+				period: "Points",
+				primary: true,
+				publish: true,
+				uid: "br549",
+				units: "ft^3/s"
+			};
+		
+		d.resolve(testProcessors);
+		view.populateAvailableReports(thisSelectedTimeSeriesPT);
+		
+		expect(view.availableReports.length).toEqual(4);
+		
+		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo"]};
+		thisSelectedTimeSeriesPT = {
+				computation: "Instantaneous",
+				description: "fake time series for testing view",
+				identifier: "fake time series 1",
+				parameter: "Discharge",
+				timeSeriesType: "Computed",
+				processorTypes: testProcessors,
+				period: "Points",
+				primary: true,
+				publish: true,
+				uid: "br549",
+				units: "ft^3/s"
+			};
+		
+		d.resolve(testProcessors);
+		view.populateAvailableReports(thisSelectedTimeSeriesPT);
+		
+		expect(view.availableReports.length).toEqual(4);
+		
+		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo","RatingModel"]};
+		thisSelectedTimeSeriesPT = {
+				computation: "Instantaneous",
+				description: "fake time series for testing view",
+				identifier: "fake time series 1",
+				parameter: "Discharge",
+				timeSeriesType: "ProcessorDerived",
+				processorTypes: testProcessors,
+				period: "Points",
+				primary: true,
+				publish: true,
+				uid: "br549",
+				units: "ft^3/s"
+			};
+		
+		d.resolve(testProcessors);
+		view.populateAvailableReports(thisSelectedTimeSeriesPT);
+		
+		expect(view.availableReports.length).toEqual(4);
+		
+		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo","Thing"]};
+		thisSelectedTimeSeriesPT = {
+				computation: "test",
+				description: "fake time series for testing view",
+				identifier: "fake time series 1",
+				parameter: "particles of dust",
+				timeSeriesType: "Whatever",
+				processorTypes: testProcessors,
+				period: "Infinity",
+				primary: true,
+				publish: true,
+				uid: "br549",
+				units: "ft^3/s"
+			};
+		
+		d.resolve(testProcessors);
+		view.populateAvailableReports(thisSelectedTimeSeriesPT);
+		
+		expect(view.availableReports.length).toEqual(3);
+		
+		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo","Statistics"]};
+		thisSelectedTimeSeriesPT = {
+				computation: "test",
+				description: "fake time series for testing view",
+				identifier: "fake time series 1",
+				parameter: "Water level, depth LSD",
+				timeSeriesType: "ProcessorDerived",
+				processorTypes: testProcessors,
+				period: "Points",
+				primary: true,
+				publish: true,
+				uid: "br549",
+				units: "ft"
+			};
+		
+		d.resolve(testProcessors);
+		view.populateAvailableReports(thisSelectedTimeSeriesPT);
+		
+		expect(view.availableReports.length).toEqual(7);
+		
+		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo","Statistics"]};
+		thisSelectedTimeSeriesPT = {
+				computation: "test",
+				description: "fake time series for testing view",
+				identifier: "fake time series 1",
+				parameter: "Discharge.ft^3/s",
+				timeSeriesType: "ProcessorDerived",
+				processorTypes: testProcessors,
+				period: "Points",
+				primary: true,
+				publish: true,
+				uid: "br549",
+				units: "ft^3/s"
+			};
+		
+		d.resolve(testProcessors);
+		view.populateAvailableReports(thisSelectedTimeSeriesPT);
+		
+		expect(view.availableReports.length).toEqual(5);
+		
+		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo","Statistics"]};
+		thisSelectedTimeSeriesPT = {
+				computation: "test",
+				description: "fake time series for testing view",
+				identifier: "fake time series 1",
+				parameter: "Gage height.ft",
+				timeSeriesType: "ProcessorDerived",
+				processorTypes: testProcessors,
+				period: "Points",
+				primary: true,
+				publish: true,
+				uid: "br549",
+				units: "ft"
+			};
+		
+		d.resolve(testProcessors);
+		view.populateAvailableReports(thisSelectedTimeSeriesPT);
+		
+		expect(view.availableReports.length).toEqual(6);
 	});
 	
 });

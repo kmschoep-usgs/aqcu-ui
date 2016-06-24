@@ -19,23 +19,22 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 	loadAllRequiredTimeseries: function () {
 		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")) {
 			for (var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
-				this.loadRelatedTimeseries(this.requiredRelatedTimeseriesConfig[i]);
+				this.setRelatedTimeseries(this.requiredRelatedTimeseriesConfig[i]);
 			}
 			for (var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
-				this.loadRelatedTimeseries(this.optionalRelatedTimeseriesConfig[i]);
+				this.setRelatedTimeseries(this.optionalRelatedTimeseriesConfig[i]);
 			}
 		}
 	},
-	
 		
-	loadAllTimeSeriesOptions : function(callback) {
+	loadAllTimeSeriesOptions : function() {
 		if(this.model.get("site")) {
 			for(var key in this.builtSelectorFields){
 				if(this.selectorParams[key].dynamicParameter && this.model.get('selectedTimeSeries')){
 					this.selectorParams[key].parameter = this.model.get('selectedTimeSeries').parameter;
 				}
 			} 
-			AQCU.view.BaseReportView.prototype.loadAllTimeSeriesOptions.apply(this, [callback]);
+			AQCU.view.BaseReportView.prototype.loadAllTimeSeriesOptions.apply(this, arguments);
 		}
 	}
 	
