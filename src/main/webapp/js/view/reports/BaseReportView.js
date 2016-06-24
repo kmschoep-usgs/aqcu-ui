@@ -32,9 +32,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.parentModel.bind("change:site", this.updateSite, this);
 		this.model.bind("change:site", function() { this.loadAllTimeSeriesOptions(); }, this);
 		this.model.bind("change:dateSelection", this.loadAllRequiredTimeseries, this);
-		//this.loadRelatedTimeseriesFetched = $.Deferred();
-		//this.loadTimeseriesIdentifiersFetched = $.Deferred();
-		this.setRatingModelFetched = $.Deferred();
 		this.loading = true;
 	},
 	
@@ -143,32 +140,42 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		return this.builtSelectorFields[params.requestId];
 	},
 	
-	loadAllTimeSeriesOptions : function() {
+	loadAllTimeSeriesOptions : function(callback) {
 		var _this = this;
 		if(this.model.get("site")) {
 			for(var key in this.builtSelectorFields){
-				var tsSelector = this.builtSelectorFields[key];
-				var params = this.selectorParams[key];
-				if(params.baseField) { //this is done so that any select boxes added by subclasses do not auto load with this function
-					this.loadTimeseriesIdentifiers(
-							key,
-							{
-								stationId: this.model.get("site").siteNumber,
-								parameter: params.parameter,
-								publish: params.publish,
-								computationIdentifier: params.computation,
-								computationPeriodIdentifier: params.period 
-							}).done(function(data){
-								_this.model.set(key + "FullList", data);
-								_this.populateTsSelect(key);
-								_this.loadAllRequiredTimeseries(params);
-							});
-				}
+				this.loadAllTimeSeriesOption(key, callback);
 			}
-			//if(callback) {
-			//	$.proxy(callback, this, this.ajaxCalls)();
-			//}
 		} 
+	},
+	
+	/**
+	 * The for loop in loadAllTimeSeriesOptions has scope/variable issues, call this function to create it's
+	 * own closure
+	 */
+	loadAllTimeSeriesOption : function(key, callback) {
+		var tsSelector = this.builtSelectorFields[key];
+		var params = this.selectorParams[key];
+		if(params.baseField) { //this is done so that any select boxes added by subclasses do not auto load with this function
+			var _this = this;
+			this.loadTimeseriesIdentifiers(
+				key,
+				{
+					stationId: this.model.get("site").siteNumber,
+					parameter: params.parameter,
+					publish: params.publish,
+					computationIdentifier: params.computation,
+					computationPeriodIdentifier: params.period 
+				}).done(function(data){
+					_this.model.set(key + "FullList", data);
+					_this.populateTsSelect(key);
+					_this.loadAllRequiredTimeseries(params);
+
+					if(callback) {
+						$.proxy(callback, this, this.ajaxCalls)();
+					}
+				});
+		}
 	},
 	
 	createPrimaryPublishFilters: function() {
@@ -218,8 +225,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				data: params,
 				context: this,
 				success: function (data) {
-					//this.model.set(selectorIdentifier + "FullList", data);
-					//this.populateTsSelect(selectorIdentifier);
 					loadTimeseriesIdentifiersFetched.resolve(data);
 				},
 				error: function () {
@@ -231,7 +236,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	populateTsSelect : function(selectorIdentifier) {
-		console.log(this.reportAbbreviation + " populateTsSelect for " + selectorIdentifier);
 		var tsSelector = this.builtSelectorFields[selectorIdentifier];
 		tsSelector.removeSelectOptions();
 		var data = this.model.get(selectorIdentifier + "FullList");
@@ -368,40 +372,33 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				loadRelatedTimeseriesFetched.resolve();
 			}
 		}));
-		//rdata = data;
 		return loadRelatedTimeseriesFetched.promise();
-		//this.model.set(params.requestId, this.getFilteredDerivationChain(params, data));
-		//console.log(this.reportAbbreviation + " loadRelatedTimeseries set model with getFilteredDerivationChain: "  + this.model.get(params.requestId));
 	},
 	
 	setRelatedTimeseries : function(selectorIdentifier, derivationChains) {
 		var _this = this;
-		//console.log(this.reportAbbreviation + " getFilteredDerivationChain for " + params.requestId);
-		//this.loadRelatedTimeseries(params).done(function(data){
-			if (derivationChains != null){
-				//var selectorIdentifier = params.requestId;
-				var fullList = _this.model.get(selectorIdentifier + "FullList");
-				if(fullList) {
-					var dataArray = [];
-					var dataArray = _.toArray(_.clone(fullList));
-					// find all the time series from the FullList that match the incoming derivation chains.
-					var filteredData = _.filter(dataArray, function(ts){
-						return _.contains(derivationChains,ts.uid)
-					});
-					// sort the result by publish and primary, which will put the true-trues a the top, then true-false, then false-true, then false-false
-					var sortedArray = _(filteredData).chain().sortBy('publish').sortBy('primary').reverse().value();
-					// we want the first one, which will be true-true, if it exists.
-					var filteredDerivationChain = _.first(sortedArray);
-					if (filteredDerivationChain){
-						_this.model.set(selectorIdentifier, filteredDerivationChain.uid);
-					} else
-						_this.model.set(selectorIdentifier, null);
-				} 
-			} else {
-					_this.model.set(selectorIdentifier, derivationChains);
-			}
-					
-		//});
+		if (derivationChains != null){
+			//var selectorIdentifier = params.requestId;
+			var fullList = _this.model.get(selectorIdentifier + "FullList");
+			if(fullList) {
+				var dataArray = [];
+				var dataArray = _.toArray(_.clone(fullList));
+				// find all the time series from the FullList that match the incoming derivation chains.
+				var filteredData = _.filter(dataArray, function(ts){
+					return _.contains(derivationChains,ts.uid)
+				});
+				// sort the result by publish and primary, which will put the true-trues a the top, then true-false, then false-true, then false-false
+				var sortedArray = _(filteredData).chain().sortBy('publish').sortBy('primary').reverse().value();
+				// we want the first one, which will be true-true, if it exists.
+				var filteredDerivationChain = _.first(sortedArray);
+				if (filteredDerivationChain){
+					_this.model.set(selectorIdentifier, filteredDerivationChain.uid);
+				} else
+					_this.model.set(selectorIdentifier, null);
+			} 
+		} else {
+				_this.model.set(selectorIdentifier, derivationChains);
+		}
 	},
 
 	clearRatingModels: function(){
@@ -451,6 +448,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	setRatingModel: function(params){
 		var _this = this;
+		var ratModDeffered = $.Deferred()
 		if(params.timeseriesUid){
 			this.startAjax(params.requestId, $.ajax({
 				url: AQCU.constants.serviceEndpoint + 
@@ -467,20 +465,17 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				context: this,
 				success: function(data){
 					if(data && data[0]) {
-						_this.setRatingModelFetched.resolve(data[0]);
-						//_this.model.set(params.requestId, data[0]);
+						ratModDeffered.resolve(data[0]);
 					}
 				},
 				error: function() {
-					_this.setRatingModelFetched.resolve(null);
-					//_this.model.set(params.requestId, null);
+					ratModDeffered.resolve(null);
 				}
 			}));
 		} else {
-			_this.setRatingModelFetched.resolve(null);
-			//this.model.set(params.requestId, null);
+			ratModDeffered.resolve(null);
 		}
-		return this.setRatingModelFetched.promise();
+		return ratModDeffered.promise();
 	},
 	
 	//returns a map to match IDs to display values
