@@ -32,8 +32,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.parentModel.bind("change:site", this.updateSite, this);
 		this.model.bind("change:site", function() { this.loadAllTimeSeriesOptions(); }, this);
 		this.model.bind("change:dateSelection", this.loadAllRequiredTimeseries, this);
-		this.loadRelatedTimeseriesFetched = $.Deferred();
-		this.loadTimeseriesIdentifiersFetched = $.Deferred();
+		//this.loadRelatedTimeseriesFetched = $.Deferred();
+		//this.loadTimeseriesIdentifiersFetched = $.Deferred();
 		this.setRatingModelFetched = $.Deferred();
 		this.loading = true;
 	},
@@ -160,10 +160,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 								computationPeriodIdentifier: params.period 
 							}).done(function(data){
 								_this.model.set(key + "FullList", data);
-								_this.loadRelatedTimeseries(params).done(function(derivationChains){
-									_this.populateTsSelect(key);
-									_this.loadAllRequiredTimeseries(key, derivationChains);
-								});
+								_this.populateTsSelect(key);
+								_this.loadAllRequiredTimeseries(params);
 							});
 				}
 			}
@@ -210,7 +208,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	loadTimeseriesIdentifiers: function(selectorIdentifier, params) {
 		var _this = this;
-		this.loadTimeseriesIdentifiersFetched = $.Deferred();
+		var loadTimeseriesIdentifiersFetched = $.Deferred();
 		if (params.stationId) {
 			$.ajax({
 				url: AQCU.constants.serviceEndpoint +
@@ -222,14 +220,14 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				success: function (data) {
 					//this.model.set(selectorIdentifier + "FullList", data);
 					//this.populateTsSelect(selectorIdentifier);
-					_this.loadTimeseriesIdentifiersFetched.resolve(data);
+					loadTimeseriesIdentifiersFetched.resolve(data);
 				},
 				error: function () {
-					_this.loadTimeseriesIdentifiersFetched.reject(data);
+					loadTimeseriesIdentifiersFetched.reject();
 				}
 			});
 		}
-		return this.loadTimeseriesIdentifiersFetched.promise();
+		return loadTimeseriesIdentifiersFetched.promise();
 	},
 	
 	populateTsSelect : function(selectorIdentifier) {
@@ -330,10 +328,11 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	loadRelatedTimeseries: function(params){
 		var _this = this;
-		this.loadRelatedTimeseriesFetched = $.Deferred();
+		var tsconfig = this.requiredRelatedTimeseriesConfig;
+		var loadRelatedTimeseriesFetched = $.Deferred();
 		if(params.skipAutoLoad) {
-			_this.loadRelatedTimeseriesFetched.resolve(null);
-			return this.loadRelatedTimeseriesFetched.promise();
+			loadRelatedTimeseriesFetched.resolve(null);
+			return loadRelatedTimeseriesFetched.promise();
 		};
 		var rdata;
 		var computationFilter = params.computation || params.defaultComputation;
@@ -362,15 +361,15 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			context: this,
 			success: function(data) {
 				   rdata = data;
-					_this.loadRelatedTimeseriesFetched.resolve(data);
+					loadRelatedTimeseriesFetched.resolve(data);
 			},
 			error: function() {
 				//this.model.set(params.requestId, null);
-				_this.loadRelatedTimeseriesFetched.resolve();
+				loadRelatedTimeseriesFetched.resolve();
 			}
 		}));
 		//rdata = data;
-		return this.loadRelatedTimeseriesFetched.promise();
+		return loadRelatedTimeseriesFetched.promise();
 		//this.model.set(params.requestId, this.getFilteredDerivationChain(params, data));
 		//console.log(this.reportAbbreviation + " loadRelatedTimeseries set model with getFilteredDerivationChain: "  + this.model.get(params.requestId));
 	},
