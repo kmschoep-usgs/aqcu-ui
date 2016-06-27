@@ -156,7 +156,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	loadAllTimeSeriesOption : function(key) {
 		var tsSelector = this.builtSelectorFields[key];
 		var params = _.clone(this.selectorParams[key]);
-		//var params = this.selectorParams[key];
 		if(params.baseField) { //this is done so that any select boxes added by subclasses do not auto load with this function
 			var _this = this;
 			this.loadTimeseriesIdentifiers(
@@ -319,16 +318,22 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var _this = this;
 		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
 				&& _.find(this.requiredRelatedTimeseriesConfig, function(ts){
-					return ts.requestId = params.requestId 
+					if (ts.requestId === params.requestId) {
+					return true
+					} else
+						return false
 				})
-				) {
+			){
 			_this.loadRelatedTimeseries(params).done(function(derivationChains){
 				_this.setRelatedTimeseries(params.requestId, derivationChains);
 			});
 		}
 		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
 				&& _.find(this.optionalRelatedTimeseriesConfig, function(ts){
-					return ts.requestId = params.requestId 
+					if (ts.requestId === params.requestId) {
+						return true
+						} else
+							return false
 				})
 				) {
 			_this.loadRelatedTimeseries(params).done(function(derivationChains){

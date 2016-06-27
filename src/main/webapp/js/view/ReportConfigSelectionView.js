@@ -118,7 +118,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 			) {
 			_this.availableReports.push(AQCU.view.DvHydrographReportView);
 		};
-		this.availableReports.push(AQCU.view.ExtremesReportView);	
+		this.availableReports.push(AQCU.view.ExtremesReportView);
 		if (_.contains(_this.gwReportParameters, selectedTimeSeries.parameter)) {
 			_this.availableReports.push(AQCU.view.FiveYearGWSummaryReportView);
 		};
