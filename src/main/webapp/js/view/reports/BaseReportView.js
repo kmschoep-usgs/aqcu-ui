@@ -144,16 +144,16 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var _this = this;
 		if(this.model.get("site")) {
 			for(var key in this.builtSelectorFields){
-				this.loadAllTimeSeriesOption(key, callback);
+				this.loadAllTimeSeriesOption(key);
 			}
 		} 
 	},
 	
 	/**
-	 * The for loop in loadAllTimeSeriesOptions has scope/variable issues, call this function to create it's
+	 * The for loop in loadAllTimeSeriesOptions has scope/variable issues, call this function to create its
 	 * own closure
 	 */
-	loadAllTimeSeriesOption : function(key, callback) {
+	loadAllTimeSeriesOption : function(key) {
 		var tsSelector = this.builtSelectorFields[key];
 		var params = this.selectorParams[key];
 		if(params.baseField) { //this is done so that any select boxes added by subclasses do not auto load with this function
@@ -170,10 +170,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 					_this.model.set(key + "FullList", data);
 					_this.populateTsSelect(key);
 					_this.loadAllRequiredTimeseries(params);
-
-					if(callback) {
-						$.proxy(callback, this, this.ajaxCalls)();
-					}
 				});
 		}
 	},
@@ -217,7 +213,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var _this = this;
 		var loadTimeseriesIdentifiersFetched = $.Deferred();
 		if (params.stationId) {
-			$.ajax({
+			this.startAjax(selectorIdentifier + 'loadTimeseriesIdentifiers', $.ajax({
 				url: AQCU.constants.serviceEndpoint +
 						"/service/lookup/timeseries/identifiers",
 				timeout: 120000,
@@ -230,7 +226,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				error: function () {
 					loadTimeseriesIdentifiersFetched.reject();
 				}
-			});
+			}));
 		}
 		return loadTimeseriesIdentifiersFetched.promise();
 	},
@@ -300,6 +296,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 
 	startAjax : function(ajaxId, ajaxPromise) {
+		console.log('ajaxId: ' + ajaxId);
 		this.showLoader();
 		//if call previous call in progress
 		this.abortAjax(this.ajaxCalls[ajaxId]);
@@ -317,18 +314,27 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		} 
 	},
 	
-	loadAllRequiredTimeseries: function() {
-		this.clearRatingModels();
-		
-		if(this.model.get("selectedTimeSeries") && this.model.get("dateSelection")) {
-			for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
-				this.setRelatedTimeseries(this.requiredRelatedTimeseriesConfig[i]);
-			}
-			for(var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
-				this.setRelatedTimeseries(this.optionalRelatedTimeseriesConfig[i]);
-			}
+	loadAllRequiredTimeseries: function (params) {
+		var _this = this;
+		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
+				&& _.find(this.requiredRelatedTimeseriesConfig, function(ts){
+					return ts.requestId = params.requestId 
+				})
+				) {
+			_this.loadRelatedTimeseries(params).done(function(derivationChains){
+				_this.setRelatedTimeseries(params.requestId, derivationChains);
+			});
 		}
-	},
+		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
+				&& _.find(this.optionalRelatedTimeseriesConfig, function(ts){
+					return ts.requestId = params.requestId 
+				})
+				) {
+			_this.loadRelatedTimeseries(params).done(function(derivationChains){
+				_this.setRelatedTimeseries(params.requestId, derivationChains);
+			});
+		}
+	},	
 	
 	loadRelatedTimeseries: function(params){
 		var _this = this;
@@ -345,7 +351,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var periodFilter = params.period || params.defaultPeriod;
 		periodFilter = periodFilter || 'Points';
 		
-		this.startAjax(params.requestId, $.ajax({
+		this.startAjax(params.requestId + 'loadRelatedTimeseries', $.ajax({
 			url: AQCU.constants.serviceEndpoint + 
 				"/service/lookup/derivationChain/find",
 			timeout: 120000,
@@ -450,7 +456,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var _this = this;
 		var ratModDeffered = $.Deferred()
 		if(params.timeseriesUid){
-			this.startAjax(params.requestId, $.ajax({
+			this.startAjax(params.requestId + 'setRatingModel', $.ajax({
 				url: AQCU.constants.serviceEndpoint + 
 					"/service/lookup/derivationChain/ratingModel",
 				timeout: 120000,

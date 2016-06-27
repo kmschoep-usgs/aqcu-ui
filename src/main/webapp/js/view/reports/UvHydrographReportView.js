@@ -68,15 +68,9 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 					return ts.requestId = params.requestId 
 				})
 				){
-			//for (var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
-				//this.setRelatedTimeseries(this.requiredRelatedTimeseriesConfig[i]);
 				_this.loadRelatedTimeseries(params).done(function(derivationChains){
 					_this.setRelatedTimeseries(params.requestId, derivationChains);
 				});
-			//}
-			//for (var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
-			//	this.setRelatedTimeseries(this.optionalRelatedTimeseriesConfig[i]);
-			//}
 		}
 	},
 	

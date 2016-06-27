@@ -56,14 +56,25 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 	
-	loadAllRequiredTimeseries: function () {
-		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")) {
-			for (var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
-				this.setRelatedTimeseries(this.requiredRelatedTimeseriesConfig[i]);
-			}
-			for (var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
-				this.setRelatedTimeseries(this.optionalRelatedTimeseriesConfig[i]);
-			}
+	loadAllRequiredTimeseries: function (params) {
+		var _this = this;
+		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
+				&& _.find(this.requiredRelatedTimeseriesConfig, function(ts){
+					return ts.requestId = params.requestId 
+				})
+				) {
+			_this.loadRelatedTimeseries(params).done(function(derivationChains){
+				_this.setRelatedTimeseries(params.requestId, derivationChains);
+			});
+		}
+		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
+				&& _.find(this.optionalRelatedTimeseriesConfig, function(ts){
+					return ts.requestId = params.requestId 
+				})
+				) {
+			_this.loadRelatedTimeseries(params).done(function(derivationChains){
+				_this.setRelatedTimeseries(params.requestId, derivationChains);
+			});
 		}
 	},	
 		

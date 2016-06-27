@@ -140,7 +140,8 @@ describe("BaseReportView.js", function() {
 				})
 			});			
 			view.model.set(testParams.requestId + "FullList", testIdentifierFullList);
-			var testFilteredDerivationChain = view.getFilteredDerivationChain(testParams,testDerivationChain);
+			view.setRelatedTimeseries(testParams.requestId,testDerivationChain);
+			testFilteredDerivationChain = view.model.get(testParams.requestId);
 			
 			expect(testFilteredDerivationChain = "1234");
 			
@@ -163,9 +164,58 @@ describe("BaseReportView.js", function() {
 			testIdentifierFullListPruned = _.without(testIdentifierFullList,"1234");
 			
 			view.model.set(testParams.requestId + "FullList", testIdentifierFullListPruned);
-			var testFilteredDerivationChain = view.getFilteredDerivationChain(testParams,testDerivationChain);
+			view.setRelatedTimeseries(testParams.requestId,testDerivationChain);
+			testFilteredDerivationChain = view.model.get(testParams.requestId);
 			
 			expect(testFilteredDerivationChain = "a1b1c1d1");
+			
+		});
+		
+		it("Expects the derivation chain time series that is selected to be one where primary=false, publish=true, if it exists and primary=true, publish=true does not exist and primary=true, publish=false does not exist", function(){
+			view = new AQCU.view.BaseReportView({
+				template : thisTemplate,
+				savedReportsController: savedReportsControllerSpy,
+				selectedTimeSeries: thisSelectedTimeSeries,
+				selectorIdentifier: "testIdentifier",
+				testIdentifierFullList: testIdentifierFullList,
+				parentModel : new Backbone.Model({
+					site: '1234',
+					selectedTimeSeries: thisSelectedTimeSeries,
+					dateSelection: thisDateSelection,
+					format: thisDefaultFormat
+				})
+			});
+			testIdentifierFullListPruned = _.without(testIdentifierFullList,"a1b1c1d1");
+			
+			view.model.set(testParams.requestId + "FullList", testIdentifierFullListPruned);
+			view.setRelatedTimeseries(testParams.requestId,testDerivationChain);
+			testFilteredDerivationChain = view.model.get(testParams.requestId);
+			
+			expect(testFilteredDerivationChain = "a2b3c4d5");
+			
+		});
+		
+		it("Expects the derivation chain time series that is selected to be one where primary=false, publish=false, if it exists and primary=true, publish=true does not exist and primary=true, publish=false does not exist and primary=false, publish=true does not exist", function(){
+			view = new AQCU.view.BaseReportView({
+				template : thisTemplate,
+				savedReportsController: savedReportsControllerSpy,
+				selectedTimeSeries: thisSelectedTimeSeries,
+				selectorIdentifier: "testIdentifier",
+				testIdentifierFullList: testIdentifierFullList,
+				parentModel : new Backbone.Model({
+					site: '1234',
+					selectedTimeSeries: thisSelectedTimeSeries,
+					dateSelection: thisDateSelection,
+					format: thisDefaultFormat
+				})
+			});
+			testIdentifierFullListPruned = _.without(testIdentifierFullList,"a2b3c4d5");
+			
+			view.model.set(testParams.requestId + "FullList", testIdentifierFullListPruned);
+			view.setRelatedTimeseries(testParams.requestId,testDerivationChain);
+			testFilteredDerivationChain = view.model.get(testParams.requestId);
+			
+			expect(testFilteredDerivationChain = "abcdefg");
 			
 		});
 	});

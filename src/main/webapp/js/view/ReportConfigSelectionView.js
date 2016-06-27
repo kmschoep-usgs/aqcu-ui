@@ -108,7 +108,6 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	populateAvailableReports: function(selectedTimeSeries){
 		this.availableReports = [];
 		var _this = this;
-		/*
 		this.availableReports.push(AQCU.view.CorrectionsAtAGlanceReportView);
 		if (
 				_.contains(['Daily', 'Weekly'], selectedTimeSeries.period)  
@@ -127,17 +126,14 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		if (_.contains(this.svpReportParameterLengthUnits, selectedTimeSeries.units)){
 			_this.availableReports.push(AQCU.view.SiteVisitPeakReportView);
 		};
-		*/
 		if (_.contains(['Instantaneous','Decumulated'], selectedTimeSeries.computation) 
 				&& _.contains(['Points', 'Hourly'], selectedTimeSeries.period)) {
 			_this.availableReports.push(AQCU.view.UvHydrographReportView);
 		};
-		/*
 		if (selectedTimeSeries.timeSeriesType === "ProcessorDerived" 
 			&& _.contains(selectedTimeSeries.processorTypes.upChain, 'RatingModel')) {
 			_this.availableReports.push(AQCU.view.VDiagramReportView);
 		};
-		*/
 		this.availableReportsPopulated.resolve(_this.availableReports);
 		return this.availableReportsPopulated.promise();
 	},
