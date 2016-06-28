@@ -166,6 +166,11 @@ describe("ReportConfigSelectionView.js", function() {
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
 		expect(view.availableReports.length).toEqual(5);
+		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
+		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
+		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.VDiagramReportView);
+		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
 		
 		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["Statistics","ProcessorTwo"]};
 		thisSelectedTimeSeriesPT = {
@@ -186,6 +191,10 @@ describe("ReportConfigSelectionView.js", function() {
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
 		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
+		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
+		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
 		
 		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo"]};
 		thisSelectedTimeSeriesPT = {
@@ -206,6 +215,10 @@ describe("ReportConfigSelectionView.js", function() {
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
 		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
+		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
+		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
 		
 		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo"]};
 		thisSelectedTimeSeriesPT = {
@@ -226,6 +239,9 @@ describe("ReportConfigSelectionView.js", function() {
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
 		expect(view.availableReports.length).toEqual(3);
+		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
+		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
+		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
 		
 		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo"]};
 		thisSelectedTimeSeriesPT = {
@@ -246,6 +262,11 @@ describe("ReportConfigSelectionView.js", function() {
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
 		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
+		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
+		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.UvHydrographReportView);
+		
 		
 		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo"]};
 		thisSelectedTimeSeriesPT = {
@@ -266,6 +287,10 @@ describe("ReportConfigSelectionView.js", function() {
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
 		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
+		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
+		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.UvHydrographReportView);
 		
 		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo","RatingModel"]};
 		thisSelectedTimeSeriesPT = {
@@ -286,26 +311,10 @@ describe("ReportConfigSelectionView.js", function() {
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
 		expect(view.availableReports.length).toEqual(4);
-		
-		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo","Thing"]};
-		thisSelectedTimeSeriesPT = {
-				computation: "test",
-				description: "fake time series for testing view",
-				identifier: "fake time series 1",
-				parameter: "particles of dust",
-				timeSeriesType: "Whatever",
-				processorTypes: testProcessors,
-				period: "Infinity",
-				primary: true,
-				publish: true,
-				uid: "br549",
-				units: "ft^3/s"
-			};
-		
-		d.resolve(testProcessors);
-		view.populateAvailableReports(thisSelectedTimeSeriesPT);
-		
-		expect(view.availableReports.length).toEqual(3);
+		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
+		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
+		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.UvHydrographReportView);
 		
 		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo","Statistics"]};
 		thisSelectedTimeSeriesPT = {
@@ -326,26 +335,15 @@ describe("ReportConfigSelectionView.js", function() {
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
 		expect(view.availableReports.length).toEqual(7);
+		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
+		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
+		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.VDiagramReportView);
+		expect(view.availableReports).toContain(AQCU.view.FiveYearGWSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
+		expect(view.availableReports).toContain(AQCU.view.SiteVisitPeakReportView);
+		expect(view.availableReports).not.toContain(AQCU.view.UvHydrographReportView);
 		
-		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo","Statistics"]};
-		thisSelectedTimeSeriesPT = {
-				computation: "test",
-				description: "fake time series for testing view",
-				identifier: "fake time series 1",
-				parameter: "Discharge.ft^3/s",
-				timeSeriesType: "ProcessorDerived",
-				processorTypes: testProcessors,
-				period: "Points",
-				primary: true,
-				publish: true,
-				uid: "br549",
-				units: "ft^3/s"
-			};
-		
-		d.resolve(testProcessors);
-		view.populateAvailableReports(thisSelectedTimeSeriesPT);
-		
-		expect(view.availableReports.length).toEqual(5);
 		
 		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo","Statistics"]};
 		thisSelectedTimeSeriesPT = {
@@ -366,6 +364,14 @@ describe("ReportConfigSelectionView.js", function() {
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
 		expect(view.availableReports.length).toEqual(6);
+		
+		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
+		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
+		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.SiteVisitPeakReportView);
+		expect(view.availableReports).toContain(AQCU.view.VDiagramReportView);
+		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
+		expect(view.availableReports).not.toContain(AQCU.view.FiveYearGWSummaryReportView);
 	});
 	
 });
