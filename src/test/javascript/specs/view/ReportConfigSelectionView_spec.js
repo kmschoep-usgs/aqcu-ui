@@ -75,6 +75,7 @@ describe("ReportConfigSelectionView.js", function() {
 			availableReportsPopulated: getReportsPromise,
 			availableReportViews: thisAvailableReportViews,
 			availableReports: thisAvailableReports,
+			el : $('#test-div'),
 			parentModel : new Backbone.Model({
 				site: '1234',
 				selectedTimeSeries: thisSelectedTimeSeries,
@@ -110,6 +111,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(thisRequest.url).toMatch(thisSelectedTimeSeries.uid);
 	});
 	
+	/*
 	it('Expects a successful fetchProcessorTypes to return a deferred which resolves to processor types', function() {
 		//testView = new NWC.view.StreamflowStatsGageDataView(options);
 		var doneSpy = jasmine.createSpy('doneSpy');
@@ -131,7 +133,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(view.selectedTimeSeries.processorTypes.upChain).toEqual(["testOne","RatingModel"]);
 		expect(view.selectedTimeSeries.processorTypes.downChain).toEqual(["Statistics","ProcessorTwo"]);
 	});
-
+*/
 	it('Expects that when createReportViews is called, fetchProcessorTypes is called', function() {
 		var d = $.Deferred();
 		spyOn(AQCU.view.ReportConfigSelectionView.prototype, 'fetchProcessorTypes').and.callFake(function() {
