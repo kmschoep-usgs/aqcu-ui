@@ -68,7 +68,7 @@ describe("ReportConfigSelectionView.js", function() {
 				units: "ft^3/s"
 			};
 		view = new AQCU.view.ReportConfigSelectionView({
-			template : thisTemplate,
+			templateName: thisTemplate,
 			savedReportsController: savedReportsControllerSpy,
 			selectedTimeSeries: thisSelectedTimeSeries,
 			processorTypesFetched: getProcessorPromise,

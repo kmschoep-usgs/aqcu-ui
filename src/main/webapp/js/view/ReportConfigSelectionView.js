@@ -4,6 +4,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	templateName: 'report-config-selection',
 		
 	// I don't love hard-coding these.  We'll see how much the list needs to change in the future...
+	//TODO: make a service that delivers this information
 	gwReportParameters: [
 	                     "Elevation, GW, NGVD29", 
 	                     "Elevation, GW, NAVD88", 
@@ -105,6 +106,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		return this.processorTypesFetched.promise();
 	},
 	
+	//TODO:  should be refactored so the logic exists in each report view using a strategy pattern.
 	populateAvailableReports: function(selectedTimeSeries){
 		this.availableReports = [];
 		var _this = this;

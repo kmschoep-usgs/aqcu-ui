@@ -289,7 +289,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 
 	startAjax : function(ajaxId, ajaxPromise) {
-		console.log('ajaxId: ' + ajaxId);
 		this.showLoader();
 		//if call previous call in progress
 		this.abortAjax(this.ajaxCalls[ajaxId]);
