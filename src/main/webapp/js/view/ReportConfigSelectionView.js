@@ -97,11 +97,11 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 					}
 				},
 				error: function() {
-					_this.processorTypesFetched.reject('error');
+					_this.processorTypesFetched.reject();
 				}
 			});
 		} else {
-			this.processorTypesFetched.reject('no timeseries selected');
+			this.processorTypesFetched.reject();
 		}
 		return this.processorTypesFetched.promise();
 	},
