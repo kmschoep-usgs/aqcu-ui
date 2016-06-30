@@ -141,12 +141,16 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		
 		//make sure to update list for comparison timeseries if site changes
 		this.model.bind("change:comparisonStation", function() {
+			var _this = this;
 			this.loadTimeseriesIdentifiers(
 				"comparisonTimeseriesIdentifier",
 				{
 					stationId: this.model.get("comparisonStation"),
 					computationIdentifier: 'Instantaneous', //Instantaneous seems to be applied to non-mean/DV series
 					computationPeriodIdentifier: 'Points' //Points seems to be applied to non-mean/DV series
+				}).done(function(data){
+					_this.model.set("comparisonTimeseriesIdentifier" + "FullList", data);
+					_this.populateTsSelect("comparisonTimeseriesIdentifier");
 				});
 		}, this);	
 		

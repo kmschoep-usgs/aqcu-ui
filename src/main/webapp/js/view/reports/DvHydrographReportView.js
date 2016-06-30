@@ -143,11 +143,15 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 		
 		//make sure to update list for comparison timeseries if site changes
 		this.model.bind("change:comparisonStation", function() {
+			var _this = this;
 			this.loadTimeseriesIdentifiers(
 				"comparisonTimeseriesIdentifier",
 				{
 					stationId: this.model.get("comparisonStation"),
 					computationPeriodIdentifier: 'Daily' //Points seems to be applied to non-mean/DV series
+				}).done(function(data){
+					_this.model.set("comparisonTimeseriesIdentifier" + "FullList", data);
+					_this.populateTsSelect("comparisonTimeseriesIdentifier");
 				});
 		}, this);	
 		
