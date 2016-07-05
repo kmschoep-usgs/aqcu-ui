@@ -21,6 +21,10 @@
 			<version>1.0.7</version>
 		</dependency>
 		<dependency>
+			<groupId>gov.usgs.cida.auth</groupId>
+			<artifactId>auth-web-utils</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<type>jar</type>

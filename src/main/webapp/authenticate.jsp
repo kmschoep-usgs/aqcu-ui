@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="gov.usgs.cida.auth.utils.HttpTokenUtils" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -63,7 +64,11 @@
 
 		<script type="text/javascript">
 			$(document).ready(function() {
-				AQCU.util.auth.setAuthToken('<%=request.getParameter("token")%>');
+				<%
+				String cleanToken = HttpTokenUtils.validateTokenFormat((String)request.getParameter("token"));
+				%>
+				var token = '<%=cleanToken%>';
+				AQCU.util.auth.setAuthToken(token);
 				window.location = "index.jsp";
 			});
 		</script>
