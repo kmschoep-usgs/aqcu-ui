@@ -187,8 +187,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				"</div>" +
 				
 				"</div></div></div>");//not sure this warrants using a template YET
-		this.model.set("filterPublish", false);
-		this.model.set("filterPrimary", false);
+		this.model.set("filterPublish", true);
+		this.model.set("filterPrimary", true);
 		$.extend(this.bindings, {
 			".filterPublish" : "filterPublish",
 			".filterPrimary" : "filterPrimary"
@@ -387,9 +387,9 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			if(fullList) {
 				var dataArray = [];
 				var dataArray = _.toArray(_.clone(fullList));
-				// find all the time series from the FullList that match the incoming derivation chains.
+				// find all the time series from the FullList that match the incoming derivation chains AND have publish/primary set to true
 				var filteredData = _.filter(dataArray, function(ts){
-					return _.contains(derivationChains,ts.uid)
+					return _.contains(derivationChains,ts.uid) && ts.primary && ts.publish
 				});
 				// sort the result by publish and primary, which will put the true-trues a the top, then true-false, then false-true, then false-false
 				var sortedArray = _(filteredData).chain().sortBy('publish').sortBy('primary').reverse().value();
