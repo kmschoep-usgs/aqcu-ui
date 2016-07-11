@@ -484,6 +484,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	//returns a map to match IDs to display values
 	constructDisplayValuesMap: function(requestParams) {
+		var _this = this;
 		var displayValues = {};
 		_.each(requestParams, function(val, key){
 			var selectedTs = this.model.get("selectedTimeSeries");
@@ -491,7 +492,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				if(key == "primaryTimeseriesIdentifier") {
 					displayValues[val] = selectedTs.identifier + "@" + this.model.get("site").siteNumber;
 				} else {
-					var advancedField = this.builtSelectorFields[key];
+					var advancedField = _this.builtSelectorFields[key];
 					if(advancedField) {
 						displayValues[val] = advancedField.getOptionDisplayValue(val);
 					}
