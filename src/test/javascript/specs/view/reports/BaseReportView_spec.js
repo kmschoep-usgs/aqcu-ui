@@ -1,7 +1,7 @@
 describe("BaseReportView.js", function() {
 	var thisTemplate;
 	var thisParentModel;
-	var savedReportsControllerSpy;
+	var savedReportsControllerSpy, constructDisplayValuesMapSpy, builtSelectorFieldsSpy, savedReportsControllerSpyObj;
 	var view;
 	var thisSelectedTimeSeries = {
 			computation: "Mean",
@@ -77,7 +77,9 @@ describe("BaseReportView.js", function() {
 	
 	beforeEach(function() {
 		thisTemplate = jasmine.createSpy('thisTemplate');
-		savedReportsControllerSpy = jasmine.createSpy('savedReportsControllerSpy');		
+		savedReportsControllerSpy = jasmine.createSpy('savedReportsControllerSpy');	
+		savedReportsControllerSpyObj = jasmine.createSpyObj('savedReportsControllerSpyObj', ['saveReport']);
+		builtSelectorFieldsSpy = jasmine.createSpy('builtSelectorFieldsSpy' );
 		
 	});
 	
@@ -105,7 +107,6 @@ describe("BaseReportView.js", function() {
 	it('Expects view\'s model attributes to be the same as the parentModel attributes', function() {
 		view = new AQCU.view.BaseReportView({
 			template : thisTemplate,
-			savedReportsController: savedReportsControllerSpy,
 			selectedTimeSeries: thisSelectedTimeSeries,
 			parentModel : new Backbone.Model({
 				site: '1234',
@@ -148,7 +149,7 @@ describe("BaseReportView.js", function() {
 			
 		});
 		
-		xit("Expects the derivation chain time series that is selected to be one where primary=false, publish=true, if it exists and primary=true, publish=true does not exist", function(){
+		it("Expects the derivation chain time series not to be selected if it is not primary=true, publish=true", function(){
 			testIdentifierFullListPruned = _.omit(testIdentifierFullList,'1234');
 			
 			view = new AQCU.view.BaseReportView({
@@ -168,11 +169,8 @@ describe("BaseReportView.js", function() {
 			view.setRelatedTimeseries(testParams.requestId,testDerivationChain);
 			testFilteredDerivationChain = view.model.get(testParams.requestId);
 			
-			expect(testFilteredDerivationChain).toEqual("a2b3c4d5");
+			expect(testFilteredDerivationChain).toBe(null);
 			
-		});
-		
-		xit("Expects the derivation chain time series that is selected to be one where primary=true publish=false, if it exists and primary=true, publish=true does not exist and primary=false, publish=true does not exist", function(){
 			testIdentifierFullListPruned = _.chain(testIdentifierFullList).omit(testIdentifierFullList, 'a2b3c4d5').omit(testIdentifierFullList,'1234').value();
 			
 			view = new AQCU.view.BaseReportView({
@@ -193,11 +191,8 @@ describe("BaseReportView.js", function() {
 			view.setRelatedTimeseries(testParams.requestId,testDerivationChain);
 			testFilteredDerivationChain = view.model.get(testParams.requestId);
 			
-			expect(testFilteredDerivationChain).toEqual("a1b1c1d1");
+			expect(testFilteredDerivationChain).toBe(null);
 			
-		});
-		
-		xit("Expects the derivation chain time series that is selected to be one where primary=false, publish=false, if it exists and primary=true, publish=true does not exist and primary=true, publish=false does not exist and primary=false, publish=true does not exist", function(){
 			testIdentifierFullListPruned = _.chain(testIdentifierFullList).omit(testIdentifierFullList, 'a1b1c1d1').omit(testIdentifierFullList,'1234').omit(testIdentifierFullList,'a2b3c4d5').value();
 			view = new AQCU.view.BaseReportView({
 				template : thisTemplate,
@@ -217,8 +212,34 @@ describe("BaseReportView.js", function() {
 			view.setRelatedTimeseries(testParams.requestId,testDerivationChain);
 			testFilteredDerivationChain = view.model.get(testParams.requestId);
 			
-			expect(testFilteredDerivationChain).toEqual("abcdefg");
-			
+			expect(testFilteredDerivationChain).toBe(null);
 		});
+	});
+	
+	describe("Tests for saveReport", function() {
+		
+		it("Expects that savedReportsController is called when a report is saved", function(){
+			view = new AQCU.view.BaseReportView({
+				template : thisTemplate,
+				selectedTimeSeries: thisSelectedTimeSeries,
+				savedReportsController: savedReportsControllerSpyObj,
+				selectorIdentifier: "testIdentifier",
+				testIdentifierFullList: testIdentifierFullList,
+				parentModel : new Backbone.Model({
+					site: {siteName: 'Test Site', siteNumber: '1234'},
+					selectedTimeSeries: thisSelectedTimeSeries,
+					dateSelection: thisDateSelection,
+					format: thisDefaultFormat
+				})
+			});	
+			
+		view.constructDisplayValuesMap = jasmine.createSpy('constructDisplayValuesMapSpy');
+		view.model.set(testParams.requestId + "FullList", testIdentifierFullList);
+		view.setRelatedTimeseries(testParams.requestId,testDerivationChain);
+		view.saveReport();
+		
+		expect(savedReportsControllerSpyObj.saveReport).toHaveBeenCalled();
+		});
+		
 	});
 });
