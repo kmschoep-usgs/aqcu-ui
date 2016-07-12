@@ -67,7 +67,8 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 				timeout: 120000,
 				dataType: "json",
 				data: {
-					stationId: site.siteNumber
+					stationId: site.siteNumber,
+					computationIdentifier: "Instantaneous"
 				},
 				context: _this,
 				success: function (data) {
