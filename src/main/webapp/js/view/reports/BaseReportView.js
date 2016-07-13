@@ -155,7 +155,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	 */
 	loadAllTimeSeriesOption : function(key) {
 		var tsSelector = this.builtSelectorFields[key];
-		var params = _.clone(this.selectorParams[key]);
+		var params = this.selectorParams[key];
 		if(params.baseField) { //this is done so that any select boxes added by subclasses do not auto load with this function
 			var _this = this;
 			this.loadTimeseriesIdentifiers(
@@ -232,7 +232,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	
 	populateTsSelect : function(selectorIdentifier) {
-		var tsSelector = _.clone(this.builtSelectorFields[selectorIdentifier]);
+		var tsSelector = this.builtSelectorFields[selectorIdentifier];
 		tsSelector.removeSelectOptions();
 		var data = this.model.get(selectorIdentifier + "FullList");
 		if(data) {
