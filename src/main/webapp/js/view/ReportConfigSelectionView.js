@@ -112,28 +112,28 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		var _this = this;
 		this.availableReports.push(AQCU.view.CorrectionsAtAGlanceReportView);
 		if (
-				_.contains(['Daily', 'Weekly'], selectedTimeSeries.period)  
+				_.contains(['daily', 'weekly'], selectedTimeSeries.period.toLowerCase())  
 				|| (
-					_.contains(['Points', 'Hourly'], selectedTimeSeries.period) 
-					&& _.contains(selectedTimeSeries.processorTypes.downChain, 'Statistics')
+					_.contains(['points', 'hourly'], selectedTimeSeries.period.toLowerCase()) 
+					&& _.contains(selectedTimeSeries.processorTypes.downChain.map(function(x) { return x.toLowerCase(); }), 'statistics')
 				)
 			) {
 			_this.availableReports.push(AQCU.view.DvHydrographReportView);
 		};
 		this.availableReports.push(AQCU.view.ExtremesReportView);
-		if (_.contains(_this.gwReportParameters, selectedTimeSeries.parameter)) {
+		if (_.contains(_this.gwReportParameters.map(function(x) { return x.toLowerCase(); }), selectedTimeSeries.parameter.toLowerCase())) {
 			_this.availableReports.push(AQCU.view.FiveYearGWSummaryReportView);
 		};
 		this.availableReports.push(AQCU.view.SensorReadingSummaryReportView);
-		if (_.contains(this.svpReportParameterLengthUnits, selectedTimeSeries.units)){
+		if (_.contains(this.svpReportParameterLengthUnits.map(function(x) { return x.toLowerCase(); }), selectedTimeSeries.units.toLowerCase())){
 			_this.availableReports.push(AQCU.view.SiteVisitPeakReportView);
 		};
-		if (_.contains(['Instantaneous','Decumulated'], selectedTimeSeries.computation) 
-				&& _.contains(['Points', 'Hourly'], selectedTimeSeries.period)) {
+		if (_.contains(['instantaneous','decumulated'], selectedTimeSeries.computation.toLowerCase()) 
+				&& _.contains(['points', 'hourly'], selectedTimeSeries.period.toLowerCase())) {
 			_this.availableReports.push(AQCU.view.UvHydrographReportView);
 		};
-		if (selectedTimeSeries.timeSeriesType === "ProcessorDerived" 
-			&& _.contains(selectedTimeSeries.processorTypes.upChain, 'RatingModel')) {
+		if (selectedTimeSeries.timeSeriesType.toLowerCase() === "processorderived" 
+			&& _.contains(selectedTimeSeries.processorTypes.upChain.map(function(x) { return x.toLowerCase(); }), 'ratingmodel')) {
 			_this.availableReports.push(AQCU.view.VDiagramReportView);
 		};
 		this.availableReportsPopulated.resolve(_this.availableReports);
