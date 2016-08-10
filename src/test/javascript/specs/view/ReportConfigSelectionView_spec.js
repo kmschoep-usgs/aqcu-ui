@@ -176,13 +176,13 @@ describe("ReportConfigSelectionView.js", function() {
 		
 		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["Statistics","ProcessorTwo"]};
 		thisSelectedTimeSeriesPT = {
-				computation: "Mean",
+				computation: "MEAN",
 				description: "fake time series for testing view",
 				identifier: "fake time series 1",
-				parameter: "Discharge",
-				timeSeriesType: "ProcessorDerived",
+				parameter: "discharge",
+				timeSeriesType: "processorderived",
 				processorTypes: testProcessors,
-				period: "Daily",
+				period: "daily",
 				primary: true,
 				publish: true,
 				uid: "br549",
@@ -224,11 +224,11 @@ describe("ReportConfigSelectionView.js", function() {
 		
 		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo"]};
 		thisSelectedTimeSeriesPT = {
-				computation: "Mean",
+				computation: "mean",
 				description: "fake time series for testing view",
 				identifier: "fake time series 1",
-				parameter: "Discharge",
-				timeSeriesType: "ProcessorDerived",
+				parameter: "DISCHARGE",
+				timeSeriesType: "processorderived",
 				processorTypes: testProcessors,
 				period: "Points",
 				primary: true,
@@ -250,10 +250,10 @@ describe("ReportConfigSelectionView.js", function() {
 				computation: "Instantaneous",
 				description: "fake time series for testing view",
 				identifier: "fake time series 1",
-				parameter: "Discharge",
-				timeSeriesType: "ProcessorDerived",
+				parameter: "discharge",
+				timeSeriesType: "PROCESSORDERIVED",
 				processorTypes: testProcessors,
-				period: "Points",
+				period: "points",
 				primary: true,
 				publish: true,
 				uid: "br549",
@@ -272,7 +272,7 @@ describe("ReportConfigSelectionView.js", function() {
 		
 		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo"]};
 		thisSelectedTimeSeriesPT = {
-				computation: "Instantaneous",
+				computation: "instantaneous",
 				description: "fake time series for testing view",
 				identifier: "fake time series 1",
 				parameter: "Discharge",
@@ -296,13 +296,13 @@ describe("ReportConfigSelectionView.js", function() {
 		
 		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo","RatingModel"]};
 		thisSelectedTimeSeriesPT = {
-				computation: "Instantaneous",
+				computation: "INSTANTANEOUS",
 				description: "fake time series for testing view",
 				identifier: "fake time series 1",
-				parameter: "Discharge",
-				timeSeriesType: "ProcessorDerived",
+				parameter: "DiScHaRgE",
+				timeSeriesType: "Processorderived",
 				processorTypes: testProcessors,
-				period: "Points",
+				period: "POINTS",
 				primary: true,
 				publish: true,
 				uid: "br549",
@@ -323,10 +323,10 @@ describe("ReportConfigSelectionView.js", function() {
 				computation: "test",
 				description: "fake time series for testing view",
 				identifier: "fake time series 1",
-				parameter: "Water level, depth LSD",
-				timeSeriesType: "ProcessorDerived",
+				parameter: "water level, DEPTH LSD",
+				timeSeriesType: "processorderived",
 				processorTypes: testProcessors,
-				period: "Points",
+				period: "PoInTs",
 				primary: true,
 				publish: true,
 				uid: "br549",
@@ -349,13 +349,13 @@ describe("ReportConfigSelectionView.js", function() {
 		
 		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo","Statistics"]};
 		thisSelectedTimeSeriesPT = {
-				computation: "test",
+				computation: "Test",
 				description: "fake time series for testing view",
 				identifier: "fake time series 1",
-				parameter: "Gage height.ft",
-				timeSeriesType: "ProcessorDerived",
+				parameter: "gage height.ft",
+				timeSeriesType: "processorDerived",
 				processorTypes: testProcessors,
-				period: "Points",
+				period: "points",
 				primary: true,
 				publish: true,
 				uid: "br549",
