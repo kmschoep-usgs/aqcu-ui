@@ -174,7 +174,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(view.availableReports).toContain(AQCU.view.VDiagramReportView);
 		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
 		
-		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["Statistics","ProcessorTwo"]};
+		testProcessors = {"upChain": ["testone","somethingelse"], "downChain": ["statistics","processortwo"]};
 		thisSelectedTimeSeriesPT = {
 				computation: "MEAN",
 				description: "fake time series for testing view",
@@ -222,7 +222,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
 		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
 		
-		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo"]};
+		testProcessors = {"upChain": ["testone","somethingelse"], "downChain": ["anotherthing","processortwo"]};
 		thisSelectedTimeSeriesPT = {
 				computation: "mean",
 				description: "fake time series for testing view",
@@ -245,7 +245,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
 		
-		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo"]};
+		testProcessors = {"upChain": ["testone","SomethingElse"], "downChain": ["ANOTHERTHING","processortwo"]};
 		thisSelectedTimeSeriesPT = {
 				computation: "Instantaneous",
 				description: "fake time series for testing view",
@@ -270,7 +270,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(view.availableReports).toContain(AQCU.view.UvHydrographReportView);
 		
 		
-		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo"]};
+		testProcessors = {"upChain": ["testOne","ratingmodel"], "downChain": ["anotherthing","ProcessorTWO"]};
 		thisSelectedTimeSeriesPT = {
 				computation: "instantaneous",
 				description: "fake time series for testing view",
@@ -294,7 +294,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
 		expect(view.availableReports).toContain(AQCU.view.UvHydrographReportView);
 		
-		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo","RatingModel"]};
+		testProcessors = {"upChain": ["testOne","somethingelse"], "downChain": ["anotherThing","processortwo","ratingmodel"]};
 		thisSelectedTimeSeriesPT = {
 				computation: "INSTANTANEOUS",
 				description: "fake time series for testing view",
@@ -318,7 +318,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
 		expect(view.availableReports).toContain(AQCU.view.UvHydrographReportView);
 		
-		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo","Statistics"]};
+		testProcessors = {"upChain": ["testOne","RATINGModel"], "downChain": ["AnotherThing","ProcessorTwo","statistics"]};
 		thisSelectedTimeSeriesPT = {
 				computation: "test",
 				description: "fake time series for testing view",
@@ -347,7 +347,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(view.availableReports).not.toContain(AQCU.view.UvHydrographReportView);
 		
 		
-		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo","Statistics"]};
+		testProcessors = {"upChain": ["testOne","RatingModel"], "downChain": ["AnotherThing","ProcessorTwo","statistics"]};
 		thisSelectedTimeSeriesPT = {
 				computation: "Test",
 				description: "fake time series for testing view",
