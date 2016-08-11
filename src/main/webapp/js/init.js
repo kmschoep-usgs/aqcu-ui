@@ -12,7 +12,7 @@ AQCU.initialize = function() {
 	  
 	// Tie in the Remedy support system
 	var $toggle = $("#display-feedback-toggle");
-        if (AQCU.constants.feedbackEmail) {
+        if (AQCU.constants.feedbackEmail && AQCU.constants.feedbackEmail !== "null") {
                 $toggle.attr({
                         'href': 'mailto:' + AQCU.constants.feedbackEmail,
                         'target': '_blank'
