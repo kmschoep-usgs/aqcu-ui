@@ -81,8 +81,6 @@
 		<script type="text/javascript" src="js/init.js"></script>
 		<script type="text/javascript">$(document).ready(AQCU.initialize);</script>
 		
-		<%-- JIRA collector --%>
-		<jsp:include page="/WEB-INF/jsp/jiracollection.jsp"></jsp:include>
 
 		<%-- Google Analytics --%>
 		<jsp:include page="/WEB-INF/jsp/analytics.jsp"></jsp:include>

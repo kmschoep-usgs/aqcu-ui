@@ -36,9 +36,6 @@
 		<script type="text/javascript" src="js/config.js"></script>
 		<script type="text/javascript" src="js/util/auth.js"></script>
 		
-		<%-- Load JIRA Collections Scripting --%>
-		<jsp:include page="/WEB-INF/jsp/jiracollection.jsp"></jsp:include>
-
 		<%-- Google Analytics --%>
 		<script type="application/javascript" src="//www2.usgs.gov/scripts/analytics/usgs-analytics.js"></script>
 		<jsp:include page="/WEB-INF/jsp/analytics.jsp"></jsp:include>

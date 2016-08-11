@@ -10,30 +10,17 @@ AQCU.initialize = function() {
 	$(document).ajaxSuccess(AQCU.router.checkSession);
 	$(document).ajaxError(AQCU.router.checkSession);
 	  
-	// Tie in the JIRA Issue Collector if we have an endpoint
+	// Tie in the Remedy support system
 	var $toggle = $("#display-feedback-toggle");
-	if ($('script[id="script-tag-jira-collection-url"]').attr('src').length) {
-		window.ATL_JQ_PAGE_PROPS = {
-			"triggerFunction": function(showCollectorDialog) {
-
-				//Requries that jQuery is available! 
-				$toggle.click(function(e) {
-					e.preventDefault();
-					showCollectorDialog();
-				});
-			}};
-	} else {
-		// If an endpoint was not found, replace mailto with an email address obtained from JNDI, if exists
-		if (AQCU.constants.feedbackEmail) {
-			$toggle.attr({
-				'href': 'mailto:' + AQCU.constants.feedbackEmail,
-				'target': '_blank'
-			});
-		} else {
-			// No feedback email found, remove entire feedback line
-			$('#footer-contact-info').remove();
-		}
-	}
+        if (AQCU.constants.feedbackEmail) {
+                $toggle.attr({
+                        'href': 'mailto:' + AQCU.constants.feedbackEmail,
+                        'target': '_blank'
+                });
+        } else {
+                // No feedback email found, remove entire feedback line
+                $('#footer-contact-info').remove();
+        }
 	
 	AQCU.util.auth.verifyLoggedIn();
 };
