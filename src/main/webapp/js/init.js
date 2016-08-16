@@ -12,9 +12,9 @@ AQCU.initialize = function() {
 	  
 	// Tie in the Remedy support system
 	var $toggle = $("#display-feedback-toggle");
-        if (AQCU.constants.feedbackEmail && AQCU.constants.feedbackEmail !== "null") {
+        if (AQCU.constants.helpEmail && AQCU.constants.helpEmail !== null) {
                 $toggle.attr({
-                        'href': 'mailto:' + AQCU.constants.feedbackEmail,
+                        'href': 'mailto:' + AQCU.constants.helpEmail,
                         'target': '_blank'
                 });
         } else {

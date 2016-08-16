@@ -8,7 +8,6 @@
 	AQCU.constants = {
 		nwisRaHome: '<%=AqcuConfigurationLoaderSingleton.getProperty("nwis-ra.home")%>',
 		serviceEndpoint: '<%=AqcuConfigurationLoaderSingleton.getProperty("aqcu.reports.webservice")%>',
-                feedbackEmail: '<%=AqcuConfigurationLoaderSingleton.getProperty("nwis/feedbackEmail")%>',
                 helpEmail: '<%=AqcuConfigurationLoaderSingleton.getProperty("nwis/helpEmail")%>'
 	};
 </script>
