@@ -3,8 +3,8 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	reportAbbreviation: "UV",
 	reportType: "uvhydrograph",
 	optionalRelatedTimeseriesConfig: [{
-			requestId: "secondaryTimeseriesIdentifier",
-			display: "Secondary Time Series",
+			requestId: "referenceTimeseriesIdentifier",
+			display: "Reference Time Series",
 			direction: "downchain",
 			publish: 'true',
 			computation: 'Instantaneous',
@@ -53,7 +53,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		},{ 
 			requestId: "secondaryRatingModelIdentifier", 
 			display: "Secondary Rating Model", 
-			bindTo: "secondaryTimeseriesIdentifier"
+			bindTo: "referenceTimeseriesIdentifier"
 	}],
 	
 	initialize: function() {
