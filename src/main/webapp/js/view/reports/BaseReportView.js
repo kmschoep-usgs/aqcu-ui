@@ -8,6 +8,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	requiredRatingModels: [],
 	optionalRelatedTimeseriesConfig: [],
 	optionalRatingModels: [],
+        excludedCorrections: [],
 	
 	events: {
 		'click .report-card-header': 'applyReportOptions'
@@ -112,7 +113,39 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		for(var i = 0; i < this.optionalRatingModels.length; i++) {
 			this.createRatingModelDisplay(this.optionalRatingModels[i], false);
 		}
+                
+                this.createCorrectionExclusionSelector();
+                this.bindToCorrectionExclusionSelectors(this.updateExcludedCorrections, this);
 	},
+        
+        //create exclude delete corrections filter
+	createCorrectionExclusionSelector: function() {
+		var excludeCorrectionField = $("<div><div><div class='row field-container'>" +
+				
+				"<div class='col-sm-5 col-md-5 col-lg-5'>" +
+				"<label for='excludedCorrections'>Exclude Corrections</label><br>" +
+				"</div>" +
+				
+				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
+				"<label><input class='excludeDeleteRegion' name='excludeDeleteRegion' type='checkbox'>Exclude Delete Region Corrections</label>" +
+				"</div>" +
+				
+				"</div></div></div>");//not sure this warrants using a template YET
+		this.model.set("excludeDeleteRegion", false);
+		$.extend(this.bindings, {
+			".excludeDeleteRegion" : "excludeDeleteRegion"
+		});
+		this.advancedOptionsContainer.append(excludeCorrectionField);
+	},
+        
+        bindToCorrectionExclusionSelectors: function(bindFunc, scope) {
+		this.model.bind("change:excludeDeleteRegion", bindFunc, scope);
+	},
+        
+        updateExcludedCorrections: function() {
+                this.excludedCorrections = [];
+                this.excludedCorrections.push(this.model.get("excludeDeleteRegion")?"DELETE_REGION":null);
+        },
 	
 	createTimeseriesSelectionBox : function(params, isRequired) {
 		var container = this.advancedOptionsContainer;
@@ -542,7 +575,9 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		
 		if(this.model.get("dateSelection").lastMonths) 
 			reportOptions.lastMonths = this.model.get("dateSelection").lastMonths;
-			
+                    
+                //excluded corrections
+                        reportOptions.excludedCorrections = this.excludedCorrections.join(',');
 		
 		return reportOptions;
 	},
