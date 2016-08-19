@@ -10,8 +10,8 @@ AQCU.view.CorrectionsAtAGlanceReportView = AQCU.view.BaseReportView.extend({
                 this.createCorrectionExclusionSelector();
                 this.bindToCorrectionExclusionSelectors(this.updateExcludedCorrections, this);
 	},
-        
-        //create exclude delete corrections filter
+	
+	//create exclude delete corrections filter
 	createCorrectionExclusionSelector: function() {
 		var excludeCorrectionField = $("<div><div><div class='row field-container'>" +
 				
@@ -31,21 +31,21 @@ AQCU.view.CorrectionsAtAGlanceReportView = AQCU.view.BaseReportView.extend({
 		this.advancedOptionsContainer.append(excludeCorrectionField);
 	},
         
-        bindToCorrectionExclusionSelectors: function(bindFunc, scope) {
+	bindToCorrectionExclusionSelectors: function(bindFunc, scope) {
 		this.model.bind("change:excludeDeleteRegion", bindFunc, scope);
 	},
         
-        updateExcludedCorrections: function() {
-                this.excludedCorrections = [];
-                this.excludedCorrections.push(this.model.get("excludeDeleteRegion")?"DELETE_REGION":null);
-        },
+	updateExcludedCorrections: function() {
+			this.excludedCorrections = [];
+			this.excludedCorrections.push(this.model.get("excludeDeleteRegion")?"DELETE_REGION":null);
+	},
         
-        constructReportOptions: function() {
+	constructReportOptions: function() {
 		var reportOptions = AQCU.view.BaseReportView.prototype.constructReportOptions.apply(this, arguments);
 		if(this.excludedCorrections.length > 0) {
-                        reportOptions.excludedCorrections = this.excludedCorrections.join(',');
+						reportOptions.excludedCorrections = this.excludedCorrections.join(',');
 		}
-                
- 		return reportOptions;
+
+		return reportOptions;
 	}
 });
