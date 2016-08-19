@@ -8,7 +8,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	requiredRatingModels: [],
 	optionalRelatedTimeseriesConfig: [],
 	optionalRatingModels: [],
-        excludedCorrections: [],
 	
 	events: {
 		'click .report-card-header': 'applyReportOptions'
@@ -113,7 +112,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		for(var i = 0; i < this.optionalRatingModels.length; i++) {
 			this.createRatingModelDisplay(this.optionalRatingModels[i], false);
 		}
-                
 	},
 	
 	createTimeseriesSelectionBox : function(params, isRequired) {
@@ -544,10 +542,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		
 		if(this.model.get("dateSelection").lastMonths) 
 			reportOptions.lastMonths = this.model.get("dateSelection").lastMonths;
-                    
-                //excluded corrections
-                        reportOptions.excludedCorrections = this.excludedCorrections.join(',');
-		
+                    		
 		return reportOptions;
 	},
 	

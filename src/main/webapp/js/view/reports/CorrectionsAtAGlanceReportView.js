@@ -2,6 +2,7 @@ AQCU.view.CorrectionsAtAGlanceReportView = AQCU.view.BaseReportView.extend({
 	reportName: "Corrections at a Glance", 
 	reportAbbreviation: "CORR",
 	reportType: "correctionsataglance",
+        excludedCorrections: [],
         
         buildAdvancedOptions: function() {
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
@@ -37,5 +38,14 @@ AQCU.view.CorrectionsAtAGlanceReportView = AQCU.view.BaseReportView.extend({
         updateExcludedCorrections: function() {
                 this.excludedCorrections = [];
                 this.excludedCorrections.push(this.model.get("excludeDeleteRegion")?"DELETE_REGION":null);
-        }
+        },
+        
+        constructReportOptions: function() {
+		var reportOptions = AQCU.view.BaseReportView.prototype.constructReportOptions.apply(this, arguments);
+		if(this.excludedCorrections.length > 0) {
+                        reportOptions.excludedCorrections = this.excludedCorrections.join(',');
+		}
+                
+ 		return reportOptions;
+	}
 });
