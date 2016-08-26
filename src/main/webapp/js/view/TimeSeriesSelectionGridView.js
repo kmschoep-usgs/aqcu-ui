@@ -18,6 +18,11 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		"click .remove-reports-btn": "removeReportCards"
 	},
 	
+	visibleComputations: [
+		"Decumulated",
+		"Instantaneous"
+	],
+	
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
@@ -67,14 +72,15 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 				timeout: 120000,
 				dataType: "json",
 				data: {
-					stationId: site.siteNumber,
-					computationIdentifier: "Instantaneous"
+					stationId: site.siteNumber
 				},
 				context: _this,
 				success: function (data) {
 					var sortedArray = [];
 					for (var opt in data) {
-						sortedArray.push([opt, data[opt]]);
+						if(this.isVisibleComputation(data[opt].computation)) {
+							sortedArray.push([opt, data[opt]]);
+						}
 					}
 					sortedArray.sort(function (a, b) {
 						if (a[1].identifier > b[1].identifier) {
@@ -103,6 +109,15 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		}
 	},
 	
+	isVisibleComputation: function(input) {
+		for(var i=0; i < this.visibleComputations.length; i++) {
+			if(input.includes(this.visibleComputations[i])) {
+				return true;
+			}			
+		}
+		return false;
+	},
+		
 	afterRender: function() {
 		this.stickit();
 	},
