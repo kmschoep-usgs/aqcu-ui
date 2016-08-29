@@ -7,12 +7,13 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Upchain Time Series",
 			direction: "upchain",
 			required: true,
+			requiredFor: "discharge",
 			publish: 'true',
 			computation: 'Instantaneous',
 			period: 'Points',
 			dynamicParameter: 'true'
 		},{
-		requestId: "referenceTimeseriesIdentifier",
+			requestId: "referenceTimeseriesIdentifier",
 			display: "Reference Time Series",
 			direction: "downchain",
 			required: false,
@@ -103,6 +104,13 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 	buildAdvancedOptions: function() {
+		//Make upchain optional if this is not a discharge UV Hydro
+		if(!this.model.get("selectedTimeSeries").parameter.toLowerCase().includes("discharge")) {
+			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = false;
+		} else {
+			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = true;
+		}
+		
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
 		this.createComparisonSiteSelector();
 		this.createComparisonTimeseriesSelector();
@@ -191,8 +199,34 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		}, this) 
 		return displayValues;
 	},
-	
-	
+
+	validate: function() {
+		var valid = true;
+		
+		//Make upchain optional if this is not a discharge UV Hydro
+		if(!this.model.get("selectedTimeSeries").parameter.toLowerCase().includes("discharge")) {
+			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = false;
+		} else {
+			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = true;
+		}
+		
+		//check required time series ids
+		for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
+			if(!this.model.get(this.relatedTimeseriesConfig[i].requestId) && this.relatedTimeseriesConfig[i].required) {
+				return false;
+			}
+		}
+		
+		//check required rating models
+		for(var i = 0; i < this.ratingModels.length; i++) {
+			if(!this.model.get(this.ratingModels[i].requestId) && this.ratingModels[i].required) {
+				return false;
+			}
+		}
+		
+		return valid;
+	},
+
 	constructReportOptions: function() {
 		var reportOptions = AQCU.view.BaseReportView.prototype.constructReportOptions.apply(this, arguments);
 		if(this.model.get("comparisonStation")) {
