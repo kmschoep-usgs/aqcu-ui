@@ -2,19 +2,20 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	reportName: "DV Hydrograph", 
 	reportAbbreviation: "DV",
 	reportType: "dvhydrograph",
-	requiredRelatedTimeseriesConfig: [{
+	relatedTimeseriesConfig: [{
 			requestId: "firstDownChainIdentifier",
 			display: "First Downchain Stat Derived Time Series",
 			direction: "downchain",
+			required: true,
 			defaultComputation: "Mean",
 			publish: 'true',
 			period: 'Daily',
 			dynamicParameter: 'true'
-		}],
-	optionalRelatedTimeseriesConfig: [{
+		}, {
 			requestId: "secondDownChainIdentifier",
 			display: "Second Downchain Stat Derived Time Series",
 			direction: "downchain",
+			required: false,
 			defaultComputation: "Max",
 			publish: 'true',
 			period: 'Daily',
@@ -23,6 +24,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			requestId: "thirdDownChainIdentifier",
 			display: "Third Downchain Stat Derived Time Series",
 			direction: "downchain",
+			required: false,
 			defaultComputation: "Min",
 			publish: 'true',
 			period: 'Daily',
@@ -31,6 +33,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			requestId: "secondaryReferenceIdentifier",
 			display: "Secondary Reference Time Series",
 			direction: "downchain",
+			required: false,
 			//defaultComputation: "Mean",
 			publish: 'true',
 			period: 'Daily'
@@ -38,6 +41,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			requestId: "tertiaryReferenceIdentifier",
 			display: "Tertiary Reference Time Series",
 			direction: "downchain",
+			required: false,
 			//defaultComputation: "Mean",
 			publish: 'true',
 			period: 'Daily'
@@ -45,10 +49,11 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			requestId: "quaternaryReferenceIdentifier",
 			display: "Quaternary Reference Time Series",
 			direction: "downchain",
+			required: false,
 			//defaultComputation: "Mean",
 			publish: 'true',
 			period: 'Daily'
-		}],
+	}],
 	
 	initialize: function() {
 		AQCU.view.BaseReportView.prototype.initialize.apply(this, arguments);
@@ -59,25 +64,13 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	loadAllRequiredTimeseries: function (params) {
 		var _this = this;
 		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
-				&& _.find(this.requiredRelatedTimeseriesConfig, function(ts){
+				&& _.find(this.relatedTimeseriesConfig, function(ts){
 					if (ts.requestId === params.requestId) {
 					return true
 					} else
 						return false
 				})
 			){
-			_this.loadRelatedTimeseries(params).done(function(derivationChains){
-				_this.setRelatedTimeseries(params.requestId, derivationChains);
-			});
-		}
-		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
-				&& _.find(this.optionalRelatedTimeseriesConfig, function(ts){
-					if (ts.requestId === params.requestId) {
-						return true
-						} else
-							return false
-				})
-				) {
 			_this.loadRelatedTimeseries(params).done(function(derivationChains){
 				_this.setRelatedTimeseries(params.requestId, derivationChains);
 			});

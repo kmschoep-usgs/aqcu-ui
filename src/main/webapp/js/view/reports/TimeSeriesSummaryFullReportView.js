@@ -2,10 +2,11 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 	reportName: "Time Series Summary", 
 	reportAbbreviation: "TSS",
 	reportType: "timeseriessummary",
-	optionalRelatedTimeseriesConfig: [{
+	relatedTimeseriesConfig: [{
 		requestId: "upchainTimeseriesIdentifier",
 		display: "Upchain Time Series",
 		direction: "upchain",
+		required: false,
 		publish: 'true',
 		computation: 'Instantaneous',
 		period: 'Points'
@@ -13,6 +14,7 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 		requestId: "derivedMeanTimeseriesIdentifier",
 		display: "Daily Mean",
 		direction: "downchain",
+		required: false,
 		publish: 'true',
 		computation: 'Mean',
 		period: 'Daily'
@@ -20,6 +22,7 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 		requestId: "derivedMaxTimeseriesIdentifier",
 		display: "Daily Max",
 		direction: "downchain",
+		required: false,
 		publish: 'true',
 		computation: 'Max',
 		period: 'Daily'
@@ -27,6 +30,7 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 		requestId: "derivedMinTimeseriesIdentifier",
 		display: "Daily Min",
 		direction: "downchain",
+		required: false,
 		publish: 'true',
 		computation: 'Min',
 		period: 'Daily'
@@ -34,13 +38,15 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 		requestId: "derivedMedianTimeseriesIdentifier",
 		display: "Daily Median",
 		direction: "downchain",
+		required: false,
 		publish: 'true',
 		computation: 'Median',
 		period: 'Daily'
 	}],
-	optionalRatingModels: [{ 
+	ratingModels: [{ 
 		requestId: "ratingModelIdentifier", 
 		display: "Primary Rating Model", 
+		required: false,
 		bindTo: "primaryTimeseriesIdentifier"
 	}]
 });

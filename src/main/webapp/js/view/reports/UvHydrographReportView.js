@@ -2,25 +2,29 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	reportName: "UV Hydrograph", 
 	reportAbbreviation: "UV",
 	reportType: "uvhydrograph",
-	optionalRelatedTimeseriesConfig: [{
-			requestId: "referenceTimeseriesIdentifier",
+	relatedTimeseriesConfig: [{
+			requestId: "upchainTimeseriesIdentifier",
+			display: "Upchain Time Series",
+			direction: "upchain",
+			required: true,
+			publish: 'true',
+			computation: 'Instantaneous',
+			period: 'Points',
+			dynamicParameter: 'true'
+		},{
+		requestId: "referenceTimeseriesIdentifier",
 			display: "Reference Time Series",
 			direction: "downchain",
+			required: false,
 			publish: 'true',
 			computation: 'Instantaneous',
 			period: 'Points',
 			skipAutoLoad: true
 		},{
-			requestId: "upchainTimeseriesIdentifier",
-			display: "Upchain Time Series",
-			direction: "upchain",
-			publish: 'true',
-			computation: 'Instantaneous',
-			period: 'Points'
-		},{
 			requestId: "derivedMeanTimeseriesIdentifier",
 			display: "Daily Mean",
 			direction: "downchain",
+			required: false,
 			publish: 'true',
 			computation: 'Mean',
 			period: 'Daily'
@@ -28,6 +32,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			requestId: "derivedMaxTimeseriesIdentifier",
 			display: "Daily Max",
 			direction: "downchain",
+			required: false,
 			publish: 'true',
 			computation: 'Max',
 			period: 'Daily'
@@ -35,6 +40,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			requestId: "derivedMinTimeseriesIdentifier",
 			display: "Daily Min",
 			direction: "downchain",
+			required: false,
 			publish: 'true',
 			computation: 'Min',
 			period: 'Daily'
@@ -42,17 +48,20 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			requestId: "derivedMedianTimeseriesIdentifier",
 			display: "Daily Median",
 			direction: "downchain",
+			required: false,
 			publish: 'true',
 			computation: 'Median',
 			period: 'Daily'
-		}],
-	optionalRatingModels: [{ 
+	}],
+	ratingModels: [{ 
 			requestId: "ratingModelIdentifier", 
 			display: "Primary Rating Model", 
+			required: false,
 			bindTo: "primaryTimeseriesIdentifier"
 		},{ 
 			requestId: "secondaryRatingModelIdentifier", 
 			display: "Secondary Rating Model", 
+			required: false,
 			bindTo: "referenceTimeseriesIdentifier"
 	}],
 	

@@ -2,16 +2,22 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 	reportName: "V-Diagram", 
 	reportAbbreviation: "VDI",
 	reportType: "vdiagram",
-	requiredRelatedTimeseriesConfig: [{
+	relatedTimeseriesConfig: [{
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Gage Height",
 			parameter: "Gage height",
 			direction: "upchain",
+			required: true,
 			publish: 'true',
 			computation: 'Instantaneous',
 			period: 'Points'
 		}],
-	requiredRatingModels: [{ requestId: "ratingModelIdentifier", display: "Primary Rating Model", bindTo: "primaryTimeseriesIdentifier"}],
+	ratingModels: [{ 
+			requestId: "ratingModelIdentifier", 
+			display: "Primary Rating Model", 
+			required: true,
+			bindTo: "primaryTimeseriesIdentifier"
+		}],
 	
 	removeSelectFields: function() {
 		if(this.priorYearsHistoric){

@@ -4,10 +4,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	reportAbbreviation: null, //short name for reports
 	defaultFormat: 'html',
 	selectedTimeSeries: null, //array of json objects describing selected timeseries, this array is ordered
-	requiredRelatedTimeseriesConfig: [], //override this
-	requiredRatingModels: [],
-	optionalRelatedTimeseriesConfig: [],
-	optionalRatingModels: [],
+	relatedTimeseriesConfig: [], //override this
+	ratingModels: [],
 	
 	events: {
 		'click .report-card-header': 'applyReportOptions'
@@ -94,27 +92,20 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		this.builtSelectorFields = {};
 		this.selectorParams = {};
 		
-		if(this.requiredRelatedTimeseriesConfig.length || this.optionalRelatedTimeseriesConfig.length) {
+		if(this.relatedTimeseriesConfig.length) {
 			this.createPrimaryPublishFilters();
 		}
 		
-		for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
-			this.createTimeseriesSelectionBox($.extend(this.requiredRelatedTimeseriesConfig[i], { baseField: true }), true);
+		for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
+			this.createTimeseriesSelectionBox($.extend(this.relatedTimeseriesConfig[i], { baseField: true }));
 		}
 		
-		for(var i = 0; i < this.requiredRatingModels.length; i++) {
-			this.createRatingModelDisplay(this.requiredRatingModels[i], true);
-		}
-		for(var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
-			this.createTimeseriesSelectionBox($.extend(this.optionalRelatedTimeseriesConfig[i], { baseField: true }), false);
-		}
-
-		for(var i = 0; i < this.optionalRatingModels.length; i++) {
-			this.createRatingModelDisplay(this.optionalRatingModels[i], false);
+		for(var i = 0; i < this.ratingModels.length; i++) {
+			this.createRatingModelDisplay(this.reatingModels[i], true);
 		}
 	},
 	
-	createTimeseriesSelectionBox : function(params, isRequired) {
+	createTimeseriesSelectionBox : function(params) {
 		var container = this.advancedOptionsContainer;
 		
 		this.bindToPrimPubFilters(function() { 
@@ -128,7 +119,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			model: this.model,
 			fieldConfig: {
 				fieldName : params.requestId,
-				displayName : params.display + (isRequired ? " *" : ""),
+				displayName : params.display + (params.required ? " *" : ""),
 				description : ""
 			},
 			renderTo: newContainer,
@@ -268,7 +259,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		}
 	},
 	
-	createRatingModelDisplay : function(params, isRequired) {
+	createRatingModelDisplay : function(params) {
 		var container = this.advancedOptionsContainer;
 		var newContainer = $("<div>");
 		var	ratingModelText  = new AQCU.view.TextField({
@@ -277,7 +268,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			fieldConfig: {
 				fieldName : params.requestId,
 				readOnly: "readonly",
-				displayName : params.display + (isRequired ? " *" : ""),
+				displayName : params.display + (params.required ? " *" : ""),
 				description : "",
 				placeHolderText: "No rating model found"
 			},
@@ -309,7 +300,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	loadAllRequiredTimeseries: function (params) {
 		var _this = this;
 		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
-				&& _.find(this.requiredRelatedTimeseriesConfig, function(ts){
+				&& _.find(this.relatedTimeseriesConfig, function(ts){
 					if (ts.requestId === params.requestId) {
 					return true
 					} else
@@ -320,23 +311,10 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				_this.setRelatedTimeseries(params.requestId, derivationChains);
 			});
 		}
-		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
-				&& _.find(this.optionalRelatedTimeseriesConfig, function(ts){
-					if (ts.requestId === params.requestId) {
-						return true
-						} else
-							return false
-				})
-				) {
-			_this.loadRelatedTimeseries(params).done(function(derivationChains){
-				_this.setRelatedTimeseries(params.requestId, derivationChains);
-			});
-		}
 	},	
 	
 	loadRelatedTimeseries: function(params){
 		var _this = this;
-		var tsconfig = this.requiredRelatedTimeseriesConfig;
 		var loadRelatedTimeseriesFetched = $.Deferred();
 		if(params.skipAutoLoad) {
 			loadRelatedTimeseriesFetched.resolve(null);
@@ -406,25 +384,15 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 
 	clearRatingModels: function(){
-		for(var i = 0; i < this.requiredRatingModels.length; i++) {
-			this.model.set(this.requiredRatingModels[i].requestId, null);
-		}
-		for(var i = 0; i < this.optionalRatingModels.length; i++) {
-			this.model.set(this.optionalRatingModels[i].requestId, null);
+		for(var i = 0; i < this.ratingModels.length; i++) {
+			this.model.set(this.ratingModels[i].requestId, null);
 		}
 	},
 	
 	//automatically load rating models based on the bound timeseries selection
 	bindAllRatingModels: function() {
-		//required
-		for(var i = 0; i < this.requiredRatingModels.length; i++) {
-			this.bindRatingModel(this.requiredRatingModels[i]);
-			
-		}
-
-		//optional
-		for(var i = 0; i < this.optionalRatingModels.length; i++) {
-			this.bindRatingModel(this.optionalRatingModels[i]);
+		for(var i = 0; i < this.ratingModels.length; i++) {
+			this.bindRatingModel(this.ratingModels[i]);
 		}
 	},
 	
@@ -507,25 +475,14 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			primaryTimeseriesIdentifier: this.model.get("primaryTimeseriesIdentifier")
 		};
 
-		//attach required time series selections
-		for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
-			reportOptions[this.requiredRelatedTimeseriesConfig[i].requestId] = this.model.get(this.requiredRelatedTimeseriesConfig[i].requestId);
+		//attach time series selections
+		for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
+			reportOptions[this.relatedTimeseriesConfig[i].requestId] = this.model.get(this.relatedTimeseriesConfig[i].requestId);
 		}
 		
-		//attach required rating model selections
-		for(var i = 0; i < this.requiredRatingModels.length; i++) {
-			reportOptions[this.requiredRatingModels[i].requestId] = this.model.get(this.requiredRatingModels[i].requestId);
-		}
-		
-
-		//attach required time series selections
-		for(var i = 0; i < this.optionalRelatedTimeseriesConfig.length; i++) {
-			reportOptions[this.optionalRelatedTimeseriesConfig[i].requestId] = this.model.get(this.optionalRelatedTimeseriesConfig[i].requestId);
-		}
-		
-		//attach required rating model selections
-		for(var i = 0; i < this.optionalRatingModels.length; i++) {
-			reportOptions[this.optionalRatingModels[i].requestId] = this.model.get(this.optionalRatingModels[i].requestId);
+		//attach rating model selections
+		for(var i = 0; i < this.ratingModels.length; i++) {
+			reportOptions[this.ratingModels[i].requestId] = this.model.get(this.ratingModels[i].requestId);
 		}
 		
 		//date and site
@@ -550,15 +507,15 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		var valid = true;
 		
 		//check required time series ids
-		for(var i = 0; i < this.requiredRelatedTimeseriesConfig.length; i++) {
-			if(!this.model.get(this.requiredRelatedTimeseriesConfig[i].requestId)) {
+		for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
+			if(!this.model.get(this.relatedTimeseriesConfig[i].requestId) && this.relatedTimeseriesConfig[i].required) {
 				return false;
 			}
 		}
 		
 		//check required rating models
-		for(var i = 0; i < this.requiredRatingModels.length; i++) {
-			if(!this.model.get(this.requiredRatingModels[i].requestId)) {
+		for(var i = 0; i < this.ratingModels.length; i++) {
+			if(!this.model.get(this.ratingModels[i].requestId && this.ratingModels[i].required)) {
 				return false;
 			}
 		}
