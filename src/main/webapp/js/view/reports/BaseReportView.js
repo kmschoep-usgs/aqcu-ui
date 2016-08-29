@@ -101,7 +101,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		}
 		
 		for(var i = 0; i < this.ratingModels.length; i++) {
-			this.createRatingModelDisplay(this.reatingModels[i], true);
+			this.createRatingModelDisplay(this.ratingModels[i], true);
 		}
 	},
 	
@@ -515,7 +515,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		
 		//check required rating models
 		for(var i = 0; i < this.ratingModels.length; i++) {
-			if(!this.model.get(this.ratingModels[i].requestId && this.ratingModels[i].required)) {
+			if(!this.model.get(this.ratingModels[i].requestId) && this.ratingModels[i].required) {
 				return false;
 			}
 		}
