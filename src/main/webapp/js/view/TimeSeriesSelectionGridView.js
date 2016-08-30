@@ -78,9 +78,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 				success: function (data) {
 					var sortedArray = [];
 					for (var opt in data) {
-						if(this.isVisibleComputation(data[opt].computation)) {
-							sortedArray.push([opt, data[opt]]);
-						}
+						sortedArray.push([opt, data[opt]]);
 					}
 					sortedArray.sort(function (a, b) {
 						if (a[1].identifier > b[1].identifier) {
@@ -137,7 +135,13 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 
 			if(this.model.get("filterPrimary") && !newRec.primary) {
 				includeRec = false;
-			}	
+			}
+			
+			if(!this.isVisibleComputation(newRec.computation))
+			{
+				includeRec = false;
+			}
+			
 			if(includeRec) {
 				newRec["identifier"] = newRec["identifier"].split("@",1)[0]
 				filteredList.push(newRec);
