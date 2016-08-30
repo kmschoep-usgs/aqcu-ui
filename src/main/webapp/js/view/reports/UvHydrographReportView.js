@@ -67,6 +67,16 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	initialize: function() {
 		AQCU.view.BaseReportView.prototype.initialize.apply(this, arguments);
 		this.model.bind("change:selectedTimeSeries", function() { this.loadAllTimeSeriesOptions() }, this); //additional event handler
+		this.model.bind("change:selectedTimeSeries", function() { this.updateRequiredTimeseries() }, this); //additional event handler
+	},
+	
+	updateRequiredTimeseries: function() {
+		//Make upchain optional if this is not a discharge UV Hydro
+		if(!this.model.get("selectedTimeSeries").parameter.toLowerCase().includes("discharge")) {
+			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = false;
+		} else {
+			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = true;
+		}
 	},
 	
 	loadAllRequiredTimeseries: function (params) {
@@ -196,20 +206,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			}
 		}, this) 
 		return displayValues;
-	},
-
-	validate: function() {
-		
-		//Make upchain optional if this is not a discharge UV Hydro
-		if(!this.model.get("selectedTimeSeries").parameter.toLowerCase().includes("discharge")) {
-			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = false;
-		} else {
-			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = true;
-		}
-		
-		var valid = AQCU.view.BaseReportView.prototype.validate.apply(this, arguments);
-		
-		return valid;
 	},
 
 	constructReportOptions: function() {
