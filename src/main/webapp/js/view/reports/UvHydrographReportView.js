@@ -9,8 +9,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			required: true,
 			publish: 'true',
 			computation: 'Instantaneous',
-			period: 'Points',
-			dynamicParameter: 'true'
+			period: 'Points'
 		},{
 			requestId: "referenceTimeseriesIdentifier",
 			display: "Reference Time Series",
@@ -73,7 +72,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	loadAllRequiredTimeseries: function (params) {
 		var _this = this;
 		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")
-				&& _.find(this.optionalRelatedTimeseriesConfig, function(ts){
+				&& _.find(this.relatedTimeseriesConfig, function(ts){
 					if (ts.requestId === params.requestId) {
 						return true
 						} else
