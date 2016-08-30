@@ -7,6 +7,7 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 			display: "First Downchain Stat Derived Time Series",
 			direction: "downchain",
 			required: true,
+			defaultComputation: "Mean",
 			publish: 'true',
 			period: 'Daily',
 			dynamicParameter: 'true'
@@ -43,6 +44,5 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 			AQCU.view.BaseReportView.prototype.loadAllTimeSeriesOptions.apply(this, arguments);
 		}
 	}
-	
 });
 
