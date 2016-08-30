@@ -6,7 +6,7 @@ AQCU.view.ExtremesReportView = AQCU.view.BaseReportView.extend({
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Upchain Series",
 			direction: "upchain",
-			required: true,
+			required: false,
 			publish: 'true',
 			computation: 'Instantaneous',
 			period: 'Points'

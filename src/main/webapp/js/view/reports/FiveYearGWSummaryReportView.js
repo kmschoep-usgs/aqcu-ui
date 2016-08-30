@@ -6,7 +6,7 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 			requestId: "firstDownChainIdentifier",
 			display: "First Downchain Stat Derived Time Series",
 			direction: "downchain",
-			required: true,
+			required: false,
 			publish: 'true',
 			period: 'Daily',
 			dynamicParameter: 'true'

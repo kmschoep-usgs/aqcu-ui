@@ -7,7 +7,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Upchain Time Series",
 			direction: "upchain",
 			required: true,
-			requiredFor: "discharge",
 			publish: 'true',
 			computation: 'Instantaneous',
 			period: 'Points',
@@ -201,7 +200,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 
 	validate: function() {
-		var valid = true;
 		
 		//Make upchain optional if this is not a discharge UV Hydro
 		if(!this.model.get("selectedTimeSeries").parameter.toLowerCase().includes("discharge")) {
@@ -210,19 +208,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = true;
 		}
 		
-		//check required time series ids
-		for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
-			if(!this.model.get(this.relatedTimeseriesConfig[i].requestId) && this.relatedTimeseriesConfig[i].required) {
-				return false;
-			}
-		}
-		
-		//check required rating models
-		for(var i = 0; i < this.ratingModels.length; i++) {
-			if(!this.model.get(this.ratingModels[i].requestId) && this.ratingModels[i].required) {
-				return false;
-			}
-		}
+		var valid = AQCU.view.BaseReportView.prototype.validate.apply(this, arguments);
 		
 		return valid;
 	},
