@@ -66,8 +66,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	
 	initialize: function() {
 		AQCU.view.BaseReportView.prototype.initialize.apply(this, arguments);
-		this.model.bind("change:selectedTimeSeries", function() { this.loadAllTimeSeriesOptions() }, this); //additional event handler
-		this.model.bind("change:selectedTimeSeries", function() { this.updateRequiredTimeseries() }, this); //additional event handler
+		this.model.bind("change:selectedTimeSeries", function() { this.loadAllTimeSeriesOptions(); }, this); //additional event handler
 	},
 	
 	updateRequiredTimeseries: function() {
@@ -112,16 +111,17 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 	buildAdvancedOptions: function() {
-		//Make upchain optional if this is not a discharge UV Hydro
-		if(!this.model.get("selectedTimeSeries").parameter.toLowerCase().includes("discharge")) {
-			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = false;
-		} else {
-			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = true;
-		}
+		this.updateRequiredTimeseries();
 		
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
 		this.createComparisonSiteSelector();
 		this.createComparisonTimeseriesSelector();
+	},
+	
+	validate: function() {
+		this.updateRequiredTimeseries();
+		
+		return AQCU.view.BaseReportView.prototype.validate.apply(this, arguments);;
 	},
 	
 	createComparisonSiteSelector: function() {
