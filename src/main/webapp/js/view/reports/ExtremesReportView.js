@@ -14,7 +14,7 @@ AQCU.view.ExtremesReportView = AQCU.view.BaseReportView.extend({
 			requestId: "derivedTimeseriesIdentifier",
 			display: "Daily Value",
 			direction: "downchain",
-			required: true,
+			required: false,
 			defaultComputation: "Mean", //note this parameter is used to load a default since we aren't specifying a computation filter
 			publish: 'true',
 			period: 'Daily'
