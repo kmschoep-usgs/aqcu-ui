@@ -92,7 +92,7 @@ AQCU.util.auth = function() {
 		},
 		
 		redirectFunction : function(){
-			var currentToken = AQCU.util.auth.logout();
+			var currentToken = AQCU.util.auth.getAuthToken();
 			if(!currentToken) {
 				window.location = AQCU.constants.nwisRaHome + "/login.jsp";
 			} else {
