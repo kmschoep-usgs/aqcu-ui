@@ -20,28 +20,28 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			period: 'Points',
 			skipAutoLoad: true
 		},{
-			requestId: "derivedMeanTimeseriesIdentifier",
-			display: "Daily Mean",
+			requestId: "firstDownChainIdentifier",
+			display: "First Downchain Stat Derived Time Series",
 			direction: "downchain",
 			required: false,
 			publish: 'true',
-			computation: 'Mean',
+			defaultComputation: 'Mean',
 			period: 'Daily'
 		},{
-			requestId: "derivedMaxTimeseriesIdentifier",
-			display: "Daily Max",
+			requestId: "secondDownChainIdentifier",
+			display: "Second Downchain Stat Derived Time Series",
 			direction: "downchain",
 			required: false,
 			publish: 'true',
-			computation: 'Max',
+			defaultComputation: 'Max',
 			period: 'Daily'
 		},{
-			requestId: "derivedMinTimeseriesIdentifier",
-			display: "Daily Min",
+			requestId: "thirdDownChainIdentifier",
+			display: "Third Downchain Stat Derived Time Series",
 			direction: "downchain",
 			required: false,
 			publish: 'true',
-			computation: 'Min',
+			defaultComputation: 'Min',
 			period: 'Daily'
 		},{
 			requestId: "derivedMedianTimeseriesIdentifier",
@@ -49,7 +49,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			direction: "downchain",
 			required: false,
 			publish: 'true',
-			computation: 'Median',
+			defaultComputation: 'Median',
 			period: 'Daily'
 	}],
 	ratingModels: [{ 
