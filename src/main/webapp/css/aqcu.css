@@ -452,7 +452,16 @@ category-tip-target {
 	font-size: large;
 	position: absolute;
 	right: 1.25em;
-	top: 25px;
+	top: 2.5em;
+	cursor: pointer;
+	color: #808080;
+}
+
+.export-saved-report {
+	font-size: large;
+	position: absolute;
+	right: 1.1em;
+	top: 1em;
 	cursor: pointer;
 	color: #808080;
 }

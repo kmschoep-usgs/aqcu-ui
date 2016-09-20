@@ -25,6 +25,7 @@
 								title="{{#SavedReportsHoverText this}}{{/SavedReportsHoverText}}">
 								<div class="saved-report-desc" index="{{@index}}">{{#SavedReportsDisplayText this}}{{/SavedReportsDisplayText}}</div>
 								<i index="{{@index}}" class="delete-saved-report fa fa-trash"></i>
+								<i index="{{@index}}" class="export-saved-report fa fa-share-square-o"></i>
 							</div>
 						</div>
 						{{#SavedReportCardEndRow @index ../savedReports.length}}{{/SavedReportCardEndRow}}
@@ -33,14 +34,14 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					{{#if savedReports.length}}<button type="button" class="btn btn-primary export-saved-reports">Export</button>{{/if}}
-					<span class="btn btn-primary fileinput-button"><span>Import</span>
+					{{#if savedReports.length}}<button type="button" class="btn btn-primary export-saved-reports">Export All <i class="fa fa-share-square-o"></i></button>{{/if}}
+					<span class="btn btn-primary fileinput-button"><span>Import <i class="fa fa-folder-open "></i></span>
 						<!-- The file input field used as target for the file upload widget -->
 						<input class="fileupload" type="file" name="file">
 					</span> 
 					{{#if savedReports.length}}
-					<button type="button" class="btn btn-primary open-all-saved-reports">Open All</button>
-					<button type="button" class="btn btn-primary download-all-saved-reports">Download All (.zip)</button>
+					<button type="button" class="btn btn-primary open-all-saved-reports">Open All <i class="fa fa-copy"></i></button>
+					<button type="button" class="btn btn-primary download-all-saved-reports">Download All (.zip) <i class="fa fa-cloud-download"></i></button>
 					{{/if}}
 					
 					{{#if savedReports.length}}<i class="delete-all-saved-reports fa fa-trash"></i>{{/if}}
