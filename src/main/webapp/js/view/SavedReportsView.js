@@ -10,6 +10,7 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 		"click .saved-report-desc" : "launchReport",
 		"click .delete-all-saved-reports" : "deleteAllSavedReports",
 		"click .delete-saved-report" : "deleteSavedReport",
+		"click .export-saved-report" : "exportSavedReport",
 		"click .export-saved-reports" : "exportSavedReports",
 		"click .open-all-saved-reports" : "openAll",
 		"click .download-all-saved-reports" : "downloadAllAsZip"
@@ -122,7 +123,20 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 		delButton.confirmation("show");
 	},
 	
+	//export single saved report
+	exportSavedReport: function(evt) {
+		var index = $(evt.currentTarget).attr("index");
+		var allSavedReports = this.model.get("savedReports");
+		var thisSavedReport = []
+		thisSavedReport.push(allSavedReports[index]);
+		this.downloadCliendJson(thisSavedReport);
+	}, 
+	
 	exportSavedReports: function() {
+		this.downloadCliendJson(this.model.get("savedReports"));
+	},
+	
+	downloadCliendJson: function(json) {
 		var downloadIFrame = $(".exportFrame");
 		if(!downloadIFrame.length) {
 			this.$el.append($("<iframe>").hide().addClass("exportFrame"))
@@ -130,7 +144,7 @@ AQCU.view.SavedReportsView = AQCU.view.BaseView.extend({
 		}
 		$(downloadIFrame.contents().find("body")).html("<form method='POST' action='" +
 				AQCU.constants.serviceEndpoint + "/service/echo/savedreports'><textarea name='json' type='text'>" +
-				JSON.stringify(this.model.get("savedReports")) +
+				JSON.stringify(json) +
 		"</textarea></form>");
 		$(downloadIFrame.contents().find("form")).submit();
 	},
