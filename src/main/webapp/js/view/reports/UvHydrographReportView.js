@@ -21,7 +21,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			skipAutoLoad: true
 		},{
 			requestId: "firstDownChainIdentifier",
-			display: "First Downchain Stat Derived Time Series",
+			display: "Stat Derived Time Series 1",
 			direction: "downchain",
 			required: false,
 			publish: 'true',
@@ -29,7 +29,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			period: 'Daily'
 		},{
 			requestId: "secondDownChainIdentifier",
-			display: "Second Downchain Stat Derived Time Series",
+			display: "Stat Derived Time Series 2",
 			direction: "downchain",
 			required: false,
 			publish: 'true',
@@ -37,7 +37,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			period: 'Daily'
 		},{
 			requestId: "thirdDownChainIdentifier",
-			display: "Third Downchain Stat Derived Time Series",
+			display: "Stat Derived Time Series 3",
 			direction: "downchain",
 			required: false,
 			publish: 'true',
@@ -45,7 +45,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			period: 'Daily'
 		},{
 			requestId: "fourthDownChainIdentifier",
-			display: "Fourth Downchain Stat Derived Time Series",
+			display: "Stat Derived Time Series 4",
 			direction: "downchain",
 			required: false,
 			publish: 'true',

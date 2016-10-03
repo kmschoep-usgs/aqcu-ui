@@ -18,7 +18,7 @@ describe("BaseReportView.js", function() {
 	var thisDefaultFormat = "html";
 	var testParams = {baseField: true,
 			requestId: "testIdentifier",
-			display: "First Downchain Stat Derived Time Series",
+			display: "Stat Derived Time Series 1",
 			direction: "downchain",
 			parameter: "Discharge",
 			defaultComputation: "Mean",

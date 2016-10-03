@@ -4,7 +4,7 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 	reportType: "fiveyeargwsum",
 	relatedTimeseriesConfig: [{
 			requestId: "firstDownChainIdentifier",
-			display: "First Downchain Stat Derived Time Series",
+			display: "Stat Derived Time Series 1",
 			direction: "downchain",
 			required: true,
 			defaultComputation: "Mean",
