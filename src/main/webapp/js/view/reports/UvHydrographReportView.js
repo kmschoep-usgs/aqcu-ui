@@ -116,6 +116,27 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
 		this.createComparisonSiteSelector();
 		this.createComparisonTimeseriesSelector();
+		this.createZeroNegativeExclusionSelector();
+	},
+	
+	//create exclude delete corrections filter
+	createZeroNegativeExclusionSelector: function() {
+		var excludeCorrectionField = $("<div><div><div class='row field-container'>" +
+				
+				"<div class='col-sm-5 col-md-5 col-lg-5'>" +
+				"<label for='excludeZeroNegative'>Zero/Negative Values</label><br>" +
+				"</div>" +
+				
+				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
+				"<label><input class='excludeZeroNegative' name='excludeZeroNegative' type='checkbox'>Exclude Zero/Negative Values</label>" +
+				"</div>" +
+				
+				"</div></div></div>");//not sure this warrants using a template YET
+		this.model.set("excludeZeroNegative", false);
+		$.extend(this.bindings, {
+			".excludeZeroNegative" : "excludeZeroNegative"
+		});
+		this.advancedOptionsContainer.append(excludeCorrectionField);
 	},
 	
 	validate: function() {
@@ -221,6 +242,11 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		if(this.model.get("secondaryRatingModelIdentifier")) {
 			reportOptions.ratingModelIdentifier = this.model.get("secondaryRatingModelIdentifier");
 		}
+
+		if(this.model.get("excludeZeroNegative")) {
+			reportOptions.excludeZeroNegative = this.model.get("excludeZeroNegative");
+		}
+		
  		return reportOptions;
 	}
 });
