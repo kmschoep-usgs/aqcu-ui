@@ -92,6 +92,26 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
 		this.createComparisonSiteSelector();
 		this.createComparisonTimeseriesSelector();
+		this.createExcludeMinMaxSelector();
+	},
+	
+	createExcludeMinMaxSelector: function() {
+		var excludeMinMaxField = $("<div><div><div class='row field-container'>" +
+				
+				"<div class='col-sm-5 col-md-5 col-lg-5'>" +
+				"<label for='excludeMinMax'>Additional Options</label><br>" +
+				"</div>" +
+				
+				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
+				"<label><input class='excludeMinMax' name='excludeMinmax' type='checkbox'>Disable Min/Max Plotting</label>" +
+				"</div>" +
+				
+				"</div></div></div>");//not sure this warrants using a template YET
+		this.model.set("excludeMinMax", false);
+		$.extend(this.bindings, {
+			".excludeMinMax" : "excludeMinMax"
+		});
+		this.advancedOptionsContainer.append(excludeMinMaxField);
 	},
 	
 	createComparisonSiteSelector: function() {
@@ -186,6 +206,10 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 		
 		if(this.model.get("comparisonTimeseriesIdentifier")) {
 			reportOptions.comparisonTimeseriesIdentifier = this.model.get("comparisonTimeseriesIdentifier");
+		}
+		
+		if(this.model.get("excludeMinMax")){
+			reportOptions.excludeMinMax = this.model.get("excludeMinMax");
 		}
 		
  		return reportOptions;
