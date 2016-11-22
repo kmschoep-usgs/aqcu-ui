@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=9" />
 		
-		<title>NWIS Reporting Application for Time Series</title>
+		<title>NWIS Time Series Data Reports</title>
 
 		<%-- Libs CSS--%>
 		<link rel="stylesheet" type="text/css" href="webjars/jquery-ui/1.11.4/jquery-ui.min.css" media="screen" />
