@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=9" />
 		<meta name="description" content="Vision login" />
 
-		<title>NWIS-RA Time Series</title>
+		<title>NWIS Time Series Data Reports</title>
 
 		<%-- Libs CSS--%>
 		<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" />
@@ -47,7 +47,7 @@
 		<jsp:include page="jsp/header.jsp"></jsp:include>
 		
 		<div class="sub-banner">
-			<div class="sub-banner-title">NWIS-RA Time Series</div>
+			<div class="sub-banner-title">NWIS Time Series Data Reports</div>
 		</div>
 		
 		<div class="container aqcu-authenticate-body">
