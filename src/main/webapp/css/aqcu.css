@@ -349,7 +349,7 @@ h2 {
 	font-size: small;
 	color: #428BCA;	
 	border: 1px solid #D3D3D3;
-	border-radius: 15px 15px 15px 15px;
+	border-radius: 5px;
 	display: inline-block;
 	padding: 5px 14px;
 	cursor: pointer;

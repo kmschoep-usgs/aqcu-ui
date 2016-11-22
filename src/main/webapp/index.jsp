@@ -95,7 +95,7 @@
 		</div>
 		
 		<div class="sub-banner">
-			<div class="sub-banner-title">NWIS Reporting Application for Time Series</div>
+			<div class="sub-banner-title">NWIS Time Series Data Reports</div>
 			<div class="upper-right-corner">
 				<a onclick="AQCU.router.nwisRaHome()">Home</a>
 				<a onclick="AQCU.util.auth.logout()">Logout</a>
