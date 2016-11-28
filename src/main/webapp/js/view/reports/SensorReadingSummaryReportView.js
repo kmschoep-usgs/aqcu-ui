@@ -3,6 +3,11 @@ AQCU.view.SensorReadingSummaryReportView = AQCU.view.BaseReportView.extend({
 	reportAbbreviation: "SRS",
 	reportType: "sensorreadingsummary",
 
+	initialize: function() {
+		AQCU.view.BaseReportView.prototype.initialize.apply(this, arguments);
+		this.model.set("excludeComments", true);
+	},
+	
 	buildAdvancedOptions: function() {
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
 		this.createExcludeCommentsSelector();
