@@ -505,6 +505,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	validate: function() {
 		var valid = true;
+                var noneFilled = false;
+                var atLeastOne = false;
 		
 		//check required time series ids
 		for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
@@ -519,6 +521,21 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				return false;
 			}
 		}
+                
+                //Check for at least one time series option filled
+                for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
+                        if(this.relatedTimeseriesConfig[i].dummyForName){
+                                if(!this.model.get(this.relatedTimeseriesConfig[i].requestId)){
+                                    noneFilled = true;
+                                }
+                                else {
+                                    atLeastOne = true;
+                                }
+                        }
+		}
+                if(noneFilled && !atLeastOne){
+                    valid = false;
+                }
 		
 		return valid;
 	},
