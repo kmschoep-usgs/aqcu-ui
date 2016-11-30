@@ -533,9 +533,9 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				}
 			}
 		}
-			if(noneFilled && !atLeastOne){
-				valid = false;
-			}
+		if(noneFilled && !atLeastOne){
+			valid = false;
+		}
 		
 		return valid;
 	},
