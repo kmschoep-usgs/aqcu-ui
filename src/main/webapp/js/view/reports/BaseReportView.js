@@ -523,19 +523,19 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		}
                 
                 //Check for at least one time series option filled
-                for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
-                        if(this.relatedTimeseriesConfig[i].dummyForName){
-                                if(!this.model.get(this.relatedTimeseriesConfig[i].requestId)){
-                                    noneFilled = true;
-                                }
-                                else {
-                                    atLeastOne = true;
-                                }
-                        }
+		for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
+			if(this.relatedTimeseriesConfig[i].dummyForName){
+				if(!this.model.get(this.relatedTimeseriesConfig[i].requestId)){
+					noneFilled = true;
+				}
+				else {
+					atLeastOne = true;
+				}
+			}
 		}
-                if(noneFilled && !atLeastOne){
-                    valid = false;
-                }
+			if(noneFilled && !atLeastOne){
+				valid = false;
+			}
 		
 		return valid;
 	},
