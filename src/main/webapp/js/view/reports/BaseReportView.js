@@ -505,8 +505,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	validate: function() {
 		var valid = true;
-                var noneFilled = false;
-                var atLeastOne = false;
+		var noneFilled = false;
+		var atLeastOne = false;
 		
 		//check required time series ids
 		for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
