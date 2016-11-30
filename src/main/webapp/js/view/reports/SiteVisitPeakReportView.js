@@ -3,6 +3,11 @@ AQCU.view.SiteVisitPeakReportView = AQCU.view.BaseReportView.extend({
 	reportAbbreviation: "SVP",
 	reportType: "sitevisitpeak",
 	
+	initialize: function() {
+		AQCU.view.BaseReportView.prototype.initialize.apply(this, arguments);
+		this.model.set("excludeComments", true);
+	},
+	
 	buildAdvancedOptions: function() {
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
 		this.createExcludeCommentsSelector();
