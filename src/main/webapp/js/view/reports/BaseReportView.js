@@ -524,7 +524,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
                 
                 //Check for at least one time series option filled
 		for(var i = 0; i < this.relatedTimeseriesConfig.length; i++) {
-			if(this.relatedTimeseriesConfig[i].dummyForName){
+			if(this.relatedTimeseriesConfig[i].oneOfSeveralRequired){
 				if(!this.model.get(this.relatedTimeseriesConfig[i].requestId)){
 					noneFilled = true;
 				}
