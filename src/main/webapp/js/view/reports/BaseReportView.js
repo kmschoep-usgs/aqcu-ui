@@ -155,6 +155,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 					stationId: this.model.get("site").siteNumber,
 					parameter: params.parameter,
 					publish: params.publish,
+					dummy: params.dummy,
 					computationIdentifier: params.computation,
 					computationPeriodIdentifier: params.period 
 				}).done(function(data){
@@ -308,7 +309,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				})
 			){
 			_this.loadRelatedTimeseries(params).done(function(derivationChains){
-				_this.setRelatedTimeseries(params.requestId, derivationChains);
+				_this.setRelatedTimeseries(params, derivationChains, params.parameter);
 			});
 		}
 	},	
@@ -337,6 +338,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				direction: params.direction,
 				publish: params.publish,
 				parameter: params.parameter,
+				dummy: params.dummy,
 				computationIdentifier: computationFilter,
 				computationPeriodIdentifier: periodFilter,
 				startDate: this.model.get("dateSelection").startDate,
@@ -357,26 +359,43 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		return loadRelatedTimeseriesFetched.promise();
 	},
 	
-	setRelatedTimeseries : function(selectorIdentifier, derivationChains) {
+	setRelatedTimeseries : function(params, derivationChains, parameterToMatch) {
 		var _this = this;
+		var selectorIdentifier = params.requestId;
+		var parameter;
+		
+		if(parameterToMatch !== null && parameterToMatch !== undefined && arguments.length === 3){
+			parameter = parameterToMatch;
+		} else {
+			parameter = _this.model.get("selectedTimeSeries").parameter; 
+		}
 		if (derivationChains != null){
 			//var selectorIdentifier = params.requestId;
 			var fullList = _this.model.get(selectorIdentifier + "FullList");
 			if(fullList) {
 				var dataArray = [];
 				var dataArray = _.toArray(_.clone(fullList));
+				var filteredData;
+				
+				if(params !== undefined && params.autofillWithSameUnits === "true" && parameter !== null){
+					filteredData = _.filter(dataArray, function(ts){
+						return _.contains(derivationChains,ts.uid) && (parameter === ts.parameter) && ts.primary && ts.publish;
+					});
+				} else {
 				// find all the time series from the FullList that match the incoming derivation chains AND have publish/primary set to true
-				var filteredData = _.filter(dataArray, function(ts){
-					return _.contains(derivationChains,ts.uid) && ts.primary && ts.publish
-				});
+					filteredData = _.filter(dataArray, function(ts){
+						return _.contains(derivationChains,ts.uid) && ts.primary && ts.publish;
+					});
+				}
 				// sort the result by publish and primary, which will put the true-trues a the top, then true-false, then false-true, then false-false
 				var sortedArray = _(filteredData).chain().sortBy('publish').sortBy('primary').reverse().value();
 				// we want the first one, which will be true-true, if it exists.
 				var filteredDerivationChain = _.first(sortedArray);
 				if (filteredDerivationChain){
 					_this.model.set(selectorIdentifier, filteredDerivationChain.uid);
-				} else
+				} else {
 					_this.model.set(selectorIdentifier, null);
+				}
 			} 
 		} else {
 				_this.model.set(selectorIdentifier, derivationChains);

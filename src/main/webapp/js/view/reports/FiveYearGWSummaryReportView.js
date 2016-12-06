@@ -53,7 +53,7 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 				})
 			){
 			_this.loadRelatedTimeseries(params).done(function(derivationChains){
-				_this.setRelatedTimeseries(params.requestId, derivationChains);
+				_this.setRelatedTimeseries(params, derivationChains, params.parameter);
 			});
 		}
 	},	
