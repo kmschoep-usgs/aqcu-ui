@@ -155,7 +155,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 					stationId: this.model.get("site").siteNumber,
 					parameter: params.parameter,
 					publish: params.publish,
-					dummy: params.dummy,
 					computationIdentifier: params.computation,
 					computationPeriodIdentifier: params.period 
 				}).done(function(data){
@@ -338,7 +337,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				direction: params.direction,
 				publish: params.publish,
 				parameter: params.parameter,
-				dummy: params.dummy,
 				computationIdentifier: computationFilter,
 				computationPeriodIdentifier: periodFilter,
 				startDate: this.model.get("dateSelection").startDate,
