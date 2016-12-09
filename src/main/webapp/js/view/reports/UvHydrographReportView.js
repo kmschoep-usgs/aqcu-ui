@@ -27,7 +27,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			publish: 'true',
 			defaultComputation: 'Mean',
 			period: 'Daily',
-			autofillWithSameUnits: "True"
+			autofillWithSameUnits: "true"
 		},{
 			requestId: "secondDownChainIdentifier",
 			display: "Stat Derived Time Series 2",
@@ -36,7 +36,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			publish: 'true',
 			defaultComputation: 'Max',
 			period: 'Daily',
-			autofillWithSameUnits: "True"
+			autofillWithSameUnits: "true"
 		},{
 			requestId: "thirdDownChainIdentifier",
 			display: "Stat Derived Time Series 3",
@@ -45,7 +45,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			publish: 'true',
 			defaultComputation: 'Min',
 			period: 'Daily',
-			autofillWithSameUnits: "True"
+			autofillWithSameUnits: "true"
 		},{
 			requestId: "fourthDownChainIdentifier",
 			display: "Stat Derived Time Series 4",
@@ -54,7 +54,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			publish: 'true',
 			defaultComputation: 'Median',
 			period: 'Daily',
-			autofillWithSameUnits: "True"
+			autofillWithSameUnits: "true"
 	}],
 	ratingModels: [{ 
 			requestId: "ratingModelIdentifier", 
