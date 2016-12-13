@@ -214,8 +214,9 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				success: function (data) {
 					loadTimeseriesIdentifiersFetched.resolve(data);
 				},
-				error: function () {
+				error: function (a, b, c) {
 					loadTimeseriesIdentifiersFetched.reject();
+					$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c);
 				}
 			}));
 		}
@@ -349,9 +350,10 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				   rdata = data;
 					loadRelatedTimeseriesFetched.resolve(data);
 			},
-			error: function() {
+			error: function(a, b, c) {
 				//this.model.set(params.requestId, null);
 				loadRelatedTimeseriesFetched.reject();
+				$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c);
 			}
 		}));
 		return loadRelatedTimeseriesFetched.promise();
@@ -457,8 +459,9 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 						ratModDeffered.resolve(data[0]);
 					}
 				},
-				error: function() {
+				error: function(a, b, c) {
 					ratModDeffered.resolve(null);
+					$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c);
 				}
 			}));
 		} else {

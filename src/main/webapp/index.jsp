@@ -67,7 +67,7 @@
 		<script type="text/javascript" src="js/view/SavedReportsView.js"></script>
 		
 		<%-- widgets --%>
-		<script type="text/javascript" src="js/view/widgets/PopupView.js"></script>
+		<script type="text/javascript" src="js/view/widgets/ErrorPopupView.js"></script>
 		<script type="text/javascript" src="js/view/widgets/SelectField.js"></script>
 		<script type="text/javascript" src="js/view/widgets/TextField.js"></script>
 		<script type="text/javascript" src="js/view/widgets/Select2Field.js"></script>

@@ -91,7 +91,8 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 						}
 				        return {results: siteList};
 				    },
-				    cache: true
+				    cache: true,
+					error: $.proxy(this.router.unknownErrorHandler, this.router)
 				},
 			},
 		});
