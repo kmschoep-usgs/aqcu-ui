@@ -17,6 +17,7 @@ AQCU.view.ExtremesReportView = AQCU.view.BaseReportView.extend({
 			required: false,
 			defaultComputation: "Mean", //note this parameter is used to load a default since we aren't specifying a computation filter
 			publish: 'true',
-			period: 'Daily'
+			period: 'Daily',
+			autofillWithSameUnits: "true"
 		}]
 });
