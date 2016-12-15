@@ -107,13 +107,14 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 			this.checkSession(null, response);
 		} else if (lcStatus === "timeout") {
 			var _this = this;
-			this.errorPopup = new AQCU.view.PopupView(
+			var newDiv = $("<div/>")
+			$("body").append(newDiv)
+			this.errorPopup = new AQCU.view.ErrorPopupView(
 					{
 						title: "Request timeout",
-						message: "The webrequest has timed out. Reload the page and try again.",
-						callback: function() {
-							_this.errorPopup = null;
-						}
+						error: "The webrequest has timed out. Reload the page and try again.",
+						helpEmail: AQCU.constants.helpEmail,
+						el: newDiv
 					}
 			);
 			ga('send', 'exception', {
@@ -139,22 +140,20 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 		var status,
 				serviceId,
 				_this = this,
-				message = '<span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 50px 0;"></span>',
-				supportContactString = AQCU.constants.helpEmail ?
-				"Please email support at <a href=\"mailto:" + AQCU.constants.helpEmail + "?subject=NWIS-RA Timeseries\">here</a>." :
-				'Please send contact support by using the feedback link at the bottom of the page.';
+				error = '';
 
 		if (_this.errorPopup) {
 			_this.errorPopup.remove();
 		}
 
 		if (!xml) {
-			_this.errorPopup = new AQCU.view.PopupView({
+			var newDiv = $("<div/>")
+			$("body").append(newDiv)
+			_this.errorPopup = new AQCU.view.ErrorPopupView({
 				title: "No response from server",
-				message: supportContactString,
-				callback: function() {
-					_this.errorPopup = null;
-				}
+				error: "Could not contact the server.",
+				helpEmail: AQCU.constants.helpEmail,
+				el: newDiv
 			});
 			ga('send', 'exception', {
 				'exDescription': 'timeoutError',
@@ -165,7 +164,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 				status = $(r).text();
 			});
 			$(xml).find('message').each(function(i, r) {
-				message += $(r).text();
+				error += $(r).text();
 			});
 
 			//if this error is not INTERNAL_SERVER_ERROR and the message does not have the word unknown, 
@@ -178,18 +177,14 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 				serviceId = $(r).text();
 			});
 
-			message += "<br/><br/>The error has been logged with a service ID of #" + serviceId
-					+ "<br/><br/>To report this error, send an email <a href=\"mailto:" + AQCU.constants.helpEmail +
-					"?subject=NWISRA%20Timeseries%20User%20Report%20(" + serviceId + ")\">here</a>.<br/><br/>" +
-					"If the hyperlink does not work, send an email to <b>\"" + AQCU.constants.helpEmail + "\"</b> with the subject line " +
-					"<b>\"NWIS-RA Timeseries User Report (" + serviceId + ")\"</b>";
-
-			this.errorPopup = new AQCU.view.PopupView({
-				title: "Uknown Server Error #" + serviceId,
-				message: message,
-				callback: function() {
-					_this.errorPopup = null;
-				}
+			var newDiv = $("<div/>")
+			$("body").append(newDiv)
+			this.errorPopup = new AQCU.view.ErrorPopupView({
+				title: "Unknown Server Error #" + serviceId,
+				error: error,
+				serviceId: serviceId,
+				helpEmail: AQCU.constants.helpEmail,
+				el: newDiv
 			});
 			ga('send', 'exception', {
 				'exDescription': 'unknownError',
@@ -198,6 +193,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 		}
 		return true;
 	},
+	
 	clearErrors: function() {
 		if (this.errorPopup) {
 			this.errorPopup.remove();

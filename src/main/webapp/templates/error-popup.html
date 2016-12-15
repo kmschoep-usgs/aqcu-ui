@@ -1,0 +1,31 @@
+<div class="error-popup-container">
+	<div class="error-popup modal fade" id="error-popup-{{id}}" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">{{title}}</i></h4>
+				</div>
+				<div class="modal-body">
+					<div class="error-popup-body">
+					Service Error: {{error}}<br/><br/>
+					
+					
+					{{#if serviceId}}
+					The error has been logged with a service ID of <b>#{{serviceId}}</b> <br/><br/>
+					
+					To report this error, send an email <a href="mailto:{{helpEmail}}?subject=NWIS-RA%20Timeseries%20User%20Report%20#{{serviceId}}">here</a>.
+					<br/><br/>
+					
+					If the hyperlink does not work, send an email to <b>"{{helpEmail}}"</b> with the subject line <b>"NWIS-RA Timeseries User Report #{{serviceId}}"</b>
+					{{/if}}
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

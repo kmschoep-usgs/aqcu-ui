@@ -401,7 +401,8 @@ category-tip-target {
 	cursor: pointer;
 }
 
-.saved-reports-container {
+.saved-reports-container,
+.popup-window-container {
 	padding: 10px;
 	text-align: center;
 }

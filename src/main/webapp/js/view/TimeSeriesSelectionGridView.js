@@ -98,8 +98,8 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 					_this.model.set("timeSeriesList", sortedFormattedArray);
 					_this.displayGrid();
 				},
-				error: function () {
-	
+				error: function (a, b, c) {
+					$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c);
 				}
 			});
 		} else {

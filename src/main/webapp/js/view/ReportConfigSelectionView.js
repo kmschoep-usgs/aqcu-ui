@@ -96,8 +96,9 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 						_this.processorTypesFetched.resolve(data);
 					}
 				},
-				error: function() {
+				error: function(a, b, c) {
 					_this.processorTypesFetched.reject();
+					$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c);
 				}
 			});
 		} else {
