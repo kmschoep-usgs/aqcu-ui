@@ -9,7 +9,6 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			required: false,
 			oneOfSeveralRequired: true,
 			defaultComputation: "Mean",
-			publish: 'true',
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}, {
@@ -19,7 +18,6 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			required: false,
 			oneOfSeveralRequired: true,
 			defaultComputation: "Max",
-			publish: 'true',
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}, {
@@ -29,7 +27,6 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			required: false,
 			oneOfSeveralRequired: true,
 			defaultComputation: "Min",
-			publish: 'true',
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}, {
@@ -38,7 +35,6 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			direction: "downchain",
 			required: false,
 			//defaultComputation: "Mean",
-			publish: 'true',
 			period: 'Daily'
 		}, {
 			requestId: "tertiaryReferenceIdentifier",
@@ -46,7 +42,6 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			direction: "downchain",
 			required: false,
 			//defaultComputation: "Mean",
-			publish: 'true',
 			period: 'Daily'
 		}, {
 			requestId: "quaternaryReferenceIdentifier",
@@ -54,7 +49,6 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			direction: "downchain",
 			required: false,
 			//defaultComputation: "Mean",
-			publish: 'true',
 			period: 'Daily'
 	}],
 	
