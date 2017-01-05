@@ -8,7 +8,6 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 			direction: "downchain",
 			required: true,
 			defaultComputation: "Mean",
-			publish: 'true',
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}],
