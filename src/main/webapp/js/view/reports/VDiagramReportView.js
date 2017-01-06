@@ -8,7 +8,6 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			parameter: "Gage height",
 			direction: "upchain",
 			required: true,
-			publish: 'true',
 			computation: 'Instantaneous',
 			period: 'Points'
 		}],

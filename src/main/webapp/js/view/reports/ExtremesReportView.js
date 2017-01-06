@@ -7,7 +7,6 @@ AQCU.view.ExtremesReportView = AQCU.view.BaseReportView.extend({
 			display: "Upchain Series",
 			direction: "upchain",
 			required: false,
-			publish: 'true',
 			computation: 'Instantaneous',
 			period: 'Points'
 		},{
@@ -16,7 +15,6 @@ AQCU.view.ExtremesReportView = AQCU.view.BaseReportView.extend({
 			direction: "downchain",
 			required: false,
 			defaultComputation: "Mean", //note this parameter is used to load a default since we aren't specifying a computation filter
-			publish: 'true',
 			period: 'Daily',
 			autofillWithSameUnits: "true"
 		}]

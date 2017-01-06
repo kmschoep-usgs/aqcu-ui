@@ -7,7 +7,6 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 		display: "Upchain Time Series",
 		direction: "upchain",
 		required: false,
-		publish: 'true',
 		computation: 'Instantaneous',
 		period: 'Points'
 	},{
@@ -15,7 +14,6 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 		display: "Daily Mean",
 		direction: "downchain",
 		required: false,
-		publish: 'true',
 		computation: 'Mean',
 		period: 'Daily'
 	},{
@@ -23,7 +21,6 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 		display: "Daily Max",
 		direction: "downchain",
 		required: false,
-		publish: 'true',
 		computation: 'Max',
 		period: 'Daily'
 	},{
@@ -31,7 +28,6 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 		display: "Daily Min",
 		direction: "downchain",
 		required: false,
-		publish: 'true',
 		computation: 'Min',
 		period: 'Daily'
 	},{
@@ -39,7 +35,6 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 		display: "Daily Median",
 		direction: "downchain",
 		required: false,
-		publish: 'true',
 		computation: 'Median',
 		period: 'Daily'
 	}],

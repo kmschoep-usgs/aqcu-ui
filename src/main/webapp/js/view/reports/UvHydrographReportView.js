@@ -7,7 +7,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Upchain Time Series",
 			direction: "upchain",
 			required: true,
-			publish: 'true',
 			computation: 'Instantaneous',
 			period: 'Points'
 		},{
@@ -15,7 +14,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Reference Time Series",
 			direction: "downchain",
 			required: false,
-			publish: 'true',
 			computation: 'Instantaneous',
 			period: 'Points',
 			skipAutoLoad: true
@@ -24,7 +22,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Stat Derived Time Series 1",
 			direction: "downchain",
 			required: false,
-			publish: 'true',
 			defaultComputation: 'Mean',
 			period: 'Daily',
 			autofillWithSameUnits: "true"
@@ -33,7 +30,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Stat Derived Time Series 2",
 			direction: "downchain",
 			required: false,
-			publish: 'true',
 			defaultComputation: 'Max',
 			period: 'Daily',
 			autofillWithSameUnits: "true"
@@ -42,7 +38,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Stat Derived Time Series 3",
 			direction: "downchain",
 			required: false,
-			publish: 'true',
 			defaultComputation: 'Min',
 			period: 'Daily',
 			autofillWithSameUnits: "true"
@@ -51,7 +46,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			display: "Stat Derived Time Series 4",
 			direction: "downchain",
 			required: false,
-			publish: 'true',
 			defaultComputation: 'Median',
 			period: 'Daily',
 			autofillWithSameUnits: "true"
