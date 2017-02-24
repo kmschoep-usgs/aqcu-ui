@@ -1,0 +1,12 @@
+Service Error(s): <br/>
+<ul>
+{{#each errors}}
+<li>{{error}} ({{count}})</li><br/>
+{{/each}}
+</ul>
+<br/><br/>
+
+To report these errors, send an email <a href="mailto:{{helpEmail}}?subject=NWIS-RA%20Timeseries%20User%20Report{{#each errors}}%20#{{lastServiceId}}{{/each}}">here</a>.
+<br/><br/>
+
+If the hyperlink does not work, send an email to <b>"{{helpEmail}}"</b> with the subject line <b>"NWIS-RA Timeseries User Report{{#each errors}} #{{lastServiceId}}{{/each}}"</b>

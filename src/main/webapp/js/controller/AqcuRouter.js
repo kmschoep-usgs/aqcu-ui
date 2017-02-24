@@ -98,25 +98,21 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 		var lcStatus = status && typeof status === "string" ?
 				status.toLowerCase() : 'exception';
 
-		if (lcStatus === "abort" || lcStatus === "exception") {
+		if (lcStatus === "abort") {
 			//do nothing, something in the code intentionally aborted.
 			// send analytics event
 			ga('send', 'exception', {
 				'exDescription': 'abortError'
 			});
 			this.checkSession(null, response);
+		} else if (lcStatus === "exception") {
+			this.openGlobalErrorWindow("Could not contact the server");
+			ga('send', 'exception', {
+				'exDescription': 'noConnection',
+				'exFatal': false
+			});
 		} else if (lcStatus === "timeout") {
-			var _this = this;
-			var newDiv = $("<div/>")
-			$("body").append(newDiv)
-			this.errorPopup = new AQCU.view.ErrorPopupView(
-					{
-						title: "Request timeout",
-						error: "The webrequest has timed out. Reload the page and try again.",
-						helpEmail: AQCU.constants.helpEmail,
-						el: newDiv
-					}
-			);
+			this.openGlobalErrorWindow("The webrequest has timed out. Reload the page and try again.");
 			ga('send', 'exception', {
 				'exDescription': 'timeoutError',
 				'exFatal': false
@@ -139,22 +135,10 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 	displayUnknownError: function(xml) {
 		var status,
 				serviceId,
-				_this = this,
 				error = '';
 
-		if (_this.errorPopup) {
-			_this.errorPopup.remove();
-		}
-
 		if (!xml) {
-			var newDiv = $("<div/>")
-			$("body").append(newDiv)
-			_this.errorPopup = new AQCU.view.ErrorPopupView({
-				title: "No response from server",
-				error: "Could not contact the server.",
-				helpEmail: AQCU.constants.helpEmail,
-				el: newDiv
-			});
+			this.openGlobalErrorWindow("Could not contact the server.");
 			ga('send', 'exception', {
 				'exDescription': 'timeoutError',
 				'exFatal': false
@@ -176,16 +160,8 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 			$(xml).find('serviceId').each(function(i, r) {
 				serviceId = $(r).text();
 			});
-
-			var newDiv = $("<div/>")
-			$("body").append(newDiv)
-			this.errorPopup = new AQCU.view.ErrorPopupView({
-				title: "Unknown Server Error #" + serviceId,
-				error: error,
-				serviceId: serviceId,
-				helpEmail: AQCU.constants.helpEmail,
-				el: newDiv
-			});
+			
+			this.openGlobalErrorWindow(error, serviceId);
 			ga('send', 'exception', {
 				'exDescription': 'unknownError',
 				'exFatal': false
@@ -200,6 +176,31 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 			delete this.errorPopup;
 		}
 	},
+	
+	/**
+	 * Helper function so that multiple error popups aren't opened at the same time
+	 */
+	openGlobalErrorWindow : function(error, serviceId) {
+		if(this.errorPopup) {
+			//add messages to error popup that already exists
+			this.errorPopup.addError(error, serviceId)
+		} else {
+			var newDiv = $("<div/>")
+			$("body").append(newDiv)
+			this.errorPopup = new AQCU.view.ErrorPopupView(
+					{
+						title: "Service Errors",
+						error: error,
+						serviceId: serviceId,
+						helpEmail: AQCU.constants.helpEmail,
+						el: newDiv,
+						onClose: this.clearErrors,
+						onCloseContext: this
+					}
+			);
+		}
+	},
+	
 	startDownload: function(sourceUrl, data, format) {
 		var url = sourceUrl,
 				href = window.location.href,
