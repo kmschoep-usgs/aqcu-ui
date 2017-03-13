@@ -3,7 +3,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	reportAbbreviation: "DV",
 	reportType: "dvhydrograph",
 	relatedTimeseriesConfig: [{
-			requestId: "firstDownChainIdentifier",
+			requestId: "firstStatDerivedIdentifier",
 			display: "Stat Derived Time Series 1",
 			direction: "downchain",
 			required: false,
@@ -12,7 +12,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}, {
-			requestId: "secondDownChainIdentifier",
+			requestId: "secondStatDerivedIdentifier",
 			display: "Stat Derived Time Series 2",
 			direction: "downchain",
 			required: false,
@@ -21,7 +21,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}, {
-			requestId: "thirdDownChainIdentifier",
+			requestId: "thirdStatDerivedIdentifier",
 			display: "Stat Derived Time Series 3",
 			direction: "downchain",
 			required: false,
