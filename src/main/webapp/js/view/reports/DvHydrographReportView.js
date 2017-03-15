@@ -30,22 +30,22 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}, {
-			requestId: "secondaryReferenceIdentifier",
-			display: "Secondary Reference Time Series",
+			requestId: "firstReferenceIdentifier",
+			display: "Reference Time Series 1",
 			direction: "downchain",
 			required: false,
 			//defaultComputation: "Mean",
 			period: 'Daily'
 		}, {
-			requestId: "tertiaryReferenceIdentifier",
-			display: "Tertiary Reference Time Series",
+			requestId: "secondReferenceIdentifier",
+			display: "Reference Time Series 2",
 			direction: "downchain",
 			required: false,
 			//defaultComputation: "Mean",
 			period: 'Daily'
 		}, {
-			requestId: "quaternaryReferenceIdentifier",
-			display: "Quaternary Reference Time Series",
+			requestId: "thirdReferenceIdentifier",
+			display: "Reference Time Series 3",
 			direction: "downchain",
 			required: false,
 			//defaultComputation: "Mean",
