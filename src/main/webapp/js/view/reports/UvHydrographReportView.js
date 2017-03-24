@@ -57,7 +57,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			bindTo: "primaryTimeseriesIdentifier"
 		},{ 
 			requestId: "referenceRatingModelIdentifier", 
-			display: "Secondary Rating Model", 
+			display: "Reference Rating Model", 
 			required: false,
 			bindTo: "referenceTimeseriesIdentifier"
 	}],
