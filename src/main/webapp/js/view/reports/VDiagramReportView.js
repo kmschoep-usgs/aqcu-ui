@@ -18,20 +18,20 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			bindTo: "primaryTimeseriesIdentifier"
 		}],
 	controlConditions: [
-	    {text: "Unspecified", id: "unspecified"},
-	    {text: "Clear", id: "clear"},
-	    {text: "Fill Control Changed", id: "fillControlChanged"},
-	    {text: "Debris - Light", id: "debrisLight"},
-	    {text: "Debris - Moderate", id: "debrisModerate"},
-	    {text: "Debris - Heavy", id: "debrisHeavy"},
-	    {text: "Vegetation - Light", id: "vegetationLight"},
-	    {text: "Vegetation - Moderate", id: "vegetationModerate"},
-	    {text: "Vegetation - Heavy", id: "vegetationHeavy"},
-	    {text: "Ice - Anchor", id: "iceAnchor"},
-	    {text: "Ice - Cover", id: "iceCover"},
-	    {text: "Ice - Shore", id: "iceShore"},
-	    {text: "Submerged", id: "submerged"},
-	    {text: "No Flow", id: "noFlow"},
+	    {text: "Unspecified", value: "unspecified", id: 0},
+	    {text: "Clear", value: "clear", id: 1},
+	    {text: "Fill Control Changed", value: "fillControlChanged", id: 2},
+	    {text: "Debris - Light", value: "debrisLight", id: 3},
+	    {text: "Debris - Moderate", value: "debrisModerate", id: 4},
+	    {text: "Debris - Heavy", value: "debrisHeavy", id: 5},
+	    {text: "Vegetation - Light", value: "vegetationLight", id: 6},
+	    {text: "Vegetation - Moderate", value: "vegetationModerate", id: 7},
+	    {text: "Vegetation - Heavy", value: "vegetationHeavy", id: 8},
+	    {text: "Ice - Anchor", value: "iceAnchor", id: 9},
+	    {text: "Ice - Cover", value: "iceCover", id: 10},
+	    {text: "Ice - Shore", value: "iceShore", id: 11},
+	    {text: "Submerged", value: "submerged", id: 12},
+	    {text: "No Flow", value: "noFlow", id: 13}
 	],
 	
 	removeSelectFields: function() {
@@ -88,7 +88,8 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			description: "This will filter the control condition",
 			placeholder: "Filter..."
 		},
-		data: this.controlConditions
+		data: this.controlConditions,
+		initialSelection: [9, 10, 11]
 	    });
 	},
 	

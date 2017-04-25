@@ -59,6 +59,8 @@ AQCU.view.MultiselectField = Backbone.View.extend({
 		    minimumResultsForSearch: Infinity
 		}
 		
+		this.initialSelection = options.initialSelection;
+		
 		this.selector    = ".aqcu_multi_select_field_" + options.fieldConfig.fieldName;
 		
 		// model bindings
@@ -76,6 +78,8 @@ AQCU.view.MultiselectField = Backbone.View.extend({
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
 		this.$el.html(newDom);
 		this.$(this.selector).select2(this.select2);
+		this.$(this.selector).select2('val', this.initialSelection);
+		this.$(this.selector).trigger('change');
 		this.stickit();
 	},
 	getDisplayValue: function(value) {
