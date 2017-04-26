@@ -1,22 +1,25 @@
-/**
- * extend stickit to properly handle binding to select2 components
- */
 Backbone.Stickit.addHandler([
 	{
-		selector: '.select2-hidden-accessible',
-		events: ['change'],
-		getVal: function($el) {
-			return $el.val();
-		},
-		update: function($el, val, model, options) {
-			$el.val(val);
+	    selector: '.select2-hidden-accessible',
+	    events: ['change'],
+	    getVal: function($el) {
+		var returnArray = [];
+
+		if(this.valueField != null){
+		    for(var i = 0; i < $el.select2('data').length; i++){
+			returnArray.push($el.select2('data')[i][this.valueField]);
+		    }
+		} else {
+		    returnArray =  $el.select2('data');
 		}
+		return returnArray;
+	    },
+	    update: function($el, val, model, options) { 
+	    	$el.val(val);
+	    }
 	}
 ]);
 
-/**
- * Backbone view to encapsulate the text field widget
- */
 AQCU.view.MultiselectField = Backbone.View.extend({
 	/**
 	 * Handlebars template
@@ -48,6 +51,7 @@ AQCU.view.MultiselectField = Backbone.View.extend({
 	initialize: function(options) {
 		// template configurations
 		this.fieldConfig = options.fieldConfig;
+		this.valueField = options.valueField;
 		
 		// select2 configurations
 		this.select2 = {
@@ -83,14 +87,14 @@ AQCU.view.MultiselectField = Backbone.View.extend({
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
 		this.$el.html(newDom);
 		this.$(this.selector).select2(this.select2);
-		this.$(this.selector).select2('val', this.initialSelection).trigger("change");
 		this.stickit();
+		this.$(this.selector).select2('val', this.initialSelection);
 	},
 	getDisplayValue: function(value) {
-		// if no value is given then use the current value
-		if (value === undefined) {
-			value = $(this.selector).val();
-		}
-		return this.$(this.selector).find("option[value='"+value+"']").text();
+	    // if no value is given then use the current value
+	    if (value === undefined) {
+		    value = $(this.selector).val();
+	    }
+	    return this.$(this.selector).find("option[value='"+value+"']").text();
 	}
 });

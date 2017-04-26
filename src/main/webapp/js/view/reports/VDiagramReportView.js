@@ -62,8 +62,8 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 	createControlConditionFilter: function() {
 	    var newContainer = $('<div class="aqcu-vdiag-control-conditions"></div>');
 	    this.advancedOptionsContainer.append(newContainer);
-	    
-	     $.ajax({
+	    	    
+	    $.ajax({
 		url: AQCU.constants.serviceEndpoint +
 				"/service/lookup/controlConditions",
 		timeout: 30000,
@@ -95,21 +95,24 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			    placeholder: "Filter..."
 			},
 			data: conditionList,
-			initialSelection: initialIdList
+			initialSelection: initialIdList,
+			valueField: 'value'
 		    });
 		},
 		error: function (a, b, c) {
 		    $.proxy(this.router.unknownErrorHandler, this.router)(a, b, c)
 		}
 	    });
-	    
-	    
 	},
 	
 	constructReportOptions: function() {
 		var reportOptions = AQCU.view.BaseReportView.prototype.constructReportOptions.apply(this, arguments);
 		if(this.model.get("priorYearsHistoric")) {
 		    reportOptions.priorYearsHistoric = this.model.get("priorYearsHistoric");
+		}
+		
+		if(this.model.get("controlConditionFilter").length > 0) {
+		    reportOptions.controlConditionFilter = this.model.get("controlConditionFilter").join();
 		}
  		return reportOptions;
 	}

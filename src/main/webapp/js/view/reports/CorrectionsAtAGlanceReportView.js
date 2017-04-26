@@ -42,9 +42,8 @@ AQCU.view.CorrectionsAtAGlanceReportView = AQCU.view.BaseReportView.extend({
 	constructReportOptions: function() {
 		var reportOptions = AQCU.view.BaseReportView.prototype.constructReportOptions.apply(this, arguments);
 		if(this.excludedCorrections.length > 0) {
-						reportOptions.excludedCorrections = this.excludedCorrections.join(',');
+		    reportOptions.excludedCorrections = this.excludedCorrections.join(',');
 		}
-
 		return reportOptions;
 	}
 });
