@@ -53,10 +53,15 @@ AQCU.view.MultiselectField = Backbone.View.extend({
 		this.select2 = {
 		    placeholder: this.fieldConfig.placeholder,
 		    width: '100%',
-		    data: options.data,
 		    multiple: true,
 		    minimumInputLength: -1,
 		    minimumResultsForSearch: Infinity
+		}
+		
+		if(options.ajax !== undefined){
+		    this.select2.ajax = options.ajax;
+		} else if(options.data !== undefined){
+		    this.select2.data = options.data;
 		}
 		
 		this.initialSelection = options.initialSelection;

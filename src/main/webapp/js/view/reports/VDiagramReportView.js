@@ -17,22 +17,6 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			required: true,
 			bindTo: "primaryTimeseriesIdentifier"
 		}],
-	controlConditions: [
-	    {text: "Unspecified", value: "unspecified", id: 0},
-	    {text: "Clear", value: "clear", id: 1},
-	    {text: "Fill Control Changed", value: "fillControlChanged", id: 2},
-	    {text: "Debris - Light", value: "debrisLight", id: 3},
-	    {text: "Debris - Moderate", value: "debrisModerate", id: 4},
-	    {text: "Debris - Heavy", value: "debrisHeavy", id: 5},
-	    {text: "Vegetation - Light", value: "vegetationLight", id: 6},
-	    {text: "Vegetation - Moderate", value: "vegetationModerate", id: 7},
-	    {text: "Vegetation - Heavy", value: "vegetationHeavy", id: 8},
-	    {text: "Ice - Anchor", value: "iceAnchor", id: 9},
-	    {text: "Ice - Cover", value: "iceCover", id: 10},
-	    {text: "Ice - Shore", value: "iceShore", id: 11},
-	    {text: "Submerged", value: "submerged", id: 12},
-	    {text: "No Flow", value: "noFlow", id: 13}
-	],
 	
 	removeSelectFields: function() {
 		if(this.priorYearsHistoric){
@@ -79,18 +63,47 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 	    var newContainer = $('<div class="aqcu-vdiag-control-conditions"></div>');
 	    this.advancedOptionsContainer.append(newContainer);
 	    
-	    this.controlConditionFilter = new AQCU.view.MultiselectField({
-		el: '.aqcu-vdiag-control-conditions',
-		model : this.model,
-		fieldConfig: {
-			fieldName: "controlConditionFilter",
-			displayName: "Filter Control Condition",
-			description: "This will filter the control condition",
-			placeholder: "Filter..."
+	     $.ajax({
+		url: AQCU.constants.serviceEndpoint +
+				"/service/lookup/controlConditions",
+		timeout: 30000,
+		dataType: "json",
+		context: this,
+		success: function (data) {
+		    var conditionList = [];
+		    var initialIdList = [];
+		    for (var i = 0; i < data.length; i++) {
+			conditionList.push({ 
+			    id  : i,
+			    value: data[i].value,
+			    text: data[i].name.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}),
+			    initial: data[i].name.toUpper().contains("ICE")
+			});
+			
+			if(data[i].name.toUpper().contains("ICE")){
+			    initialIdList.push(i);
+			}
+		    }
+		   
+		    this.controlConditionFilter = new AQCU.view.MultiselectField({
+			el: '.aqcu-vdiag-control-conditions',
+			model : this.model,
+			fieldConfig: {
+			    fieldName: "controlConditionFilter",
+			    displayName: "Filter Control Condition",
+			    description: "This will filter the control condition",
+			    placeholder: "Filter..."
+			},
+			data: conditionList,
+			initialSelection: initialIdList
+		    });
 		},
-		data: this.controlConditions,
-		initialSelection: [9, 10, 11]
+		error: function (a, b, c) {
+		    $.proxy(this.router.unknownErrorHandler, this.router)(a, b, c)
+		}
 	    });
+	    
+	    
 	},
 	
 	constructReportOptions: function() {
