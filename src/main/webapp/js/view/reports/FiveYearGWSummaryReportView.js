@@ -6,11 +6,40 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 			requestId: "firstStatDerivedIdentifier",
 			display: "Stat Derived Time Series 1",
 			direction: "downchain",
-			required: true,
+			required: false,
+			oneOfSeveralRequired: true,
 			defaultComputation: "Mean",
 			period: 'Daily',
-			dynamicParameter: 'true'
-		}],
+			dynamicParameter: 'true',
+			autofillWithSameUnits: "true"
+		},{
+			requestId: "secondStatDerivedIdentifier",
+			display: "Stat Derived Time Series 2",
+			direction: "downchain",
+			required: false,
+			oneOfSeveralRequired: true,
+			defaultComputation: 'Max',
+			period: 'Daily',
+			autofillWithSameUnits: "true"
+		},{
+			requestId: "thirdStatDerivedIdentifier",
+			display: "Stat Derived Time Series 3",
+			direction: "downchain",
+			required: false,
+			oneOfSeveralRequired: true,
+			defaultComputation: 'Min',
+			period: 'Daily',
+			autofillWithSameUnits: "true"
+		},{
+			requestId: "fourthStatDerivedIdentifier",
+			display: "Stat Derived Time Series 4",
+			direction: "downchain",
+			required: false,
+			oneOfSeveralRequired: true,
+			defaultComputation: 'Median',
+			period: 'Daily',
+			autofillWithSameUnits: "true"
+	}],
 		
 	initialize: function() {
 		AQCU.view.BaseReportView.prototype.initialize.apply(this, arguments);
