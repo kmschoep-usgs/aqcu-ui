@@ -72,10 +72,10 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 		dataType: "json",
 		context: this,
 		success: function (data) {
-		    conditionList = [];
-		    initialIdList = [];
+		    this.conditionList = [];
+		    this.initialIdList = [];
 		    for (var i = 0; i < data.length; i++) {
-			conditionList.push({ 
+			this.conditionList.push({ 
 			    id  : i,
 			    value: data[i].value,
 			    text: data[i].name.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}),
@@ -83,7 +83,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			});
 			
 			if(data[i].name.toUpperCase().includes("ICE")){
-			    initialIdList.push(i);
+			    this.initialIdList.push(i);
 			}
 		    }
 		   
@@ -96,8 +96,8 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			    description: "This will filter the control condition",
 			    placeholder: "Filter..."
 			},
-			data: conditionList,
-			initialSelection: initialIdList,
+			data: this.conditionList,
+			initialSelection: this.initialIdList,
 			valueField: 'value'
 		    });
 		},
@@ -114,9 +114,22 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 		}
 		
 		if(this.model.get("excludeConditions") && this.model.get("excludeConditions").length > 0) {
-		    reportOptions.excludeConditions = this.conditionList.filter(function(condition){
-			return this.model.get("excludeConditions").includes(condition.id);
-		    });
+		    _this = this;
+		    
+		    //Select the control condition objects that are being excluded
+		    var excludedConditions = this.conditionList.filter(function(condition){
+			return _this.model.get("excludeConditions").includes(condition.id.toString());
+		    }).join();
+		    
+		    var excludedValues = [];
+		    
+		    //Extract the value property from the control condition objects
+		    for(var i = 0; i < excludedConditions.length; i++){
+			excludedValues.push(excludedConditions[i].value);
+		    }
+		    
+		    //Join the values into a comma-separated list
+		    reportOptions.excludeConditions = excludedValues.join();
 		}
  		return reportOptions;
 	}
