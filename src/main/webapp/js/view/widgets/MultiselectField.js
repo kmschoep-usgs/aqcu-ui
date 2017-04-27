@@ -1,25 +1,3 @@
-Backbone.Stickit.addHandler([
-	{
-	    selector: '.select2-hidden-accessible',
-	    events: ['change'],
-	    getVal: function($el) {
-		var returnArray = [];
-
-		if(this.valueField != null){
-		    for(var i = 0; i < $el.select2('data').length; i++){
-			returnArray.push($el.select2('data')[i][this.valueField]);
-		    }
-		} else {
-		    returnArray =  $el.select2('data');
-		}
-		return returnArray;
-	    },
-	    update: function($el, val, model, options) { 
-	    	$el.val(val);
-	    }
-	}
-]);
-
 AQCU.view.MultiselectField = Backbone.View.extend({
 	/**
 	 * Handlebars template
@@ -87,6 +65,7 @@ AQCU.view.MultiselectField = Backbone.View.extend({
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
 		this.$el.html(newDom);
 		this.$(this.selector).select2(this.select2);
+		//This uses the same stickit handler as Select2Field
 		this.stickit();
 		this.$(this.selector).select2('val', this.initialSelection);
 	},

@@ -17,6 +17,8 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			required: true,
 			bindTo: "primaryTimeseriesIdentifier"
 		}],
+	 conditionList: [],
+	 initialIdList: [],
 	
 	removeSelectFields: function() {
 		if(this.priorYearsHistoric){
@@ -70,8 +72,8 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 		dataType: "json",
 		context: this,
 		success: function (data) {
-		    var conditionList = [];
-		    var initialIdList = [];
+		    conditionList = [];
+		    initialIdList = [];
 		    for (var i = 0; i < data.length; i++) {
 			conditionList.push({ 
 			    id  : i,
@@ -89,7 +91,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			el: '.aqcu-vdiag-control-conditions',
 			model : this.model,
 			fieldConfig: {
-			    fieldName: "controlConditionFilter",
+			    fieldName: "excludeConditions",
 			    displayName: "Filter Control Condition",
 			    description: "This will filter the control condition",
 			    placeholder: "Filter..."
@@ -111,8 +113,10 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 		    reportOptions.priorYearsHistoric = this.model.get("priorYearsHistoric");
 		}
 		
-		if(this.model.get("controlConditionFilter").length > 0) {
-		    reportOptions.controlConditionFilter = this.model.get("controlConditionFilter").join();
+		if(this.model.get("excludeConditions") && this.model.get("excludeConditions").length > 0) {
+		    reportOptions.excludeConditions = this.conditionList.filter(function(condition){
+			return this.model.get("excludeConditions").includes(condition.id);
+		    });
 		}
  		return reportOptions;
 	}
