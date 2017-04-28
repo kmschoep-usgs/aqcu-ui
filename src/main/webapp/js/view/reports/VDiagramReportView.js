@@ -119,7 +119,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 		    //Select the control condition objects that are being excluded
 		    var excludedConditions = this.conditionList.filter(function(condition){
 			return _this.model.get("excludeConditions").includes(condition.id.toString());
-		    }).join();
+		    });
 		    
 		    var excludedValues = [];
 		    
