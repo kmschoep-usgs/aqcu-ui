@@ -92,9 +92,9 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			model : this.model,
 			fieldConfig: {
 			    fieldName: "excludeConditions",
-			    displayName: "Filter Control Condition",
-			    description: "This will filter the control condition",
-			    placeholder: "Filter..."
+			    displayName: "Exclude Control Conditions",
+			    description: "Field Visit Measurements that have a ontrol Condition which matches one of the selected values will be excluded from the report.",
+			    placeholder: "Control Conditions to Exclude"
 			},
 			data: this.conditionList,
 			initialSelection: this.initialIdList,
