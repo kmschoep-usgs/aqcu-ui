@@ -30,6 +30,15 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			period: 'Daily',
 			dynamicParameter: 'true'
 		}, {
+			requestId: "fourthStatDerivedIdentifier",
+			display: "Stat Derived Time Series 4",
+			direction: "downchain",
+			required: false,
+			oneOfSeveralRequired: true,
+			defaultComputation: 'Median',
+			period: 'Daily',
+			autofillWithSameUnits: "true"
+		},{
 			requestId: "firstReferenceIdentifier",
 			display: "Reference Time Series 1",
 			direction: "downchain",
@@ -50,7 +59,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 			required: false,
 			//defaultComputation: "Mean",
 			period: 'Daily'
-	}],
+		}],
 	
 	initialize: function() {
 		AQCU.view.BaseReportView.prototype.initialize.apply(this, arguments);
