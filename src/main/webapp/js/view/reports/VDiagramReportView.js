@@ -93,7 +93,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			fieldConfig: {
 			    fieldName: "excludeConditions",
 			    displayName: "Exclude Control Conditions",
-			    description: "Field Visit Measurements that have a ontrol Condition which matches one of the selected values will be excluded from the report.",
+			    description: "Field Visit Measurements that have a Control Condition which matches one of the selected values will be excluded from the report.",
 			    placeholder: "Control Conditions to Exclude"
 			},
 			data: this.conditionList,
