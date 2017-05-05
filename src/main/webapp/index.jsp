@@ -56,6 +56,7 @@
 		<script type="text/javascript" src="js/view/reports/TimeSeriesSummaryFullReportView.js"></script>
 		<script type="text/javascript" src="js/view/reports/DvHydrographReportView.js"></script>
 		<script type="text/javascript" src="js/view/reports/FiveYearGWSummaryReportView.js"></script>
+		<script type="text/javascript" src="js/view/reports/DerivationChainReportView.js"></script>
 		
 		<script type="text/javascript" src="js/view/SiteSelectorView.js"></script>
 		<script type="text/javascript" src="js/view/TimeSeriesSelectionGridView.js"></script>

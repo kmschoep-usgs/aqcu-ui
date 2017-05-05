@@ -167,7 +167,8 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(5);
+		expect(view.availableReports.length).toEqual(6);
+		expect(view.availableReports).toContain(AQCU.view.DerivationChainReportView);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
@@ -192,7 +193,8 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports.length).toEqual(5);
+		expect(view.availableReports).toContain(AQCU.view.DerivationChainReportView);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
@@ -216,7 +218,8 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports.length).toEqual(5);
+		expect(view.availableReports).toContain(AQCU.view.DerivationChainReportView);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
@@ -240,7 +243,8 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(3);
+		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports).toContain(AQCU.view.DerivationChainReportView);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
@@ -263,7 +267,8 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports.length).toEqual(5);
+		expect(view.availableReports).toContain(AQCU.view.DerivationChainReportView);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
@@ -288,7 +293,8 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports.length).toEqual(5);
+		expect(view.availableReports).toContain(AQCU.view.DerivationChainReportView);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
@@ -312,7 +318,8 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports.length).toEqual(5);
+		expect(view.availableReports).toContain(AQCU.view.DerivationChainReportView);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
@@ -336,7 +343,8 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(7);
+		expect(view.availableReports.length).toEqual(8);
+		expect(view.availableReports).toContain(AQCU.view.DerivationChainReportView);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
@@ -365,8 +373,8 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(6);
-		
+		expect(view.availableReports.length).toEqual(7);
+		expect(view.availableReports).toContain(AQCU.view.DerivationChainReportView);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);

@@ -111,6 +111,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	populateAvailableReports: function(selectedTimeSeries){
 		this.availableReports = [];
 		var _this = this;
+		this.availableReports.push(AQCU.view.DerivationChainReportView);
 		this.availableReports.push(AQCU.view.CorrectionsAtAGlanceReportView);
 		if (
 				_.contains(['daily', 'weekly'], selectedTimeSeries.period.toLowerCase())  
