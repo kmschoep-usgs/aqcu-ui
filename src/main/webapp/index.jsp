@@ -72,6 +72,7 @@
 		<script type="text/javascript" src="js/view/widgets/SelectField.js"></script>
 		<script type="text/javascript" src="js/view/widgets/TextField.js"></script>
 		<script type="text/javascript" src="js/view/widgets/Select2Field.js"></script>
+		<script type="text/javascript" src="js/view/widgets/MultiselectField.js"></script>
 		<script type="text/javascript" src="js/view/widgets/DateField.js"></script>
 
 		<%-- controllers --%>
