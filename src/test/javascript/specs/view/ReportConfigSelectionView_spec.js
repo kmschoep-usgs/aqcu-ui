@@ -167,10 +167,11 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(5);
+		expect(view.availableReports.length).toEqual(6);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.TimeSeriesSummaryFullReportView);
 		expect(view.availableReports).toContain(AQCU.view.VDiagramReportView);
 		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
 		
@@ -192,10 +193,11 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports.length).toEqual(5);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.TimeSeriesSummaryFullReportView);
 		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
 		
 		testProcessors = {"upChain": ["testOne","SomethingElse"], "downChain": ["AnotherThing","ProcessorTwo"]};
@@ -216,10 +218,11 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports.length).toEqual(5);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.TimeSeriesSummaryFullReportView);
 		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
 		
 		testProcessors = {"upChain": ["testone","somethingelse"], "downChain": ["anotherthing","processortwo"]};
@@ -240,10 +243,11 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(3);
+		expect(view.availableReports.length).toEqual(4);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.TimeSeriesSummaryFullReportView);
 		
 		testProcessors = {"upChain": ["testone","SomethingElse"], "downChain": ["ANOTHERTHING","processortwo"]};
 		thisSelectedTimeSeriesPT = {
@@ -263,10 +267,11 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports.length).toEqual(5);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.TimeSeriesSummaryFullReportView);
 		expect(view.availableReports).toContain(AQCU.view.UvHydrographReportView);
 		
 		
@@ -288,10 +293,11 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports.length).toEqual(5);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.TimeSeriesSummaryFullReportView);
 		expect(view.availableReports).toContain(AQCU.view.UvHydrographReportView);
 		
 		testProcessors = {"upChain": ["testOne","somethingelse"], "downChain": ["anotherThing","processortwo","ratingmodel"]};
@@ -312,10 +318,11 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(4);
+		expect(view.availableReports.length).toEqual(5);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
+		expect(view.availableReports).toContain(AQCU.view.TimeSeriesSummaryFullReportView);
 		expect(view.availableReports).toContain(AQCU.view.UvHydrographReportView);
 		
 		testProcessors = {"upChain": ["testOne","RATINGModel"], "downChain": ["AnotherThing","ProcessorTwo","statistics"]};
@@ -336,7 +343,7 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(7);
+		expect(view.availableReports.length).toEqual(8);
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
 		expect(view.availableReports).toContain(AQCU.view.SensorReadingSummaryReportView);
@@ -344,6 +351,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(view.availableReports).toContain(AQCU.view.FiveYearGWSummaryReportView);
 		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
 		expect(view.availableReports).toContain(AQCU.view.SiteVisitPeakReportView);
+		expect(view.availableReports).toContain(AQCU.view.TimeSeriesSummaryFullReportView);
 		expect(view.availableReports).not.toContain(AQCU.view.UvHydrographReportView);
 		
 		
@@ -365,7 +373,7 @@ describe("ReportConfigSelectionView.js", function() {
 		d.resolve(testProcessors);
 		view.populateAvailableReports(thisSelectedTimeSeriesPT);
 		
-		expect(view.availableReports.length).toEqual(6);
+		expect(view.availableReports.length).toEqual(7);
 		
 		expect(view.availableReports).toContain(AQCU.view.CorrectionsAtAGlanceReportView);
 		expect(view.availableReports).toContain(AQCU.view.ExtremesReportView);
@@ -373,6 +381,7 @@ describe("ReportConfigSelectionView.js", function() {
 		expect(view.availableReports).toContain(AQCU.view.SiteVisitPeakReportView);
 		expect(view.availableReports).toContain(AQCU.view.VDiagramReportView);
 		expect(view.availableReports).toContain(AQCU.view.DvHydrographReportView);
+		expect(view.availableReports).toContain(AQCU.view.TimeSeriesSummaryFullReportView);
 		expect(view.availableReports).not.toContain(AQCU.view.FiveYearGWSummaryReportView);
 	});
 	
