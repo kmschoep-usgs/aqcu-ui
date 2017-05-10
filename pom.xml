@@ -223,6 +223,7 @@
 						<source>src/main/webapp/js/view/widgets/DateField.js</source>
 						<source>src/main/webapp/js/view/widgets/SelectField.js</source>
 						<source>src/main/webapp/js/view/widgets/Select2Field.js</source>
+						<source>src/main/webapp/js/view/widgets/MultiselectField.js</source>
 						<source>src/main/webapp/js/view/widgets/TextField.js</source>
 
 						<!-- controllers -->
