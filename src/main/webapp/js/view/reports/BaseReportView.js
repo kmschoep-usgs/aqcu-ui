@@ -6,7 +6,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	selectedTimeSeries: null, //array of json objects describing selected timeseries, this array is ordered
 	relatedTimeseriesConfig: [], //override this
 	ratingModels: [],
-	excludedCorrections: [],
+	excludedCorrections: [], // if you override with items in reports, you'll have the exclude selector appear
 	
 	events: {
 		'click .report-card-header': 'applyReportOptions'
