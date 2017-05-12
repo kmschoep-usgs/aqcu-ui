@@ -104,10 +104,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		for(var i = 0; i < this.ratingModels.length; i++) {
 			this.createRatingModelDisplay(this.ratingModels[i], true);
 		}
-		if(this.excludedCorrections.length) {
-			this.createCorrectionExclusionSelector();
-			this.bindToCorrectionExclusionSelectors(this.updateExcludedCorrections, this);
-		}
 	},
 	
 	createTimeseriesSelectionBox : function(params) {
@@ -535,10 +531,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		//attach rating model selections
 		for(var i = 0; i < this.ratingModels.length; i++) {
 			reportOptions[this.ratingModels[i].requestId] = this.model.get(this.ratingModels[i].requestId);
-		}
-		//get exclusion selection
-		if(this.excludedCorrections.length > 0) {
-			reportOptions.excludedCorrections = this.excludedCorrections.join(',');
 		}
 		
 		//date and site
