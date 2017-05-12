@@ -6,7 +6,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	selectedTimeSeries: null, //array of json objects describing selected timeseries, this array is ordered
 	relatedTimeseriesConfig: [], //override this
 	ratingModels: [],
-	excludedCorrections: [], // if you override with items in reports, you'll have the exclude selector appear
 	
 	events: {
 		'click .report-card-header': 'applyReportOptions'
@@ -280,34 +279,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		$.extend(this.bindings, ratingModelText.getBindingConfig());
 		container.append(newContainer);
 	},
-	//create exclude delete corrections filter
-	createCorrectionExclusionSelector: function() {
-		var excludeCorrectionField = $("<div><div><div class='row field-container'>" +
-				
-				"<div class='col-sm-5 col-md-5 col-lg-5'>" +
-				"<label for='excludedCorrections'>Exclude Corrections</label><br>" +
-				"</div>" +
-				
-				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
-				"<label><input class='excludeDeleteRegion' name='excludeDeleteRegion' type='checkbox'>Exclude Delete Region Corrections</label>" +
-				"</div>" +
-				
-				"</div></div></div>");//not sure this warrants using a template YET
-		this.model.set("excludeDeleteRegion", false);
-		$.extend(this.bindings, {
-			".excludeDeleteRegion" : "excludeDeleteRegion"
-		});
-		this.advancedOptionsContainer.append(excludeCorrectionField);
-	},
-        
-	bindToCorrectionExclusionSelectors: function(bindFunc, scope) {
-		this.model.bind("change:excludeDeleteRegion", bindFunc, scope);
-	},
-        
-	updateExcludedCorrections: function() {
-			this.excludedCorrections = [];
-			this.excludedCorrections.push(this.model.get("excludeDeleteRegion")?"DELETE_REGION":null);
-	},
+
 	startAjax : function(ajaxId, ajaxPromise) {
 		this.showLoader();
 		//if call previous call in progress
