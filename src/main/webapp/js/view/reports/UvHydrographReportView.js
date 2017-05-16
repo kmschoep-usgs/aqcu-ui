@@ -115,6 +115,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		this.createComparisonSiteSelector();
 		this.createComparisonTimeseriesSelector();
 		this.createZeroNegativeExclusionSelector();
+		this.createExcludeDeleteSelector();
 	},
 	
 	//create exclude delete corrections filter
@@ -135,6 +136,25 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			".excludeZeroNegative" : "excludeZeroNegative"
 		});
 		this.advancedOptionsContainer.append(excludeCorrectionField);
+	},
+	
+	createExcludeDeleteSelector: function() {
+		var excludeDeleteField = $("<div><div><div class='row field-container'>" +
+				
+				"<div class='col-sm-5 col-md-5 col-lg-5'>" +
+				"<label for='excludeDeleteCorrections'>Delete Corrections</label><br>" +
+				"</div>" +
+				
+				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
+				"<label><input class='excludeDeleteCorrections' name='excludeDeleteCorrections' type='checkbox'>Exclude Delete Corrections</label>" +
+				"</div>" +
+				
+				"</div></div></div>");//not sure this warrants using a template YET
+		this.model.set("excludeDeleteCorrections", false);
+		$.extend(this.bindings, {
+			".excludeDeleteCorrections" : "excludeDeleteCorrections"
+		});
+		this.advancedOptionsContainer.append(excludeDeleteField);
 	},
 	
 	validate: function() {
@@ -243,6 +263,10 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 
 		if(this.model.get("excludeZeroNegative")) {
 			reportOptions.excludeZeroNegative = this.model.get("excludeZeroNegative");
+		}
+		
+		if(this.model.get("excludeDeleteCorrections")) {
+			reportOptions.excludeDeleteCorrections = this.model.get("excludeDeleteCorrections");
 		}
 		
  		return reportOptions;
