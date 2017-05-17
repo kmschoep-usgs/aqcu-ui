@@ -24,4 +24,5 @@
 	<Environment name="aqcu.reports.webservice" override="true" type="java.lang.String" value="https://localhost:8443/aqcu-webservice" />
 	<Environment name="nwis-ra.home" override="true" type="java.lang.String" value="https://localhost:8443/reporting-ui" />
 	<Environment name="nwis-ra.service.url" override="true" type="java.lang.String" value="https://localhost:8443/reporting-ws-core/service" />
+	<Environment name="aqcu.google.analytics.token" override="true" type="java.lang.String" value="GA-TOKEN" />
 </Context>
