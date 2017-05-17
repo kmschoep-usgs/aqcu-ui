@@ -112,6 +112,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		this.availableReports = [];
 		var _this = this;
 		this.availableReports.push(AQCU.view.CorrectionsAtAGlanceReportView);
+		this.availableReports.push(AQCU.view.DerivationChainReportView);
 		if (
 				_.contains(['daily', 'weekly'], selectedTimeSeries.period.toLowerCase())  
 				|| (
