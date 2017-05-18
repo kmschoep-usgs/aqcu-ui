@@ -343,7 +343,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 				startDate: this.model.get("dateSelection").startDate,
 				endDate: this.model.get("dateSelection").endDate,
 				waterYear: this.model.get("dateSelection").waterYear,
-				lastMonths: this.model.get("dateSelection").lastMonths
+				lastMonths: this.model.get("dateSelection").lastMonths,
+				recursive: true
 			},
 			context: this,
 			success: function(data) {
