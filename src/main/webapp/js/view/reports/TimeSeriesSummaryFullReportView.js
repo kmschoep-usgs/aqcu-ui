@@ -2,46 +2,20 @@ AQCU.view.TimeSeriesSummaryFullReportView = AQCU.view.BaseReportView.extend({
 	reportName: "Time Series Summary", 
 	reportAbbreviation: "TSS",
 	reportType: "timeseriessummary",
-	relatedTimeseriesConfig: [{
-		requestId: "upchainTimeseriesIdentifier",
-		display: "Upchain Time Series",
-		direction: "upchain",
-		required: false,
-		computation: 'Instantaneous',
-		period: 'Points'
-	},{
-		requestId: "derivedMeanTimeseriesIdentifier",
-		display: "Daily Mean",
-		direction: "downchain",
-		required: false,
-		computation: 'Mean',
-		period: 'Daily'
-	},{
-		requestId: "derivedMaxTimeseriesIdentifier",
-		display: "Daily Max",
-		direction: "downchain",
-		required: false,
-		computation: 'Max',
-		period: 'Daily'
-	},{
-		requestId: "derivedMinTimeseriesIdentifier",
-		display: "Daily Min",
-		direction: "downchain",
-		required: false,
-		computation: 'Min',
-		period: 'Daily'
-	},{
-		requestId: "derivedMedianTimeseriesIdentifier",
-		display: "Daily Median",
-		direction: "downchain",
-		required: false,
-		computation: 'Median',
-		period: 'Daily'
-	}],
-	ratingModels: [{ 
-		requestId: "ratingModelIdentifier", 
-		display: "Primary Rating Model", 
-		required: false,
-		bindTo: "primaryTimeseriesIdentifier"
-	}]
+	excludedCorrections: ["excludeDeleteRegion"],
+	
+	buildAdvancedOptions: function() {
+		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
+		this.createCorrectionExclusionSelector();
+		this.bindToCorrectionExclusionSelectors(this.updateExcludedCorrections, this);
+	},
+	constructReportOptions: function() {
+		var reportOptions = AQCU.view.BaseReportView.prototype.constructReportOptions.apply(this, arguments);
+		if(this.excludedCorrections.length > 0) {
+						reportOptions.excludedCorrections = this.excludedCorrections.join(',');
+		}
+
+		return reportOptions;
+	}
+	
 });
