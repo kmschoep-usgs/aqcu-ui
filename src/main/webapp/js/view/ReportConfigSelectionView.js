@@ -130,6 +130,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 		if (_.contains(this.svpReportParameterLengthUnits.map(function(x) { return x.toLowerCase(); }), selectedTimeSeries.units.toLowerCase())){
 			_this.availableReports.push(AQCU.view.SiteVisitPeakReportView);
 		};
+		this.availableReports.push(AQCU.view.TimeSeriesSummaryFullReportView);
 		if (_.contains(['instantaneous','decumulated'], selectedTimeSeries.computation.toLowerCase()) 
 				&& _.contains(['points', 'hourly'], selectedTimeSeries.period.toLowerCase())) {
 			_this.availableReports.push(AQCU.view.UvHydrographReportView);
