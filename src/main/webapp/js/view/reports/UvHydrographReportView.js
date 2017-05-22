@@ -2,6 +2,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	reportName: "UV Hydrograph", 
 	reportAbbreviation: "UV",
 	reportType: "uvhydrograph",
+	excludedCorrections: ["excludeDeleteRegion"],
 	relatedTimeseriesConfig: [{
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Upchain Time Series",
@@ -115,6 +116,8 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		this.createComparisonSiteSelector();
 		this.createComparisonTimeseriesSelector();
 		this.createZeroNegativeExclusionSelector();
+		this.createCorrectionExclusionSelector();
+		this.bindToCorrectionExclusionSelectors(this.updateExcludedCorrections, this);
 	},
 	
 	//create exclude delete corrections filter
@@ -243,6 +246,10 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 
 		if(this.model.get("excludeZeroNegative")) {
 			reportOptions.excludeZeroNegative = this.model.get("excludeZeroNegative");
+		}
+		
+		if(this.excludedCorrections.length > 0) {
+			reportOptions.excludedCorrections = this.excludedCorrections.join(",");
 		}
 		
  		return reportOptions;

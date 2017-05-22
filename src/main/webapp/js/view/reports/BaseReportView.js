@@ -306,8 +306,9 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
         
 	updateExcludedCorrections: function() {
 			this.excludedCorrections = [];
-			this.excludedCorrections.push(this.model.get("excludeDeleteRegion")?"DELETE_REGION":null);
+			this.excludedCorrections.push(this.model.get("excludeDeleteRegion")?"DeleteRegion":null);
 	},
+
 	startAjax : function(ajaxId, ajaxPromise) {
 		this.showLoader();
 		//if call previous call in progress
