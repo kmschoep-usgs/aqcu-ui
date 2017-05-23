@@ -2,7 +2,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	reportName: "UV Hydrograph", 
 	reportAbbreviation: "UV",
 	reportType: "uvhydrograph",
-	excludedCorrections: ["excludeDeleteRegion"],
+	excludedCorrections: [],
 	relatedTimeseriesConfig: [{
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Upchain Time Series",
