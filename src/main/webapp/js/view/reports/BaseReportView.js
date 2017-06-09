@@ -282,22 +282,22 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	},
 	//create exclude delete corrections filter
 	createCorrectionExclusionSelector: function() {
-		var excludeCorrectionField = $("<div><div><div class='row field-container'>" +
-				
-				"<div class='col-sm-5 col-md-5 col-lg-5'>" +
-				"<label for='excludedCorrections'>Exclude Corrections</label><br>" +
-				"</div>" +
-				
-				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
-				"<label><input class='excludeDeleteRegion' name='excludeDeleteRegion' type='checkbox'>Exclude Delete Region Corrections</label>" +
-				"</div>" +
-				
-				"</div></div></div>");//not sure this warrants using a template YET
-		this.model.set("excludeDeleteRegion", false);
-		$.extend(this.bindings, {
-			".excludeDeleteRegion" : "excludeDeleteRegion"
+		var newContainer = $("<div>");
+		var correctionExclusionSelector  = new AQCU.view.CheckBoxField({
+			router: this.router,
+			model: this.model,
+			fieldConfig: {
+				fieldName : "excludeDeleteRegion",
+				displayName : "Exclude Corrections",
+				description : "Exclude Delete Region Corrections"
+			},
+			renderTo: newContainer,
+			startHidden: false
 		});
-		this.advancedOptionsContainer.append(excludeCorrectionField);
+		
+		this.model.set("excludeDeleteRegion", false);
+		$.extend(this.bindings, correctionExclusionSelector.getBindingConfig());
+		this.advancedOptionsContainer.append(newContainer);
 	},
         
 	bindToCorrectionExclusionSelectors: function(bindFunc, scope) {
