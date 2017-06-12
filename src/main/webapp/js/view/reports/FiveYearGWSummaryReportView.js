@@ -51,25 +51,6 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 		this.createExcludeMinMaxSelector();
 	},
 	
-	createExcludeMinMaxSelector: function() {
-	    var newContainer = $("<div>");
-	    var excludeMinMaxSelector  = new AQCU.view.CheckBoxField({
-		    router: this.router,
-		    model: this.model,
-		    fieldConfig: {
-			    fieldName : "excludeMinMax",
-			    displayName : "Additional Options",
-			    description : "Disable Min/Max Plotting"
-		    },
-		    renderTo: newContainer,
-		    startHidden: false
-	    });
-
-	    this.model.set("excludeMinMax", false);
-	    $.extend(this.bindings, excludeMinMaxSelector.getBindingConfig());
-	    this.advancedOptionsContainer.append(newContainer);
-	},
-	
 	loadAllRequiredTimeseries: function (params) {
 		var _this = this;
 		if (this.model.get("selectedTimeSeries") && this.model.get("dateSelection")

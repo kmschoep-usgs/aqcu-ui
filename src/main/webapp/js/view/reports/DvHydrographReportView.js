@@ -102,45 +102,6 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 		this.createExcludeMinMaxSelector();
 	},
 	
-	//create exclude delete corrections filter
-	createZeroNegativeExclusionSelector: function() {
-	    var newContainer = $("<div>");
-	    var excludeZeroNegativeSelector  = new AQCU.view.CheckBoxField({
-		    router: this.router,
-		    model: this.model,
-		    fieldConfig: {
-			    fieldName : "excludeZeroNegative",
-			    displayName : "Zero/Negative Values",
-			    description : "Exclude Zero/Negative Values"
-		    },
-		    renderTo: newContainer,
-		    startHidden: false
-	    });
-
-	    this.model.set("excludeZeroNegative", false);
-	    $.extend(this.bindings, excludeZeroNegativeSelector.getBindingConfig());
-	    this.advancedOptionsContainer.append(newContainer);
-	},
-	
-	createExcludeMinMaxSelector: function() {
-	    var newContainer = $("<div>");
-	    var excludeMinMaxSelector  = new AQCU.view.CheckBoxField({
-		    router: this.router,
-		    model: this.model,
-		    fieldConfig: {
-			    fieldName : "excludeMinMax",
-			    displayName : "Additional Options",
-			    description : "Disable Min/Max Plotting"
-		    },
-		    renderTo: newContainer,
-		    startHidden: false
-	    });
-
-	    this.model.set("excludeMinMax", false);
-	    $.extend(this.bindings, excludeMinMaxSelector.getBindingConfig());
-	    this.advancedOptionsContainer.append(newContainer);
-	},
-	
 	createComparisonSiteSelector: function() {
 		var newContainer = $('<div class="aqcu-dv-comparison-site"></div>');
 		this.advancedOptionsContainer.append(newContainer);

@@ -120,26 +120,6 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		this.bindToCorrectionExclusionSelectors(this.updateExcludedCorrections, this);
 	},
 	
-	//create exclude delete corrections filter
-	createZeroNegativeExclusionSelector: function() {
-	    var newContainer = $("<div>");
-	    var excludeZeroNegativeSelector  = new AQCU.view.CheckBoxField({
-		    router: this.router,
-		    model: this.model,
-		    fieldConfig: {
-			    fieldName : "excludeZeroNegative",
-			    displayName : "Zero/Negative Values",
-			    description : "Exclude Zero/Negative Values"
-		    },
-		    renderTo: newContainer,
-		    startHidden: false
-	    });
-
-	    this.model.set("excludeZeroNegative", false);
-	    $.extend(this.bindings, excludeZeroNegativeSelector.getBindingConfig());
-	    this.advancedOptionsContainer.append(newContainer);
-	},
-	
 	validate: function() {
 		this.updateRequiredTimeseries();
 		
