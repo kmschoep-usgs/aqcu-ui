@@ -122,22 +122,22 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	
 	//create exclude delete corrections filter
 	createZeroNegativeExclusionSelector: function() {
-		var excludeCorrectionField = $("<div><div><div class='row field-container'>" +
-				
-				"<div class='col-sm-5 col-md-5 col-lg-5'>" +
-				"<label for='excludeZeroNegative'>Zero/Negative Values</label><br>" +
-				"</div>" +
-				
-				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
-				"<label><input class='excludeZeroNegative' name='excludeZeroNegative' type='checkbox'>Exclude Zero/Negative Values</label>" +
-				"</div>" +
-				
-				"</div></div></div>");//not sure this warrants using a template YET
-		this.model.set("excludeZeroNegative", false);
-		$.extend(this.bindings, {
-			".excludeZeroNegative" : "excludeZeroNegative"
-		});
-		this.advancedOptionsContainer.append(excludeCorrectionField);
+	    var newContainer = $("<div>");
+	    var excludeZeroNegativeSelector  = new AQCU.view.CheckBoxField({
+		    router: this.router,
+		    model: this.model,
+		    fieldConfig: {
+			    fieldName : "excludeZeroNegative",
+			    displayName : "Zero/Negative Values",
+			    description : "Exclude Zero/Negative Values"
+		    },
+		    renderTo: newContainer,
+		    startHidden: false
+	    });
+
+	    this.model.set("excludeZeroNegative", false);
+	    $.extend(this.bindings, excludeZeroNegativeSelector.getBindingConfig());
+	    this.advancedOptionsContainer.append(excludeZeroNegativeSelector);
 	},
 	
 	validate: function() {
