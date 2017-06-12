@@ -52,22 +52,22 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 	},
 	
 	createExcludeMinMaxSelector: function() {
-		var excludeMinMaxField = $("<div><div><div class='row field-container'>" +
-				
-				"<div class='col-sm-5 col-md-5 col-lg-5'>" +
-				"<label for='excludeMinMax'>Additional Options</label><br>" +
-				"</div>" +
-				
-				"<div class='checkbox col-sm-7 col-md-7 col-lg-7'>" +
-				"<label><input class='excludeMinMax' name='excludeMinmax' type='checkbox'>Disable Min/Max Plotting</label>" +
-				"</div>" +
-				
-				"</div></div></div>");//not sure this warrants using a template YET
-		this.model.set("excludeMinMax", false);
-		$.extend(this.bindings, {
-			".excludeMinMax" : "excludeMinMax"
-		});
-		this.advancedOptionsContainer.append(excludeMinMaxField);
+	    var newContainer = $("<div>");
+	    var excludeMinMaxSelector  = new AQCU.view.CheckBoxField({
+		    router: this.router,
+		    model: this.model,
+		    fieldConfig: {
+			    fieldName : "excludeMinMax",
+			    displayName : "Additional Options",
+			    description : "Disable Min/Max Plotting"
+		    },
+		    renderTo: newContainer,
+		    startHidden: false
+	    });
+
+	    this.model.set("excludeMinMax", false);
+	    $.extend(this.bindings, excludeMinMaxSelector.getBindingConfig());
+	    this.advancedOptionsContainer.append(newContainer);
 	},
 	
 	loadAllRequiredTimeseries: function (params) {
