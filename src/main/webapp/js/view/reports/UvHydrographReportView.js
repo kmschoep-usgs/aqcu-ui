@@ -137,7 +137,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 
 	    this.model.set("excludeZeroNegative", false);
 	    $.extend(this.bindings, excludeZeroNegativeSelector.getBindingConfig());
-	    this.advancedOptionsContainer.append(excludeZeroNegativeSelector);
+	    this.advancedOptionsContainer.append(newContainer);
 	},
 	
 	validate: function() {
