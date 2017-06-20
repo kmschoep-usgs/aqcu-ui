@@ -26,6 +26,8 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
+		this.ajaxCalls = {};
+		
 		this.savedReportsController = this.options.savedReportsController;
 		
 		this.router = this.options.router;
@@ -47,6 +49,24 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		this.fetchTimeSeries();
 	},
 	
+	startAjax : function(ajaxId, ajaxPromise) {
+		this.model.set('visibility','loading');
+		//if call previous call in progress
+		this.abortAjax(this.ajaxCalls[ajaxId]);
+		this.ajaxCalls[ajaxId] = ajaxPromise;
+		
+		var _this = this;
+		$.when(ajaxPromise).done(function(){
+			this.displayGrid();
+		});
+	}, 
+	
+	abortAjax : function(ajaxCall) {
+		if(ajaxCall && ajaxCall.abort) {
+			ajaxCall.abort();
+		} 
+	},
+	
 	displayGrid: function() {
 		this.destroyReportCards();
 		
@@ -65,8 +85,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		if(site) {
 			_this.model.set("timeSeriesList", []);
 			this.displayGrid();
-			this.model.set('visibility','loading');
-			$.ajax({
+			this.startAjax(site + 'fetchTimeSeries', $.ajax({
 				url: AQCU.constants.serviceEndpoint +
 						"/service/lookup/timeseries/identifiers",
 				timeout: 120000,
@@ -101,7 +120,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 				error: function (a, b, c) {
 					$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c);
 				}
-			});
+			}));
 		} else {
 			this.model.set('visibility','hidden');
 		}
