@@ -89,34 +89,58 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		$.extend(this.bindings, primaryFilter.getBindingConfig());
 	},
 	
-	createComputationFilter: function() {		
-		this.computationFilter = new AQCU.view.MultiselectField({
-			el: '.computationFilter',
-			model : this.model,
-			fieldConfig: {
-			    fieldName: "computationFilter",
-			    displayName: "Filter Computations",
-			    description: "Field Visit Measurements that have a Control Condition which matches one of the selected values will be excluded from the report.",
-			    placeholder: "Computations to Show"
+	createComputationFilter: function() {	
+		$.ajax({
+			url: AQCU.constants.serviceEndpoint +
+					"/service/lookup/computations",
+			timeout: 30000,
+			dataType: "json",
+			context: this,
+			success: function (data) {			
+				this.computationFilter = new AQCU.view.MultiselectField({
+					el: '.computationFilter',
+					model : this.model,
+					fieldConfig: {
+						fieldName: "computationFilter",
+						displayName: "Filter Computations",
+						description: "The list of time series below will be limited to the selected computations.",
+						placeholder: "Computations to Show"
+					},
+					data: data,
+					initialSelection: this.model.get("computationFilter")
+				});
 			},
-			data: this.model.get("computationFilter"),
-			initialSelection: this.model.get("computationFilter")
-		});
+			error: function (a, b, c) {
+				$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c)
+			}
+	    });
 	},
 	
-	createPeriodFilter: function() {
-		this.periodFilter = new AQCU.view.MultiselectField({
-			el: '.periodFilter',
-			model : this.model,
-			fieldConfig: {
-			    fieldName: "periodFilter",
-			    displayName: "Filter Periods",
-			    description: "Field Visit Measurements that have a Control Condition which matches one of the selected values will be excluded from the report.",
-			    placeholder: "Periods to Show"
+	createPeriodFilter: function() {		
+		$.ajax({
+			url: AQCU.constants.serviceEndpoint +
+					"/service/lookup/periods",
+			timeout: 30000,
+			dataType: "json",
+			context: this,
+			success: function (data) {			
+				this.periodFilter = new AQCU.view.MultiselectField({
+					el: '.periodFilter',
+					model : this.model,
+					fieldConfig: {
+						fieldName: "periodFilter",
+						displayName: "Filter Periods",
+						description: "The list of time series below will be limited to the selected periods.",
+						placeholder: "Periods to Show"
+					},
+					data: data,
+					initialSelection: this.model.get("periodFilter")
+				});
 			},
-			data: this.model.get("periodFilter"),
-			initialSelection: this.model.get("periodFilter")
-		});
+			error: function (a, b, c) {
+				$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c)
+			}
+	    });
 	},
 	
 	updateFilter: function() {

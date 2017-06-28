@@ -34,8 +34,7 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 					"Decumulated"
 				],
 				periodFilter: [
-					"Points",
-					"Daily"
+					"Points"
 				]
 			}
 		});

@@ -16,16 +16,6 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		"click .remove-reports-btn": "removeReportCards"
 	},
 	
-	visibleComputations: [
-	    "Decumulated",
-	    "Instantaneous"
-	],
-	
-	visiblePeriods: [
-	    "Points",
-	    "Daily"
-	],
-	
 	initialize: function() {
 		AQCU.view.BaseView.prototype.initialize.apply(this, arguments);
 		
@@ -126,8 +116,14 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	},
 	
 	isVisibleComputation: function(input) {
-		for(var i=0; i < this.visibleComputations.length; i++) {
-			if(input.includes(this.visibleComputations[i])) {
+		var visibleComputations = this.model.get("filter").computationFilter;
+		
+		if(visibleComputations == null || visibleComputations.length == 0){
+			return true;
+		}
+		
+		for(var i=0; i < visibleComputations.length; i++) {
+			if(input.includes(visibleComputations[i])) {
 				return true;
 			}			
 		}
@@ -135,8 +131,14 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	},
 	
 	isVisiblePeriod: function(input) {
-	    for(var i=0; i < this.visiblePeriods.length; i++) {
-			if(input.includes(this.visiblePeriods[i])) {
+		var visiblePeriods = this.model.get("filter").periodFilter;
+		
+		if(visiblePeriods == null || visiblePeriods.length == 0){
+			return true;
+		}
+		
+	    for(var i=0; i < visiblePeriods.length; i++) {
+			if(input.includes(visiblePeriods[i])) {
 				return true;
 			}			
 		}
