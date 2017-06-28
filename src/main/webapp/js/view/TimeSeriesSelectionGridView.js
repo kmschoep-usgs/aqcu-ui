@@ -9,8 +9,6 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	* This will be built up in the initialize function.
 	*/
 	bindings: {
-		"#filterPublish" : "filterPublish",
-		"#filterPrimary" : "filterPrimary"
 	},
 
 	events: {
@@ -19,8 +17,13 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	},
 	
 	visibleComputations: [
-		"Decumulated",
-		"Instantaneous"
+	    "Decumulated",
+	    "Instantaneous"
+	],
+	
+	visiblePeriods: [
+	    "Points",
+	    "Daily"
 	],
 	
 	initialize: function() {
@@ -36,12 +39,12 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		
 		this.model = this.options.model || new Backbone.Model({
 				timeSeriesList: this.options.timeSeriesList, //this gets set by select,
-				filterPublish: this.parentModel.get("filterPublish"),
-				filterPrimary: this.parentModel.get("filterPrimary")
-			});
+				filter: this.parentModel.get("filter")
+		});
 
 		this.model.bind("change:visibility",this.changeVisibility,this);
-		this.model.bind("change:filterPublish change:filterPrimary",this.displayGrid,this);
+		this.model.bind("change:filter",this.displayGrid,this);
+		this.parentModel.bind("change:filter",this.updateFilter,this);
 		this.parentModel.bind("change:site", this.fetchTimeSeries, this)
 		
 		this.displayedReportSelectors = {};
@@ -70,13 +73,13 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	displayGrid: function() {
 		this.destroyReportCards();
 		
-		//set parent filters so these settings stick across site navigation
-		this.parentModel.set("filterPublish", this.model.get("filterPublish"));
-		this.parentModel.set("filterPrimary", this.model.get("filterPrimary"));
-		
 		this.beautifyAndFilter();
 		this.model.set('visibility','shown');
 		this.render();
+	},
+	
+	updateFilter: function() {
+		this.mode.set("filter", this.parentModel.get("filter"))
 	},
 	
 	fetchTimeSeries: function () {
@@ -134,6 +137,15 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		}
 		return false;
 	},
+	
+	isVisiblePeriod: function(input) {
+	    for(var i=0; i < this.visiblePeriods.length; i++) {
+			if(input.includes(this.visiblePeriods[i])) {
+				return true;
+			}			
+		}
+	    return false;
+	},
 		
 	afterRender: function() {
 		this.stickit();
@@ -148,15 +160,15 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		for(var i=0;i < timeSeriesList.length;i++){
 			var newRec = timeSeriesList[i];
 			var includeRec = true;
-			if(this.model.get("filterPublish") && !newRec.publish) {
+			if(this.model.get("filter").onlyPublish && !newRec.publish) {
 				includeRec = false;
 			}
 
-			if(this.model.get("filterPrimary") && !newRec.primary) {
+			if(this.model.get("filter").onlyPrimary && !newRec.primary) {
 				includeRec = false;
 			}
 			
-			if(!this.isVisibleComputation(newRec.computation))
+			if(!this.isVisibleComputation(newRec.computation) || !this.isVisiblePeriod(newRec.period))
 			{
 				includeRec = false;
 			}

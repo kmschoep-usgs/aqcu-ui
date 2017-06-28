@@ -26,8 +26,18 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 				dateSelection: this.parentModel.get("dateSelection"),
 				selectedTimeSeries: this.parentModel.get("selectedTimeSeries"), 
 				requestParams: null,
-				filterPublish: this.parentModel.get("filterPublish"),
-				filterPrimary: this.parentModel.get("filterPrimary")
+				filter: {
+					onlyPrimary: true,
+					onlyPublish: true,
+					includeComputations: [
+						"Instantaneous",
+						"Decumulated"
+					],
+					includePeriods: [
+						"Points",
+						"Daily"
+					]
+				}
 			});
 		
 		this.parentModel.bind("change:selectedSite", this.siteUpdated, this);
@@ -55,13 +65,19 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 			router: this.router,
 			el: this.$(".report-config-header-container")
 		});
+		
+		this.filterView = new AQCU.view.TimeSeriesSelectionFilterView({
+			parentModel: this.model,
+			router: this.router,
+			el: this.$(".time-series-selection-filter-container")
+		});
 
 		this.selectionGrid = new AQCU.view.TimeSeriesSelectionGridView({
-				parentModel: this.model,
-				router: this.router,
-				savedReportsController: this.savedReportsController,
-				el: this.$(".time-series-selection-grid-container")
-			});
+			parentModel: this.model,
+			router: this.router,
+			savedReportsController: this.savedReportsController,
+			el: this.$(".time-series-selection-grid-container")
+		});
 		
 		this.stickit();
 	},
