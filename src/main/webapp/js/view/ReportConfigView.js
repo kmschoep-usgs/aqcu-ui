@@ -22,23 +22,23 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		var site = this.parentModel.get("site");
 		
 		this.model = this.options.model || new Backbone.Model({
-				site: this.parentModel.get("site"),
-				dateSelection: this.parentModel.get("dateSelection"),
-				selectedTimeSeries: this.parentModel.get("selectedTimeSeries"), 
-				requestParams: null,
-				filter: {
-					onlyPrimary: true,
-					onlyPublish: true,
-					includeComputations: [
-						"Instantaneous",
-						"Decumulated"
-					],
-					includePeriods: [
-						"Points",
-						"Daily"
-					]
-				}
-			});
+			site: this.parentModel.get("site"),
+			dateSelection: this.parentModel.get("dateSelection"),
+			selectedTimeSeries: this.parentModel.get("selectedTimeSeries"), 
+			requestParams: null,
+			filter: {
+				onlyPrimary: true,
+				onlyPublish: true,
+				computationFilter: [
+					"Instantaneous",
+					"Decumulated"
+				],
+				periodFilter: [
+					"Points",
+					"Daily"
+				]
+			}
+		});
 		
 		this.parentModel.bind("change:selectedSite", this.siteUpdated, this);
 		this.model.bind("change:requestParams", this.launchReport, this);

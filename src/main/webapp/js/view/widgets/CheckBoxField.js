@@ -32,13 +32,17 @@ AQCU.view.CheckBoxField = Backbone.View.extend({
 		this.fieldConfig = this.options.fieldConfig;
 		this.renderTo = this.options.renderTo;
 		this.model = this.options.model;
+		this.immediateUpdate = options.immediateUpdate;
 		Backbone.View.prototype.initialize.apply(this, arguments);
 		this.render();
 	},
 	render: function() {
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
 		this.$el.append(newDom);
-		this.renderTo.append(this.el);
+		
+		if(this.renderTo != null){
+			this.renderTo.append(this.el);
+		}
 	},
 	/**
 	 * The HTML that is generated here can be bound using Backbone stickit with the following
@@ -48,9 +52,13 @@ AQCU.view.CheckBoxField = Backbone.View.extend({
 	getBindingConfig: function() {
 		var binding = {};
 		binding[".aqcu_check_box_field_" + this.fieldConfig.fieldName] = {
-			observe: this.fieldConfig.fieldName,
-			events: ['blur'] //this causes the model to only update after you leave the field
+			observe: this.fieldConfig.fieldName
 		};
+		
+		//this causes the model to only update after you leave the field if enabled
+		if(this.immediateUpdate == null || this.immediateUpdate == false){
+			binding[".aqcu_check_box_field_" + this.fieldConfig.fieldName].events = ['blur'];
+		}
 		return binding;
 	}
 });

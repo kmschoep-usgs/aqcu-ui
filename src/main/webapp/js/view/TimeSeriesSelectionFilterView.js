@@ -4,8 +4,6 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 	templateName: 'time-series-selection-filter',
 	
 	bindings: {
-		"#onlyPublish" : "onlyPublish",
-		"#onlyPrimary" : "onlyPrimary"
 	},
 
 	events: {
@@ -22,8 +20,19 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 				timeSeriesList: this.options.timeSeriesList, //this gets set by select,
 				filter: this.parentModel.get("filter"),
 				onlyPublish: true,
-				onlyPrimary: true
+				onlyPrimary: true,
+				computationFilter: [],
+				periodFilter: []
 		});
+		
+		var filter = this.model.get("filter");
+		
+		if(filter != null){
+			this.model.set("onlyPublish", filter.onlyPublish);
+			this.model.set("onlyPrimary", filter.onlyPrimary);
+			this.model.set("computationFilter", filter.computationFilter);
+			this.model.set("periodFilter", filter.periodFilter);
+		}
 		
 		this.parentModel.bind("change:site", this.render, this);
 		
@@ -31,8 +40,8 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		//so we need to update each filter param individually
 		this.model.bind("change:onlyPublish", this.updateFilter, this);
 		this.model.bind("change:onlyPrimary", this.updateFilter, this);
-		this.model.bind("change:includeComputations", this.updateFilter, this);
-		this.model.bind("change:includePeriods", this.updateFilter, this);
+		this.model.bind("change:computationFilter", this.updateFilter, this);
+		this.model.bind("change:periodFilter", this.updateFilter, this);
 	},
 	
 	/*override*/
@@ -43,17 +52,81 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 	},
 	
 	afterRender: function () {
+		this.createPublishPrimaryFilters();
+		this.createComputationFilter();
+		this.createPeriodFilter();
 		this.stickit();
+	},
+	
+	createPublishPrimaryFilters: function() {
+		var publishFilter = new AQCU.view.CheckBoxField({
+			router: this.router,
+			model: this.model,
+			fieldConfig: {
+				fieldName : "onlyPublish",
+				displayName : "Publish",
+				description : "Publish Only"
+			},
+			el: '.publishFilter',
+			immediateUpdate: true,
+			startHidden: false
+		});
+		
+		var primaryFilter = new AQCU.view.CheckBoxField({
+			router: this.router,
+			model: this.model,
+			fieldConfig: {
+				fieldName : "onlyPrimary",
+				displayName : "Primary",
+				description : "Primary Only"
+			},
+			el: '.primaryFilter',
+			immediateUpdate: true,
+			startHidden: false
+		});
+		
+		$.extend(this.bindings, publishFilter.getBindingConfig());
+		$.extend(this.bindings, primaryFilter.getBindingConfig());
+	},
+	
+	createComputationFilter: function() {		
+		this.computationFilter = new AQCU.view.MultiselectField({
+			el: '.computationFilter',
+			model : this.model,
+			fieldConfig: {
+			    fieldName: "computationFilter",
+			    displayName: "Filter Computations",
+			    description: "Field Visit Measurements that have a Control Condition which matches one of the selected values will be excluded from the report.",
+			    placeholder: "Computations to Show"
+			},
+			data: this.model.get("computationFilter"),
+			initialSelection: this.model.get("computationFilter")
+		});
+	},
+	
+	createPeriodFilter: function() {
+		this.periodFilter = new AQCU.view.MultiselectField({
+			el: '.periodFilter',
+			model : this.model,
+			fieldConfig: {
+			    fieldName: "periodFilter",
+			    displayName: "Filter Periods",
+			    description: "Field Visit Measurements that have a Control Condition which matches one of the selected values will be excluded from the report.",
+			    placeholder: "Periods to Show"
+			},
+			data: this.model.get("periodFilter"),
+			initialSelection: this.model.get("periodFilter")
+		});
 	},
 	
 	updateFilter: function() {
 		//Need to deep-copy the filter object into a new object to trigger the 
 		//backbone 'change' event
 		var filter = JSON.parse(JSON.stringify(this.model.get("filter")));
-		filter.onlyPublish = this.model.get("onlyPublish") == null ? false : true;
-		filter.onlyPrimary = this.model.get("onlyPrimary") == null ? false : true;
-		filter.includeComputations = this.model.get("includeComputations");
-		filter.includePeriods = this.model.get("includePeriods");
+		filter.onlyPublish = this.model.get("onlyPublish");
+		filter.onlyPrimary = this.model.get("onlyPrimary");
+		filter.computationFilter = this.model.get("computationFilter");
+		filter.periodFilter = this.model.get("periodFilter");
 		this.model.set("filter", filter);
 		this.parentModel.set("filter", filter);
 	}

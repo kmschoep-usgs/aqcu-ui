@@ -72,7 +72,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	displayGrid: function() {
 		this.destroyReportCards();
 		this.model.set("filter", this.parentModel.get("filter"));
-		
+
 		this.beautifyAndFilter();
 		this.model.set('visibility','shown');
 		this.render();
@@ -163,12 +163,12 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 			if(this.model.get("filter").onlyPrimary && !newRec.primary) {
 				includeRec = false;
 			}
-			
+
 			if(!this.isVisibleComputation(newRec.computation) || !this.isVisiblePeriod(newRec.period))
 			{
 				includeRec = false;
 			}
-			
+
 			if(includeRec) {
 				newRec["identifier"] = newRec["identifier"].split("@",1)[0]
 				filteredList.push(newRec);
