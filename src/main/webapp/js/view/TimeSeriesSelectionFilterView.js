@@ -47,7 +47,9 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 	},
 	
 	updateFilter: function() {
-		var filter = this.model.get("filter");
+		//Need to deep-copy the filter object into a new object to trigger the 
+		//backbone 'change' event
+		var filter = JSON.parse(JSON.stringify(this.model.get("filter")));
 		filter.onlyPublish = this.model.get("onlyPublish") == null ? false : true;
 		filter.onlyPrimary = this.model.get("onlyPrimary") == null ? false : true;
 		filter.includeComputations = this.model.get("includeComputations");

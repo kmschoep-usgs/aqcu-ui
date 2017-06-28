@@ -43,9 +43,8 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		});
 
 		this.model.bind("change:visibility",this.changeVisibility,this);
-		this.model.bind("change:filter",this.displayGrid,this);
-		this.parentModel.bind("change:filter",this.updateFilter,this);
-		this.parentModel.bind("change:site", this.fetchTimeSeries, this)
+		this.parentModel.bind("change:filter",this.displayGrid,this);
+		this.parentModel.bind("change:site", this.fetchTimeSeries, this);
 		
 		this.displayedReportSelectors = {};
 		
@@ -72,14 +71,11 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	
 	displayGrid: function() {
 		this.destroyReportCards();
+		this.model.set("filter", this.parentModel.get("filter"));
 		
 		this.beautifyAndFilter();
 		this.model.set('visibility','shown');
 		this.render();
-	},
-	
-	updateFilter: function() {
-		this.mode.set("filter", this.parentModel.get("filter"))
 	},
 	
 	fetchTimeSeries: function () {
