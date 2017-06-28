@@ -63,7 +63,7 @@ AQCU.view.MultiselectField = Backbone.View.extend({
 	},
 	render: function() {
 		var newDom = this.template(this.fieldConfig); //new DOM elements created from templates
-			this.$el.html(newDom);
+		this.$el.html(newDom);
 		this.$(this.selector).select2(this.select2);
 		//This uses the same stickit handler as Select2Field
 		this.stickit();
