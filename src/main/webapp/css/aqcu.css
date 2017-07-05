@@ -1,3 +1,7 @@
+.dropdown-menu{
+    z-index:1060;
+}
+
 #aqcu-ui-content {
 	padding-top: 40px;
 	min-height: 600px;
@@ -257,6 +261,8 @@
 	border: solid black 1px;
 	border-radius: 5px;
 	float: left; 
+	padding: 0 !important;
+	z-index: 9000;
 }
 
 .report-card-title {
@@ -264,26 +270,65 @@
 }
 
 .report-card-header {
-	margin-top: .75em;
 	float:left;
 	font-weight: bold;
 	cursor: pointer;
+	width: 60%;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
 }
 
-.add-to-saved-reports {
-	position: relative;
-	right: 0.1em;
-	top: 0.4em;
-	cursor: pointer;
-	float:right;
+
+.cogSaveTooltip{
+    background:#fff;
+    min-width:150px;
+    padding:5px;
+    visibility: hidden;
+    position:absolute;
+    left:0;
+    z-index:9001;
+    font-size:.9em;
+    font-style: normal;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:#000;
+    box-shadow:0 0 5px rgba(0,0,0,.4);
+    transition: 0s visibility;
 }
 
-.config-btn, .warning-indicator {
+#cogTooltip{
+    top:-30px;
+}
+
+#saveTooltip{
+    bottom:-30px;
+}
+
+.report-card-header:hover,
+.config-btn:hover,
+.add-to-saved-reports:hover{
+    background:#327CC3;
+    color:#fff;
+}
+
+.config-btn:hover .cogSaveTooltip,
+.add-to-saved-reports:hover .cogSaveTooltip{
+    visibility: visible;
+    transition-delay:1s;
+}
+
+.config-btn, 
+.warning-indicator,
+.add-to-saved-reports{
 	position: relative;
-	right: 0.1em;
-	top: 0.2em;
+	z-index:1059;
 	cursor: pointer;
 	float: right;
+	width:40%;
+	height:19px;
+	line-height:19px;
+	text-align:center;
+	font-size:1.3em;
 }
 
 .warning-indicator {
@@ -291,7 +336,9 @@
 }
 
 .loading-indicator {
-	margin-top: 0.25em;
+	font-size:1.8em;
+	margin:0.50em 0 0 .20em;
+	width:1em;
 }
 
 .aqcu-lg-loader-spinner {

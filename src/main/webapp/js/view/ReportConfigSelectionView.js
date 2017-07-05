@@ -111,8 +111,22 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	populateAvailableReports: function(selectedTimeSeries){
 		this.availableReports = [];
 		var _this = this;
-		this.availableReports.push(AQCU.view.CorrectionsAtAGlanceReportView);
 		this.availableReports.push(AQCU.view.DerivationChainReportView);
+		this.availableReports.push(AQCU.view.SensorReadingSummaryReportView);
+		this.availableReports.push(AQCU.view.CorrectionsAtAGlanceReportView);
+		this.availableReports.push(AQCU.view.TimeSeriesSummaryFullReportView);
+		if (selectedTimeSeries.timeSeriesType.toLowerCase() === "processorderived" 
+			&& _.contains(selectedTimeSeries.processorTypes.upChain.map(function(x) { return x.toLowerCase(); }), 'ratingmodel')) {
+			_this.availableReports.push(AQCU.view.VDiagramReportView);
+		};
+		if (_.contains(['instantaneous','decumulated'], selectedTimeSeries.computation.toLowerCase()) 
+				&& _.contains(['points', 'hourly'], selectedTimeSeries.period.toLowerCase())) {
+			_this.availableReports.push(AQCU.view.UvHydrographReportView);
+		};
+		this.availableReports.push(AQCU.view.ExtremesReportView);
+		if (_.contains(this.svpReportParameterLengthUnits.map(function(x) { return x.toLowerCase(); }), selectedTimeSeries.units.toLowerCase())){
+			_this.availableReports.push(AQCU.view.SiteVisitPeakReportView);
+		};
 		if (
 				_.contains(['daily', 'weekly'], selectedTimeSeries.period.toLowerCase())  
 				|| (
@@ -122,23 +136,13 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 			) {
 			_this.availableReports.push(AQCU.view.DvHydrographReportView);
 		};
-		this.availableReports.push(AQCU.view.ExtremesReportView);
 		if (_.contains(_this.gwReportParameters.map(function(x) { return x.toLowerCase(); }), selectedTimeSeries.parameter.toLowerCase())) {
 			_this.availableReports.push(AQCU.view.FiveYearGWSummaryReportView);
 		};
-		this.availableReports.push(AQCU.view.SensorReadingSummaryReportView);
-		if (_.contains(this.svpReportParameterLengthUnits.map(function(x) { return x.toLowerCase(); }), selectedTimeSeries.units.toLowerCase())){
-			_this.availableReports.push(AQCU.view.SiteVisitPeakReportView);
-		};
-		this.availableReports.push(AQCU.view.TimeSeriesSummaryFullReportView);
-		if (_.contains(['instantaneous','decumulated'], selectedTimeSeries.computation.toLowerCase()) 
-				&& _.contains(['points', 'hourly'], selectedTimeSeries.period.toLowerCase())) {
-			_this.availableReports.push(AQCU.view.UvHydrographReportView);
-		};
-		if (selectedTimeSeries.timeSeriesType.toLowerCase() === "processorderived" 
-			&& _.contains(selectedTimeSeries.processorTypes.upChain.map(function(x) { return x.toLowerCase(); }), 'ratingmodel')) {
-			_this.availableReports.push(AQCU.view.VDiagramReportView);
-		};
+		
+		
+		
+		
 		this.availableReportsPopulated.resolve(_this.availableReports);
 		return this.availableReportsPopulated.promise();
 	},
