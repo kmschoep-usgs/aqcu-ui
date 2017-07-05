@@ -1,3 +1,7 @@
+.dropdown-menu{
+    z-index:1060;
+}
+
 #aqcu-ui-content {
 	padding-top: 40px;
 	min-height: 600px;
