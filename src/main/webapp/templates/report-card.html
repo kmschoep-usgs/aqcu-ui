@@ -1,9 +1,15 @@
 <div class="report-card container">
 	<div class="report-card-header" title="{{reportName}} Report"> {{reportAbbreviation}}</div>
-	<i class="loading-indicator fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+	<i class="loading-indicator fa fa-circle-o-notch fa-spin fa-fw"></i>
 	<i class="warning-indicator fa fa-warning"></i>
-	<i class="config-btn fa fa-gear" data-toggle="modal" data-target="#{{reportType}}{{primaryTimeseriesIdentifier}}AdvOpt"></i><br />
-	<i class="add-to-saved-reports fa fa-save"></i>
+	<i class="config-btn fa fa-gear" data-toggle="modal" data-target="#{{reportType}}{{primaryTimeseriesIdentifier}}AdvOpt">
+	    <span id="cogTooltip" class="cogSaveTooltip">Advanced Report Options</span>
+	</i>
+	<br />
+	<i class="add-to-saved-reports fa fa-save">
+	    <span id="saveTooltip" class="cogSaveTooltip">Save to My Reports</span>
+	</i>
+	
 	
 	<!-- Advanced options modal -->
 	<div class="adv-options modal fade" id="{{reportType}}{{primaryTimeseriesIdentifier}}AdvOpt" role="dialog">
