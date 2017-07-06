@@ -211,12 +211,12 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	
 	alphabetizeSiteList: function(){
 	    var list, i, switching, b, shouldSwitch;
-	    list = document.getElementsByClassName("sortable");
+	    list = this.$(".sortable");
 	    switching = true;
     
 	    while (switching) {
 		switching = false;
-		b = $(list).children();
+		b = list.children();
 		for (i = 0; i < (b.length - 1); i++) {
 		    shouldSwitch = false;
 		    if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
