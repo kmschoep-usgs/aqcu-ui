@@ -13,7 +13,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	events: {
 		'click .site-selector-list-item': "onClickSiteItem",
 		'click .site-selector-remove-site': "onClickSiteRemove",
-		'click #sortSiteButton': "clickSortSiteButton"
+		'click .sortSiteButton': "clickSortSiteButton"
 	},
 	
 	initialize: function() {
@@ -175,12 +175,12 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	
 	dragAndDropSites: function(){
 	    //add id's to the li elements so after sorting we can save the order in localstorage
-	    $( "#sortable > li" ).each(function(index, domEle){ $(domEle).attr('id', 'item_'+index);});
+	    this.$( ".sortable > li" ).each(function(index, domEle){ $(domEle).attr('id', 'item_'+index);});
 
-	    $( "#sortable" ).sortable({
+	    this.$( ".sortable" ).sortable({
 		placeholder: "ui-state-highlight",
 		update: function() {        
-		    localStorage.setItem("sorted", $("#sortable").sortable("toArray") );
+		    localStorage.setItem("sorted", $(".sortable").sortable("toArray") );
 		}
 	    });
     
@@ -190,7 +190,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	
 	clickSortSiteButton: function(){
 	    this.alphabetizeSiteList();
-	    localStorage.setItem("sorted", $("#sortable").sortable("toArray") );
+	    localStorage.setItem("sorted", $(".sortable").sortable("toArray") );
 	    this.restoreSorted();
 	},
 	
@@ -199,22 +199,22 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	    var sorted = localStorage["sorted"];      
 	    if(sorted === undefined) return;
 
-	    var elements = $("#sortable");
+	    var elements = this.$(".sortable");
 	    var sortedArr = sorted.split(",");
 	    for (var i = 0; i < sortedArr.length; i++){
 		var el = elements.find("#" + sortedArr[i]);
-		$("#sortable").append(el);
+		this.$(".sortable").append(el);
 	    };
 	},
 	
 	alphabetizeSiteList: function(){
 	    var list, i, switching, b, shouldSwitch;
-	    list = document.getElementById("sortable");
+	    list = document.getElementsByClassName("sortable");
 	    switching = true;
     
 	    while (switching) {
 		switching = false;
-		b = list.getElementsByTagName("LI");
+		b = $(list).children();
 		for (i = 0; i < (b.length - 1); i++) {
 		    shouldSwitch = false;
 		    if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {

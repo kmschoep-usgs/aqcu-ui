@@ -53,7 +53,7 @@
 	border-top: 1px solid #a0a0a0;
 }
 
-#sortSiteButton{
+.sortSiteButton{
     width:250px;
     height:30px;
     margin:0 auto;
@@ -65,7 +65,7 @@
     cursor: pointer;
 }
 
-#sortSiteButton:hover{
+.sortSiteButton:hover{
     background:#327CC3;
     color:#fff;
 }
