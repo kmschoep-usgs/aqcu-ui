@@ -174,13 +174,14 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	dragAndDropSites: function(){
+	    var _this = this;
 	    //add id's to the li elements so after sorting we can save the order in localstorage
 	    this.$( ".sortable > li" ).each(function(index, domEle){ $(domEle).attr('id', 'item_'+index);});
 
 	    this.$( ".sortable" ).sortable({
 		placeholder: "ui-state-highlight",
 		update: function() {        
-		    localStorage.setItem("sorted", $(".sortable").sortable("toArray") );
+		    localStorage.setItem("sorted", _this.$(".sortable").sortable("toArray"));
 		}
 	    });
     
@@ -189,8 +190,9 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	clickSortSiteButton: function(){
+	    var _this = this;
 	    this.alphabetizeSiteList();
-	    localStorage.setItem("sorted", $(".sortable").sortable("toArray") );
+	    localStorage.setItem("sorted", _this.$(".sortable").sortable("toArray") );
 	    this.restoreSorted();
 	},
 	
