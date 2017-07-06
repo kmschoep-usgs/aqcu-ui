@@ -286,7 +286,6 @@
     visibility: hidden;
     position:absolute;
     left:0;
-    z-index:9001;
     font-size:.9em;
     font-style: normal;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -320,7 +319,7 @@
 .warning-indicator,
 .add-to-saved-reports{
 	position: relative;
-	z-index:1059;
+	z-index:1040;
 	cursor: pointer;
 	float: right;
 	width:40%;
