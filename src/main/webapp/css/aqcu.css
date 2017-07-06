@@ -53,6 +53,23 @@
 	border-top: 1px solid #a0a0a0;
 }
 
+#sortSiteButton{
+    width:250px;
+    height:30px;
+    margin:0 auto;
+    background:#fff;
+    text-align:center;
+    border:1px solid #aaa;
+    border-radius:5px;
+    line-height:30px;
+    cursor: pointer;
+}
+
+#sortSiteButton:hover{
+    background:#327CC3;
+    color:#fff;
+}
+
 .left-container {
 	margin-left: 0px;
 	margin-top: 10px;
@@ -90,6 +107,11 @@
 	width: 100%;
 }
 
+.ui-state-highlight{
+    background:#fff;
+    border:none;
+}
+
 .site-selection-panel span {
 	cursor: pointer;
 }
@@ -116,6 +138,17 @@
 
 .site-selector-selected-site .site-selector-remove-site {
 	right: .5em;
+}
+
+/* Prevent the text contents of draggable elements from being selectable. */
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
 }
 /** SITE SELECTOR: END **/
 

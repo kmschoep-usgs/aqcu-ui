@@ -12,7 +12,8 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 
 	events: {
 		'click .site-selector-list-item': "onClickSiteItem",
-		'click .site-selector-remove-site': "onClickSiteRemove"
+		'click .site-selector-remove-site': "onClickSiteRemove",
+		'click #sortSiteButton': "clickSortSiteButton"
 	},
 	
 	initialize: function() {
@@ -59,6 +60,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		//create and bind site search
 		this.createSiteSelectorWidget();
 		this.stickit();
+		this.dragAndDropSites();
 	},
 	
 	createSiteSelectorWidget: function() {
@@ -168,6 +170,63 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	},
 	
 	updateParentModelSelectedSite: function() {
-		this.parentModel.set("selectedSite", this.model.get("selectedSite"))
+		this.parentModel.set("selectedSite", this.model.get("selectedSite"));
+	},
+	
+	dragAndDropSites: function(){
+	    //add id's to the li elements so after sorting we can save the order in localstorage
+	    $( "#sortable > li" ).each(function(index, domEle){ $(domEle).attr('id', 'item_'+index);});
+
+	    $( "#sortable" ).sortable({
+		placeholder: "ui-state-highlight",
+		update: function() {        
+		    localStorage.setItem("sorted", $("#sortable").sortable("toArray") );
+		}
+	    });
+    
+	    this.restoreSorted();
+	    
+	},
+	
+	clickSortSiteButton: function(){
+	    this.alphabetizeSiteList();
+	    localStorage.setItem("sorted", $("#sortable").sortable("toArray") );
+	    this.restoreSorted();
+	},
+	
+	//Resorts the order back to how the user had it
+	restoreSorted: function(){
+	    var sorted = localStorage["sorted"];      
+	    if(sorted === undefined) return;
+
+	    var elements = $("#sortable");
+	    var sortedArr = sorted.split(",");
+	    for (var i = 0; i < sortedArr.length; i++){
+		var el = elements.find("#" + sortedArr[i]);
+		$("#sortable").append(el);
+	    };
+	},
+	
+	alphabetizeSiteList: function(){
+	    var list, i, switching, b, shouldSwitch;
+	    list = document.getElementById("sortable");
+	    switching = true;
+    
+	    while (switching) {
+		switching = false;
+		b = list.getElementsByTagName("LI");
+		for (i = 0; i < (b.length - 1); i++) {
+		    shouldSwitch = false;
+		    if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+			shouldSwitch= true;
+			break;
+		    }
+		}
+		if (shouldSwitch) {
+		    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+		    switching = true;
+		}
+	    }
 	}
+	
 });

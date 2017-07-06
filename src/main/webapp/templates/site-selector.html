@@ -1,11 +1,15 @@
 <div class="site-selector-search">
 	<div class="site-select-widget"></div>
 </div>
-<ul class=site-selector-site-list>
+<div id="sortSiteButton">
+    Sort Sites
+</div>
+<ul id="sortable" class=site-selector-site-list>
 	{{#each sites}}
-	<li {{#if selected}}class="site-selector-selected-site"{{/if}}>
-	<div class="site-selector-remove-site" siteNumber="{{siteNumber}}">&times;</div>
-	<span class="site-selector-list-item" siteNumber="{{siteNumber}}" siteName="{{siteName}}">
-	{{siteNumber}} - {{siteName}}</span></li>
+	<li {{#if selected}}class="site-selector-selected-site"{{/if}}">
+	    <div class="site-selector-remove-site" siteNumber="{{siteNumber}}">&times;</div>
+	    <span class="site-selector-list-item" siteNumber="{{siteNumber}}" siteName="{{siteName}}">
+	    {{siteNumber}} - {{siteName}}</span>
+	</li>
 	{{/each}}
 </ul>
