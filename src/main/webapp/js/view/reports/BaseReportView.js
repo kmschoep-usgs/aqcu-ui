@@ -642,6 +642,9 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		}
 		if(noneFilled && !atLeastOne){
 			valid = false;
+			var xmlString = '<?xml version="1.0" encoding="UTF-8"?><error><status>INTERNAL_SERVER_ERROR</status><message>Select at least one stat-derived time series in the Advanced Report Options</message></error>';
+			var xml = jQuery.parseXML(xmlString);
+			AQCU.router.displayUnknownError(xml);
 		}
 		
 		return valid;
