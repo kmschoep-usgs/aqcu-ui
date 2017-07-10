@@ -97,7 +97,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	
 	buildAdvancedOptions: function() {
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
-		this.createInstructions(this.instructions);
+		this.createInstructions();
 		this.createComparisonSiteSelector();
 		this.createComparisonTimeseriesSelector();
 		this.createZeroNegativeExclusionSelector();
