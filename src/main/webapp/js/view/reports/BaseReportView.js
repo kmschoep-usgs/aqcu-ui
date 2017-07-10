@@ -220,10 +220,16 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		    renderTo: newContainer,
 		    startHidden: false
 	    });
-
+	
 	    this.model.set("excludeMinMax", false);
 	    $.extend(this.bindings, excludeMinMaxSelector.getBindingConfig());
 	    this.advancedOptionsContainer.append(newContainer);
+	},
+	
+	//Currently used in FiveYearGWSummaryReport as well as DvHydrographReport
+	createInstructions: function() {
+		var newContainer = $("<div><strong>* At least one of the following Stat Derived Time Series must be selected:</strong></div><br/>");
+		this.advancedOptionsContainer.prepend(newContainer);
 	},
 	
 	createExcludeCommentsSelector: function() {
@@ -642,9 +648,6 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		}
 		if(noneFilled && !atLeastOne){
 			valid = false;
-			var xmlString = '<?xml version="1.0" encoding="UTF-8"?><error><status>INTERNAL_SERVER_ERROR</status><message>Select at least one stat-derived time series in the Advanced Report Options</message></error>';
-			var xml = jQuery.parseXML(xmlString);
-			AQCU.router.displayUnknownError(xml);
 		}
 		
 		return valid;

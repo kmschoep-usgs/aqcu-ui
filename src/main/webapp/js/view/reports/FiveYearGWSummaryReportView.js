@@ -48,6 +48,7 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 	
 	buildAdvancedOptions: function() {
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
+		this.createInstructions();
 		this.createExcludeMinMaxSelector();
 	},
 	
