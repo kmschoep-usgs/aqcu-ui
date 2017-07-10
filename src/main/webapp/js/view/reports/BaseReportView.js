@@ -7,6 +7,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	relatedTimeseriesConfig: [], //override this
 	ratingModels: [],
 	excludedCorrections: [], // if you override with items in reports, you'll have the exclude selector appear
+	instructions: null,
 	
 	events: {
 		'click .report-card-header': 'applyReportOptions'
@@ -228,7 +229,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	
 	//Currently used in FiveYearGWSummaryReport as well as DvHydrographReport
 	createInstructions: function() {
-		var newContainer = $("<div><strong>* At least one of the following Stat Derived Time Series must be selected:</strong></div><br/>");
+		var newContainer = $("<div><strong>" + this.instructions + "</strong></div><br/>");
 		this.advancedOptionsContainer.prepend(newContainer);
 	},
 	

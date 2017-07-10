@@ -2,6 +2,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	reportName: "DV Hydrograph", 
 	reportAbbreviation: "DV",
 	reportType: "dvhydrograph",
+	instructions: "* At least one of the following Stat Derived Time Series must be selected:",
 	relatedTimeseriesConfig: [{
 			requestId: "firstStatDerivedIdentifier",
 			display: "Stat Derived Time Series 1",
@@ -96,7 +97,7 @@ AQCU.view.DvHydrographReportView = AQCU.view.BaseReportView.extend({
 	
 	buildAdvancedOptions: function() {
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
-		this.createInstructions();
+		this.createInstructions(this.instructions);
 		this.createComparisonSiteSelector();
 		this.createComparisonTimeseriesSelector();
 		this.createZeroNegativeExclusionSelector();
