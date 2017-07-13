@@ -53,19 +53,30 @@
 	border-top: 1px solid #a0a0a0;
 }
 
-.sortSiteButton{
-    width:250px;
+.sortSiteButtons{
+    display:flex;
+    padding:0 15px;
+}
+
+.sortSiteButtons div{
+    flex:1;
     height:30px;
-    margin:0 auto;
     background:#fff;
     text-align:center;
     border:1px solid #aaa;
     border-radius:5px;
     line-height:30px;
     cursor: pointer;
+    outline: none;
+    margin-right:10px;
+    font-size:.9em;
 }
 
-.sortSiteButton:hover{
+.sortSiteButtons div:nth-child(2){
+    margin-right:0;
+}
+
+.sortSiteButtons div:hover{
     background:#327CC3;
     color:#fff;
 }

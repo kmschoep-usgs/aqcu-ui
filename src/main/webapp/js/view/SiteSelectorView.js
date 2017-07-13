@@ -13,7 +13,8 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	events: {
 		'click .site-selector-list-item': "onClickSiteItem",
 		'click .site-selector-remove-site': "onClickSiteRemove",
-		'click .sortSiteButton': "clickSortSiteButton"
+		'click .sortByNumber': "clickSortByNumberButton",
+		'click .sortByName': "clickSortByNameButton"
 	},
 	
 	initialize: function() {
@@ -189,9 +190,16 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	    
 	},
 	
-	clickSortSiteButton: function(){
+	clickSortByNumberButton: function(){
 	    var _this = this;
-	    this.alphabetizeSiteList();
+	    this.alphabetizeSiteList(0);
+	    localStorage.setItem("sorted", _this.$(".sortable").sortable("toArray") );
+	    this.restoreSorted();
+	},
+	
+	clickSortByNameButton: function(){
+	    var _this = this;
+	    this.alphabetizeSiteList(1);
 	    localStorage.setItem("sorted", _this.$(".sortable").sortable("toArray") );
 	    this.restoreSorted();
 	},
@@ -209,24 +217,39 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	    };
 	},
 	
-	alphabetizeSiteList: function(){
-	    var list, i, switching, b, shouldSwitch;
+	alphabetizeSiteList: function(option){
+	    var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
 	    list = this.$(".sortable");
 	    switching = true;
-    
+	    dir = "asc"; 
 	    while (switching) {
-		switching = false;
+	        switching = false;
 		b = list.children();
 		for (i = 0; i < (b.length - 1); i++) {
 		    shouldSwitch = false;
-		    if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
-			shouldSwitch= true;
-			break;
+		    var stringSection1 = this.$(b[i]).text().toLowerCase().split(/-(.+)/);
+		    var stringSection2 = this.$(b[i + 1]).text().toLowerCase().split(/-(.+)/);
+		    if (dir == "asc") {
+			if (stringSection1[option] > stringSection2[option]) {
+			    shouldSwitch= true;
+			    break;
+			}
+		    } else if (dir == "desc") {
+			if (stringSection1[option] < stringSection2[option]) {
+			    shouldSwitch= true;
+			    break;
+			}
 		    }
 		}
 		if (shouldSwitch) {
-		    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+		    list.append(b[i]);
 		    switching = true;
+		    switchcount ++;
+		} else {
+		    if (switchcount == 0 && dir == "asc") {
+			dir = "desc";
+			switching = true;
+		    }
 		}
 	    }
 	}
