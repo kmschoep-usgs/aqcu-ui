@@ -1,15 +1,17 @@
 <div class="site-selector-search">
 	<div class="site-select-widget"></div>
 </div>
-<div class="sortSiteButton">
-    Sort Sites
+<div class="sortSiteButtons">
+    <div class="sortByNumber">Sort Site Number</div>
+    <div class="sortByName">Sort Site Name</div>
 </div>
 <ul class="site-selector-site-list sortable">
 	{{#each sites}}
 	<li {{#if selected}}class="site-selector-selected-site"{{/if}}">
 	    <div class="site-selector-remove-site" siteNumber="{{siteNumber}}">&times;</div>
 	    <span class="site-selector-list-item" siteNumber="{{siteNumber}}" siteName="{{siteName}}">
-	    {{siteNumber}} - {{siteName}}</span>
+		<span>{{siteNumber}}</span> - <span class="siteNameSpan">{{siteName}}</span>
+	    </span>
 	</li>
 	{{/each}}
 </ul>
