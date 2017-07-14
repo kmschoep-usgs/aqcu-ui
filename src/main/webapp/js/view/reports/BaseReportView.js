@@ -663,10 +663,12 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		
 		if (this.model.get("dateSelection").startDate > this.model.get("dateSelection").endDate) {
 			validDates = false;
+			alertify.error('Start date must be before end date, please review your selection');
 		}
 		
 		if (this.model.get("dateSelection").endDate < this.model.get("dateSelection").startDate) {
 			validDates = false;
+			alertify.error('End date must be after start date, please review your selection'); 
 		}
 		
 		return validDates;

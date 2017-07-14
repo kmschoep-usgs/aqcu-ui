@@ -644,3 +644,9 @@ category-tip-target {
 		height: 100%;
 	}
 }
+
+.alertify-notifier .ajs-message.ajs-error {
+    color: #fff;
+    border: 2px solid #8B0000;
+    border-radius: 5px;
+}
