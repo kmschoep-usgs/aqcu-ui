@@ -52,7 +52,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			autofillWithSameUnits: "true"
 	}],
 	ratingModels: [{ 
-			requestId: "ratingModelIdentifier", 
+			requestId: "primaryRatingModelIdentifier", 
 			display: "Primary Rating Model", 
 			required: false,
 			bindTo: "primaryTimeseriesIdentifier"
@@ -220,8 +220,12 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			reportOptions.comparisonTimeseriesIdentifier = this.model.get("comparisonTimeseriesIdentifier");
 		}
 		
+		if(this.model.get("primaryRatingModelIdentifier")) {
+			reportOptions.primaryRatingModelIdentifier = this.model.get("primaryRatingModelIdentifier");
+		}
+		
 		if(this.model.get("referenceRatingModelIdentifier")) {
-			reportOptions.ratingModelIdentifier = this.model.get("referenceRatingModelIdentifier");
+			reportOptions.referenceRatingModelIdentifier = this.model.get("referenceRatingModelIdentifier");
 		}
 
 		if(this.model.get("excludeZeroNegative")) {
