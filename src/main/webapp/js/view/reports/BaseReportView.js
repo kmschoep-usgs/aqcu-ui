@@ -651,7 +651,25 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			valid = false;
 		}
 		
+		if(!this.validDates()) {
+			valid = false;
+		}
+		
 		return valid;
+	},
+	
+	validDates: function() {
+		validDates = true;
+		
+		if (this.model.get("dateSelection").startDate > this.model.get("dateSelection").endDate) {
+			validDates = false;
+		}
+		
+		if (this.model.get("dateSelection").endDate < this.model.get("dateSelection").startDate) {
+			validDates = false;
+		}
+		
+		return validDates;
 	},
 	
 	applyReportOptions: function() {

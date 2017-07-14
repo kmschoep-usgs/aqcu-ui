@@ -143,8 +143,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		}
 		
 		if(this.model.get("startDate") > this.model.get("endDate")) {
-			alertify.error('Start date must be before end date, please review your selection'); 
-			this.model.set("startDate", this.model.get('endDate'));
+			alertify.error('Start date must be before end date, please review your selection');
 		}
 		
 		this.applyDateSelection();
@@ -160,7 +159,6 @@ AQCU.view.DateField = Backbone.View.extend({
 		
 		if(this.model.get("endDate") < this.model.get("startDate")) {
 			alertify.error('End date must be after start date, please review your selection'); 
-			this.model.set("endDate", this.model.get('startDate'));
 		}
 		
 		this.applyDateSelection();
