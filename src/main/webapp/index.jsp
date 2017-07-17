@@ -12,7 +12,8 @@
 		<link rel="stylesheet" type="text/css" href="webjars/select2/4.0.0/css/select2.css" />
 		<link rel="stylesheet" type="text/css" href="webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.css" />
 		<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" />
-
+		<link rel="stylesheet" type="text/css" href="css/alertify.min.css" media="screen" />
+		
 		<%-- AQCU CSS --%>
 		<link rel="stylesheet" href="css/usgs_style_main.css" />
 		<link rel="stylesheet" href="css/aqcu.css" />
@@ -32,6 +33,7 @@
 		<script type="text/javascript" src="webjars/jquery-dateFormat/1.0.2/jquery-dateFormat.js"></script>
 		<script type="text/javascript" src="js/lib/jquery.iframe-transport.js"></script>
 		<script type="text/javascript" src="js/lib/jquery.fileupload.js"></script>
+		<script type="text/javascript" src="js/lib/alertify.min.js"></script>
 
 		<%-- AQCU javascript --%>
 		<jsp:include page="/WEB-INF/jsp/constants.jsp"></jsp:include>	
