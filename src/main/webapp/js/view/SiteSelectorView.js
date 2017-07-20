@@ -119,11 +119,11 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	
 	addSiteToList: function(siteNumber, siteName) {
 		var siteList = this.model.get("siteList");
-		
 		var exists = false;
 		for(var i = 0; i < siteList.length; i++) {
 			if(siteList[i].siteNumber == siteNumber) {
 				exists = true;
+				this.$('.site-selector-list-item:contains('+ siteList[i].siteNumber +')').click();
 				break;
 			}
 		}
@@ -160,7 +160,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		//mark selected
 		this.$el.find("[siteNumber='"+siteNumber+"']").parent().addClass("");
 	},
-
+	
 	onClickSiteRemove: function(event) {
 		var clickedDom = event.currentTarget;
 		//Cheating by embedding values in HTML attributes, may want to 
