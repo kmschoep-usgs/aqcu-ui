@@ -35,6 +35,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	bindings: {},
 
 	events: {
+		'click #render-all-reports-btn': 'runAllReports'
 	},
 	
 	initialize: function() {
@@ -150,9 +151,11 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	createReportViews: function() {
 		var _this = this;
 		this.$(".loading-indicator").show();
+		this.$("#render-all-reports-btn").hide();
 		this.fetchProcessorTypes(_this.selectedTimeSeries).done(function(data){
 			_this.selectedTimeSeries.processorTypes = data;
 			_this.populateAvailableReports(_this.selectedTimeSeries).done(function(availableReports){
+				_this.$(".loading-indicator").hide();
 				_.each(availableReports, function(report){
 					var view = new report({
 						parentModel: _this.parentModel,
@@ -160,20 +163,35 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 						selectedTimeSeries: _this.selectedTimeSeries,
 						router: _this.router
 					});
-					_this.$(".loading-indicator").hide();
 					_this.$('.available-reports').append(view.el);
 					_this.availableReportViews.push(view);	
 			
 				});
+				_this.$("#render-all-reports-btn").show();
 			});
 		});
 	},		
+	
+	runAllReports: function() {
+		var valid = true;
+		this.availableReportViews.forEach(function(report){
+			if(!report.validate()){
+				valid = false;
+			}
+		});
+		if(valid){
+			this.availableReportViews.forEach(function(report){
+				report.applyReportOptions();
+			});
+		}
+	},
 	
 	removeReportViews: function() {		
 		while(this.availableReportViews.length > 0) {		
 			this.availableReportViews[0].remove();		
 			this.availableReportViews.shift();		
 		}		
+		this.$("#render-all-reports-btn").hide();
 	},
 	
 	remove: function() {
