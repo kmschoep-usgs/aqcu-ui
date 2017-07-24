@@ -173,15 +173,22 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	},		
 	
 	runAllReports: function() {
-		var valid = true;
+		var allReportsValid = true;
+		var invalidReports = [];
 		this.availableReportViews.forEach(function(report){
 			if(!report.validate()){
-				valid = false;
+				allReportsValid = false;
+				invalidReports.push(report.reportName);
 			}
 		});
-		if(valid){
+		
+		if(allReportsValid){
 			this.availableReportViews.forEach(function(report){
 				report.applyReportOptions();
+			});
+		} else {
+			invalidReports.forEach(function(report){
+				alertify.error(report.toString() + " requires configuration");
 			});
 		}
 	},
