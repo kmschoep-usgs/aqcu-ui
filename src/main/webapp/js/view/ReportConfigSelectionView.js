@@ -35,7 +35,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	bindings: {},
 
 	events: {
-		'click #render-all-reports-btn': 'runAllReports'
+		'click .render-all-reports-btn': 'runAllReports'
 	},
 	
 	initialize: function() {
