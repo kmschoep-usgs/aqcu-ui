@@ -151,7 +151,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	createReportViews: function() {
 		var _this = this;
 		this.$(".loading-indicator").show();
-		this.$("#render-all-reports-btn").hide();
+		this.$(".render-all-reports-btn").hide();
 		this.fetchProcessorTypes(_this.selectedTimeSeries).done(function(data){
 			_this.selectedTimeSeries.processorTypes = data;
 			_this.populateAvailableReports(_this.selectedTimeSeries).done(function(availableReports){
@@ -167,7 +167,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 					_this.availableReportViews.push(view);	
 			
 				});
-				_this.$("#render-all-reports-btn").show();
+				_this.$(".render-all-reports-btn").show();
 			});
 		});
 	},		
@@ -198,7 +198,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 			this.availableReportViews[0].remove();		
 			this.availableReportViews.shift();		
 		}		
-		this.$("#render-all-reports-btn").hide();
+		this.$(".render-all-reports-btn").hide();
 	},
 	
 	remove: function() {
