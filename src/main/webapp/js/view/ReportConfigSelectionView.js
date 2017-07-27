@@ -35,7 +35,7 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	bindings: {},
 
 	events: {
-		'click .render-all-reports-btn': 'runAllReports'
+		'click .render-all-reports-btn': 'runAllReportsPopup'
 	},
 	
 	initialize: function() {
@@ -171,6 +171,12 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 			});
 		});
 	},		
+	
+	runAllReportsPopup: function() {
+		var _this = this;
+		alertify.confirm( "Rendering all reports may take some time. Do you wish to continue?",
+							function(){ _this.runAllReports(); }).set('labels', {ok:'Continue'});
+	},
 	
 	runAllReports: function() {
 		var allReportsValid = true;
