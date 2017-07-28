@@ -174,8 +174,8 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 	
 	runAllReportsPopup: function() {
 		var _this = this;
-		alertify.confirm( "Rendering all reports may take some time. Do you wish to continue?",
-							function(){ _this.runAllReports(); }).set('labels', {ok:'Continue'});
+		alertify.confirm("Warning", "Rendering all reports may take some time. Do you wish to continue?",
+			function(){ _this.runAllReports(); }, function(){}).set('labels', {ok:'Continue'}); 
 	},
 	
 	runAllReports: function() {
