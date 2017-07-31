@@ -35,6 +35,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		this.model.bind("change:visibility",this.changeVisibility,this);
 		this.parentModel.bind("change:filter",this.displayGrid,this);
 		this.parentModel.bind("change:site", this.fetchTimeSeries, this);
+		this.parentModel.bind("change:dateSelection", this.fetchTimeSeries, this);
 		
 		this.displayedReportSelectors = {};
 		
