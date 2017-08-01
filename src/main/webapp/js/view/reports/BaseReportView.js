@@ -227,7 +227,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	    this.advancedOptionsContainer.append(newContainer);
 	},
 	
-	//Currently used in FiveYearGWSummaryReport as well as DvHydrographReport
+	//Currently used in FiveYearGWSummaryReport, DvHydrographReport, UvHydro & VDiagram reports
 	createInstructions: function() {
 		var newContainer = $("<div><strong>" + this.instructions + "</strong></div><br/>");
 		this.advancedOptionsContainer.prepend(newContainer);
@@ -687,6 +687,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			this.parentModel.set("requestParams", this.constructReportOptions());
 		} else {
 			this.flashWarning();
+			alertify.error(this.instructions);
 		}
 	},
 	

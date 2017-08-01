@@ -3,6 +3,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	reportAbbreviation: "UV",
 	reportType: "uvhydrograph",
 	excludedCorrections: [],
+	instructions: "The upchain time series must be specified in the Advanced Report Options for parameter derived time series.",
 	relatedTimeseriesConfig: [{
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Upchain Time Series",
@@ -113,6 +114,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		this.updateRequiredTimeseries();
 		
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
+		this.createInstructions();
 		this.createComparisonSiteSelector();
 		this.createComparisonTimeseriesSelector();
 		this.createZeroNegativeExclusionSelector();

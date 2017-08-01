@@ -2,7 +2,7 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 	reportName: "Five Year Ground Water Summary", 
 	reportAbbreviation: "5YR",
 	reportType: "fiveyeargwsum",
-	instructions: "* At least one of the following Stat Derived Time Series must be selected:",
+	instructions: "At least one stat-derived time series must be specified in the Advanced Report Options.",
 	relatedTimeseriesConfig: [{
 			requestId: "firstStatDerivedIdentifier",
 			display: "Stat Derived Time Series 1",

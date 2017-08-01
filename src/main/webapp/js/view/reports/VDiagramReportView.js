@@ -2,6 +2,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 	reportName: "V-Diagram", 
 	reportAbbreviation: "VDI",
 	reportType: "vdiagram",
+	instructions: "The upchain time series and primary rating model must be specified in the Advanced Report Options.",
 	relatedTimeseriesConfig: [{
 			requestId: "upchainTimeseriesIdentifier",
 			display: "Gage Height",
@@ -29,6 +30,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 	
 	buildAdvancedOptions: function() {
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
+		this.createInstructions();
 		this.createHistoricSelector();
 		this.createControlConditionFilter();
 	},
