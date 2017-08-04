@@ -122,8 +122,10 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		var exists = false;
 		for(var i = 0; i < siteList.length; i++) {
 			if(siteList[i].siteNumber === siteNumber) {
+				var siteNumber = siteList[i].siteNumber;
+				var siteName = siteList[i].siteName;
 				exists = true;
-				this.$('.site-selector-list-item:contains('+ siteList[i].siteNumber +')').click();
+				this.clickOnSearch(siteNumber, siteName);
 				break;
 			}
 		}
@@ -132,6 +134,13 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			var newSiteList = _.clone(siteList); //need to clone so that the change event is triggered
 			newSiteList.push({siteNumber: siteNumber, siteName: siteName});
 			this.model.set("siteList", newSiteList);
+			for(var i = 0; i < newSiteList.length; i++){
+			    var siteNumber = newSiteList[i].siteNumber;
+			    var siteName = newSiteList[i].siteName;
+			    if(newSiteList[i].siteNumber === siteNumber){
+				this.clickOnSearch(siteNumber, siteName);
+			    }
+			}
 		}
 	},
 	
@@ -159,6 +168,13 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		this.refreshView();
 		//mark selected
 		this.$el.find("[siteNumber='"+siteNumber+"']").parent().addClass("");
+	},
+	
+	clickOnSearch: function(siteNumber, siteName){
+	    this.model.set("selectedSite", {siteNumber: siteNumber, siteName: siteName});
+	    this.refreshView();
+	    //mark selected
+	    this.$el.find("[siteNumber='"+siteNumber+"']").parent().addClass("");
 	},
 	
 	onClickSiteRemove: function(event) {
