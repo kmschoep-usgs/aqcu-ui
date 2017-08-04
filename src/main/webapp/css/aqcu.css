@@ -56,10 +56,11 @@
 .sortSiteButtons{
     display:flex;
     padding:0 15px;
+    flex-wrap: wrap;
 }
 
 .sortSiteButtons div{
-    flex:1;
+    width:100%;
     height:30px;
     background:#fff;
     text-align:center;
@@ -68,16 +69,44 @@
     line-height:30px;
     cursor: pointer;
     outline: none;
-    margin-right:10px;
+    margin-bottom:10px;
     font-size:.9em;
+    position:relative;
 }
 
 .sortSiteButtons div:nth-child(2){
-    margin-right:0;
+    margin-bottom:0;
 }
 
 .sortSiteButtons div:hover{
     background:#327CC3;
+    color:#fff;
+}
+
+.sortSiteButtons .fa-caret-up,
+.sortSiteButtons .fa-caret-down{
+    margin-left:2px;
+    font-size:16px;
+    position:absolute;
+    right:10px;
+    line-height:28px;
+}
+
+.dragDropExplanation{
+    height:30px;
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
+    border-bottom:1px solid #a0a0a0;
+    font-size:.95em;
+}
+
+.dragDropExplanation p{
+    margin-bottom:10px;
+}
+
+.activeSort{
+    background: #327CC3 !important;
     color:#fff;
 }
 

@@ -121,7 +121,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		var siteList = this.model.get("siteList");
 		var exists = false;
 		for(var i = 0; i < siteList.length; i++) {
-			if(siteList[i].siteNumber == siteNumber) {
+			if(siteList[i].siteNumber === siteNumber) {
 				exists = true;
 				this.$('.site-selector-list-item:contains('+ siteList[i].siteNumber +')').click();
 				break;
@@ -181,7 +181,9 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 
 	    this.$( ".sortable" ).sortable({
 		placeholder: "ui-state-highlight",
-		update: function() {        
+		update: function() {  
+		    _this.$('.sortSiteButtons div').removeClass('activeSort');
+		    _this.$('.sortSiteButtons div .fa').remove();
 		    localStorage.setItem("sorted", _this.$(".sortable").sortable("toArray"));
 		}
 	    });
@@ -192,18 +194,25 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	
 	clickSortByNumberButton: function(){
 	    var _this = this;
-	    this.alphabetizeSiteList(0);
+	    this.alphabetizeSiteList(0, '.sortByNumber');
 	    localStorage.setItem("sorted", _this.$(".sortable").sortable("toArray") );
 	    this.restoreSorted();
+	    this.highlightSortButton('.sortByNumber');
 	},
 	
 	clickSortByNameButton: function(){
 	    var _this = this;
-	    this.alphabetizeSiteList(1);
+	    this.alphabetizeSiteList(1, '.sortByName');
 	    localStorage.setItem("sorted", _this.$(".sortable").sortable("toArray") );
 	    this.restoreSorted();
+	    this.highlightSortButton('.sortByName');
 	},
 	
+	highlightSortButton: function(button){
+	    this.$('.sortSiteButtons div').removeClass('activeSort');
+	    this.$(button).addClass('activeSort');
+	},
+
 	//Resorts the order back to how the user had it
 	restoreSorted: function(){
 	    var sorted = localStorage["sorted"];      
@@ -217,7 +226,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 	    };
 	},
 	
-	alphabetizeSiteList: function(option){
+	alphabetizeSiteList: function(option, buttonClicked){
 	    var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
 	    list = this.$(".sortable");
 	    switching = true;
@@ -251,6 +260,14 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			switching = true;
 		    }
 		}
+	    }
+	    if(dir === 'asc'){
+		this.$('.fa').remove();
+		this.$(buttonClicked).append('<i class="fa fa-caret-up"></i>');
+	    }
+	    else if(dir === 'desc'){
+		this.$('.fa').remove();
+		this.$(buttonClicked).append('<i class="fa fa-caret-down"></i>');
 	    }
 	}
 	
