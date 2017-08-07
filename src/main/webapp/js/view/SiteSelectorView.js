@@ -50,7 +50,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			if(selectedSite && clonedSite.siteNumber == selectedSite.siteNumber) {
 				clonedSite.selected = true;
 			}
-			clonedSiteList.unshift(clonedSite);
+			clonedSiteList.push(clonedSite);
 		}
 		this.context = {
 			sites : clonedSiteList
