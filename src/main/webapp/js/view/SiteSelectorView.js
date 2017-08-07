@@ -122,10 +122,10 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		var exists = false;
 		for(var i = 0; i < siteList.length; i++) {
 			if(siteList[i].siteNumber === siteNumber) {
-				var siteNumber = siteList[i].siteNumber;
-				var siteName = siteList[i].siteName;
+				var searchSiteNumber = siteList[i].siteNumber;
+				var searchSiteName = siteList[i].siteName;
 				exists = true;
-				this.clickOnSearch(siteNumber, siteName);
+				this.selectSiteOnSearch(searchSiteNumber, searchSiteName);
 				break;
 			}
 		}
@@ -135,10 +135,10 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			newSiteList.push({siteNumber: siteNumber, siteName: siteName});
 			this.model.set("siteList", newSiteList);
 			for(var i = 0; i < newSiteList.length; i++){
-			    var siteNumber = newSiteList[i].siteNumber;
-			    var siteName = newSiteList[i].siteName;
-			    if(newSiteList[i].siteNumber === siteNumber){
-				this.clickOnSearch(siteNumber, siteName);
+			    var searchSiteNumber = newSiteList[i].siteNumber;
+			    var searchSiteName = newSiteList[i].siteName;
+			    if(newSiteList[i].siteNumber === searchSiteNumber){
+				this.selectSiteOnSearch(searchSiteNumber, searchSiteName);
 			    }
 			}
 		}
@@ -170,7 +170,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		this.$el.find("[siteNumber='"+siteNumber+"']").parent().addClass("");
 	},
 	
-	clickOnSearch: function(siteNumber, siteName){
+	selectSiteOnSearch: function(siteNumber, siteName){
 	    this.model.set("selectedSite", {siteNumber: siteNumber, siteName: siteName});
 	    this.refreshView();
 	    //mark selected
