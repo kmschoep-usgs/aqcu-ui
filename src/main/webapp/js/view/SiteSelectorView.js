@@ -50,7 +50,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			if(selectedSite && clonedSite.siteNumber == selectedSite.siteNumber) {
 				clonedSite.selected = true;
 			}
-			clonedSiteList.push(clonedSite);
+			clonedSiteList.unshift(clonedSite);
 		}
 		this.context = {
 			sites : clonedSiteList
@@ -145,6 +145,8 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			    }
 			}
 		}
+		$ul.prepend($ul.find('.site-selector-selected-site'));
+		localStorage.setItem("sorted", _this.$(".sortable").sortable("toArray"));
 	},
 	
 	removeBySiteNumber: function(siteNumber) {
