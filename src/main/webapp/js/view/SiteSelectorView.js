@@ -50,7 +50,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			if(selectedSite && clonedSite.siteNumber == selectedSite.siteNumber) {
 				clonedSite.selected = true;
 			}
-			clonedSiteList.push(clonedSite);
+			clonedSiteList.unshift(clonedSite);
 		}
 		this.context = {
 			sites : clonedSiteList
@@ -103,7 +103,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 
 	updateSiteList: function() {
 		this.refreshView(); 
-		AQCU.util.localStorage.setData("aqcuSiteList", this.model.get("siteList"))
+		AQCU.util.localStorage.setData("aqcuSiteList", this.model.get("siteList"));
 	},
 	
 	onSiteSearchSelect : function() {
@@ -131,13 +131,15 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 		}
 		
 		if(!exists) {
+			var _this = this;
+			var $ul = this.$('.sortable');
 			var newSiteList = _.clone(siteList); //need to clone so that the change event is triggered
-			newSiteList.push({siteNumber: siteNumber, siteName: siteName});
+			newSiteList.unshift({siteNumber: siteNumber, siteName: siteName});
 			this.model.set("siteList", newSiteList);
 			for(var i = 0; i < newSiteList.length; i++){
 			    var searchSiteNumber = newSiteList[i].siteNumber;
 			    var searchSiteName = newSiteList[i].siteName;
-			    if(newSiteList[i].siteNumber === searchSiteNumber){
+			    if(newSiteList[i].siteNumber === siteNumber){
 				this.selectSiteOnSearch(searchSiteNumber, searchSiteName);
 				break;
 			    }
