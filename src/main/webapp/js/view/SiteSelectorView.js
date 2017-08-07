@@ -139,6 +139,7 @@ AQCU.view.SiteSelectorView = AQCU.view.BaseView.extend({
 			    var searchSiteName = newSiteList[i].siteName;
 			    if(newSiteList[i].siteNumber === searchSiteNumber){
 				this.selectSiteOnSearch(searchSiteNumber, searchSiteName);
+				break;
 			    }
 			}
 		}
