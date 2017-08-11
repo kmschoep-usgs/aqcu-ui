@@ -405,19 +405,6 @@
 	font-size:1.8em;
 	margin:0.50em 0 0 .20em;
 	width:1em;
-	-webkit-animation: spin 1s linear infinite;
-	-o-animation: spin 1s linear infinite;
-	animation:spin 1s linear infinite;
-}
-
-
-@keyframes spin {
-  0% {
-      transform: rotate(0deg);
-  }
-  100% {
-      transform: rotate(-360deg);
-  }
 }
 
 .aqcu-lg-loader-spinner {
