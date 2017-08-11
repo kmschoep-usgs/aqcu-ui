@@ -124,7 +124,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		}
 		
 		for(var i=0; i < visibleComputations.length; i++) {
-			if(input.indexOf(visibleComputations[i])) {
+			if(input.indexOf(visibleComputations[i])>=0) {
 				return true;
 			}			
 		}
@@ -139,7 +139,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		}
 		
 	    for(var i=0; i < visiblePeriods.length; i++) {
-			if(input.indexOf(visiblePeriods[i])) {
+			if(input.indexOf(visiblePeriods[i])>=0) {
 				return true;
 			}			
 		}

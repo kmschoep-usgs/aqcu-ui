@@ -217,7 +217,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 		ga('send', 'event', {
 			'eventCategory': 'reportDownload',
 			'eventAction': 'click',
-			'eventLabel': url.substring(0, url.indexOf('?'))
+			'eventLabel': url.substring(0, url.indexOf('?')>=0)
 		});
 
 		ga('send', 'pageview', {
