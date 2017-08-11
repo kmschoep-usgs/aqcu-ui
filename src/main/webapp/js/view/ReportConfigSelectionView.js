@@ -156,14 +156,14 @@ AQCU.view.ReportConfigSelectionView = AQCU.view.BaseView.extend({
 			_this.selectedTimeSeries.processorTypes = data;
 			_this.populateAvailableReports(_this.selectedTimeSeries).done(function(availableReports){
 				_this.$(".loading-indicator").hide();
-				_.each(availableReports, function(report){
+				_.each(availableReports.reverse(), function(report){
 					var view = new report({
 						parentModel: _this.parentModel,
 						savedReportsController: _this.savedReportsController,
 						selectedTimeSeries: _this.selectedTimeSeries,
 						router: _this.router
 					});
-					_this.$('.available-reports').append(view.el);
+					_this.$('.available-reports').prepend(view.el);
 					_this.availableReportViews.push(view);	
 			
 				});
