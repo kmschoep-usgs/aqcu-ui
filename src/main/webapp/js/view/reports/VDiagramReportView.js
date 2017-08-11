@@ -81,10 +81,10 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			    id  : i,
 			    value: data[i].value,
 			    text: data[i].name.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}),
-			    initial: data[i].name.toUpperCase().indexOf("ICE")
+			    initial: data[i].name.toUpperCase().indexOf("ICE")>=0
 			});
 			
-			if(data[i].name.toUpperCase().indexOf("ICE")){
+			if(data[i].name.toUpperCase().indexOf("ICE")>=0){
 			    this.initialIdList.push(i);
 			}
 		    }
