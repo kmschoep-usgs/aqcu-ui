@@ -156,26 +156,28 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	beautifyAndFilter: function(){
 		var timeSeriesList = this.model.get("timeSeriesList");
 		var filteredList = []
-		for(var i=0;i < timeSeriesList.length;i++){
-			var newRec = timeSeriesList[i];
-			var includeRec = true;
-			if(this.model.get("filter").onlyPublish && !newRec.publish) {
-				includeRec = false;
-			}
+		if (typeof timeSeriesList !== "undefined") {
+		    for(var i=0;i < timeSeriesList.length;i++){
+			    var newRec = timeSeriesList[i];
+			    var includeRec = true;
+			    if(this.model.get("filter").onlyPublish && !newRec.publish) {
+				    includeRec = false;
+			    }
 
-			if(this.model.get("filter").onlyPrimary && !newRec.primary) {
-				includeRec = false;
-			}
+			    if(this.model.get("filter").onlyPrimary && !newRec.primary) {
+				    includeRec = false;
+			    }
 
-			if(!this.isVisibleComputation(newRec.computation) || !this.isVisiblePeriod(newRec.period))
-			{
-				includeRec = false;
-			}
+			    if(!this.isVisibleComputation(newRec.computation) || !this.isVisiblePeriod(newRec.period))
+			    {
+				    includeRec = false;
+			    }
 
-			if(includeRec) {
-				newRec["identifier"] = newRec["identifier"].split("@",1)[0]
-				filteredList.push(newRec);
-			}
+			    if(includeRec) {
+				    newRec["identifier"] = newRec["identifier"].split("@",1)[0]
+				    filteredList.push(newRec);
+			    }
+		    }
 		}
 		this.model.set("filteredList", filteredList);
 		this.context = {
