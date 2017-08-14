@@ -71,7 +71,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 	
 	updateRequiredTimeseries: function() {
 		//Make upchain optional if this is not a discharge UV Hydro
-		if(!this.model.get("selectedTimeSeries").parameter.toLowerCase().includes("discharge")) {
+		if(!this.model.get("selectedTimeSeries").parameter.toLowerCase().indexOf("discharge")>=0) {
 			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = false;
 		} else {
 			_.find(this.relatedTimeseriesConfig, function(obj) {return obj.requestId === "upchainTimeseriesIdentifier";}).required = true;

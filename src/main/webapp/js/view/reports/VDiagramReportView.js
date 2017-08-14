@@ -81,10 +81,10 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			    id  : i,
 			    value: data[i].value,
 			    text: data[i].name.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}),
-			    initial: data[i].name.toUpperCase().includes("ICE")
+			    initial: data[i].name.toUpperCase().indexOf("ICE")>=0
 			});
 			
-			if(data[i].name.toUpperCase().includes("ICE")){
+			if(data[i].name.toUpperCase().indexOf("ICE")>=0){
 			    this.initialIdList.push(i);
 			}
 		    }
@@ -120,7 +120,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 		    
 		    //Select the control condition objects that are being excluded
 		    var excludedConditions = this.conditionList.filter(function(condition){
-			return _this.model.get("excludeConditions").includes(condition.id.toString());
+			return _this.model.get("excludeConditions").indexOf(condition.id.toString()>=0);
 		    });
 		    
 		    var excludedValues = [];
