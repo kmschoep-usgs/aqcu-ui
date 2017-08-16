@@ -15,16 +15,15 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		this.router = this.options.router;
 		
 		this.parentModel = this.options.parentModel;
-		
 		this.model = this.options.model || new Backbone.Model({
-				timeSeriesList: this.options.timeSeriesList, //this gets set by select,
-				filter: this.parentModel.get("filter"),
-				onlyPublish: true,
-				onlyPrimary: true,
-				computationFilter: [],
-				periodFilter: []
+			//timeSeriesList: this.parentModel.get("timeSeriesList"), //this gets set by select,
+			filter: this.parentModel.get("filter"),
+			onlyPublish: true,
+			onlyPrimary: true,
+			computationFilter: [],
+			periodFilter: [],
+			identifierFilter: []
 		});
-		
 		var filter = this.model.get("filter");
 		
 		if(filter != null){
@@ -32,6 +31,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 			this.model.set("onlyPrimary", filter.onlyPrimary);
 			this.model.set("computationFilter", filter.computationFilter);
 			this.model.set("periodFilter", filter.periodFilter);
+			this.model.set("identifierFilter", filter.identifierFilter);
 		}
 		
 		this.parentModel.bind("change:site", this.render, this);
@@ -42,6 +42,8 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		this.model.bind("change:onlyPrimary", this.updateFilter, this);
 		this.model.bind("change:computationFilter", this.updateFilter, this);
 		this.model.bind("change:periodFilter", this.updateFilter, this);
+		this.model.bind("change:identifierFilter", this.updateFilter, this);
+		this.parentModel.bind("change:filteredList", this.createIdentifierFilter, this);
 	},
 	
 	/*override*/
@@ -55,6 +57,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		this.createPublishPrimaryFilters();
 		this.createComputationFilter();
 		this.createPeriodFilter();
+		this.createIdentifierFilter();
 		this.stickit();
 	},
 	
@@ -143,6 +146,37 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 	    });
 	},
 	
+	createIdentifierFilter: function() {
+		var identifierSiteList = _.clone(this.parentModel.get("timeSeriesList"));
+		var identifierFilteredList = _.clone(this.parentModel.get("filteredList"));
+		if (identifierSiteList && identifierFilteredList){
+			var identifierList = [];
+			_.each(identifierSiteList, function(ts){
+				var identifierName;
+				identifierName = ts.identifier.split("@",1)[0];
+				identifierList.push(identifierName);
+			});
+			var filteredList = [];
+			_.each(identifierFilteredList, function(ts){
+				var identifierName;
+				identifierName = ts.identifier.split("@",1)[0];
+				filteredList.push(identifierName);
+			});
+			this.identifierFilter = new AQCU.view.MultiselectField({
+				el: '.identifierFilter',
+				model : this.model,
+				fieldConfig: {
+					fieldName: "identifierFilter",
+					displayName: "Filter Identifiers",
+					description: "The list of time series below will be limited to the selected identifiers.",
+					placeholder: "Identifiers to Show"
+				},
+				data: identifierList,
+				initialSelection: filteredList
+			});
+		}
+	},
+	
 	updateFilter: function() {
 		//Need to deep-copy the filter object into a new object to trigger the 
 		//backbone 'change' event
@@ -151,6 +185,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		filter.onlyPrimary = this.model.get("onlyPrimary");
 		filter.computationFilter = this.model.get("computationFilter");
 		filter.periodFilter = this.model.get("periodFilter");
+		filter.identifierFilter = this.model.get("identifierFilter");
 		this.model.set("filter", filter);
 		this.parentModel.set("filter", filter);
 	}

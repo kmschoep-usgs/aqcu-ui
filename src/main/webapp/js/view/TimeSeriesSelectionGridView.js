@@ -28,7 +28,6 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		this.parentModel = this.options.parentModel;
 		
 		this.model = this.options.model || new Backbone.Model({
-				timeSeriesList: this.options.timeSeriesList, //this gets set by select,
 				filter: this.parentModel.get("filter")
 		});
 
@@ -73,7 +72,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		var _this = this;
 		var site = this.parentModel.get("site");
 		if(site) {
-			_this.model.set("timeSeriesList", []);
+			_this.parentModel.set("timeSeriesList", []);
 			this.displayGrid();
 			this.startAjax(site + 'fetchTimeSeries', $.ajax({
 				url: AQCU.constants.serviceEndpoint +
@@ -104,7 +103,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 						timeSeriesEntry.uid = sortedArray[i][0];
 						sortedFormattedArray.push(timeSeriesEntry);
 					}
-					_this.model.set("timeSeriesList", sortedFormattedArray);
+					_this.parentModel.set("timeSeriesList", sortedFormattedArray);
 					_this.displayGrid();
 				},
 				error: function (a, b, c) {
@@ -145,7 +144,22 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		}
 	    return false;
 	},
+	
+	isVisibleIdentifier: function(input) {
+		var visibleIdentifiers = this.model.get("filter").identifierFilter;
 		
+		if(visibleIdentifiers == null || visibleIdentifiers.length == 0){
+			return true;
+		}
+		
+	    for(var i=0; i < visibleIdentifiers.length; i++) {
+			if(input.includes(visibleIdentifiers[i])) {
+				return true;
+			}			
+		}
+	    return false;
+	},
+	
 	afterRender: function() {
 		this.stickit();
 	},
@@ -154,34 +168,38 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	},
 	
 	beautifyAndFilter: function(){
-		var timeSeriesList = this.model.get("timeSeriesList");
+		var timeSeriesList = this.parentModel.get("timeSeriesList");
 		var filteredList = []
-		for(var i=0;i < timeSeriesList.length;i++){
-			var newRec = timeSeriesList[i];
-			var includeRec = true;
-			if(this.model.get("filter").onlyPublish && !newRec.publish) {
-				includeRec = false;
-			}
+		//if (timeSeriesList) {
+			for(var i=0;i < timeSeriesList.length;i++){
+				var newRec = timeSeriesList[i];
+				var includeRec = true;
+				if(this.model.get("filter").onlyPublish && !newRec.publish) {
+					includeRec = false;
+				}
 
-			if(this.model.get("filter").onlyPrimary && !newRec.primary) {
-				includeRec = false;
-			}
+				if(this.model.get("filter").onlyPrimary && !newRec.primary) {
+					includeRec = false;
+				}
+				
+				if(!this.isVisibleIdentifier(newRec.identifier) || !this.isVisiblePeriod(newRec.period) || !this.isVisibleComputation(newRec.computation))
+				{
+					includeRec = false;
+				}
 
-			if(!this.isVisibleComputation(newRec.computation) || !this.isVisiblePeriod(newRec.period))
-			{
-				includeRec = false;
+				if(includeRec) {
+					newRec["identifier"] = newRec["identifier"].split("@",1)[0]
+					filteredList.push(newRec);
+				}
 			}
-
-			if(includeRec) {
-				newRec["identifier"] = newRec["identifier"].split("@",1)[0]
-				filteredList.push(newRec);
-			}
-		}
-		this.model.set("filteredList", filteredList);
-		this.context = {
-			timeSeriesList: filteredList
-		};
+			this.model.set("filteredList", filteredList);
+			this.parentModel.set("filteredList", filteredList);
+			this.context = {
+					timeSeriesList: filteredList
+			};
+		//}
 	},
+
 	
 	loadReportCards: function(event){
 		var targetID = $(event.currentTarget).attr("id");
