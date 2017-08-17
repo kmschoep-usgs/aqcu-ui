@@ -137,12 +137,27 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 			return true;
 		}
 		
-	    for(var i=0; i < visiblePeriods.length; i++) {
+		for(var i=0; i < visiblePeriods.length; i++) {
 			if(input.indexOf(visiblePeriods[i])>=0) {
 				return true;
 			}			
 		}
-	    return false;
+		return false;
+	},
+	
+	isVisibleParameter: function(input) {
+		var visibleParameters = this.model.get("filter").parameterFilter;
+		
+		if(visibleParameters == null || visibleParameters.length == 0){
+			return true;
+		}
+		
+		for(var i=0; i < visibleParameter.length; i++) {
+			if(input.indexOf(visibleParameter[i])>=0) {
+				return true;
+			}			
+		}
+		return false;
 	},
 	
 	isVisibleIdentifier: function(input) {
@@ -152,12 +167,12 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 			return true;
 		}
 		
-	    for(var i=0; i < visibleIdentifiers.length; i++) {
-			if(input.includes(visibleIdentifiers[i])) {
+		for(var i=0; i < visibleIdentifiers.length; i++) {
+			if(input.indexOf(visibleIdentifiers[i])>=0) {
 				return true;
 			}			
 		}
-	    return false;
+		return false;
 	},
 	
 	afterRender: function() {
@@ -182,7 +197,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 					includeRec = false;
 				}
 				
-				if(!this.isVisibleIdentifier(newRec.identifier) || !this.isVisiblePeriod(newRec.period) || !this.isVisibleComputation(newRec.computation))
+				if(!this.isVisibleParameter(newRec.parameter) || !this.isVisibleIdentifier(newRec.identifier) || !this.isVisiblePeriod(newRec.period) || !this.isVisibleComputation(newRec.computation))
 				{
 					includeRec = false;
 				}

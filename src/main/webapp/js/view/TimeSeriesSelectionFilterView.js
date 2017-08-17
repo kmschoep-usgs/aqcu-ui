@@ -22,6 +22,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 			onlyPrimary: true,
 			computationFilter: [],
 			periodFilter: [],
+			parameterFilter: [],
 			identifierFilter: []
 		});
 		var filter = this.model.get("filter");
@@ -31,6 +32,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 			this.model.set("onlyPrimary", filter.onlyPrimary);
 			this.model.set("computationFilter", filter.computationFilter);
 			this.model.set("periodFilter", filter.periodFilter);
+			this.model.set("parameterFilter", filter.identifierFilter);
 			this.model.set("identifierFilter", filter.identifierFilter);
 		}
 		
@@ -42,7 +44,9 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		this.model.bind("change:onlyPrimary", this.updateFilter, this);
 		this.model.bind("change:computationFilter", this.updateFilter, this);
 		this.model.bind("change:periodFilter", this.updateFilter, this);
+		this.model.bind("change:parameterFilter", this.updateFilter, this);
 		this.model.bind("change:identifierFilter", this.updateFilter, this);
+		this.parentModel.bind("change:filteredList", this.createParameterFilter, this);
 		this.parentModel.bind("change:filteredList", this.createIdentifierFilter, this);
 	},
 	
@@ -143,7 +147,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 			error: function (a, b, c) {
 				$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c)
 			}
-	    });
+		});
 	},
 	
 	createIdentifierFilter: function() {
@@ -173,6 +177,31 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 				},
 				data: identifierList,
 				initialSelection: filteredList
+			});
+		}
+	},
+	
+	createParameterFilter: function() {
+		var parameterSiteList = _.clone(this.parentModel.get("timeSeriesList"));
+		var parameterFilteredList = _.clone(this.parentModel.get("filteredList"));
+		if (parameterSiteList && parameterFilteredList){
+			var parameterList = [];
+			parameterList = _.pluck(parameterSiteList, 'parameter');
+			uniqueParameterList = _.uniq(parameterList);
+			var filteredList = [];
+			filteredList = _.pluck(parameterFilteredList, 'parameter');
+			uniqueFilteredList = _.uniq(filteredList);
+			this.parameterFilter = new AQCU.view.MultiselectField({
+				el: '.parameterFilter',
+				model : this.model,
+				fieldConfig: {
+					fieldName: "parameterFilter",
+					displayName: "Filter Parameters",
+					description: "The list of time series below will be limited to the selected parameter.",
+					placeholder: "Parameters to Show"
+				},
+				data: uniqueParameterList,
+				initialSelection: uniqueFilteredList
 			});
 		}
 	},
