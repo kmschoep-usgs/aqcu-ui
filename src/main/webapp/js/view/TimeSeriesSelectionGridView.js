@@ -123,7 +123,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		}
 		
 		for(var i=0; i < visibleComputations.length; i++) {
-			if(input.includes(visibleComputations[i])) {
+			if(input.indexOf(visibleComputations[i])>=0) {
 				return true;
 			}			
 		}
@@ -138,7 +138,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		}
 		
 	    for(var i=0; i < visiblePeriods.length; i++) {
-			if(input.includes(visiblePeriods[i])) {
+			if(input.indexOf(visiblePeriods[i])>=0) {
 				return true;
 			}			
 		}
@@ -170,7 +170,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	beautifyAndFilter: function(){
 		var timeSeriesList = this.parentModel.get("timeSeriesList");
 		var filteredList = []
-		//if (timeSeriesList) {
+		if (typeof timeSeriesList !== "undefined") {
 			for(var i=0;i < timeSeriesList.length;i++){
 				var newRec = timeSeriesList[i];
 				var includeRec = true;
@@ -197,7 +197,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 			this.context = {
 					timeSeriesList: filteredList
 			};
-		//}
+		}
 	},
 
 	
