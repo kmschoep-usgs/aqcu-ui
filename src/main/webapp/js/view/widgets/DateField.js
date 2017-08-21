@@ -106,8 +106,6 @@ AQCU.view.DateField = Backbone.View.extend({
 		
 		this.waterYearMin= this.options.waterYearMin ? this.options.waterYearMin : 1800;
 		this.dateFormat  = "yyyy-mm-dd";
-		// This fixes an issue where *sometimes* the dateFormat parameter is ignored
-		$.fn.datepicker.defaults.format = this.dateFormat;
 		
 		this.model.on("change:limitDateSelection", this.limitDateSelectionSet, this);
 		this.model.on("change:siteObservationDates", this.resetDatePickers, this);
@@ -226,7 +224,7 @@ AQCU.view.DateField = Backbone.View.extend({
 	},
 	
 	resetDatePickers: function () {
-		this.$('.input-daterange').datepicker('remove');
+		this.$('.input-daterange input').datepicker('remove');
 		
 		// Standard date picker - pick any date.
 		if (!this.model.get('limitDateSelection')) {
@@ -237,7 +235,6 @@ AQCU.view.DateField = Backbone.View.extend({
 				todayHighlight: true,
 				format: this.dateFormat
 			});
-			this.$('.input-daterange').datepicker();
 			return;
 		}
 		
@@ -291,7 +288,6 @@ AQCU.view.DateField = Backbone.View.extend({
 				return false;
 			}
 		});
-		//this.$('.input-daterange').datepicker();
 	},
 	
 	render: function() {
