@@ -48,11 +48,11 @@ AQCU.view.DateField = Backbone.View.extend({
 					<div style='float:left;' class='input-daterange'><input type='text' class='input-sm form-control aqcu_field_input_date_start' name='aqcu_field_input_date_start' placeholder='-'/></div>\
 					<span class='input-group-addon' style='float:left;'>-</span>\
 					<div style='float:left;' class='input-daterange'><input type='text' class='input-sm form-control aqcu_field_input_date_end' name='aqcu_field_input_date_end' placeholder='-'/></div>\
-                    <div class='checkbox' style='float:left;margin-left:1.5em;'>\
-                        <input type='checkbox' name='aqcu_field_limit_date_selection' class='aqcu_field_limit_date_selection'>\
-                            Limit date picker to observation dates.\
-                        </input>\
-                    </div>\
+					<div class='checkbox' style='float:left;margin-left:1.5em;'>\
+						<input type='checkbox' name='aqcu_field_limit_date_selection' class='aqcu_field_limit_date_selection'>\
+							Limit date picker to observation dates.\
+						</input>\
+					</div>\
 				</div>\
 			</div>\
 		</div>"),
