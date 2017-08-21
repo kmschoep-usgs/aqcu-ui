@@ -29,6 +29,7 @@ AQCU.view.ReportConfigParamsView = AQCU.view.BaseView.extend({
 	afterRender: function () {
 		this.dateRange = new AQCU.view.DateField({
 			el: '.date-range',
+			router: this.router,
 			parentModel: this.parentModel
 		});
 	}
