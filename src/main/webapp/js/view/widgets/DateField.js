@@ -106,6 +106,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		
 		this.waterYearMin= this.options.waterYearMin ? this.options.waterYearMin : 1800;
 		this.dateFormat  = "yyyy-mm-dd";
+		$.fn.datepicker.defaults.format = this.dateFormat;
 		
 		this.model.on("change:limitDateSelection", this.limitDateSelectionSet, this);
 		this.model.on("change:siteObservationDates", this.resetDatePickers, this);
@@ -224,7 +225,7 @@ AQCU.view.DateField = Backbone.View.extend({
 	},
 	
 	resetDatePickers: function () {
-		this.$('.input-daterange input').datepicker('remove');
+		this.$('.input-daterange').datepicker('remove');
 		
 		// Standard date picker - pick any date.
 		if (!this.model.get('limitDateSelection')) {
