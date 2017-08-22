@@ -38,9 +38,9 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 				periodFilter: [
 					"Points"
 				],
-				identifierFilter: [],
-				parameterFilter:[],
-				unitFilter:[]
+				identifierFilter:[],
+				parameterFilter: [],
+				unitFilter: []
 			}
 		});
 		

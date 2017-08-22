@@ -50,6 +50,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		this.model.bind("change:parameterFilter", this.updateFilter, this);
 		this.model.bind("change:identifierFilter", this.updateFilter, this);
 		this.parentModel.bind("change:filteredList", this.createParameterFilter, this);
+		this.parentModel.bind("change:filteredList", this.createUnitFilter, this);
 		this.parentModel.bind("change:filteredList", this.createIdentifierFilter, this);
 	},
 	
@@ -156,30 +157,36 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 	},
 	
 	createUnitFilter: function() {
-		$.ajax({
-			url: AQCU.constants.serviceEndpoint +
+		var filteredList = _.clone(this.parentModel.get("filteredList"));
+		if (filteredList){
+			var unitFilteredList = [];
+			unitFilteredList = _.pluck(filteredList, 'units');
+			uniqueFilteredList = _.uniq(unitFilteredList);
+			$.ajax({
+				url: AQCU.constants.serviceEndpoint +
 					"/service/lookup/units",
-			timeout: 30000,
-			dataType: "json",
-			context: this,
-			success: function (data) {			
-				this.unitFilter = new AQCU.view.MultiselectField({
-					el: '.unitFilter',
-					model : this.model,
-					fieldConfig: {
-						fieldName: "unitFilter",
-						displayName: "Filter Parameter Units",
-						description: "The list of time series below will be limited to the selected parameter units.",
-						placeholder: "Parameter Units to Show"
-					},
-					data: data,
-					initialSelection: this.model.get("unitFilter")
-				});
-			},
-			error: function (a, b, c) {
-				$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c)
-			}
-		});
+					timeout: 30000,
+					dataType: "json",
+					context: this,
+					success: function (data) {			
+						this.unitFilter = new AQCU.view.MultiselectField({
+							el: '.unitFilter',
+							model : this.model,
+							fieldConfig: {
+								fieldName: "unitFilter",
+								displayName: "Filter Parameter Units",
+								description: "The list of time series below will be limited to the selected parameter units.",
+								placeholder: "Parameter Units to Show"
+							},
+						data: data,
+						initialSelection: uniqueFilteredList
+					});
+				},
+				error: function (a, b, c) {
+					$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c)
+				}
+			});
+		}
 	},
 	
 	createIdentifierFilter: function() {
@@ -232,30 +239,6 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 				initialSelection: uniqueFilteredList
 			});
 		}
-	},
-
-	getUniqueAndFilteredList: function(attribute){
-		var timeSeriesList = _.clone(this.parentModel.get("timeSeriesList"));
-		var filteredList = _.clone(this.parentModel.get("filteredList"));
-		var uniqueAndFilteredList;
-		if (timeSeriesList && filteredList){
-			var uniqueList = [];
-			var uniqueFilteredList = [];
-			if (attribute == 'identifier'){
-				attributeList = _.map(_.pluck(timeSeriesList,attribute), function(ts){
-					return ts.split("@",1);
-				});
-				uniqueFilteredList = _.map(_.pluck(filteredList,attribute), function(ts){
-					return ts.split("@",1);
-				});
-			} else {
-				attributeList = _.pluck(timeSeriesList, attribute);
-				uniqueList = _.uniq(attributeList);
-				filteredAttributeList = _.pluck(filteredList, attribute);
-				uniqueFilteredList = _.uniq(filteredAttributeList);
-			}
-		}
-		uniqueAndFilteredList = {"uniqueList": uniqueList, "filteredList": uniqueFilteredList};
 	},
 	
 	updateFilter: function() {
