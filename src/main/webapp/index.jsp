@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="webjars/jquery-ui/1.11.4/jquery-ui.min.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="webjars/font-awesome/4.3.0/css/font-awesome.min.css" />
 		<link rel="stylesheet" type="text/css" href="webjars/select2/4.0.0/css/select2.css" />
-		<link rel="stylesheet" type="text/css" href="webjars/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker3.css" />
+		<link rel="stylesheet" type="text/css" href="webjars/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.css" />
 		<link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.5/css/bootstrap.min.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="css/alertify.min.css" media="screen" />
 		
@@ -29,7 +29,7 @@
 		<script type="text/javascript" src="js/lib/bootstrap-confirmation.min.js"></script>
 		<script type="text/javascript" src="webjars/handlebars/3.0.0-1/handlebars.min.js"></script>
 		<script type="text/javascript" src="webjars/select2/4.0.0/js/select2.full.js"></script>
-		<script type="text/javascript" src="webjars/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.js"></script>
+		<script type="text/javascript" src="webjars/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
 		<script type="text/javascript" src="webjars/jquery-dateFormat/1.0.2/jquery-dateFormat.js"></script>
 		<script type="text/javascript" src="js/lib/jquery.iframe-transport.js"></script>
 		<script type="text/javascript" src="js/lib/jquery.fileupload.js"></script>

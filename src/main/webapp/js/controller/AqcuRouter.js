@@ -153,7 +153,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 
 			//if this error is not INTERNAL_SERVER_ERROR and the message does not have the word unknown, 
 			//but we DO have xml response, return false and do not handle.
-			if (status.toUpperCase() !== "INTERNAL_SERVER_ERROR" && message.toLowerCase().indexOf("unknown") < 0 && xml) {
+			if (status.toUpperCase() !== "INTERNAL_SERVER_ERROR" && error.toLowerCase().indexOf("unknown") < 0 && xml) {
 				return false;
 			}
 
