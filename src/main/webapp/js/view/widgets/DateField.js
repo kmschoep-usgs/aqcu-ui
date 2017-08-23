@@ -50,7 +50,7 @@ AQCU.view.DateField = Backbone.View.extend({
 					<div style='float:left;' class='input-daterange'><input type='text' class='input-sm form-control aqcu_field_input_date_end' name='aqcu_field_input_date_end' placeholder='-'/></div>\
 					<div class='checkbox' style='float:left;margin-left:1.5em;'>\
 						<input type='checkbox' name='aqcu_field_limit_date_selection' class='aqcu_field_limit_date_selection'>\
-							Limit date picker to observation dates.\
+							Limit date picker to field visit dates.\
 						</input>\
 					</div>\
 				</div>\
@@ -97,7 +97,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.model = this.options.model || new Backbone.Model({
 			site: this.parentModel.get('site'),
 			limitDateSelection: false,
-			siteObservationDates: null,
+			fieldVisitDates: null,
 			startDate: "",
 			endDate: "",
 			waterYear: "",
@@ -109,7 +109,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		$.fn.datepicker.defaults.format = this.dateFormat;
 		
 		this.model.on("change:limitDateSelection", this.limitDateSelectionSet, this);
-		this.model.on("change:siteObservationDates", this.resetDatePickers, this);
+		this.model.on("change:fieldVisitDates", this.resetDatePickers, this);
 		this.model.on("change:startDate", this.startDateSet, this);
 		this.model.on("change:endDate", this.endDateSet, this);
 		this.model.on("change:lastMonths", this.lastMonthsSet, this);
@@ -202,19 +202,19 @@ AQCU.view.DateField = Backbone.View.extend({
 	limitDateSelectionSet: function () {
 		this.resetDatePickers();
 		
-		// Query for observation observation dates, if we don't have them yet.
-		if (this.model.get('siteObservationDates') !== null) {
+		// Query for field visit dates, if we don't have them yet.
+		if (this.model.get('fieldVisitDates') !== null) {
 			return;
 		}
 		$.ajax({
-			url: AQCU.constants.serviceEndpoint + '/service/lookup/observation-dates',
+			url: AQCU.constants.serviceEndpoint + '/service/lookup/field-visit-dates',
 			dataType: 'json',
 			data: {
 				siteNumber: this.model.get('site').siteNumber,
 			},
 			context: this,
 			success: function (data) {
-				this.model.set('siteObservationDates', data.map(function (date) {
+				this.model.set('fieldVisitDates', data.map(function (date) {
 					// Return yyyy-mm-dd date in local timezone.
 					var parts = date.split(/\D/);
 					return new Date(parts[0], parts[1] - 1, parts[2]);
@@ -239,16 +239,16 @@ AQCU.view.DateField = Backbone.View.extend({
 			return;
 		}
 		
-		var observationDates = this.model.get('siteObservationDates');
+		var fieldVisitDates = this.model.get('fieldVisitDates');
 		
-		// If `siteObservationDates` isn't initialized yet, disable the date
+		// If `fieldVisitDates` isn't initialized yet, disable the date
 		// pickers.
-		if (observationDates === null) {
+		if (fieldVisitDates === null) {
 			$('.input-daterange input').prop('disabled', true);
 			return;
 		}
 		
-		// Create a date picker that excludes dates not in `observationDates`.
+		// Create a date picker that excludes dates not in `fieldVisitDates`.
 		// Date parts are compared in the local time zone.
 		$('.input-daterange input').prop('disabled', false);
 		this.$('.input-daterange').datepicker({
@@ -259,10 +259,10 @@ AQCU.view.DateField = Backbone.View.extend({
 				var day = dt.getDate();
 				var month = dt.getMonth();
 				var year = dt.getFullYear();
-				for (var i = 0; i < observationDates.length; i++) {
-					if (observationDates[i].getDate() === day &&
-							observationDates[i].getMonth() === month &&
-							observationDates[i].getFullYear() === year) {
+				for (var i = 0; i < fieldVisitDates.length; i++) {
+					if (fieldVisitDates[i].getDate() === day &&
+							fieldVisitDates[i].getMonth() === month &&
+							fieldVisitDates[i].getFullYear() === year) {
 						return true;
 					}
 				}
@@ -271,9 +271,9 @@ AQCU.view.DateField = Backbone.View.extend({
 			beforeShowMonth: function (dt) {
 				var month = dt.getMonth();
 				var year = dt.getFullYear();
-				for (var i = 0; i < observationDates.length; i++) {
-					if (observationDates[i].getMonth() === month &&
-							observationDates[i].getFullYear() === year) {
+				for (var i = 0; i < fieldVisitDates.length; i++) {
+					if (fieldVisitDates[i].getMonth() === month &&
+							fieldVisitDates[i].getFullYear() === year) {
 						return true;
 					}
 				}
@@ -281,8 +281,8 @@ AQCU.view.DateField = Backbone.View.extend({
 			},
 			beforeShowYear: function (dt) {
 				var year = dt.getFullYear();
-				for (var i = 0; i < observationDates.length; i++) {
-					if (observationDates[i].getFullYear() === year) {
+				for (var i = 0; i < fieldVisitDates.length; i++) {
+					if (fieldVisitDates[i].getFullYear() === year) {
 						return true;
 					}
 				}
