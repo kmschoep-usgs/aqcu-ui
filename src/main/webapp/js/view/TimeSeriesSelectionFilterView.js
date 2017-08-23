@@ -33,9 +33,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 			this.model.set("onlyPrimary", filter.onlyPrimary);
 			this.model.set("computationFilter", filter.computationFilter);
 			this.model.set("periodFilter", filter.periodFilter);
-			this.model.set("unitFilter", filter.unitFilter);
 			this.model.set("parameterFilter", filter.identifierFilter);
-			this.model.set("identifierFilter", filter.identifierFilter);
 		}
 		
 		this.parentModel.bind("change:site", this.render, this);
@@ -46,11 +44,8 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		this.model.bind("change:onlyPrimary", this.updateFilter, this);
 		this.model.bind("change:computationFilter", this.updateFilter, this);
 		this.model.bind("change:periodFilter", this.updateFilter, this);
-		this.model.bind("change:unitFilter", this.updateFilter, this);
 		this.model.bind("change:parameterFilter", this.updateFilter, this);
-		this.model.bind("change:identifierFilter", this.updateFilter, this);
 		this.parentModel.bind("change:timeSeriesList", this.createParameterFilter, this);
-		this.parentModel.bind("change:timeSeriesList", this.createIdentifierFilter, this);
 	},
 	
 	/*override*/
@@ -64,9 +59,6 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		this.createPublishPrimaryFilters();
 		this.createComputationFilter();
 		this.createPeriodFilter();
-		this.createUnitFilter();
-		this.createParameterFilter();
-		this.createIdentifierFilter();
 		this.stickit();
 	},
 	
@@ -116,7 +108,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 						fieldName: "computationFilter",
 						displayName: "Filter Computations",
 						description: "The list of time series below will be limited to the selected computations.",
-						placeholder: "Computations to Show"
+						placeholder: "Filter by Computations"
 					},
 					data: data,
 					initialSelection: this.model.get("computationFilter")
@@ -143,7 +135,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 						fieldName: "periodFilter",
 						displayName: "Filter Periods",
 						description: "The list of time series below will be limited to the selected periods.",
-						placeholder: "Periods to Show"
+						placeholder: "Filter by Periods"
 					},
 					data: data,
 					initialSelection: this.model.get("periodFilter")
@@ -153,56 +145,6 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 				$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c)
 			}
 		});
-	},
-	
-	createUnitFilter: function() {
-		$.ajax({
-			url: AQCU.constants.serviceEndpoint +
-				"/service/lookup/units",
-				timeout: 30000,
-				dataType: "json",
-				context: this,
-				success: function (data) {	
-					var sortedUnits = _.sortBy(data);
-					this.unitFilter = new AQCU.view.MultiselectField({
-						el: '.unitFilter',
-						model : this.model,
-						fieldConfig: {
-							fieldName: "unitFilter",
-							displayName: "Filter Parameter Units",
-							description: "The list of time series below will be limited to the selected parameter units.",
-							placeholder: "Filter by Parameter Units"
-						},
-					data: sortedUnits,
-					initialSelection: null
-				});
-			},
-			error: function (a, b, c) {
-				$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c)
-			}
-		});
-	},
-	
-	createIdentifierFilter: function() {
-		var identifierSiteList = _.clone(this.parentModel.get("timeSeriesList"));
-		if (identifierSiteList){
-			var identifierList = [];
-			identifierList = _.map(_.pluck(identifierSiteList,'identifier'), function(ts){
-				return ts.split("@",1);
-			});
-			this.identifierFilter = new AQCU.view.MultiselectField({
-				el: '.identifierFilter',
-				model : this.model,
-				fieldConfig: {
-					fieldName: "identifierFilter",
-					displayName: "Filter Identifiers",
-					description: "The list of time series below will be limited to the selected identifiers.",
-					placeholder: "Filter by Identifiers"
-				},
-				data: identifierList,
-				initialSelection: null
-			});
-		}
 	},
 	
 	createParameterFilter: function() {
@@ -234,8 +176,6 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		filter.onlyPrimary = this.model.get("onlyPrimary");
 		filter.computationFilter = this.model.get("computationFilter");
 		filter.periodFilter = this.model.get("periodFilter");
-		filter.unitFilter = this.model.get("unitFilter");
-		filter.identifierFilter = this.model.get("identifierFilter");
 		filter.parameterFilter = this.model.get("parameterFilter");
 		this.model.set("filter", filter);
 		this.parentModel.set("filter", filter);

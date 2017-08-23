@@ -160,22 +160,6 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		return false;
 	},
 	
-	isVisibleIdentifier: function(input) {
-		var visibleIdentifiers = this.model.get("filter").identifierFilter;
-		
-		if(visibleIdentifiers == null || visibleIdentifiers.length == 0){
-			return true;
-		}
-		
-		for(var i=0; i < visibleIdentifiers.length; i++) {
-			if(input.indexOf(visibleIdentifiers[i])>=0) {
-				return true;
-			}			
-		}
-		
-		return false;
-	},
-	
 	afterRender: function() {
 		this.stickit();
 	},
@@ -198,7 +182,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 					includeRec = false;
 				}
 				
-				if(!this.isVisibleParameter(newRec.parameter) || !this.isVisibleIdentifier(newRec.identifier) || !this.isVisiblePeriod(newRec.period) || !this.isVisibleComputation(newRec.computation))
+				if(!this.isVisibleParameter(newRec.parameter) || !this.isVisiblePeriod(newRec.period) || !this.isVisibleComputation(newRec.computation))
 				{
 					includeRec = false;
 				}
