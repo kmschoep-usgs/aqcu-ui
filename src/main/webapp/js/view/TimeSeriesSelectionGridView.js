@@ -186,7 +186,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 	beautifyAndFilter: function(){
 		var timeSeriesList = this.parentModel.get("timeSeriesList");
 		var filteredList = []
-		if (typeof timeSeriesList !== "undefined") {
+		if (timeSeriesList) {
 			for(var i=0;i < timeSeriesList.length;i++){
 				var newRec = timeSeriesList[i];
 				var includeRec = true;
