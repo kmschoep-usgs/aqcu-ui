@@ -225,12 +225,12 @@ AQCU.view.DateField = Backbone.View.extend({
 	},
 	
 	resetDatePickers: function () {
-		this.$('.input-daterange').datepicker('remove');
+		this.$('.input-daterange input').datepicker('remove');
 		
 		// Standard date picker - pick any date.
 		if (!this.model.get('limitDateSelection')) {
 			$('.input-daterange input').prop('disabled', false);
-			this.$('.input-daterange').datepicker({
+			this.$('.input-daterange input').datepicker({
 				todayBtn: true,
 				autoclose: true,
 				todayHighlight: true,
@@ -251,7 +251,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		// Create a date picker that excludes dates not in `fieldVisitDates`.
 		// Date parts are compared in the local time zone.
 		$('.input-daterange input').prop('disabled', false);
-		this.$('.input-daterange').datepicker({
+		this.$('.input-daterange input').datepicker({
 			autoclose: true,
 			format: this.dateFormat,
 			startView: "decade",
