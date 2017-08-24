@@ -19,7 +19,9 @@ AQCU.view.TimeSeriesView = AQCU.view.BaseView.extend({
 		this.router = this.options.router;
 		
 		this.model = this.options.model || new Backbone.Model({
-				selectedSite: null
+				selectedSite: null,
+				timeSeriesList:  null,
+				filteredList: null
 			});
 
 		this.model.bind("change:selectedSite", this.siteSelected, this);	

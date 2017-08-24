@@ -23,6 +23,8 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 		
 		this.model = this.options.model || new Backbone.Model({
 			site: this.parentModel.get("site"),
+			timeSeriesList: this.parentModel.get("timeSeriesList"),
+			filteredList: this.parentModel.get("filteredList"),
 			dateSelection: this.parentModel.get("dateSelection"),
 			selectedTimeSeries: this.parentModel.get("selectedTimeSeries"), 
 			requestParams: null,
@@ -35,7 +37,10 @@ AQCU.view.ReportConfigView = AQCU.view.BaseView.extend({
 				],
 				periodFilter: [
 					"Points"
-				]
+				],
+				identifierFilter:[],
+				parameterFilter: [],
+				unitFilter: []
 			}
 		});
 		

@@ -15,16 +15,17 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		this.router = this.options.router;
 		
 		this.parentModel = this.options.parentModel;
-		
 		this.model = this.options.model || new Backbone.Model({
-				timeSeriesList: this.options.timeSeriesList, //this gets set by select,
-				filter: this.parentModel.get("filter"),
-				onlyPublish: true,
-				onlyPrimary: true,
-				computationFilter: [],
-				periodFilter: []
+			//timeSeriesList: this.parentModel.get("timeSeriesList"), //this gets set by select,
+			filter: this.parentModel.get("filter"),
+			onlyPublish: true,
+			onlyPrimary: true,
+			computationFilter: [],
+			periodFilter: [],
+			unitFilter: [],
+			parameterFilter: [],
+			identifierFilter: []
 		});
-		
 		var filter = this.model.get("filter");
 		
 		if(filter != null){
@@ -32,6 +33,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 			this.model.set("onlyPrimary", filter.onlyPrimary);
 			this.model.set("computationFilter", filter.computationFilter);
 			this.model.set("periodFilter", filter.periodFilter);
+			this.model.set("parameterFilter", filter.identifierFilter);
 		}
 		
 		this.parentModel.bind("change:site", this.render, this);
@@ -42,6 +44,8 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		this.model.bind("change:onlyPrimary", this.updateFilter, this);
 		this.model.bind("change:computationFilter", this.updateFilter, this);
 		this.model.bind("change:periodFilter", this.updateFilter, this);
+		this.model.bind("change:parameterFilter", this.updateFilter, this);
+		this.parentModel.bind("change:timeSeriesList", this.createParameterFilter, this);
 	},
 	
 	/*override*/
@@ -104,7 +108,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 						fieldName: "computationFilter",
 						displayName: "Filter Computations",
 						description: "The list of time series below will be limited to the selected computations.",
-						placeholder: "Computations to Show"
+						placeholder: "Filter by Computations"
 					},
 					data: data,
 					initialSelection: this.model.get("computationFilter")
@@ -123,7 +127,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 			timeout: 30000,
 			dataType: "json",
 			context: this,
-			success: function (data) {			
+			success: function (data) {
 				this.periodFilter = new AQCU.view.MultiselectField({
 					el: '.periodFilter',
 					model : this.model,
@@ -131,7 +135,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 						fieldName: "periodFilter",
 						displayName: "Filter Periods",
 						description: "The list of time series below will be limited to the selected periods.",
-						placeholder: "Periods to Show"
+						placeholder: "Filter by Periods"
 					},
 					data: data,
 					initialSelection: this.model.get("periodFilter")
@@ -140,7 +144,28 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 			error: function (a, b, c) {
 				$.proxy(this.router.unknownErrorHandler, this.router)(a, b, c)
 			}
-	    });
+		});
+	},
+	
+	createParameterFilter: function() {
+		var parameterSiteList = _.clone(this.parentModel.get("timeSeriesList"));
+		if (parameterSiteList){
+			var parameterList = [];
+			parameterList = _.pluck(parameterSiteList, 'parameter');
+			uniqueParameterList = _.uniq(parameterList);
+			this.parameterFilter = new AQCU.view.MultiselectField({
+				el: '.parameterFilter',
+				model : this.model,
+				fieldConfig: {
+					fieldName: "parameterFilter",
+					displayName: "Filter Parameters",
+					description: "The list of time series below will be limited to the selected parameter.",
+					placeholder: "Filter by Parameters"
+				},
+				data: uniqueParameterList,
+				initialSelection: null
+			});
+		}
 	},
 	
 	updateFilter: function() {
@@ -151,6 +176,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 		filter.onlyPrimary = this.model.get("onlyPrimary");
 		filter.computationFilter = this.model.get("computationFilter");
 		filter.periodFilter = this.model.get("periodFilter");
+		filter.parameterFilter = this.model.get("parameterFilter");
 		this.model.set("filter", filter);
 		this.parentModel.set("filter", filter);
 	}
