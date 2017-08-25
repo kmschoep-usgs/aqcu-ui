@@ -112,7 +112,7 @@
 			var isChrome = !!window.chrome && !!window.chrome.webstore;
 
 			if (isOpera||isFirefox||isSafari||isIE||isEdge &&!isChrome) {
-				alertify.alert("Warning","Your mileage may vary with generating reports unless you use Chrome",
+				alertify.alert("Warning","This application is designed to work with most browsers, however your mileage may vary generating reports unless you use Chrome or BisonConnect.",
 			function(){ }).set('labels', {ok:'I understand.'});
 			}
 			}
