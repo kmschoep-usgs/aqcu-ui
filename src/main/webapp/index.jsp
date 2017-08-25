@@ -91,9 +91,34 @@
 
 		<%-- Google Analytics --%>
 		<jsp:include page="/WEB-INF/jsp/analytics.jsp"></jsp:include>
-		
+		<script>
+			function checkBrowser() {
+			// Opera 8.0+
+			var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+			// Firefox 1.0+
+			var isFirefox = typeof InstallTrigger !== 'undefined';
+
+			// Safari 3.0+ "[object HTMLElementConstructor]" 
+			var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+
+			// Internet Explorer 6-11
+			var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+			// Edge 20+
+			var isEdge = !isIE && !!window.StyleMedia;
+
+			// Chrome 1+
+			var isChrome = !!window.chrome && !!window.chrome.webstore;
+
+			if (isOpera||isFirefox||isSafari||isIE||isEdge &&!isChrome) {
+				alertify.alert("Warning","Your mileage may vary with generating reports unless you use Chrome",
+			function(){ }).set('labels', {ok:'I understand.'});
+			}
+			}
+		</script>
 	</head>
-	<body>
+	<body onload="checkBrowser()">
 		<%-- USGS VisID compliant header --%>
 		<jsp:include page="jsp/header.jsp"></jsp:include>
 		
