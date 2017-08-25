@@ -225,7 +225,9 @@ AQCU.view.DateField = Backbone.View.extend({
 	},
 	
 	resetDatePickers: function () {
-		this.$('.input-daterange input').datepicker('remove');
+		this.$('.input-daterange input').each(function () {
+			$(this).datepicker('remove');
+		});
 		
 		// Standard date picker - pick any date.
 		if (!this.model.get('limitDateSelection')) {
