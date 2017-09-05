@@ -150,7 +150,8 @@ AQCU.view.DateField = Backbone.View.extend({
 	},
 	
 	dateInputValid: function(date) {
-		return /\d{4}-\d\d?-\d\d?$/.test(date) && new Date(date).getTime() != NaN;
+		return date == '' || (
+			/\d{4}-\d\d?-\d\d?$/.test(date) && new Date(date).getTime() != NaN);
 	},
 	
 	startDateSet: function() {
