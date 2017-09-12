@@ -153,6 +153,9 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 			var parameterList = [];
 			parameterList = _.pluck(parameterSiteList, 'parameter');
 			uniqueParameterList = _.uniq(parameterList);
+			sortedParameterList = uniqueParameterList.sort(function (a, b) {
+				return a.toLowerCase().localeCompare(b.toLowerCase());
+			});
 			this.parameterFilter = new AQCU.view.MultiselectField({
 				el: '.parameterFilter',
 				model : this.model,
@@ -162,7 +165,7 @@ AQCU.view.TimeSeriesSelectionFilterView = AQCU.view.BaseView.extend({
 					description: "The list of time series below will be limited to the selected parameter.",
 					placeholder: "Filter by Parameters"
 				},
-				data: uniqueParameterList,
+				data: sortedParameterList,
 				initialSelection: null
 			});
 		}
