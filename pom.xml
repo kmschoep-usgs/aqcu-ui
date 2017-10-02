@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>aqcu-reports</artifactId>
 		<groupId>gov.usgs.aqcu</groupId>
-		<version>1.6-SNAPSHOT</version>
+		<version>1.6</version>
 	</parent>
 	<packaging>war</packaging>
 	<name>AQCU Javascript UI</name>
