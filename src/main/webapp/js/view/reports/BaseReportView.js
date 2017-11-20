@@ -207,8 +207,8 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	    $.extend(this.bindings, excludeZeroNegativeSelector.getBindingConfig());
 	    this.advancedOptionsContainer.append(newContainer);
 	},
-        
-        createDiscreteExclusionSelector: function() {
+	
+	createDiscreteExclusionSelector: function() {
 	    var newContainer = $("<div>");
 	    var excludeDiscreteSelector  = new AQCU.view.CheckBoxField({
 		    router: this.router,
@@ -382,11 +382,11 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 		$.extend(this.bindings, correctionExclusionSelector.getBindingConfig());
 		this.advancedOptionsContainer.append(newContainer);
 	},
-        
+	
 	bindToCorrectionExclusionSelectors: function(bindFunc, scope) {
 		this.model.bind("change:excludeDeleteRegion", bindFunc, scope);
 	},
-        
+	
 	updateExcludedCorrections: function() {
 			this.excludedCorrections = [];
 			this.excludedCorrections.push(this.model.get("excludeDeleteRegion")?"DeleteRegion":null);
