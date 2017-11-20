@@ -118,7 +118,7 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 		this.createComparisonSiteSelector();
 		this.createComparisonTimeseriesSelector();
 		this.createZeroNegativeExclusionSelector();
-                this.createDiscreteExclusionSelector();
+		this.createDiscreteExclusionSelector();
 		this.createCorrectionExclusionSelector();
 		this.bindToCorrectionExclusionSelectors(this.updateExcludedCorrections, this);
 	},
@@ -235,10 +235,10 @@ AQCU.view.UvHydrographReportView = AQCU.view.BaseReportView.extend({
 			reportOptions.excludeZeroNegative = this.model.get("excludeZeroNegative");
 		}
 		
-                if(this.model.get("excludeDiscrete")) {
+		if(this.model.get("excludeDiscrete")) {
 			reportOptions.excludeDiscrete = this.model.get("excludeDiscrete");
 		}
-                
+		
 		if(this.excludedCorrections.length > 0) {
 			reportOptions.excludedCorrections = this.excludedCorrections.join(",");
 		}
