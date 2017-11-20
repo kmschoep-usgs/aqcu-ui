@@ -50,6 +50,7 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 	buildAdvancedOptions: function() {
 		AQCU.view.BaseReportView.prototype.buildAdvancedOptions.apply(this, arguments);
 		this.createInstructions();
+                this.createDiscreteExclusionSelector();
 		this.createExcludeMinMaxSelector();
 	},
 	
@@ -85,6 +86,10 @@ AQCU.view.FiveYearGWSummaryReportView = AQCU.view.BaseReportView.extend({
 		
 		if(this.model.get("excludeMinMax")){
 			reportOptions.excludeMinMax = this.model.get("excludeMinMax");
+		}
+                
+                if(this.model.get("excludeDiscrete")) {
+			reportOptions.excludeDiscrete = this.model.get("excludeDiscrete");
 		}
 		
  		return reportOptions;

@@ -207,6 +207,25 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 	    $.extend(this.bindings, excludeZeroNegativeSelector.getBindingConfig());
 	    this.advancedOptionsContainer.append(newContainer);
 	},
+        
+        createDiscreteExclusionSelector: function() {
+	    var newContainer = $("<div>");
+	    var excludeDiscreteSelector  = new AQCU.view.CheckBoxField({
+		    router: this.router,
+		    model: this.model,
+		    fieldConfig: {
+			    fieldName : "excludeDiscrete",
+			    displayName : "Discrete Data",
+			    description : "Exclude Discrete Data"
+		    },
+		    renderTo: newContainer,
+		    startHidden: false
+	    });
+
+	    this.model.set("excludeDiscrete", false);
+	    $.extend(this.bindings, excludeDiscreteSelector.getBindingConfig());
+	    this.advancedOptionsContainer.append(newContainer);
+	},
 	
 	createExcludeMinMaxSelector: function() {
 	    var newContainer = $("<div>");
