@@ -7,6 +7,13 @@
 	<packaging>war</packaging>
 	<name>AQCU Javascript UI</name>
 	
+	<scm>
+		<url>https://github.com/USGS-CIDA/AQCU</url>
+		<connection>scm:git:ssh://git@github.com/USGS-CIDA/aqcu-ui.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/USGS-CIDA/aqcu-ui.git</developerConnection>
+		<tag>aqcu-ui-1.8</tag>
+	</scm>
+
 	<distributionManagement>
 		<repository>
 			<id>cida-releases</id>
