@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>aqcu-ui</artifactId>
 	<groupId>gov.usgs.aqcu</groupId>
-	<version>1.8.2-SNAPSHOT</version>
+	<version>1.8.2</version>
 	<packaging>war</packaging>
 	<name>AQCU Javascript UI</name>
 	
@@ -11,7 +11,7 @@
 		<url>https://github.com/USGS-CIDA/AQCU</url>
 		<connection>scm:git:ssh://git@github.com/USGS-CIDA/aqcu-ui.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/USGS-CIDA/aqcu-ui.git</developerConnection>
-		<tag>aqcu-ui-1.8</tag>
+		<tag>aqcu-ui-1.8.2</tag>
 	</scm>
 
 	<distributionManagement>
