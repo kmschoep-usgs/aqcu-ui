@@ -8,7 +8,7 @@
 	<name>AQCU Javascript UI</name>
 	
 	<scm>
-		<url>https://github.com/USGS-CIDA/AQCU</url>
+		<url>https://github.com/USGS-CIDA/aqcu-ui</url>
 		<connection>scm:git:ssh://git@github.com/USGS-CIDA/aqcu-ui.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/USGS-CIDA/aqcu-ui.git</developerConnection>
 		<tag>aqcu-ui-1.8</tag>
