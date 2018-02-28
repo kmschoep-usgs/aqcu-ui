@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>gov.usgs.aqcu</groupId>
 			<artifactId>aqcu-core</artifactId>
-			<version>1.8-SNAPSHOT</version>
+			<version>1.8.1</version>
 		</dependency>
 		<dependency>
 			<groupId>gov.usgs.cida</groupId>
