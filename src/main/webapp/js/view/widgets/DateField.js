@@ -69,11 +69,11 @@ AQCU.view.DateField = Backbone.View.extend({
 		},
 		'.aqcu_field_input_date_start' : {
 			observe: 'startDate',
-			events: ['change']
+			events: ['blur']
 		},
 		'.aqcu_field_input_date_end' : {
 			observe: 'endDate',
-			events: ['change']
+			events: ['blur']
 		},
 		'.aqcu_field_waterYear' : {
 			observe: 'waterYear',
