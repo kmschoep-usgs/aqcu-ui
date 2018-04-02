@@ -92,7 +92,7 @@ describe("DateField.js", function() {
 	
 	it("should update endDate if null and clear lastMonths/waterYear when start date is entered", function() {
 		$('.aqcu_field_input_date_start').val("2012-12-01");
-		$('.aqcu_field_input_date_start').change();
+		$('.aqcu_field_input_date_start').blur();
 		
 		var dateSelection = model.get('dateSelection');
 		expect(dateSelection.lastMonths).toBeUndefined();
@@ -102,7 +102,7 @@ describe("DateField.js", function() {
 		
 		//end date should do the same
 		$('.aqcu_field_input_date_start').val(""); //clearing start date clears both dates and sets to default
-		$('.aqcu_field_input_date_start').change();
+		$('.aqcu_field_input_date_start').blur();
 		
 		var dateSelection = model.get('dateSelection');
 		expect(dateSelection.lastMonths).toBe(12);
@@ -112,7 +112,7 @@ describe("DateField.js", function() {
 		
 
 		$('.aqcu_field_input_date_end').val("2013-12-01");
-		$('.aqcu_field_input_date_end').change();
+		$('.aqcu_field_input_date_end').blur();
 		
 		var dateSelection = model.get('dateSelection');
 		expect(dateSelection.lastMonths).toBeUndefined();
