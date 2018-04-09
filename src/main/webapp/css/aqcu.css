@@ -693,7 +693,7 @@ category-tip-target {
 	background-color: yellow;
 }
 
-.disabled{
+.button-disabled{
 	background-color: #E6E6E6;
 	border: solid 1px #a0a0a0;
 	font-weight: bold;
