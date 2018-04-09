@@ -181,9 +181,9 @@ AQCU.view.DateField = Backbone.View.extend({
 	startDateSet: function() {
 		this.removeErrorMsg();
 		if (!(this.model.get("startDate") && this.model.get("endDate"))){
-			$('.apply-time-range-button').prop('disabled', true).addClass('disabled').removeClass('saved-reports-button');
+			$('.apply-time-range-button').prop('disabled', true).addClass('button-disabled').removeClass('saved-reports-button');
 		} else {
-			$('.apply-time-range-button').prop('disabled', false).removeClass('disabled').addClass('saved-reports-button');
+			$('.apply-time-range-button').prop('disabled', false).removeClass('button-disabled').addClass('saved-reports-button');
 		}
 		if (!this.dateInputValid(this.model.get('startDate'))) {
 			return;
