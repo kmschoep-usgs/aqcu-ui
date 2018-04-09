@@ -314,6 +314,11 @@
 	padding: .5em;
 }
 
+.time-series-home-header p{
+	font-weight: bold;
+	padding: .5em;
+}
+
 /** REPORT CONFIG: END **/
 
 /** REPORT CARDS: START **/
