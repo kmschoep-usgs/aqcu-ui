@@ -280,6 +280,11 @@
 	width: 10em;
 }
 
+.field-visit-date {
+	font-weight:bold;
+	background: #E4E4E4;
+}
+
 /** TIME SERIES SELECTION FILTER: START **/
 
 .time-series-selection-filter-container-top{
