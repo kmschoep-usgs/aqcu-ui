@@ -172,7 +172,6 @@ AQCU.view.DateField = Backbone.View.extend({
 	
 	validateDateRange: function(){
 		if((this.model.get("startDate") && this.model.get("endDate")) && (this.model.get("startDate") > this.model.get("endDate"))) {
-			//alertify.error('Start date must be before end date, please review your selection');
 			this.addErrorMsg();				
 			return false;
 		} else {
@@ -182,9 +181,9 @@ AQCU.view.DateField = Backbone.View.extend({
 	startDateSet: function() {
 		this.removeErrorMsg();
 		if (!(this.model.get("startDate") && this.model.get("endDate"))){
-			$('.apply-time-range-button').prop('disabled', true).addClass('disabled').removeClass('saved-reports-button');
+			$('.apply-time-range-button').prop('disabled', true).addClass('button-disabled').removeClass('saved-reports-button');
 		} else {
-			$('.apply-time-range-button').prop('disabled', false).removeClass('disabled').addClass('saved-reports-button');
+			$('.apply-time-range-button').prop('disabled', false).removeClass('button-disabled').addClass('saved-reports-button');
 		}
 		if (!this.dateInputValid(this.model.get('startDate'))) {
 			return;
@@ -193,23 +192,18 @@ AQCU.view.DateField = Backbone.View.extend({
 			this.model.set("lastMonths", 0);
 			this.model.set("waterYear", "");
 		}
-		if(!this.model.get("startDate") && !this.model.get("endDate")){
+		
+		if(!this.model.get("startDate") && !this.model.get("endDate") && !this.model.get("waterYear") && !this.model.get("lastMonths") > 0){
 			this.applyDefaultSettings();
 		}
-		
-		//if(!this.model.get("endDate")) {
-		//	this.model.set("endDate", this.model.get('startDate'))
-		//}
-		
-		//this.applyDateSelection();
 	},
 	
 	endDateSet: function() {
 		this.removeErrorMsg();
 		if (!(this.model.get("startDate") && this.model.get("endDate"))){
-			$('.apply-time-range-button').prop('disabled', true).addClass('disabled').removeClass('saved-reports-button');
+			$('.apply-time-range-button').prop('disabled', true).addClass('button-disabled').removeClass('saved-reports-button');
 		} else {
-			$('.apply-time-range-button').prop('disabled', false).removeClass('disabled').addClass('saved-reports-button');
+			$('.apply-time-range-button').prop('disabled', false).removeClass('button-disabled').addClass('saved-reports-button');
 		}
 			
 		if (!this.dateInputValid(this.model.get('endDate'))) {
@@ -221,15 +215,9 @@ AQCU.view.DateField = Backbone.View.extend({
 			this.model.set("waterYear", "");
 		}
 		
-		if(!this.model.get("startDate") && !this.model.get("endDate")){
+		if(!this.model.get("startDate") && !this.model.get("endDate") && !this.model.get("waterYear") && !this.model.get("lastMonths") > 0){
 			this.applyDefaultSettings();
 		}
-		
-		//if(!this.model.get("startDate")) {
-		//	this.model.set("startDate", this.model.get('endDate'))
-		//}
-		
-		//this.applyDateSelection();
 	},
 	
 	lastMonthsSet: function() {
@@ -238,8 +226,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			this.model.set("startDate", "");
 			this.model.set("endDate", "");
 			this.model.set("waterYear", "");
-			$('.apply-time-range-button').prop('disabled', false);
-			//this.applyDateSelection();
+			$('.apply-time-range-button').prop('disabled', false).removeClass('button-disabled').addClass('saved-reports-button');
 		}
 	},
 	
@@ -249,8 +236,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			this.model.set("startDate", "");
 			this.model.set("endDate", "");
 			this.model.set("lastMonths", 0);
-			$('.apply-time-range-button').prop('disabled', false);
-			//this.applyDateSelection();
+			$('.apply-time-range-button').prop('disabled', false).removeClass('button-disabled').addClass('saved-reports-button');
 		}
 	},
 	
@@ -314,6 +300,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			format: this.dateFormat,
 			startView: "decade",
 			beforeShowDay: function (dt) {
+				var dayObj = {enabled:false, classes: ""};
 				var day = dt.getDate();
 				var month = dt.getMonth();
 				var year = dt.getFullYear();
@@ -321,10 +308,11 @@ AQCU.view.DateField = Backbone.View.extend({
 					if (fieldVisitDates[i].getDate() === day &&
 							fieldVisitDates[i].getMonth() === month &&
 							fieldVisitDates[i].getFullYear() === year) {
-						return true;
+						dayObj = {enabled:true, classes: "field-visit-date"}
+						return dayObj;
 					}
 				}
-				return false;
+				return dayObj;
 			},
 			beforeShowMonth: function (dt) {
 				var month = dt.getMonth();
