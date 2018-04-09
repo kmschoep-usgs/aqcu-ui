@@ -314,6 +314,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			format: this.dateFormat,
 			startView: "decade",
 			beforeShowDay: function (dt) {
+				var dayObj = {enabled:false, classes: ""};
 				var day = dt.getDate();
 				var month = dt.getMonth();
 				var year = dt.getFullYear();
@@ -321,10 +322,11 @@ AQCU.view.DateField = Backbone.View.extend({
 					if (fieldVisitDates[i].getDate() === day &&
 							fieldVisitDates[i].getMonth() === month &&
 							fieldVisitDates[i].getFullYear() === year) {
-						return true;
+						dayObj = {enabled:true, classes: "field-visit-date"}
+						return dayObj;
 					}
 				}
-				return false;
+				return dayObj;
 			},
 			beforeShowMonth: function (dt) {
 				var month = dt.getMonth();
