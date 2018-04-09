@@ -192,7 +192,8 @@ AQCU.view.DateField = Backbone.View.extend({
 			this.model.set("lastMonths", 0);
 			this.model.set("waterYear", "");
 		}
-		if(!this.model.get("startDate") && !this.model.get("endDate")){
+		
+		if(!this.model.get("startDate") && !this.model.get("endDate") && !this.model.get("waterYear") && !this.model.get("lastMonths") > 0){
 			this.applyDefaultSettings();
 		}
 	},
@@ -214,7 +215,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			this.model.set("waterYear", "");
 		}
 		
-		if(!this.model.get("startDate") && !this.model.get("endDate")){
+		if(!this.model.get("startDate") && !this.model.get("endDate") && !this.model.get("waterYear") && !this.model.get("lastMonths") > 0){
 			this.applyDefaultSettings();
 		}
 	},

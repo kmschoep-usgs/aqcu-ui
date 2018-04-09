@@ -58,7 +58,12 @@ describe("DateField.js", function() {
 		expect(dateSelection.waterYear).toBeUndefined();
 	});
 	
-	it("should clear other fields when water year is entered, then clear water year when lastMonths reentered", function() {
+	it("should clear other fields when water year is entered", function() {
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', 12);
+		model.set('waterYear','');
+		
 		$('.aqcu_field_waterYear').val('2012');
 		$('.aqcu_field_waterYear').blur();
 		dateField.delegateEvents();
@@ -72,9 +77,30 @@ describe("DateField.js", function() {
 		expect(startDate).toBe('');
 		expect(endDate).toBe('');
 		expect(waterYear).toBe('2012');
+		
+		model.set('startDate','2012-01-01');
+		model.set('endDate','2013-01-01');
+		model.set('lastMonths', 0);
+		model.set('waterYear','');
+		
+		$('.aqcu_field_waterYear').val('2012');
+		$('.aqcu_field_waterYear').blur();
+		dateField.delegateEvents();
+
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		expect(lastMonths).toBe(0);
+		expect(startDate).toBe('');
+		expect(endDate).toBe('');
+		expect(waterYear).toBe('2012');
+		
+		
 	});
 	
-	it("should clear other fields when water year is entered", function() {
+	it("should clear other fields when water year is entered, then clear water year when lastMonths reentered", function() {
 		$('.aqcu_field_waterYear').val('2012');
 		$('.aqcu_field_waterYear').blur();
 		dateField.delegateEvents();
@@ -104,7 +130,7 @@ describe("DateField.js", function() {
 		expect(waterYear).toBe('');
 	});
 	
-	it("should clear lastMonths/waterYear when start date is entered", function() {
+	it("should clear lastMonths when start date is entered", function() {
 		model.set('startDate','');
 		model.set('endDate','');
 		model.set('lastMonths', 12);
@@ -122,6 +148,9 @@ describe("DateField.js", function() {
 		expect(waterYear).toBe('');
 		testDate('expected startDate as set', startDate, 2012, 12, 1);
 		
+	});
+	
+	it("should clear waterYear when start date is entered", function() {
 		model.set('startDate','');
 		model.set('endDate','');
 		model.set('lastMonths', '');
