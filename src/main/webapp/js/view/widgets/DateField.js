@@ -53,6 +53,8 @@ AQCU.view.DateField = Backbone.View.extend({
 							Limit date picker to field visit dates.\
 						</input>\
 					</div>\
+					<div id='errorMsg' style='float:right;color:red;'></div>\
+					<div style='float:right;' class='apply-time-range-button saved-reports-button'>Fetch Time Series in Time Range</div>\
 				</div>\
 			</div>\
 		</div>"),
@@ -60,6 +62,7 @@ AQCU.view.DateField = Backbone.View.extend({
 	 * Backbone events object. See backbone documentation
 	 */
 	events: {
+		'click .apply-time-range-button': "applyDateSelection"
 	},
 	
 	bindings: {
@@ -69,11 +72,11 @@ AQCU.view.DateField = Backbone.View.extend({
 		},
 		'.aqcu_field_input_date_start' : {
 			observe: 'startDate',
-			events: ['blur']
+			events: ['changeDate','blur']
 		},
 		'.aqcu_field_input_date_end' : {
 			observe: 'endDate',
-			events: ['blur']
+			events: ['changeDate','blur']
 		},
 		'.aqcu_field_waterYear' : {
 			observe: 'waterYear',
@@ -121,27 +124,40 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.applyDateSelection();
 	},
 	
+	addErrorMsg: function(){
+		$('.input-daterange input').addClass('error');
+		$("#errorMsg").append('Start date must be before end date, please review your selection');
+	},
+	
+	removeErrorMsg: function(){
+		$('.input-daterange input').removeClass('error');
+		$("#errorMsg").empty();
+	},
+	
 	applyDateSelection : function() {
-		if(this.model.get('lastMonths') > 0) {
-			this.parentModel.set("dateSelection", {
-				lastMonths : this.model.get('lastMonths')
-			});
-		} else if(this.model.get('waterYear')) {
-			var intYear = parseInt(this.model.get('waterYear'));
-			if(intYear > 999) {
+		if (this.validateDateRange()) {
+			if(this.model.get('lastMonths') > 0) {
 				this.parentModel.set("dateSelection", {
-					waterYear : this.model.get('waterYear')
+					lastMonths : this.model.get('lastMonths')
 				});
-			} else {
+			} else if(this.model.get('waterYear')) {
+				var intYear = parseInt(this.model.get('waterYear'));
+				if(intYear > 999) {
+					this.parentModel.set("dateSelection", {
+						waterYear : this.model.get('waterYear')
+					});
+				} else {
+					this.applyDefaultSettings();
+				}
+			} else if(this.model.get('startDate') && this.model.get('endDate')) {
+				this.parentModel.set("dateSelection", {
+					startDate : this.model.get('startDate'),
+					endDate : this.model.get('endDate')
+				});
+			}
+			else {
 				this.applyDefaultSettings();
 			}
-		} else if(this.model.get('startDate')) {
-			this.parentModel.set("dateSelection", {
-				startDate : this.model.get('startDate'),
-				endDate : this.model.get('endDate')
-			});
-		} else {
-			this.applyDefaultSettings();
 		}
 	},
 	
@@ -154,7 +170,22 @@ AQCU.view.DateField = Backbone.View.extend({
 			/\d{4}-\d\d?-\d\d?$/.test(date) && new Date(date).getTime() != NaN);
 	},
 	
+	validateDateRange: function(){
+		if((this.model.get("startDate") && this.model.get("endDate")) && (this.model.get("startDate") > this.model.get("endDate"))) {
+			//alertify.error('Start date must be before end date, please review your selection');
+			this.addErrorMsg();				
+			return false;
+		} else {
+			return true;
+		}
+	},
 	startDateSet: function() {
+		this.removeErrorMsg();
+		if (!(this.model.get("startDate") && this.model.get("endDate"))){
+			$('.apply-time-range-button').prop('disabled', true).addClass('disabled').removeClass('saved-reports-button');
+		} else {
+			$('.apply-time-range-button').prop('disabled', false).removeClass('disabled').addClass('saved-reports-button');
+		}
 		if (!this.dateInputValid(this.model.get('startDate'))) {
 			return;
 		}
@@ -162,54 +193,64 @@ AQCU.view.DateField = Backbone.View.extend({
 			this.model.set("lastMonths", 0);
 			this.model.set("waterYear", "");
 		}
-		if(!this.model.get("endDate")) {
-			this.model.set("endDate", this.model.get('startDate'))
+		if(!this.model.get("startDate") && !this.model.get("endDate")){
+			this.applyDefaultSettings();
 		}
 		
-		if(this.model.get("startDate") > this.model.get("endDate")) {
-			alertify.error('Start date must be before end date, please review your selection');
-		}
+		//if(!this.model.get("endDate")) {
+		//	this.model.set("endDate", this.model.get('startDate'))
+		//}
 		
-		this.applyDateSelection();
+		//this.applyDateSelection();
 	},
 	
 	endDateSet: function() {
+		this.removeErrorMsg();
+		if (!(this.model.get("startDate") && this.model.get("endDate"))){
+			$('.apply-time-range-button').prop('disabled', true).addClass('disabled').removeClass('saved-reports-button');
+		} else {
+			$('.apply-time-range-button').prop('disabled', false).removeClass('disabled').addClass('saved-reports-button');
+		}
+			
 		if (!this.dateInputValid(this.model.get('endDate'))) {
 			return;
 		}
 		
-		if(this.model.get("startDate") && this.model.get("endDate")) {
+		if(this.model.get("endDate")) {
 			this.model.set("lastMonths", 0);
 			this.model.set("waterYear", "");
 		}
-		if(!this.model.get("startDate")) {
-			this.model.set("startDate", this.model.get('endDate'))
+		
+		if(!this.model.get("startDate") && !this.model.get("endDate")){
+			this.applyDefaultSettings();
 		}
 		
-		if(this.model.get("endDate") < this.model.get("startDate")) {
-			alertify.error('End date must be after start date, please review your selection');
-		}
+		//if(!this.model.get("startDate")) {
+		//	this.model.set("startDate", this.model.get('endDate'))
+		//}
 		
-		this.applyDateSelection();
+		//this.applyDateSelection();
 	},
 	
 	lastMonthsSet: function() {
+		this.removeErrorMsg();
 		if(this.model.get('lastMonths') > 0) {
 			this.model.set("startDate", "");
 			this.model.set("endDate", "");
 			this.model.set("waterYear", "");
-			
-			this.applyDateSelection();
+			$('.apply-time-range-button').prop('disabled', false);
+			//this.applyDateSelection();
 		}
 	},
 	
 	waterYearSet: function() {
+		this.removeErrorMsg();
 		if(this.model.get("waterYear")) {
 			this.model.set("startDate", "");
 			this.model.set("endDate", "");
 			this.model.set("lastMonths", 0);
-			
-			this.applyDateSelection();
+			$('.apply-time-range-button').prop('disabled', false);
+			//this.applyDateSelection();
 		}
 	},
 	
@@ -239,16 +280,17 @@ AQCU.view.DateField = Backbone.View.extend({
 	},
 	
 	resetDatePickers: function () {
+		this.removeErrorMsg();
 		this.$('.input-daterange input').each(function () {
 			$(this).datepicker('remove');
 		});
 		
 		// Standard date picker - pick any date.
 		if (!this.model.get('limitDateSelection')) {
-			$('.input-daterange input').prop('disabled', false);
-			this.$('.input-daterange input').datepicker({
+			$('.input-daterange input').prop('disabled', false)
+			this.$('.input-daterange').datepicker({
 				todayBtn: true,
-				autoclose: true,
+				autoclose: false,
 				todayHighlight: true,
 				format: this.dateFormat
 			});

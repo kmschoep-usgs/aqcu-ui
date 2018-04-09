@@ -276,7 +276,7 @@
 	border-top-right-radius: 0px;
 }
 
-.input-daterange {
+.input-daterange{
 	width: 10em;
 }
 
@@ -684,6 +684,21 @@ category-tip-target {
     border-radius: 5px;
 }
 
+.error {
+	background-color: yellow;
+}
+
+.disabled{
+	background-color: #E6E6E6;
+	border: solid 1px #a0a0a0;
+	font-weight: bold;
+	color: white;
+	padding: .5em;
+	border-radius: 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
+}
 .select2-container--default .select2-selection--multiple:before {
     content: ' ';
     display: block;
