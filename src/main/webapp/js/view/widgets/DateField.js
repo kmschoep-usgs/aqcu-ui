@@ -300,7 +300,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			format: this.dateFormat,
 			startView: "decade",
 			beforeShowDay: function (dt) {
-				var dayObj = {enabled:false, classes: ""};
+				var dayObj = {enabled:false};
 				var day = dt.getDate();
 				var month = dt.getMonth();
 				var year = dt.getFullYear();
@@ -308,31 +308,35 @@ AQCU.view.DateField = Backbone.View.extend({
 					if (fieldVisitDates[i].getDate() === day &&
 							fieldVisitDates[i].getMonth() === month &&
 							fieldVisitDates[i].getFullYear() === year) {
-						dayObj = {enabled:true, classes: "field-visit-date"}
+						dayObj = {enabled:true, classes:"field-visit-day"};
 						return dayObj;
 					}
 				}
 				return dayObj;
 			},
 			beforeShowMonth: function (dt) {
+				var monthObj = {enabled:false};
 				var month = dt.getMonth();
 				var year = dt.getFullYear();
 				for (var i = 0; i < fieldVisitDates.length; i++) {
 					if (fieldVisitDates[i].getMonth() === month &&
 							fieldVisitDates[i].getFullYear() === year) {
-						return true;
+						monthObj = {enabled:true, classes:"field-visit-month"};
+						return monthObj;
 					}
 				}
-				return false;
+				return monthObj;
 			},
 			beforeShowYear: function (dt) {
+				var yearObj = {enabled:false};
 				var year = dt.getFullYear();
 				for (var i = 0; i < fieldVisitDates.length; i++) {
 					if (fieldVisitDates[i].getFullYear() === year) {
-						return true;
+						yearObj = {enabled:true, classes:"field-visit-year"}
+						return yearObj;
 					}
 				}
-				return false;
+				return yearObj;
 			}
 		});
 	},
