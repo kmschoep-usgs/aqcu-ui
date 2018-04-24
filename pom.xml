@@ -9,22 +9,22 @@
 	
 	<scm>
 		<url>https://github.com/USGS-CIDA/aqcu-ui</url>
-		<connection>scm:git:ssh://git@github.com/USGS-CIDA/aqcu-ui.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/USGS-CIDA/aqcu-ui.git</developerConnection>
-		<tag>aqcu-ui-1.8</tag>
+		<connection>scm:git:https://github.com/USGS-CIDA/aqcu-ui.git</connection>
+		<developerConnection>scm:git:https://${env.GITHUB_USER}:${env.GITHUB_PASS}@github.com/USGS-CIDA/aqcu-ui.git</developerConnection>
+		<tag>aqcu-ui-1.9</tag>
 	</scm>
 
 	<distributionManagement>
-		<repository>
-			<id>cida-releases</id>
-			<name>CIDA Releases</name>
-			<url>https://internal.cida.usgs.gov/maven/content/repositories/cida-public-releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>cida-snapshots</id>
-			<name>CIDA Snapshots</name>
-			<url>https://internal.cida.usgs.gov/maven/content/repositories/cida-public-snapshots</url>
-		</snapshotRepository>
+        <repository>
+            <id>release</id>
+            <name>cidasdpdasartip.cr.usgs.gov-releases</name>
+            <url>${wma.artifactory.url}/aqcu-maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>cidasdpdasartip.cr.usgs.gov-snapshots</name>
+            <url>${wma.artifactory.url}/aqcu-maven-snapshots</url>
+        </snapshotRepository>
 	</distributionManagement>
 	
 	<repositories>
@@ -58,7 +58,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<additionalparam>-Xdoclint:none</additionalparam>
-		
+		<wma.artifactory.url>https://cida.usgs.gov/artifactory</wma.artifactory.url>
 		<!-- version props -->
 		<cida.auth.version>1.2.6</cida.auth.version>
 		<slf4j.version>1.7.7</slf4j.version>
