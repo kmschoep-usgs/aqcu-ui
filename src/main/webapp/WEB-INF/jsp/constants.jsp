@@ -1,4 +1,4 @@
-<%@page import="gov.usgs.aqcu.util.AqcuConfigurationLoaderSingleton"%>
+<%@page import="gov.usgs.aqcu.util.ContextUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <script  type="text/javascript">
 	if (!window.AQCU) {
@@ -6,8 +6,8 @@
 	}
 
 	AQCU.constants = {
-		nwisRaHome: '<%=AqcuConfigurationLoaderSingleton.getProperty("nwis-ra.home")%>',
-		serviceEndpoint: '<%=AqcuConfigurationLoaderSingleton.getProperty("aqcu.reports.webservice")%>',
-                helpEmail: '<%=AqcuConfigurationLoaderSingleton.getProperty("nwis/helpEmail")%>'
+		nwisRaHome: '<%=ContextUtils.getProperty("java:comp/env/nwis-ra.home")%>',
+		serviceEndpoint: '<%=ContextUtils.getProperty("java:comp/env/aqcu.reports.webservice")%>',
+        helpEmail: '<%=ContextUtils.getProperty("java:comp/env/nwis/helpEmail")%>'
 	};
 </script>
