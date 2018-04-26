@@ -1,4 +1,4 @@
-<%@page import="gov.usgs.aqcu.util.AqcuConfigurationLoaderSingleton"%>
+<%@page import="gov.usgs.aqcu.util.ContextUtils"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%-- 
 TODO: Figure out if the USGS google analytics code will actually be required to this web application 
@@ -20,7 +20,7 @@ if (location.href.indexOf("localhost") >= 0) {
 		a.src = g;
 		m.parentNode.insertBefore(a, m)
 	})(window, document, 'script', '//www.google-analytics.com/analytics_debug.js', 'ga');
-	ga('create', '<%=AqcuConfigurationLoaderSingleton.getProperty("aqcu.google.analytics.token")%>', 'auto');
+	ga('create', '<%=ContextUtils.getProperty("java:comp/env/aqcu.google.analytics.token")%>', 'auto');
 	ga('set', 'anonymizeIp', true);
 	ga('send', 'pageview');
 }
