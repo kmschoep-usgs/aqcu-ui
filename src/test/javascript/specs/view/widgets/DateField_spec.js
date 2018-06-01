@@ -32,10 +32,13 @@ describe("DateField.js", function() {
 		
 		model.set('startDate','');
 		model.set('endDate','');
+		model.set('lastMonths', 12);
+		model.set('waterYear','');
 				
 		dateField = new AQCU.view.DateField({
 			el : '.date-range',
-			parentModel  : model
+			parentModel  : model,
+			model : model
 		});
 	});
 	
@@ -55,70 +58,294 @@ describe("DateField.js", function() {
 		expect(dateSelection.waterYear).toBeUndefined();
 	});
 	
+	it("should clear other fields when water year is entered", function() {
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', 12);
+		model.set('waterYear','');
+		
+		$('.aqcu_field_waterYear').val('2012');
+		$('.aqcu_field_waterYear').blur();
+		dateField.delegateEvents();
+
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		expect(lastMonths).toBe(0);
+		expect(startDate).toBe('');
+		expect(endDate).toBe('');
+		expect(waterYear).toBe('2012');
+		
+		model.set('startDate','2012-01-01');
+		model.set('endDate','2013-01-01');
+		model.set('lastMonths', 0);
+		model.set('waterYear','');
+		
+		$('.aqcu_field_waterYear').val('2012');
+		$('.aqcu_field_waterYear').blur();
+		dateField.delegateEvents();
+
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		expect(lastMonths).toBe(0);
+		expect(startDate).toBe('');
+		expect(endDate).toBe('');
+		expect(waterYear).toBe('2012');
+		
+		
+	});
+	
 	it("should clear other fields when water year is entered, then clear water year when lastMonths reentered", function() {
 		$('.aqcu_field_waterYear').val('2012');
 		$('.aqcu_field_waterYear').blur();
 		dateField.delegateEvents();
 
-		var dateSelection = model.get('dateSelection');
-		expect(dateSelection.lastMonths).toBeUndefined();
-		expect(dateSelection.startDate).toBeUndefined();
-		expect(dateSelection.endDate).toBeUndefined();
-		expect(dateSelection.waterYear).toBe('2012');
-	});
-	
-	it("should clear other fields when water year is entered", function() {
-		$('.aqcu_field_waterYear').val('2012');
-		$('.aqcu_field_waterYear').blur();
-		dateField.delegateEvents();
-
-		var dateSelection = model.get('dateSelection');
-		expect(dateSelection.lastMonths).toBeUndefined();
-		expect(dateSelection.startDate).toBeUndefined();
-		expect(dateSelection.endDate).toBeUndefined();
-		expect(dateSelection.waterYear).toBe('2012');
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
 		
+		expect(lastMonths).toBe(0);
+		expect(startDate).toBe('');
+		expect(endDate).toBe('');
+		expect(waterYear).toBe('2012');
 
 		$('.aqcu_field_lastMonths').val(10);
 		$('.aqcu_field_lastMonths').change();
 		dateField.delegateEvents();
 		
-		var dateSelection = model.get('dateSelection');
-		expect(dateSelection.lastMonths).toBe('10');
-		expect(dateSelection.startDate).toBeUndefined();
-		expect(dateSelection.endDate).toBeUndefined();
-		expect(dateSelection.waterYear).toBeUndefined();
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		expect(lastMonths).toBe('10');
+		expect(startDate).toBe('');
+		expect(endDate).toBe('');
+		expect(waterYear).toBe('');
 	});
 	
-	it("should update endDate if null and clear lastMonths/waterYear when start date is entered", function() {
+	it("should clear lastMonths when start date is entered", function() {
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', 12);
+		model.set('waterYear','');
+		
 		$('.aqcu_field_input_date_start').val("2012-12-01");
 		$('.aqcu_field_input_date_start').blur();
 		
-		var dateSelection = model.get('dateSelection');
-		expect(dateSelection.lastMonths).toBeUndefined();
-		expect(dateSelection.waterYear).toBeUndefined();
-		testDate('expected startDate as set', dateSelection.startDate, 2012, 12, 1);
-		testDate('endDate set to startDate', dateSelection.endDate,  2012, 12, 1);
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
 		
-		//end date should do the same
+		expect(lastMonths).toBe(0);
+		expect(waterYear).toBe('');
+		testDate('expected startDate as set', startDate, 2012, 12, 1);
+		
+	});
+	
+	it("should clear waterYear when start date is entered", function() {
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', '');
+		model.set('waterYear','2016');
+		
+		$('.aqcu_field_input_date_start').val("2012-12-01");
+		$('.aqcu_field_input_date_start').blur();
+		
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		expect(lastMonths).toBe(0);
+		expect(waterYear).toBe('');
+		expect(endDate).toBe('');
+		testDate('expected startDate as set', startDate, 2012, 12, 1);
+		
 		$('.aqcu_field_input_date_start').val(""); //clearing start date clears both dates and sets to default
 		$('.aqcu_field_input_date_start').blur();
 		
-		var dateSelection = model.get('dateSelection');
-		expect(dateSelection.lastMonths).toBe(12);
-		expect(dateSelection.waterYear).toBeUndefined();
-		expect(dateSelection.startDate).toBeUndefined();
-		expect(dateSelection.endDate).toBeUndefined();
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
 		
-
-		$('.aqcu_field_input_date_end').val("2013-12-01");
+		expect(lastMonths).toBe(12);
+		expect(waterYear).toBe('');
+		expect(startDate).toBe('');
+		expect(endDate).toBe('');
+	});
+	
+	it("should clear lastMonths/waterYear when end date is entered", function() {
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', 12);
+		model.set('waterYear','');
+		
+		$('.aqcu_field_input_date_end').val("2012-12-01");
 		$('.aqcu_field_input_date_end').blur();
 		
-		var dateSelection = model.get('dateSelection');
-		expect(dateSelection.lastMonths).toBeUndefined();
-		expect(dateSelection.waterYear).toBeUndefined();
-		testDate('startDate matches endDate', dateSelection.startDate, 2013, 12, 1);
-		testDate('endDate as set', dateSelection.endDate,  2013, 12, 1);
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		expect(lastMonths).toBe(0);
+		expect(waterYear).toBe('');
+		
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', '');
+		model.set('waterYear','2016');
+		
+		$('.aqcu_field_input_date_end').val("2012-12-01");
+		$('.aqcu_field_input_date_end').blur();
+		
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		expect(lastMonths).toBe(0);
+		expect(waterYear).toBe('');
+		
+		$('.aqcu_field_input_date_end').val(""); //clearing start date clears both dates and sets to default
+		$('.aqcu_field_input_date_end').blur();
+		
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		expect(lastMonths).toBe(12);
+		expect(waterYear).toBe('');
+		expect(startDate).toBe('');
+		expect(endDate).toBe('');
+	});
+	
+	it("Fetch Time Series Button should only be enabled when one of 3 options is populated", function() {
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', '');
+		model.set('waterYear','2016');
+		
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		var buttonProperty = null;
+		buttonProperty = $('.apply-time-range-button').prop('disabled');
+		
+		expect(buttonProperty).toBe(false);
+		
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', '3');
+		model.set('waterYear','');
+		
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		var buttonProperty = null;
+		buttonProperty = $('.apply-time-range-button').prop('disabled');
+		
+		expect(buttonProperty).toBe(false);
+		
+		model.set('startDate','2016-01-05');
+		model.set('endDate','2017-01-05');
+		model.set('lastMonths', '');
+		model.set('waterYear','');
+		
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		var buttonProperty = null;
+		buttonProperty = $('.apply-time-range-button').prop('disabled');
+		
+		expect(buttonProperty).toBe(false);
+		
+		model.set('startDate','2016-01-05');
+		model.set('endDate','');
+		model.set('lastMonths', '');
+		model.set('waterYear','');
+		
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		var buttonProperty = null;
+		buttonProperty = $('.apply-time-range-button').prop('disabled');
+		
+		expect(buttonProperty).toBe(true);
+		
+		model.set('startDate','');
+		model.set('endDate','2016-01-05');
+		model.set('lastMonths', '');
+		model.set('waterYear','');
+		
+		var lastMonths = model.get('lastMonths');
+		var startDate = model.get('startDate');
+		var endDate = model.get('endDate');
+		var waterYear = model.get('waterYear');
+		
+		var buttonProperty = null;
+		buttonProperty = $('.apply-time-range-button').prop('disabled');
+		
+		expect(buttonProperty).toBe(true);
+	});
+	
+	it("Error message should appear when start date is after end date", function() {
+		model.set('startDate','2017-01-05');
+		model.set('endDate','2018-01-05');
+		model.set('lastMonths', '');
+		model.set('waterYear','');
+		
+		var validate = dateField.validateDateRange();
+		
+		var errorMessage = null;
+		errorMessage = $("#errorMsg").html();
+		
+		expect(validate).toBe(true);
+		expect(errorMessage).toBeNull;
+		
+		model.set('startDate','2018-01-05');
+		model.set('endDate','2017-01-05');
+		model.set('lastMonths', '');
+		model.set('waterYear','');
+		
+		var validate = dateField.validateDateRange();
+		
+		var errorMessage = null;
+		errorMessage = $("#errorMsg").html();
+		
+		expect(validate).toBe(false);
+		expect(errorMessage).not.toBeNull();
+		
+		model.set('startDate','2017-01-05');
+		model.set('endDate','2018-01-05');
+		model.set('lastMonths', '');
+		model.set('waterYear','');
+		
+		var validate = dateField.validateDateRange();
+		
+		var errorMessage = null;
+		errorMessage = $("#errorMsg").html();
+		
+		expect(validate).toBe(true);
+		expect(errorMessage).toBeNull;
 	});
 });
 

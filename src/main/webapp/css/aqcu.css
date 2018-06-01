@@ -11,18 +11,19 @@
 	cursor: pointer;
 }
 
-.warning{
+.info{
     padding:5px;
-    color:red;
+    color:black;
     margin: 5px 0 0 0;
     background: #E6E6E6;
     border-top:1px solid #a0a0a0;
     border-bottom:1px solid #a0a0a0;
     border-right:1px solid #a0a0a0;
     border-radius:0 5px 5px 0;
+    font-weight:bold;
 }
 
-.warning p{
+.info p{
     margin: 0;
 }
 
@@ -276,8 +277,26 @@
 	border-top-right-radius: 0px;
 }
 
-.input-daterange {
+.input-daterange{
 	width: 10em;
+}
+
+.field-visit-day {
+	font-weight:bold;
+	border: solid 1px #a0a0a0;
+	background-color: #E6E6E6;
+}
+
+.field-visit-year {
+	font-weight:bold;
+	border: solid 1px #a0a0a0;
+	background-color: #E6E6E6;
+}
+
+.field-visit-month {
+	font-weight:bold;
+	border: solid 1px #a0a0a0;
+	background-color: #E6E6E6;
 }
 
 /** TIME SERIES SELECTION FILTER: START **/
@@ -310,6 +329,11 @@
 }
 
 .report-config .header {
+	font-weight: bold;
+	padding: .5em;
+}
+
+.time-series-home-header p{
 	font-weight: bold;
 	padding: .5em;
 }
@@ -684,6 +708,21 @@ category-tip-target {
     border-radius: 5px;
 }
 
+.error {
+	background-color: yellow;
+}
+
+.button-disabled{
+	background-color: #E6E6E6;
+	border: solid 1px #a0a0a0;
+	font-weight: bold;
+	color: white;
+	padding: .5em;
+	border-radius: 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
+}
 .select2-container--default .select2-selection--multiple:before {
     content: ' ';
     display: block;
