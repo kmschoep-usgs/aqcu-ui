@@ -96,7 +96,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		
 		this.parentModel = this.options.parentModel;
 		this.router = this.options.router;
-		
+
 		this.model = this.options.model || new Backbone.Model({
 			site: this.parentModel.get('site'),
 			limitDateSelection: false,
@@ -122,6 +122,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.render();
 		
 		this.applyDateSelection();
+		
 	},
 	
 	addErrorMsg: function(){
@@ -182,6 +183,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.removeErrorMsg();
 		if (!(this.model.get("startDate") && this.model.get("endDate"))){
 			$('.apply-time-range-button').prop('disabled', true).addClass('button-disabled').removeClass('saved-reports-button');
+			this.parentModel.set("dateFilter", "startDate");
 		} else {
 			$('.apply-time-range-button').prop('disabled', false).removeClass('button-disabled').addClass('saved-reports-button');
 		}
@@ -195,6 +197,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		
 		if(!this.model.get("startDate") && !this.model.get("endDate") && !this.model.get("waterYear") && !this.model.get("lastMonths") > 0){
 			this.applyDefaultSettings();
+			this.parentModel.set("dateFilter", "default");
 		}
 	},
 	
@@ -202,6 +205,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.removeErrorMsg();
 		if (!(this.model.get("startDate") && this.model.get("endDate"))){
 			$('.apply-time-range-button').prop('disabled', true).addClass('button-disabled').removeClass('saved-reports-button');
+			this.parentModel.set("dateFilter", "endDate");
 		} else {
 			$('.apply-time-range-button').prop('disabled', false).removeClass('button-disabled').addClass('saved-reports-button');
 		}
@@ -217,6 +221,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		
 		if(!this.model.get("startDate") && !this.model.get("endDate") && !this.model.get("waterYear") && !this.model.get("lastMonths") > 0){
 			this.applyDefaultSettings();
+			this.parentModel.set("dateFilter", "default");
 		}
 	},
 	
@@ -227,6 +232,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			this.model.set("endDate", "");
 			this.model.set("waterYear", "");
 			$('.apply-time-range-button').prop('disabled', false).removeClass('button-disabled').addClass('saved-reports-button');
+			this.parentModel.set("dateFilter", "lastMonths");
 		}
 	},
 	
@@ -237,6 +243,7 @@ AQCU.view.DateField = Backbone.View.extend({
 			this.model.set("endDate", "");
 			this.model.set("lastMonths", 0);
 			$('.apply-time-range-button').prop('disabled', false).removeClass('button-disabled').addClass('saved-reports-button');
+			this.parentModel.set("dateFilter", "waterYear");
 		}
 	},
 	
@@ -348,5 +355,13 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.$el.html(newDom);
 		this.resetDatePickers();
 		this.stickit();
+	},
+	destroyReportCards: function() {
+		for(var r in this.displayedReportSelectors) {
+			if(this.displayedReportSelectors[r]) {
+				this.displayedReportSelectors[r].remove();
+			}
+		}
+		this.displayedReportSelectors = {};
 	}
 });
