@@ -35,7 +35,7 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 		this.parentModel.bind("change:filter",this.displayGrid,this);
 		this.parentModel.bind("change:site", this.fetchTimeSeries, this);
 		this.parentModel.bind("change:dateSelection", this.fetchTimeSeries, this);
-		this.parentModel.bind("change:dateFilter", this.displayGrid, this);
+		this.parentModel.bind("change:dateFilter", this.hideTimeSeries, this);
 		
 		this.displayedReportSelectors = {};
 		
@@ -262,5 +262,9 @@ AQCU.view.TimeSeriesSelectionGridView = AQCU.view.BaseView.extend({
 				this.$el.removeClass('hidden');
 				break;
 		}
+	},
+	hideTimeSeries: function(){
+			this.$el.removeClass('aqcu-lg-loader-spinner');
+			this.$el.addClass('hidden');
 	}
 });
