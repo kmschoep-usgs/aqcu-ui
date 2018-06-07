@@ -183,7 +183,6 @@ AQCU.view.DateField = Backbone.View.extend({
 		this.removeErrorMsg();
 		if (!(this.model.get("startDate") && this.model.get("endDate"))){
 			$('.apply-time-range-button').prop('disabled', true).addClass('button-disabled').removeClass('saved-reports-button');
-			this.parentModel.set("dateFilter", "startDate");
 		} else {
 			$('.apply-time-range-button').prop('disabled', false).removeClass('button-disabled').addClass('saved-reports-button');
 		}
@@ -193,6 +192,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		if(this.model.get("startDate")) {
 			this.model.set("lastMonths", 0);
 			this.model.set("waterYear", "");
+			this.parentModel.set("dateFilter", "startDate" + this.model.get("startDate"));
 		}
 		
 		if(!this.model.get("startDate") && !this.model.get("endDate") && !this.model.get("waterYear") && !this.model.get("lastMonths") > 0){
@@ -217,6 +217,7 @@ AQCU.view.DateField = Backbone.View.extend({
 		if(this.model.get("endDate")) {
 			this.model.set("lastMonths", 0);
 			this.model.set("waterYear", "");
+			this.parentModel.set("dateFilter", "endDate" + this.model.get("endDate"));
 		}
 		
 		if(!this.model.get("startDate") && !this.model.get("endDate") && !this.model.get("waterYear") && !this.model.get("lastMonths") > 0){

@@ -1,6 +1,7 @@
 describe("DateField.js", function() {
 	var dateField;
 	var model;
+	var parentModel;
 	
 	var testDate = function(description, dateStr, expectedYear, expectedMonth, expectedDate) {
 		since(description + " is " + dateStr).expect(dateStr).toBeDefined();
@@ -347,5 +348,96 @@ describe("DateField.js", function() {
 		expect(validate).toBe(true);
 		expect(errorMessage).toBeNull;
 	});
+	
+	it("should set parentModel when water year is entered", function() {
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', 12);
+		model.set('waterYear','');
+		
+		$('.aqcu_field_waterYear').val('2012');
+		$('.aqcu_field_waterYear').blur();
+		dateField.delegateEvents();
+
+		var dateFilter = model.get('dateFilter');
+		
+		expect(dateFilter).toBe('waterYear');
+	});
+	it("should set parentModel when lastMonthsr is entered", function() {
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', '');
+		model.set('waterYear','2012');
+		
+		$('.aqcu_field_lastMonths').val(12);
+		$('.aqcu_field_lastMonths').change();
+		dateField.delegateEvents();
+
+		var dateFilter = model.get('dateFilter');
+		
+		expect(dateFilter).toBe('lastMonths');
+	});
+	
+	it("should set parentModel when start date is entered", function() {
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', 12);
+		model.set('waterYear','');
+		
+		$('.aqcu_field_input_date_start').val("2012-12-01");
+		$('.aqcu_field_input_date_start').blur();
+		dateField.delegateEvents();
+
+		var dateFilter = model.get('dateFilter');
+		
+		expect(dateFilter).toBe('startDate2012-12-01');
+	});
+	
+	it("should set parentModel when end date is entered", function() {
+		model.set('startDate','');
+		model.set('endDate','');
+		model.set('lastMonths', 12);
+		model.set('waterYear','');
+		
+		$('.aqcu_field_input_date_end').val("2012-12-01");
+		$('.aqcu_field_input_date_end').blur();
+		dateField.delegateEvents();
+
+		var dateFilter = model.get('dateFilter');
+		
+		expect(dateFilter).toBe('endDate2012-12-01');
+	});
+	
+	it("should set parentModel when end date is changed", function() {
+		model.set('startDate','2012-01-01');
+		model.set('endDate','2012-10-01');
+		model.set('lastMonths', '');
+		model.set('waterYear','');
+		
+		$('.aqcu_field_input_date_end').val("2012-12-01");
+		$('.aqcu_field_input_date_end').blur();
+		dateField.delegateEvents();
+
+		var dateFilter = model.get('dateFilter');
+		
+		expect(dateFilter).toBe('endDate2012-12-01');
+	});
+	it("should set parentModel when start date is changed", function() {
+		model.set('startDate','2012-01-01');
+		model.set('endDate','2012-10-01');
+		model.set('lastMonths', '');
+		model.set('waterYear','');
+		
+		$('.aqcu_field_input_date_start').val("2012-02-01");
+		$('.aqcu_field_input_date_start').blur();
+		dateField.delegateEvents();
+
+		var dateFilter = model.get('dateFilter');
+		
+		expect(dateFilter).toBe('startDate2012-02-01');
+	});
+
+
+
 });
 
