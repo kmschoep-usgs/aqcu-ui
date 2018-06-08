@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>aqcu-ui</artifactId>
-	<groupId>gov.usgs.aqcu</groupId>
-	<version>1.9.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>AQCU Javascript UI</name>
-	
-	<scm>
-		<url>https://github.com/USGS-CIDA/aqcu-ui</url>
-		<connection>scm:git:https://github.com/USGS-CIDA/aqcu-ui.git</connection>
-		<developerConnection>scm:git:https://${env.GITHUB_USER}:${env.GITHUB_PASS}@github.com/USGS-CIDA/aqcu-ui.git</developerConnection>
-		<tag>aqcu-ui-1.9</tag>
-	</scm>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>aqcu-ui</artifactId>
+    <groupId>gov.usgs.aqcu</groupId>
+    <version>1.9.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>AQCU Javascript UI</name>
 
-	<distributionManagement>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.2.RELEASE</version>
+    </parent>
+
+    <scm>
+        <url>https://github.com/USGS-CIDA/aqcu-ui</url>
+        <connection>scm:git:https://github.com/USGS-CIDA/aqcu-ui.git</connection>
+        <developerConnection>scm:git:https://${env.GITHUB_USER}:${env.GITHUB_PASS}@github.com/USGS-CIDA/aqcu-ui.git</developerConnection>
+        <tag>aqcu-ui-1.9</tag>
+    </scm>
+
+    <distributionManagement>
         <repository>
             <id>release</id>
             <name>cidasdpdasartip.cr.usgs.gov-releases</name>
@@ -25,268 +31,272 @@
             <name>cidasdpdasartip.cr.usgs.gov-snapshots</name>
             <url>${wma.artifactory.url}/aqcu-maven-snapshots</url>
         </snapshotRepository>
-	</distributionManagement>
-	
-	<repositories>
-		<repository>
-			<id>cida-public</id>
-			<name>CIDA Public Nexus</name>
-			<url>http://cida.usgs.gov/maven/cida-public-releases/</url>
-		</repository>
-		<repository>
-			<id>cida-public-snapshots</id>
-			<name>CIDA Public Snapshots</name>
-			<url>http://cida.usgs.gov/maven/cida-public-snapshots/</url>
-		</repository>
-		<repository>
-			<id>cida-thirdparty</id>
-			<name>CIDA Public Nexus</name>
-			<url>http://cida.usgs.gov/maven/cida-public-thirdparty/</url>
-		</repository>
-	</repositories>
-	
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<additionalparam>-Xdoclint:none</additionalparam>
-		<wma.artifactory.url>https://cida.usgs.gov/artifactory</wma.artifactory.url>
-		<!-- version props -->
-		<cida.auth.version>1.2.6</cida.auth.version>
-		<slf4j.version>1.7.7</slf4j.version>
-		<logback-classic.version>1.1.2</logback-classic.version>
-		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
-		<jersey.version>2.23.2</jersey.version>
-	</properties>
+    </distributionManagement>
 
-	<dependencies>
-		<dependency>
-			<groupId>gov.usgs.cida</groupId>
-			<artifactId>proxy-utils</artifactId>
-			<version>1.0.7</version>
-		</dependency>
-		<dependency>
-			<groupId>gov.usgs.cida.auth</groupId>
-			<artifactId>auth-web-utils</artifactId>
-			<version>${cida.auth.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${javax.servlet-api.version}</version>
-		</dependency>
-		<dependency>
-			<artifactId>slf4j-api</artifactId>
-			<groupId>org.slf4j</groupId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<artifactId>logback-classic</artifactId>
-			<groupId>ch.qos.logback</groupId>
-			<version>${logback-classic.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
-			<artifactId>jersey-container-servlet</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-moxy</artifactId>
-			<version>2.11</version>
-		</dependency>
-		
-		<!-- WebJars -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>font-awesome</artifactId>
-			<version>4.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>2.1.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery-ui</artifactId>
-			<version>1.11.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery-cookie</artifactId>
-			<version>1.4.1-1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>select2</artifactId>
-			<version>4.0.0-2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap-datepicker</artifactId>
-			<version>1.7.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery-dateFormat</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>3.3.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>underscorejs</artifactId>
-			<version>1.8.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>handlebars</artifactId>
-			<version>3.0.0-1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>backbonejs</artifactId>
-			<version>1.2.1</version>
-		</dependency>
-	</dependencies>
+    <repositories>
+        <repository>
+            <id>cida-public</id>
+            <name>CIDA Public Nexus</name>
+            <url>http://cida.usgs.gov/maven/cida-public-releases/</url>
+        </repository>
+        <repository>
+            <id>cida-public-snapshots</id>
+            <name>CIDA Public Snapshots</name>
+            <url>http://cida.usgs.gov/maven/cida-public-snapshots/</url>
+        </repository>
+        <repository>
+            <id>cida-thirdparty</id>
+            <name>CIDA Public Nexus</name>
+            <url>http://cida.usgs.gov/maven/cida-public-thirdparty/</url>
+        </repository>
+    </repositories>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin> <!-- This creates a version file in root with the pom version -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
-				<executions>
-					<execution>
-						<id>generate-version-file</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<propertyfile file="${basedir}/target/version" comment="Version information">
-									<entry key="version" value="${project.version}" />
-								</propertyfile>
-							</tasks>
-						</configuration>
-					</execution>
-				</executions> 
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.2.0</version>
-				<configuration>
-					<webResources>
-						<resource>
-							<directory>${basedir}/target</directory>
-							<includes>
-								<include>version</include>
-							</includes>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.github.searls</groupId>
-				<artifactId>jasmine-maven-plugin</artifactId>
-				<version>2.2</version>
-				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-				<webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
-				<phantomjs>
-					<version>2.1.1</version>
-					<checkSystemPath>true</checkSystemPath>
-					<enforceVersion>true</enforceVersion>
-					<source>REPOSITORY</source>
-					<baseUrl />
-					<outputDirectory>target/phantomjs</outputDirectory>
-				</phantomjs>
-					<jsSrcDir>${project.basedir}/src/main/webapp/js</jsSrcDir>
-					<jsTestSrcDir>${project.basedir}/src/test/javascript/specs</jsTestSrcDir>
-					<packageDir>${project.basedir}</packageDir>
-					<preloadSources>
-						<source>src/test/javascript/sinon-1.15.4.js</source> <!-- Sinon testing lib -->
-						<source>src/test/javascript/AqcuTestSupport.js</source> <!-- Base testing helper functions -->
-						<source>src/test/javascript/jasmine-fixture.js</source> <!-- HTML test fixtures lib -->
-						<source>src/test/javascript/jasmine-custom-message.js</source> <!-- message helper lib -->
-						<source>src/test/javascript/waitsForAndRuns.js</source> <!-- async helper lib -->
-						
-						<!-- Javascript libs -->
-						<source>webjars/jquery/2.1.4/jquery.min.js</source>
-						<source>webjars/bootstrap/3.3.5/js/bootstrap.min.js</source>
-						<source>webjars/jquery-ui/1.11.4/jquery-ui.min.js</source>
-						<source>webjars/jquery-cookie/1.4.1-1/jquery.cookie.js</source>
-						<source>webjars/underscorejs/1.8.3/underscore-min.js</source>
-						<source>webjars/backbonejs/1.2.1/backbone-min.js</source>
-						<source>src/main/webapp/js/lib/backbone.stickit.js</source>
-						<source>webjars/handlebars/3.0.0-1/handlebars.min.js</source>
-						<source>webjars/select2/4.0.0/js/select2.full.js</source>
-						<source>webjars/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js</source>
-						<source>webjars/jquery-dateFormat/1.0.2/jquery-dateFormat.js</source>
-						
-						<!-- Application assets -->
-						<source>src/main/webapp/js/config.js</source>
-						<source>src/main/webapp/js/util/template.js</source>
-						<source>src/main/webapp/js/util/local_storage.js</source>
-						<source>src/main/webapp/js/util/ui.js</source>
-						<source>src/main/webapp/js/util/auth.js</source>
-						<source>src/main/webapp/js/init.js</source>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <additionalparam>-Xdoclint:none</additionalparam>
+        <wma.artifactory.url>https://cida.usgs.gov/artifactory</wma.artifactory.url>
+        <!-- version props -->
+    </properties>
 
-						<!-- TEST ONLY import -->
-						<source>src/test/javascript/constants_test.js</source> 
-						
-						<!-- models -->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jersey</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
 
-						<!-- views -->
-						<source>src/main/webapp/js/view/BaseView.js</source>
-						
-						<source>src/main/webapp/js/view/reports/BaseReportView.js</source>
-						<source>src/main/webapp/js/view/reports/ExtremesReportView.js</source>
-						<source>src/main/webapp/js/view/reports/UvHydrographReportView.js</source>
-						<source>src/main/webapp/js/view/reports/VDiagramReportView.js</source>
-						<source>src/main/webapp/js/view/reports/SiteVisitPeakReportView.js</source>
-						<source>src/main/webapp/js/view/reports/SensorReadingSummaryReportView.js</source>
-						<source>src/main/webapp/js/view/reports/DvHydrographReportView.js</source>
-						<source>src/main/webapp/js/view/reports/FiveYearGWSummaryReportView.js</source>
-						
-						<source>src/main/webapp/js/view/SiteSelectorView.js</source>
-						<source>src/main/webapp/js/view/ReportConfigView.js</source>
-						<source>src/main/webapp/js/view/TimeSeriesSelectionGridView.js</source>
-						<source>src/main/webapp/js/view/TimeSeriesView.js</source>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+        </dependency>
+        <dependency>
+            <artifactId>logback-classic</artifactId>
+            <groupId>ch.qos.logback</groupId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+        </dependency>
 
-						
-						<!-- widgets -->
-						<source>src/main/webapp/js/view/widgets/DateField.js</source>
-						<source>src/main/webapp/js/view/widgets/SelectField.js</source>
-						<source>src/main/webapp/js/view/widgets/Select2Field.js</source>
-						<source>src/main/webapp/js/view/widgets/MultiselectField.js</source>
-						<source>src/main/webapp/js/view/widgets/TextField.js</source>
+        <!-- WebJars -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>4.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>2.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery-ui</artifactId>
+            <version>1.11.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery-cookie</artifactId>
+            <version>1.4.1-1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>select2</artifactId>
+            <version>4.0.0-2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap-datepicker</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery-dateFormat</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.3.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>underscorejs</artifactId>
+            <version>1.8.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>handlebars</artifactId>
+            <version>3.0.0-1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>backbonejs</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+    </dependencies>
 
-						<!-- controllers -->
-						<source>src/main/webapp/js/controller/AqcuRouter.js</source>
-					</preloadSources>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin> <!-- This creates a version file in root with the pom version -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-version-file</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <propertyfile file="${basedir}/target/version" comment="Version information">
+                                    <entry key="version" value="${project.version}" />
+                                </propertyfile>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions> 
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>${basedir}/target</directory>
+                            <includes>
+                                <include>version</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.searls</groupId>
+                <artifactId>jasmine-maven-plugin</artifactId>
+                <version>2.2</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                <webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
+                <phantomjs>
+                    <version>2.1.1</version>
+                    <checkSystemPath>true</checkSystemPath>
+                    <enforceVersion>true</enforceVersion>
+                    <source>REPOSITORY</source>
+                    <baseUrl />
+                    <outputDirectory>target/phantomjs</outputDirectory>
+                </phantomjs>
+                    <jsSrcDir>${project.basedir}/src/main/webapp/js</jsSrcDir>
+                    <jsTestSrcDir>${project.basedir}/src/test/javascript/specs</jsTestSrcDir>
+                    <packageDir>${project.basedir}</packageDir>
+                    <preloadSources>
+                        <source>src/test/javascript/sinon-1.15.4.js</source> <!-- Sinon testing lib -->
+                        <source>src/test/javascript/AqcuTestSupport.js</source> <!-- Base testing helper functions -->
+                        <source>src/test/javascript/jasmine-fixture.js</source> <!-- HTML test fixtures lib -->
+                        <source>src/test/javascript/jasmine-custom-message.js</source> <!-- message helper lib -->
+                        <source>src/test/javascript/waitsForAndRuns.js</source> <!-- async helper lib -->
+
+                        <!-- Javascript libs -->
+                        <source>webjars/jquery/2.1.4/jquery.min.js</source>
+                        <source>webjars/bootstrap/3.3.5/js/bootstrap.min.js</source>
+                        <source>webjars/jquery-ui/1.11.4/jquery-ui.min.js</source>
+                        <source>webjars/jquery-cookie/1.4.1-1/jquery.cookie.js</source>
+                        <source>webjars/underscorejs/1.8.3/underscore-min.js</source>
+                        <source>webjars/backbonejs/1.2.1/backbone-min.js</source>
+                        <source>src/main/webapp/js/lib/backbone.stickit.js</source>
+                        <source>webjars/handlebars/3.0.0-1/handlebars.min.js</source>
+                        <source>webjars/select2/4.0.0/js/select2.full.js</source>
+                        <source>webjars/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js</source>
+                        <source>webjars/jquery-dateFormat/1.0.2/jquery-dateFormat.js</source>
+
+                        <!-- Application assets -->
+                        <source>src/main/webapp/js/config.js</source>
+                        <source>src/main/webapp/js/util/template.js</source>
+                        <source>src/main/webapp/js/util/local_storage.js</source>
+                        <source>src/main/webapp/js/util/ui.js</source>
+                        <source>src/main/webapp/js/util/auth.js</source>
+                        <source>src/main/webapp/js/init.js</source>
+
+                        <!-- TEST ONLY import -->
+                        <source>src/test/javascript/constants_test.js</source> 
+
+                        <!-- models -->
+
+                        <!-- views -->
+                        <source>src/main/webapp/js/view/BaseView.js</source>
+
+                        <source>src/main/webapp/js/view/reports/BaseReportView.js</source>
+                        <source>src/main/webapp/js/view/reports/ExtremesReportView.js</source>
+                        <source>src/main/webapp/js/view/reports/UvHydrographReportView.js</source>
+                        <source>src/main/webapp/js/view/reports/VDiagramReportView.js</source>
+                        <source>src/main/webapp/js/view/reports/SiteVisitPeakReportView.js</source>
+                        <source>src/main/webapp/js/view/reports/SensorReadingSummaryReportView.js</source>
+                        <source>src/main/webapp/js/view/reports/DvHydrographReportView.js</source>
+                        <source>src/main/webapp/js/view/reports/FiveYearGWSummaryReportView.js</source>
+
+                        <source>src/main/webapp/js/view/SiteSelectorView.js</source>
+                        <source>src/main/webapp/js/view/ReportConfigView.js</source>
+                        <source>src/main/webapp/js/view/TimeSeriesSelectionGridView.js</source>
+                        <source>src/main/webapp/js/view/TimeSeriesView.js</source>
+
+                        <!-- widgets -->
+                        <source>src/main/webapp/js/view/widgets/DateField.js</source>
+                        <source>src/main/webapp/js/view/widgets/SelectField.js</source>
+                        <source>src/main/webapp/js/view/widgets/Select2Field.js</source>
+                        <source>src/main/webapp/js/view/widgets/MultiselectField.js</source>
+                        <source>src/main/webapp/js/view/widgets/TextField.js</source>
+
+                        <!-- controllers -->
+                        <source>src/main/webapp/js/controller/AqcuRouter.js</source>
+                    </preloadSources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

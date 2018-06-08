@@ -1,0 +1,32 @@
+
+spring:
+  application:
+    name: aqcu-ui
+  jmx:
+    default-domain: aqcu-ui
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+  security:
+    oauth2:
+      client:
+        registration:
+          waterAuth:
+            client-id: ${oauthClientId}
+            client-secret: ${oauthClientSecret}
+            client-name: ${oauthClientName}
+            redirect-uri-template: ${aqcuOauthRedirectUriTemplate}
+            scope: ${oauthScope}
+            authorization-grant-type: authorization_code
+            provider: waterAuth
+            client-authentication-method: basic
+        provider:
+          waterAuth:
+            token-uri: ${oauthClientAccessTokenUri}
+            authorization-uri: ${oauthClientAuthorizationUri}
+            jwk-set-uri: ${oauthResourceTokenKeyUri}
+            user-name-attribute: user_name
+
+logging:
+  config: classpath:/logback-spring.xml
