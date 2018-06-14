@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
 import gov.usgs.aqcu.CustomOAuth2UserService;
+import gov.usgs.aqcu.WaterAuthSuccessHandler;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -16,6 +17,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	CustomOAuth2UserService customOAuth2UserService;
 	@Autowired
 	ClientRegistrationRepository clientRegistrationRepository;
+	@Autowired
+	WaterAuthSuccessHandler waterAuthSuccessHandler;
 	@Value("${aqcu.login.page}")
 	String loginPage;
 
@@ -33,8 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf().disable()
 				.oauth2Login()
 					.loginPage("/" + loginPage)
-					.defaultSuccessUrl("/")
+					.defaultSuccessUrl("/index.jsp", true)
 					.clientRegistrationRepository(clientRegistrationRepository)
+					.successHandler(waterAuthSuccessHandler)
 					.userInfoEndpoint()
 						.userService(customOAuth2UserService)
 		;
