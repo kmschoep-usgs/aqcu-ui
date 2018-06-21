@@ -8,6 +8,7 @@
 	AQCU.constants = {
 		nwisRaHome: '<%=ContextUtils.getProperty("java:comp/env/nwis-ra.home")%>',
 		serviceEndpoint: '<%=ContextUtils.getProperty("java:comp/env/aqcu.reports.webservice")%>',
-		helpEmail: '<%=ContextUtils.getProperty("java:comp/env/nwis/helpEmail")%>'
+		helpEmail: '<%=ContextUtils.getProperty("java:comp/env/nwis/helpEmail")%>',
+		loginPage: '<%=ContextUtils.getProperty("java:comp/env/aqcu.login.page")%>'
 	};
 </script>
