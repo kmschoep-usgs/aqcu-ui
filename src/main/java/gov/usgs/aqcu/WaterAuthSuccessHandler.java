@@ -30,7 +30,7 @@ public class WaterAuthSuccessHandler extends SavedRequestAwareAuthenticationSucc
 		//Only create a cookie if we have a token
 		if(token != null) {
 			Cookie cookie = new Cookie("NwisAuthCookie", token);
-			cookie.setPath(request.getContextPath());
+			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
 
