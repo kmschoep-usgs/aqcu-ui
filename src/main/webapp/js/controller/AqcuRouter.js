@@ -12,18 +12,21 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 	initialize: function() {
 		this.bind('route', this.pageView);
 	},
+
 	pageView: function() {
 		var path = Backbone.history.getFragment();
 		ga('send', 'pageview', {
 			page: '/' + path
 		});
 	},
+
 	/**
 	 * Backbone router routes
 	 */
 	routes: {
 		"": "showTimeSeriesView"
 	},
+
 	/**
 	 * The active output options model that can be reset to the latest values
 	 */
@@ -35,7 +38,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 	showTimeSeriesView: function() {
 		this.showView(AQCU.view.TimeSeriesView);
 	},
-	
+
 	/**
 	 * TODO remove this class and code when new UI is complete enough
 	 * Go to time series report criteria view.
@@ -43,7 +46,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 	showTimeSeriesPrototypeView: function() {
 		this.showView(AQCU.view.TimeSeriesPrototypeView);
 	},
-	
+
 	showView: function(view, opts) {
 		this.removeCurrentView();
 		var newEl = $('<div>');
@@ -52,13 +55,6 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 			el: newEl,
 			router: this
 		}, opts));
-	},
-	/**
-	 * Helper function. Removes all current application state by deleting the attributes entirely.
-	 */
-	resetApplicationState: function() {
-		//delete or reset application state
-		//eg: delete this.someVar;
 	},
 
 	/**
@@ -71,9 +67,9 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 	},
 	
 	nwisRaHome : function() {
-		window.location = AQCU.constants.nwisRaHome + "/authenticate.jsp?token=" + AQCU.util.auth.getAuthToken();
+		window.location = AQCU.constants.nwisRaHome;
 	},
-	
+
 	/**
 	 * Will do an ajax call to a version file on the server, and will parse that into a tag on
 	 * the page
@@ -92,7 +88,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 			context: this
 		});
 	},
-	
+
 	unknownErrorHandler: function(response, err, status) {
 		//status is assumed to be an exception when not a string
 		var lcStatus = status && typeof status === "string" ?
@@ -104,7 +100,6 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 			ga('send', 'exception', {
 				'exDescription': 'abortError'
 			});
-			this.checkSession(null, response);
 		} else if (lcStatus === "exception") {
 			this.openGlobalErrorWindow("Could not contact the server");
 			ga('send', 'exception', {
@@ -126,7 +121,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 			this.displayUnknownError(xml);
 		}
 	},
-	
+
 	/**
 	 * This helper function will examine the xml error response. If the status is INTERNAL_SERVER_ERROR,
 	 * the function will display a popup and return true to signal that the error is unknown. 
@@ -169,14 +164,14 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 		}
 		return true;
 	},
-	
+
 	clearErrors: function() {
 		if (this.errorPopup) {
 			this.errorPopup.remove();
 			delete this.errorPopup;
 		}
 	},
-	
+
 	/**
 	 * Helper function so that multiple error popups aren't opened at the same time
 	 */
@@ -200,7 +195,7 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 			);
 		}
 	},
-	
+
 	startDownload: function(sourceUrl, data, format) {
 		var url = sourceUrl,
 				href = window.location.href,
@@ -225,15 +220,4 @@ AQCU.controller.AqcuRouter = Backbone.Router.extend({
 		});
 
 	},
-
-	checkSession: function(req, resp) {
-		var resText = resp.responseText;
-		if (resText) {
-			var headerInfo = resText.substring(resText.indexOf('<head>'), resText.indexOf('</head>'));
-			var isLoginPage = (headerInfo.indexOf('<meta name="description" content="Vision login" />') > -1);
-			if (isLoginPage) {
-				window.location = "login.jsp?timedOut=true";
-			}
-		}
-	}
 });

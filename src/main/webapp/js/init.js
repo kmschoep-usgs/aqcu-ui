@@ -6,10 +6,6 @@ AQCU.initialize = function() {
 	//Load and display version info
 	AQCU.router.loadVersionTag();
 
-	//global ajax handler to detect timed out sesssion
-	$(document).ajaxSuccess(AQCU.router.checkSession);
-	$(document).ajaxError(AQCU.router.checkSession);
-	  
 	// Tie in the Remedy support system
 	var $toggle = $("#display-feedback-toggle");
         if (AQCU.constants.helpEmail && AQCU.constants.helpEmail !== null) {
@@ -21,6 +17,5 @@ AQCU.initialize = function() {
                 // No feedback email found, remove entire feedback line
                 $('#footer-contact-info').remove();
         }
-	
-	AQCU.util.auth.verifyLoggedIn();
+
 };

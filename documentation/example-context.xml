@@ -13,12 +13,13 @@
 
 	<!-- Default set of monitored resources -->
 	<WatchedResource>WEB-INF/web.xml</WatchedResource>
-	
+
 	<!-- Uncomment this to disable session persistence across Tomcat restarts -->
 	<Manager pathname="" />
-	
+
 	<Environment name="aquarius.service.endpoint" override="true" type="java.lang.String" value="https:[AQUARIUS WEBSERVICE URL]" />
-	
+
+	<Environment name="aqcu.login.page" override="true" type="java.lang.String" value="oauth2/authorization/waterAuth" />
 	<Environment name="aqcu.reports.webservice" override="true" type="java.lang.String" value="https://localhost:8443/aqcu-webservice" />
 	<Environment name="nwis-ra.home" override="true" type="java.lang.String" value="https://localhost:8443/reporting-ui" />
 	<Environment name="nwis-ra.service.url" override="true" type="java.lang.String" value="https://localhost:8443/reporting-ws-core/service" />
