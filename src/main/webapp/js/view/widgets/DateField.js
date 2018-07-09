@@ -55,7 +55,7 @@ AQCU.view.DateField = Backbone.View.extend({
 					</div>\
 					<div id='errorMsg' style='float:right;color:red;'></div>\
 				</div>\
-				<div style='display: block; margin: 0 auto; width: 283px;' class='apply-time-range-button saved-reports-button'>Refresh reports for specified time period</div>\
+				<div style='display: block; margin: 0 auto; width: 300px; text-align: center;' class='apply-time-range-button saved-reports-button'>Refresh reports for specified time period</div>\
 			</div>\
 		</div>"),
 	/**
