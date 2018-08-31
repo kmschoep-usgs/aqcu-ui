@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>aqcu-ui</artifactId>
     <groupId>gov.usgs.aqcu</groupId>
-    <version>1.9.4-SNAPSHOT</version>
+    <version>1.9.4</version>
     <packaging>war</packaging>
     <name>AQCU Javascript UI</name>
 
