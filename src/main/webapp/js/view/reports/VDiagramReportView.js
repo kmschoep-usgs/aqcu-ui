@@ -79,12 +79,12 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 		    for (var i = 0; i < data.length; i++) {
 			this.conditionList.push({ 
 			    id  : i,
-			    value: data[i].value,
-			    text: data[i].name.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}),
-			    initial: data[i].name.toUpperCase().indexOf("ICE")>=0
+			    value: data[i],
+			    text: data[i],
+			    initial: data[i].toUpperCase().indexOf("ICE")>=0
 			});
 			
-			if(data[i].name.toUpperCase().indexOf("ICE")>=0){
+			if(data[i].toUpperCase().indexOf("ICE")>=0){
 			    this.initialIdList.push(i);
 			}
 		    }
@@ -99,8 +99,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			    placeholder: "Control Conditions to Exclude"
 			},
 			data: this.conditionList,
-			initialSelection: this.initialIdList,
-			valueField: 'value'
+			initialSelection: this.initialIdList
 		    });
 		},
 		error: function (a, b, c) {
@@ -123,7 +122,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 		    for(var i = 0; i < this.conditionList.length; i++) {
 			for (var j = 0; j < _this.model.get("excludeConditions").length; j++) {
 			    if(this.conditionList[i].id.toString() === _this.model.get("excludeConditions")[j]) {
-				excludedValues.push(this.conditionList[i].value);
+				excludedValues.push(this.conditionList[i]);
 				break;
 			    }
 			}
