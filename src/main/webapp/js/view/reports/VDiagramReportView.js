@@ -79,12 +79,12 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 		    for (var i = 0; i < data.length; i++) {
 			this.conditionList.push({ 
 			    id  : i,
-			    value: data[i].value,
-			    text: data[i].name.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}),
-			    initial: data[i].name.toUpperCase().indexOf("ICE")>=0
+			    value: data[i],
+			    text: data[i],
+			    initial: data[i].toUpperCase().indexOf("ICE")>=0
 			});
 			
-			if(data[i].name.toUpperCase().indexOf("ICE")>=0){
+			if(data[i].toUpperCase().indexOf("ICE")>=0){
 			    this.initialIdList.push(i);
 			}
 		    }
@@ -99,8 +99,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 			    placeholder: "Control Conditions to Exclude"
 			},
 			data: this.conditionList,
-			initialSelection: this.initialIdList,
-			valueField: 'value'
+			initialSelection: this.initialIdList
 		    });
 		},
 		error: function (a, b, c) {
