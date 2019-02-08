@@ -122,7 +122,7 @@ AQCU.view.VDiagramReportView = AQCU.view.BaseReportView.extend({
 		    for(var i = 0; i < this.conditionList.length; i++) {
 			for (var j = 0; j < _this.model.get("excludeConditions").length; j++) {
 			    if(this.conditionList[i].id.toString() === _this.model.get("excludeConditions")[j]) {
-				excludedValues.push(this.conditionList[i]);
+				excludedValues.push(this.conditionList[i].value);
 				break;
 			    }
 			}
