@@ -10,7 +10,11 @@ AQCU.view.CheckBoxField = Backbone.View.extend({
 	    <div> \
 		<div class='row field-container'> \
 		    <div class='col-sm-5 col-md-5 col-lg-5'> \
-			<label for='{{fieldName}}'>{{displayName}}</label><br> \
+			<label for='{{fieldName}}'>{{displayName}} \
+				{{#if helpText}}\
+					<i class='fa fa-question-circle category-tip-target' title='{{helpText}}'></i>\
+				{{/if}}\
+			</label><br> \
 		    </div> \
 		    <div class='checkbox col-sm-7 col-md-7 col-lg-7'> \
 			<label><input class='aqcu_check_box_field_{{fieldName}}' name='{{fieldName}}' type='checkbox'>{{description}}</label> \
