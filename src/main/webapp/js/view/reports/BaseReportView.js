@@ -372,7 +372,7 @@ AQCU.view.BaseReportView = AQCU.view.BaseView.extend({
 			fieldConfig: {
 				fieldName : "excludeDeleteRegion",
 				displayName : "Exclude Corrections",
-				description : "Exclude Delete Region Corrections",
+				description : "Exclude Delete Corrections",
 				helpText : "Excludes Delete Region, Adjustable Trim and Outlier Trim/Deviation Corrections"
 			},
 			renderTo: newContainer,
