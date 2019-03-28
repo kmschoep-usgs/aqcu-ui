@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+	<Manager pathname="" />
+	<Environment name="aqcu.reports.webservice" override="true" type="java.lang.String" value="${aqcu_reports_webservice}" />
+	<Environment name="aquarius.service.endpoint" override="true" type="java.lang.String" value="${aquarius_service_endpoint}" />
+	<Environment name="nwis-ra.home" override="true" type="java.lang.String" value="${nwis_ra_home}" />
+	<Environment name="nwis-ra.service.url" override="true" type="java.lang.String" value="${nwis_service_endpoint}" />
+	<Environment name="nwis/helpEmail" override="true" type="java.lang.String" value="${nwis_help_email}" />
+	<Environment name="oauthClientId" override="true" type="java.lang.String" value="${oauth_client_id}" />
+	<Environment name="oauthClientName" override="true" type="java.lang.String" value="${oauth_client_name}" />
+	<Environment name="oauthClientAccessTokenUri" override="true" type="java.lang.String" value="${oauth_client_access_token_uri}" />
+	<Environment name="oauthClientAuthorizationUri" override="true" type="java.lang.String" value="${oauth_client_authorization_uri}" />
+	<Environment name="oauthResourceTokenKeyUri" override="true" type="java.lang.String" value="${oauth_resource_token_uri}" />
+	<Environment name="oauthResourceId" override="true" type="java.lang.String" value="${oauth_resource_id}" />
+	<Environment name="oauthScope" override="true" type="java.lang.String" value="${oauth_scope}" />
+	<Environment name="oauthClientSecret" override="true" type="java.lang.String" value="${oauth_client_secret}" />
+	<Environment name="aqcuOauthRedirectUriTemplate" override="true" type="java.lang.String" value="${aqcu_oauth_redirect_uri_template}" />
+	<Environment name="aqcu.login.page" override="true" type="java.lang.String" value="${aqcu_login_page}" />
+</Context>

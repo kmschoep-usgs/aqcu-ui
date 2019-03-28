@@ -1,0 +1,61 @@
+---
+  version: '3.7'
+
+  x-config:
+    &secrets-config
+    secrets:
+      - source: tomcat_ssl_crt
+        target: /tomcat-wildcard-ssl.crt
+      - source: tomcat_ssl_key
+        target: /tomcat-wildcard-ssl.key
+
+  secrets:
+    tomcat_ssl_crt:
+      file: ./docker/certificates/tomcat-wildcard.crt
+    tomcat_ssl_key:
+      file: ./docker/certificates/tomcat-wildcard.key
+
+  services:
+    aqcu-ui:
+      build: .
+      image: aqcu-ui
+      ports:
+        - "8080:8080"
+        - "8445:8445"
+      << : *secrets-config
+      volumes: 
+        - ./docker/certificates/import_certs:/certificates:ro
+      env_file:
+        - ./docker/secrets.env
+        - ./docker/config.env
+
+    aqcu-ui-local-dev:
+      build: .
+      image: aqcu-ui
+      network_mode: "host"
+      ports:
+        - "8080:8080"
+        - "8445:8445"
+      << : *secrets-config
+      volumes: 
+        - ./docker/certificates/import_certs:/certificates:ro
+      env_file:
+        - ./docker/secrets.env
+        - ./docker/config.env
+
+    aqcu-ui-debug:
+      build: .
+      image: aqcu-ui
+      network_mode: "host"
+      ports:
+        - "8080:8080"
+        - "8445:8445"
+        - "8000:8000"
+      << : *secrets-config
+      volumes: 
+        - ./docker/certificates/import_certs:/certificates:ro
+      environment:
+        - LAUNCH_DEBUG=true
+      env_file:
+        - ./docker/secrets.env
+        - ./docker/config.env
