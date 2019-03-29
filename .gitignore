@@ -4,3 +4,9 @@
 .settings
 .classpath
 .vscode
+**/*.jks
+**/*.p12
+**/*.crt
+**/*.csr
+**/*.chain
+**/*.key
