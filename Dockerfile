@@ -5,6 +5,17 @@ FROM maven@sha256:b37da91062d450f3c11c619187f0207bbb497fc89d265a46bbc6dc5f17c02a
 # https://github.com/carlossg/docker-maven/issues/92
 # FROM maven:3-jdk-8-slim AS build
 
+#Pass build args into env vars
+ARG CI
+ENV CI=$CI
+
+ARG SONAR_HOST_URL
+ENV SONAR_HOST_URL=$SONAR_HOST_URL
+
+ARG SONAR_LOGIN
+ENV SONAR_LOGIN=$SONAR_LOGIN
+
+
 COPY pom.xml /build/pom.xml
 WORKDIR /build
 
@@ -12,6 +23,10 @@ WORKDIR /build
 RUN mvn -B dependency:go-offline
 
 COPY src /build/src
+
+#add git info so sonar can report
+COPY .git /build
+
 ARG BUILD_COMMAND="mvn -B clean package"
 RUN ${BUILD_COMMAND}
 
